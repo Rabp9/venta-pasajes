@@ -27,7 +27,7 @@
         </span>
         <?= $this->element("ribbon-menu") ?>
     </div>
-    <div class="container">
+    <div class="app-container">
         <?= $this->fetch("content") ?>
     </div>
         

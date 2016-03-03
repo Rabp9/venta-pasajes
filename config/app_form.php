@@ -1,0 +1,6 @@
+<?php
+return [
+    'inputContainer' => '<div class="form-group">{{content}}</div>',
+    'input' => '<input type="{{type}}" {{attrs}} class="form-control" name="{{name}}"/>'
+];
+?>

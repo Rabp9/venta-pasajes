@@ -1,5 +1,17 @@
-.container {
+.app-container {
     background-color: #CDE2FF;
     height: 100%;
     width: 100%;
+    top: 137;
+    position: fixed;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.heading {
+    background: url(../img/fond_suinter.jpg); 
+    height: 40px; 
+    padding-top: 8px; 
+    padding-left: 20px; 
+    padding-right: 20px;
+    border: solid 1px;
 }
