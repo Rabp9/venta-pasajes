@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  * @property string $placa
  * @property string $chasis
  * @property int $asientos
- * @property string $año
+ * @property string $anio
  * @property string $motor
  * @property int $estado_id
  * @property \App\Model\Entity\Estado $estado
@@ -29,7 +29,6 @@ class Bus extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false,
-        'estado_id' => false,
+        'id' => false
     ];
 }

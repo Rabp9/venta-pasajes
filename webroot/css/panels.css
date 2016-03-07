@@ -1,0 +1,73 @@
+fieldset{ 
+background: url(../menusis/fond_leng.png) #C7D8EC repeat-x; 
+padding:3px;
+ margin:3px;
+ border:1px solid #6692CC}
+ legend{FONT-WEIGHT: bold; FONT-SIZE: 11px; FONT-FAMILY: Arial, Tahoma, Helvetica}
+#marco_panel{
+background: url(../menusis/top_marco.png);
+height:23px;
+width:100%}
+
+#marco_panel2{
+background:#D7E6F6;
+margin:0px;
+border:solid 1px #6692CC;
+height: auto;
+width:100%}
+#marco_panel3{
+background:#BFDBFF;
+padding:4px;
+border:solid 1px #6692CC;
+height: auto;
+width: auto}
+#panel_status{	
+background: url(../menusis/fond_status.png);
+padding:2px;
+border:solid 1px #6692CC;
+margin:0px;
+height: auto;
+width: auto}
+#panel_status2{	
+background: url(menusis/fond_status.png);
+padding:2px;
+border:solid 1px #6692CC;
+margin:0px;
+height: auto;
+width: auto}
+#marco_panel4{
+background: #D7E6F6;
+height:23px;
+width: auto}
+#btn_fondo
+{
+background:url(../menusis/fond_bot.png);	
+	}
+#btn_espacio
+{
+	padding-top:12px;
+	padding-bottom:12px	}
+#cabecera_titulo{
+background:url(../menusis/fond_suinter.jpg);
+ height:40px;
+  padding-top:8px;
+   padding-left:20px; 
+   padding-right:20px
+  }
+ /*========marcos===========*/
+#marco_include{
+border-top:solid 2px #666;
+border-left:solid 2px #666;
+border-bottom:solid 1px #CCC;
+border-right:solid 1px #CCC;
+height: auto;
+background:#BFDBFF;
+margin:4px
+}
+
+
+
+
+
+#marco_fondo_titu{
+background:url(menusis/fond_suinter.jpg); height:40px; padding-top:8px; padding-left:20px; padding-right:20px}

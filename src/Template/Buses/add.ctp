@@ -13,9 +13,13 @@ $this->assign("title", "Nuevo Bus");
             echo $this->Form->input('asientos');
             echo $this->Form->input('anio', ['label' => "Año"]);
             echo $this->Form->input('motor');
-            echo $this->Form->input('estados');
+            echo $this->Form->input("estado_id", [
+                "label" => "Estado",
+                "empty" => "Selecciona uno"
+            ]);
+        
+            echo $this->Form->button("Registrar", ["class" => "btn btn-primary"]);
         ?>
-        <button type="submit" class="btn btn-primary">Registrar</button>
         <?= $this->Form->end() ?>
     </div>
 </div>

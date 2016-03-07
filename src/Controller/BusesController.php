@@ -5,6 +5,16 @@ use App\Controller\AppController;
 
 class BusesController extends AppController
 {
+    public $paginate = [
+        "limit" => 10,
+        "order" => [
+            "Buses.placa" => "asc"
+        ],
+        "conditions" => [
+            "Buses.estado_id" => 1
+        ]
+    ];
+    
     public function index() {
         $this->viewBuilder()->layout("main");
         
@@ -34,15 +44,14 @@ class BusesController extends AppController
         $bus = $this->Buses->newEntity();
         if ($this->request->is('post')) {
             $bus = $this->Buses->patchEntity($bus, $this->request->data);
-            debug($bus);
             if ($this->Buses->save($bus)) {
-                $this->Flash->success(__('The bus has been saved.'));
+                $this->Flash->success(__('El Bus ha sido registrado correctamente.'));
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The bus could not be saved. Please, try again.'));
             }
         }
-        $estados = $this->Buses->Estados->find('list', ['limit' => 200]);
+        $estados = $this->Buses->Estados->find('list');
         $this->set(compact('bus', 'estados'));
         $this->set('_serialize', ['bus']);
     }

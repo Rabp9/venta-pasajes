@@ -1,4 +1,10 @@
-.page {
+body
+{
+	padding-top: 151px;
+}
+
+.page
+{
 	border: 1px solid #a5acb5;
 	margin: 20px;
 	padding: 15px;
@@ -9,7 +15,8 @@
 	
 }
 
-#ribbon {
+#ribbon
+{
 	font-family: "Segoe UI" , Verdana, Tahoma, Helvetica, sans-serif;
 
 	cursor: default;
@@ -23,6 +30,7 @@
 	overflow: hidden;
 	behavior: url(/PIE.htc);
 	z-index: 25;
+	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;

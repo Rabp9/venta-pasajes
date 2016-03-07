@@ -26,7 +26,7 @@ class BusesTable extends Table
 
         $this->table('buses');
         $this->displayField('placa');
-        $this->primaryKey(['id', 'estado_id']);
+        $this->primaryKey('id');
 
         $this->belongsTo('Estados', [
             'foreignKey' => 'estado_id',
