@@ -28,7 +28,7 @@ class BusesController extends AppController
     }
 
     public function view($id = null) {
-        $this->viewBuilder()->layout("main");
+        $this->viewBuilder()->layout(false);
         
         $bus = $this->Buses->get($id, [
             'contain' => ['Estados']
@@ -41,8 +41,9 @@ class BusesController extends AppController
     public function add() {
         $this->viewBuilder()->layout(false);
         
-        $bus = $this->Buses->newEntity($this->request->data);
+        $bus = $this->Buses->newEntity();
         if ($this->request->is('post')) {
+            $bus = $this->Buses->patchEntity($bus, $this->request->data);
             if ($this->Buses->save($bus)) {
                 $message = array(
                     'text' => __('Saved'),
@@ -56,7 +57,7 @@ class BusesController extends AppController
             }
         }
         $estados = $this->Buses->Estados->find('list');
-        $this->set(compact("estados", "message"));
+        $this->set(compact("bus", "estados", "message"));
         $this->set("_serialize", ["message"]);
     }
 
@@ -66,18 +67,23 @@ class BusesController extends AppController
         $bus = $this->Buses->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
+        /*if ($this->request->is(['patch', 'post', 'put'])) {
             $bus = $this->Buses->patchEntity($bus, $this->request->data);
             if ($this->Buses->save($bus)) {
-                $this->Flash->success(__('The bus has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $message = array(
+                    'text' => __('Saved'),
+                    'type' => 'success'
+                );
             } else {
-                $this->Flash->error(__('The bus could not be saved. Please, try again.'));
+                $message = array(
+                    'text' => __('Error'),
+                    'type' => 'error'
+                );
             }
-        }
+        }*/
         $estados = $this->Buses->Estados->find('list', ['limit' => 200]);
         $this->set(compact('bus', 'estados'));
-        $this->set('_serialize', ['bus']);
+        $this->set("_serialize", ["message"]);
     }
 
     public function delete($id = null) {

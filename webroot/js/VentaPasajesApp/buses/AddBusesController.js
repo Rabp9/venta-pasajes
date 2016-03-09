@@ -1,6 +1,6 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("AddBusesController", function($scope, BusesService, $rootScope) {
+VentaPasajesApp.controller("AddBusesController", function($scope, BusesService) {
     $scope.newBus = new BusesService();
     
     $scope.addBus = function() {

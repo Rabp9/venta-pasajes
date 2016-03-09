@@ -19,15 +19,15 @@ $this->assign("title", "Lista de Buses");
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="bus in buses.buses" class="textnot2" style="background-color: #fff;" onmouseover="style.backgroundColor='#cccccc';" onmouseout="style.backgroundColor='#fff'">
+                    <tr ng-repeat="bus in buses" class="textnot2" style="background-color: #fff;" onmouseover="style.backgroundColor='#cccccc';" onmouseout="style.backgroundColor='#fff'">
                         <td width="3%" bgcolor="#D6E4F2">{{ bus.id }}</td>
                         <td width="6%">{{ bus.placa }}</td>
                         <td width="8%">{{ bus.chasis }}</td>
                         <td width="5%">{{ bus.asientos }}</td>
                         <td width="5%">{{ bus.anio }}</td>
                         <td width="4%">
-                            <a style="cursor: pointer;" title="ver" data-toggle="modal" data-target="#mdlBuses"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a> |
-                            <a style="cursor: pointer;" title="editar" data-toggle="modal" data-target="#mdlBuses"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> |
+                            <a style="cursor: pointer;" ng-click="viewBus(bus.id)" title="ver" data-toggle="modal" data-target="#mdlBuses"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a> |
+                            <a style="cursor: pointer;" ng-click="editBus(bus.id)" title="editar" data-toggle="modal" data-target="#mdlBuses"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> |
                             <a href="#"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                         </td>
                     </tr>

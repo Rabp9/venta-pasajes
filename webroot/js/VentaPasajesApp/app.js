@@ -1,5 +1,7 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp", ["ngRoute", "ngResource"]);
 
+VentaPasajesApp.path_location = "http://localhost:8000/";
+
 VentaPasajesApp.config(function($routeProvider) {
     $routeProvider
         .when("/", {

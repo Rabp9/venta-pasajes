@@ -1,6 +1,6 @@
 <!-- src/Template/Buses/add.ctp -->
 <div ng-controller="AddBusesController">
-    <form ng-submit="addBus()">
+    <?= $this->Form->create($bus, ["url" => false, "ng-submit" => "addBus()"]); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -30,5 +30,5 @@
                 <button type="submit" class="btn btn-primary">Registrar</button>
             </div>
         </div>
-    </form>
+    <?= $this->Form->end() ?>
 </div>
