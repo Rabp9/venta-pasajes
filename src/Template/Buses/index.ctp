@@ -4,39 +4,44 @@ $this->extend('/Common/vista');
 $this->assign("module-name", "Mantenedores");
 $this->assign("title", "Lista de Buses");
 ?>
-<table class="table">
-    <thead>
-        <tr>
-            <th><?= $this->Paginator->sort("id", "Código") ?></th>
-            <th><?= $this->Paginator->sort("placa") ?></th>
-            <th><?= $this->Paginator->sort("chasis") ?></th>
-            <th><?= $this->Paginator->sort("asientos") ?></th>
-            <th><?= $this->Paginator->sort("anio", "Año") ?></th>
-            <th class="actions"><?= __("Acciones") ?></th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach($buses as $bus) {
-            echo $this->Html->tableCells(
-                [
-                    $this->Number->format($bus->id),
-                    h($bus->placa),
-                    h($bus->chasis),
-                    h($bus->asientos),
-                    h($bus->anio),
-                    $this->Html->link(__('Ver'), ['action' => 'view', $bus->id]) . " | " .
-                    $this->Html->link(__('Editar'), ['action' => 'edit', $bus->id]) . " | " .
-                    $this->Form->postLink(__('Eliminar'), ['action' => 'delete', $bus->id], ['confirm' => __("¿Estás seguro de deshabilitar el Bus de código {0}?", $bus->id)])
-                ], [
-                    "class" => "info"
-                ], [
-                    "class" => "warning"
-                ]
-            );
-        } ?>
-    </tbody>
-</table>
-
+<div id="marco_include">
+    <div style="height:200px; overflow:auto" class="justificado_not" id="busqueda">
+        <div id="busqueda">
+            <table class="table" border="0" cellpadding="1" cellspacing="1" id="marco_panel">
+                <thead>
+                    <tr class="e34X" id="panel_status">
+                        <th colspan="2" width="1%" align="center"><?= $this->Paginator->sort("id", "Código") ?></th>
+                        <th width="5%" align="center"><?= $this->Paginator->sort("placa") ?></th>
+                        <th width="10%" align="center"><?= $this->Paginator->sort("chasis") ?></th>
+                        <th width="6%" align="center"><?= $this->Paginator->sort("asientos") ?></th>
+                        <th width="22%" align="center"><?= $this->Paginator->sort("anio", "Año") ?></th>
+                        <th width="4%" align="center"><?= __("Acciones") ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($buses as $bus) {
+                        echo $this->Html->tableCells(
+                            [
+                                $this->Number->format($bus->id),
+                                h($bus->placa),
+                                h($bus->chasis),
+                                h($bus->asientos),
+                                h($bus->anio),
+                                $this->Html->link(__('Ver'), ['action' => 'view', $bus->id]) . " | " .
+                                $this->Html->link(__('Editar'), ['action' => 'edit', $bus->id]) . " | " .
+                                $this->Form->postLink(__('Eliminar'), ['action' => 'delete', $bus->id], ['confirm' => __("¿Estás seguro de deshabilitar el Bus de código {0}?", $bus->id)])
+                            ], [
+                                "class" => "info"
+                            ], [
+                                "class" => "warning"
+                            ]
+                        );
+                    } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <?= $this->Html->link("Nuevo Bus", ["controller" => "buses", "action" => "add"], ["class" => "btn btn-primary"]) ?>
 <div id="marco_include">
     <div style="height:200px; overflow:auto" class="justificado_not" id="busqueda">
@@ -77,3 +82,4 @@ $this->assign("title", "Lista de Buses");
         </div>
     </div>
 </div>
+{{ buses | json }}

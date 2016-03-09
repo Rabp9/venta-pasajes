@@ -16,3 +16,4 @@
 !/vendor/cakephp-plugins.php
 !/vendor/psr/
 !/vendor/symfony/
+/nbproject/private/

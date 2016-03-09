@@ -16,8 +16,8 @@ class AgenciasController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function index()
-    {
+    public function index() {
+        $this->viewBuilder()->layout(false);
         $this->paginate = [
             'contain' => ['Ubigeos']
         ];

@@ -16,7 +16,7 @@ class BusesController extends AppController
     ];
     
     public function index() {
-        $this->viewBuilder()->layout("main");
+        $this->viewBuilder()->layout(false);
         
         $this->paginate = [
             'contain' => ['Estados']
