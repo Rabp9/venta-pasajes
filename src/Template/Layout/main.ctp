@@ -5,7 +5,8 @@
     <?= $this->Html->css(["ribbon.css", "bootstrap.min.css", "style.css", "fonts25.css", "panels.css"]) ?>
     <?= $this->Html->script(["angular.min.js", "angular-route.min.js", "angular-resource.min.js",
         "VentaPasajesApp/app.js", "VentaPasajesApp/buses/BusesService.js",
-        "VentaPasajesApp/buses/ListBusesController.js",
+        "VentaPasajesApp/buses/ListBusesController.js", 
+        "VentaPasajesApp/buses/AddBusesController.js",
     ]) ?>
 </head>
 <body ng-app="VentaPasajesApp">

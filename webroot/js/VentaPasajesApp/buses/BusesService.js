@@ -1,23 +1,18 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
-VentaPasajesApp.factory("BusesService", function($http) {
-    var busesService = {};
-    busesService.buses = [];
+VentaPasajesApp.factory("BusesService", function($resource) {
+    /*var busesService = {};
     
     busesService.list = function() {
-        $http.get("http://localhost:8000/venta-pasajes/buses.json")
-            .success(function (data) {
-                busesService.buses = data;
-            })
-            .error(function (error, status, headers, config) {
-                console.log(error);
-            })
+        var buses = $resource("http://localhost:8000/venta-pasajes/buses.json");
+        return buses.get();
     };
     
     busesService.add = function(newBus) {
-        busesService.buses.push(newBus);
-        // http insert
-        
+        var buses = $resource("http://localhost:8000/venta-pasajes/buses.json");
+        var bus = buses.save(newBus);
+        console.log(bus);
     };
     
-    return busesService;
+    return busesService;*/
+    return $resource('http://localhost:8000/venta-pasajes/buses/:id.json');
 });

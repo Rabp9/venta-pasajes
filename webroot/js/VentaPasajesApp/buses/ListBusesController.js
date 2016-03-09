@@ -1,6 +1,19 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("ListBusesController", function($scope, $resource) {
-    buses = $resource("http://localhost:8000/venta-pasajes/buses/:id.json", {id: "@id"});
-    $scope.buses = buses.query();
+VentaPasajesApp.controller("ListBusesController", function($scope, BusesService) {
+    $scope.buses = [];
+    
+    $scope.list = function() {
+        $scope.buses = BusesService.get();
+    };
+    
+    $scope.addBus = function() {
+        $scope.modalUrl = "http://localhost:8000/venta-pasajes/buses/add";
+    };
+    
+    $scope.editBus = function() {
+        $scope.modalUrl = "http://localhost:8000/venta-pasajes/buses/edit";
+    };
+    
+    $scope.list();
 });

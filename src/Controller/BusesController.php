@@ -39,24 +39,30 @@ class BusesController extends AppController
     }
 
     public function add() {
-        $this->viewBuilder()->layout("main");
+        $this->viewBuilder()->layout(false);
         
-        $bus = $this->Buses->newEntity();
+        $bus = $this->Buses->newEntity($this->request->data);
         if ($this->request->is('post')) {
-            $bus = $this->Buses->patchEntity($bus, $this->request->data);
             if ($this->Buses->save($bus)) {
-                $this->Flash->success(__('El Bus ha sido registrado correctamente.'));
-                return $this->redirect(['action' => 'index']);
+                $message = array(
+                    'text' => __('Saved'),
+                    'type' => 'success'
+                );
             } else {
-                $this->Flash->error(__('The bus could not be saved. Please, try again.'));
+                $message = array(
+                    'text' => __('Error'),
+                    'type' => 'error'
+                );
             }
         }
         $estados = $this->Buses->Estados->find('list');
-        $this->set(compact('bus', 'estados'));
-        $this->set('_serialize', ['bus']);
+        $this->set(compact("estados", "message"));
+        $this->set("_serialize", ["message"]);
     }
 
     public function edit($id = null) {
+        $this->viewBuilder()->layout(false);
+        
         $bus = $this->Buses->get($id, [
             'contain' => []
         ]);
