@@ -13,10 +13,10 @@ VentaPasajesApp.controller("EditBusesController", function($scope, BusesService,
     });
     
     $scope.updateBus = function() {
-        var bus = BusesService.save($scope.editBus, function() {
-            $("#mdlBuses").modal('toggle');
-            $scope.editBus = new BusesService();
-            $scope.$parent.list();
+        var bus = BusesService.get({id: $scope.$parent.id}, function() {
+            console.log(bus);
+            bus.placa = "qqqqqqqqqqqqqqqqqqqqqqq";
+            bus.$update({id: $scope.$parent.id});
         });
     }
 });

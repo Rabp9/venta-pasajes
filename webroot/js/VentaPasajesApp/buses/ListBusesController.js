@@ -11,17 +11,17 @@ VentaPasajesApp.controller("ListBusesController", function($scope, BusesService)
     };
     
     $scope.addBus = function() {
-        $scope.modalUrl = VentaPasajesApp.path_location + "venta-pasajes/buses/add";
+        $scope.modalUrl = VentaPasajesApp.path_location + "buses/add";
     };
     
     $scope.editBus = function(id) {
         $scope.id = id;
-        $scope.modalUrl = VentaPasajesApp.path_location + "venta-pasajes/buses/edit/" + id;
+        $scope.modalUrl = VentaPasajesApp.path_location + "buses/edit/" + id;
     };
     
     $scope.viewBus = function(id) {
         $scope.id = id;
-        $scope.modalUrl = VentaPasajesApp.path_location + "venta-pasajes/buses/view/" + id;
+        $scope.modalUrl = VentaPasajesApp.path_location + "buses/view/" + id;
     };
     
     

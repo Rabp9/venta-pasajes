@@ -67,7 +67,7 @@ class BusesController extends AppController
         $bus = $this->Buses->get($id, [
             'contain' => []
         ]);
-        /*if ($this->request->is(['patch', 'post', 'put'])) {
+        if ($this->request->is(['patch', 'post', 'put'])) {
             $bus = $this->Buses->patchEntity($bus, $this->request->data);
             if ($this->Buses->save($bus)) {
                 $message = array(
@@ -80,7 +80,7 @@ class BusesController extends AppController
                     'type' => 'error'
                 );
             }
-        }*/
+        }
         $estados = $this->Buses->Estados->find('list', ['limit' => 200]);
         $this->set(compact('bus', 'estados'));
         $this->set("_serialize", ["message"]);
