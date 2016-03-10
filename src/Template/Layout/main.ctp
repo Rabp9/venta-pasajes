@@ -8,12 +8,15 @@
         "VentaPasajesApp/app.js"]) 
     ?> 
     <?= $this->Html->script(["VentaPasajesApp/buses/BusesService.js",
-        "VentaPasajesApp/estados/EstadosService.js"])
+        "VentaPasajesApp/estados/EstadosService.js",
+        "VentaPasajesApp/rutas/RutasService.js"])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
         "VentaPasajesApp/buses/AddBusesController.js",
         "VentaPasajesApp/buses/EditBusesController.js",
-        "VentaPasajesApp/buses/ViewBusesController.js"
+        "VentaPasajesApp/buses/ViewBusesController.js",
+        
+        "VentaPasajesApp/rutas/ListRutasController.js"
     ]) ?>
 </head>
 <body ng-app="VentaPasajesApp">

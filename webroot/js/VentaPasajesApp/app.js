@@ -15,5 +15,9 @@ VentaPasajesApp.config(function($routeProvider) {
         .when("/agencias", {
             controller: "ListAgenciasController",
             templateUrl: "agencias"
+        })
+        .when("/rutas", {
+            controller: "ListRutasController",
+            templateUrl: "rutas"
         });
 });

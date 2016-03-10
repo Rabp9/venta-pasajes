@@ -4,14 +4,15 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Estado Entity.
+ * Ruta Entity.
  *
  * @property int $id
  * @property string $descripcion
- * @property \App\Model\Entity\BusAsiento[] $bus_asientos
- * @property \App\Model\Entity\Bus[] $buses
+ * @property int $estado_id
+ * @property \App\Model\Entity\Estado $estado
+ * @property \App\Model\Entity\Detalle_desplazamiento[] $detalle_desplazamientos
  */
-class Estado extends Entity
+class Ruta extends Entity
 {
 
     /**
@@ -25,6 +26,7 @@ class Estado extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false
+        'id' => false,
+        'estado_id' => false,
     ];
 }
