@@ -3,52 +3,28 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
-/**
- * Rutas Controller
- *
- * @property \App\Model\Table\RutasTable $Rutas
- */
 class RutasController extends AppController
 {
-
-    /**
-     * Index method
-     *
-     * @return \Cake\Network\Response|null
-     */
     public function index() {
         $this->viewBuilder()->layout(false);
         
-        $this->viewBuilder()->layout(false);
         $rutas = $this->Rutas->find("all")->contain(["Estados"]);
         
         $this->set(compact('rutas'));
         $this->set('_serialize', ['rutas']);
     }
 
-
-    /**
-     * View method
-     *
-     * @param string|null $id Ruta id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
+    public function view($id = null) {
+        $this->viewBuilder()->layout(false);
+        
         $ruta = $this->Rutas->get($id, [
             'contain' => ['Estados']
         ]);
 
-        $this->set('ruta', $ruta);
+        $this->set(compact('ruta'));
         $this->set('_serialize', ['ruta']);
     }
 
-    /**
-     * Add method
-     *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
-     */
     public function add()
     {
         $ruta = $this->Rutas->newEntity();
@@ -66,13 +42,6 @@ class RutasController extends AppController
         $this->set('_serialize', ['ruta']);
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Ruta id.
-     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
     public function edit($id = null)
     {
         $ruta = $this->Rutas->get($id, [
@@ -92,13 +61,6 @@ class RutasController extends AppController
         $this->set('_serialize', ['ruta']);
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Ruta id.
-     * @return \Cake\Network\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
