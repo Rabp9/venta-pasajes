@@ -24,6 +24,17 @@ VentaPasajesApp.controller("ListBusesController", function($scope, BusesService)
         $scope.modalUrl = VentaPasajesApp.path_location + "buses/view/" + id;
     };
     
+    $scope.removeBus = function(id) {
+        if(confirm("¿Está seguro de desactivar este bus?")) {
+            var bus = BusesService.get({id: id}, function() {
+                bus.estado_id = 2;
+                delete bus.estado; 
+                bus.$update({id: id}, function() {
+                    $scope.list();
+                });
+            });
+        }
+    }
     
     $scope.list();
 });

@@ -15,6 +15,7 @@ $this->assign("title", "Lista de Buses");
                         <th width="8%" align="center"><?= $this->Paginator->sort("chasis") ?></th>
                         <th width="5%" align="center"><?= $this->Paginator->sort("asientos") ?></th>
                         <th width="5%" align="center"><?= $this->Paginator->sort("anio", "Año") ?></th>
+                        <th width="5%" align="center"><?= $this->Paginator->sort("estado", "Estado") ?></th>
                         <th width="4%" align="center"><?= __("Acciones") ?></th>
                     </tr>
                 </thead>
@@ -25,10 +26,11 @@ $this->assign("title", "Lista de Buses");
                         <td width="8%">{{ bus.chasis }}</td>
                         <td width="5%">{{ bus.asientos }}</td>
                         <td width="5%">{{ bus.anio }}</td>
+                        <td width="5%">{{ bus.estado.descripcion }}</td>
                         <td width="4%">
                             <a style="cursor: pointer;" ng-click="viewBus(bus.id)" title="ver" data-toggle="modal" data-target="#mdlBuses"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a> |
                             <a style="cursor: pointer;" ng-click="editBus(bus.id)" title="editar" data-toggle="modal" data-target="#mdlBuses"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> |
-                            <a href="#"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                            <a style="cursor: pointer;" ng-click="removeBus(bus.id)" title="desactivar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                         </td>
                     </tr>
                 </tbody>
@@ -36,7 +38,7 @@ $this->assign("title", "Lista de Buses");
         </div>
     </div>
 </div>
-<a class="btn btn-primary" ng-click="addBus()" data-toggle="modal" data-target="#mdlBuses">Nuevo Bus</a>
+<a class="btn btn-primary" ng-click="addBus()" data-toggle="modal" data-target="#mdlBuses"><span class="glyphicon glyphicon-plus"></span> Nuevo Bus</a>
 
 <!-- Modal -->
 <div class="modal fade" id="mdlBuses" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
