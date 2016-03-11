@@ -79,6 +79,7 @@ Router::scope('/', function ($routes) {
     $routes->resources('Buses');
     $routes->resources('Estados');
     $routes->resources('Rutas');
+    $routes->resources('Agencias');
 });
 /**
  * Load all plugin routes.  See the Plugin documentation on

@@ -30,14 +30,6 @@ $this->assign("title", "Lista de Agencias");
                         <th width="5%" align="center"><?= $this->Paginator->sort("celular") ?></th>                   
                         <th width="4%" align="center"><?= __("Acciones") ?></th>
                     </tr>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                 </thead>
                 <tbody>
                     <tr ng-show="loading">
