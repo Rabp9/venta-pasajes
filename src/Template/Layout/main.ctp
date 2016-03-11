@@ -9,14 +9,20 @@
     ?> 
     <?= $this->Html->script(["VentaPasajesApp/buses/BusesService.js",
         "VentaPasajesApp/estados/EstadosService.js",
-        "VentaPasajesApp/rutas/RutasService.js"])
+        "VentaPasajesApp/rutas/RutasService.js"]),
+         "VentaPasajesApp/agencias/AgenciasService.js"
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
         "VentaPasajesApp/buses/AddBusesController.js",
         "VentaPasajesApp/buses/EditBusesController.js",
         "VentaPasajesApp/buses/ViewBusesController.js",
         
-        "VentaPasajesApp/rutas/ListRutasController.js"
+        "VentaPasajesApp/rutas/ListRutasController.js",
+        
+        "VentaPasajesApp/agencias/ListAgenciasController.js",
+        "VentaPasajesApp/agencias/AddAgenciasController.js",
+        "VentaPasajesApp/agencias/EditAgenciasController.js",
+        "VentaPasajesApp/agencias/ViewAgenciasController.js",
     ]) ?>
 </head>
 <body ng-app="VentaPasajesApp">
