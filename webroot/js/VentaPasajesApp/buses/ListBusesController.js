@@ -4,6 +4,8 @@ VentaPasajesApp.controller("ListBusesController", function($scope, BusesService)
     $scope.buses = [];
     $scope.id = "";
     $scope.loading = true;
+    $scope.predicate = "id";
+    $scope.reverse = false;
     
     $scope.list = function() {
         $scope.loading = true;
@@ -11,6 +13,11 @@ VentaPasajesApp.controller("ListBusesController", function($scope, BusesService)
             $scope.buses = $scope.buses.buses;
             $scope.loading = false;
         });
+    };
+    
+    $scope.order = function(predicate) {
+        $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+        $scope.predicate = predicate;
     };
     
     $scope.addBus = function() {

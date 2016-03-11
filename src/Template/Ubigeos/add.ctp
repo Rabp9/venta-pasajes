@@ -18,6 +18,9 @@
             echo $this->Form->input('rght');
             echo $this->Form->input('descripcion');
             echo $this->Form->input('categoria');
+            foreach ($parentUbigeos as $ubigeo) {
+                echo $ubigeo . "<br>";
+            }
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

@@ -1,24 +1,34 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Detalle Desplazamientos'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Rutas'), ['controller' => 'Rutas', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Ruta'), ['controller' => 'Rutas', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Programacion Viajes'), ['controller' => 'ProgramacionViajes', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Programacion Viaje'), ['controller' => 'ProgramacionViajes', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Agencias'), ['controller' => 'Agencias', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Agencia'), ['controller' => 'Agencias', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="detalleDesplazamientos form large-9 medium-8 columns content">
-    <?= $this->Form->create($detalleDesplazamiento) ?>
-    <fieldset>
-        <legend><?= __('Add Detalle Desplazamiento') ?></legend>
-        <?php
-            echo $this->Form->input('hora_salida', ['empty' => true]);
-            echo $this->Form->input('hora_llegada', ['empty' => true]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+<!-- src/Template/DetalleDesplazamientos/add.ctp -->
+<div ng-controller="AddDetalleDesplazamientosController">
+    <?= $this->Form->create($bus, ["url" => false, "ng-submit" => "addBus()"]); ?>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Nuevo Bus</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <?php
+                            echo $this->Form->input('placa', ["ng-model" => "newBus.placa"]);
+                            echo $this->Form->input('chasis', ["ng-model" => "newBus.chasis"]);
+                            echo $this->Form->input('asientos', ["ng-model" => "newBus.asientos"]);
+                            echo $this->Form->input('anio', ['label' => "Año", "ng-model" => "newBus.anio"]);
+                            echo $this->Form->input('motor', ["ng-model" => "newBus.motor"]);
+                            echo $this->Form->input("estado_id", [
+                                "label" => "Estado",
+                                "empty" => "Selecciona uno",
+                                "ng-model" => "newBus.estado_id"
+                            ]);
+
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </div>
+        </div>
     <?= $this->Form->end() ?>
 </div>

@@ -55,7 +55,7 @@ class UbigeosController extends AppController
                 $this->Flash->error(__('The ubigeo could not be saved. Please, try again.'));
             }
         }
-        $parentUbigeos = $this->Ubigeos->ParentUbigeos->find('list', ['limit' => 200]);
+        $parentUbigeos = $this->Ubigeos->find("treeList");
         $this->set(compact('ubigeo', 'parentUbigeos'));
         $this->set('_serialize', ['ubigeo']);
     }

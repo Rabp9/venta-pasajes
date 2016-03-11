@@ -28,7 +28,7 @@ class UbigeosTable extends Table
         parent::initialize($config);
 
         $this->table('ubigeos');
-        $this->displayField('id');
+        $this->displayField('descripcion');
         $this->primaryKey('id');
         
         $this->addBehavior('Tree');
