@@ -33,6 +33,10 @@ class AgenciasTable extends Table
             'foreignKey' => 'ubigeo_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('Estados', [
+            'foreignKey' => 'estado_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
@@ -70,6 +74,7 @@ class AgenciasTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['ubigeo_id'], 'Ubigeos'));
+        $rules->add($rules->existsIn(['estado_id'], 'Estados'));
         return $rules;
     }
 }

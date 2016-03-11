@@ -6,7 +6,6 @@ VentaPasajesApp.controller("ListAgenciasController", function($scope, AgenciasSe
     $scope.loading = true;
     
     $scope.list = function() {
-        alert("aaaaa");
         $scope.loading = true;
         $scope.agencias = AgenciasService.get(function() {
             $scope.agencias = $scope.agencias.agencias;

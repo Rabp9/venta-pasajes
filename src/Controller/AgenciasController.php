@@ -62,7 +62,8 @@ class AgenciasController extends AppController
             }
         }
         $ubigeos = $this->Agencias->Ubigeos->find('list', ['limit' => 200]);
-        $this->set(compact('agencia', 'ubigeos'));
+        $estados = $this->Agencias->Estados->find('list', ['limit' => 200]);
+        $this->set(compact('agencia', 'ubigeos', 'estados'));
         $this->set('_serialize', ['agencia']);
     }
 
