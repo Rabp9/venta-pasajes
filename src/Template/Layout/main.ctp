@@ -9,8 +9,8 @@
     ?> 
     <?= $this->Html->script(["VentaPasajesApp/buses/BusesService.js",
         "VentaPasajesApp/estados/EstadosService.js",
-        "VentaPasajesApp/rutas/RutasService.js"]),
-         "VentaPasajesApp/agencias/AgenciasService.js"
+        "VentaPasajesApp/rutas/RutasService.js",
+         "VentaPasajesApp/agencias/AgenciasService.js"])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
         "VentaPasajesApp/buses/AddBusesController.js",
