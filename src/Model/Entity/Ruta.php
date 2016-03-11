@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  * @property string $descripcion
  * @property int $estado_id
  * @property \App\Model\Entity\Estado $estado
- * @property \App\Model\Entity\Detalle_desplazamiento[] $detalle_desplazamientos
+ * @property \App\Model\Entity\DetalleDesplazamiento[] $detalle_desplazamientos
  */
 class Ruta extends Entity
 {

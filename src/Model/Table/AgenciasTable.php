@@ -26,8 +26,8 @@ class AgenciasTable extends Table
         parent::initialize($config);
 
         $this->table('agencias');
-        $this->displayField('cod_agencia');
-        $this->primaryKey(['cod_agencia', 'ubigeo_id']);
+        $this->displayField('direccion');
+        $this->primaryKey('id');
 
         $this->belongsTo('Ubigeos', [
             'foreignKey' => 'ubigeo_id',
@@ -44,8 +44,8 @@ class AgenciasTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('cod_agencia')
-            ->allowEmpty('cod_agencia', 'create');
+            ->integer('id')
+            ->allowEmpty('id', 'create');
 
         $validator
             ->allowEmpty('direccion');

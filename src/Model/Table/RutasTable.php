@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
  * Rutas Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Estados
- * @property \Cake\ORM\Association\HasMany $Detalle_desplazamientos
+ * @property \Cake\ORM\Association\HasMany $DetalleDesplazamientos
  */
 class RutasTable extends Table
 {
@@ -22,16 +22,15 @@ class RutasTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->table('rutas');
-        $this->displayField('id');
-        $this->primaryKey(['id', 'estado_id']);
+        $this->displayField('descripcion');
+        $this->primaryKey('id');
 
-        $this->hasMany('Detalle_desplazamientos', [
-            'foreignKey' => 'detalle_desplazamiento_id'
+        $this->hasMany('DetalleDesplazamientos', [
+            'foreignKey' => 'ruta_id'
         ]);
         
         $this->belongsTo('Estados', [

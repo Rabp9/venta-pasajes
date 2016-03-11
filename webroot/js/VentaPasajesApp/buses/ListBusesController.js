@@ -3,10 +3,13 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 VentaPasajesApp.controller("ListBusesController", function($scope, BusesService) {
     $scope.buses = [];
     $scope.id = "";
+    $scope.loading = true;
     
     $scope.list = function() {
+        $scope.loading = true;
         $scope.buses = BusesService.get(function() {
             $scope.buses = $scope.buses.buses;
+            $scope.loading = false;
         });
     };
     

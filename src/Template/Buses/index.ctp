@@ -4,6 +4,20 @@ $this->extend('/Common/vista');
 $this->assign("module-name", "Mantenedores");
 $this->assign("title", "Lista de Buses");
 ?>
+<style>
+    .animated {
+        opacity: 2;
+        max-height: auto;
+        overflow: hidden;
+        transition: all 2%;
+    }
+    
+    .animated.ng-hide {
+        opacity: 0;
+        max-height: 0px !important;
+        display: block !important;
+    }
+</style>
 <div id="marco_include">
     <div style="height:200px; overflow:auto" class="justificado_not" id="busqueda">
         <div id="busqueda">
@@ -20,7 +34,13 @@ $this->assign("title", "Lista de Buses");
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="bus in buses" class="textnot2" style="background-color: #fff;" onmouseover="style.backgroundColor='#cccccc';" onmouseout="style.backgroundColor='#fff'">
+                    <tr ng-show="loading">
+                        <td colspan="7">Cargando</td>
+                    </tr>
+                    <tr ng-show="buses.length == 0 && !loading">
+                        <td colspan="7">No hay registros de Buses</td>
+                    </tr>
+                    <tr ng-show="buses.length > 0" ng-repeat="bus in buses" class="textnot2 animated" style="background-color: #fff;" onmouseover="style.backgroundColor='#cccccc';" onmouseout="style.backgroundColor='#fff'">
                         <td width="3%" bgcolor="#D6E4F2">{{ bus.id }}</td>
                         <td width="6%">{{ bus.placa }}</td>
                         <td width="8%">{{ bus.chasis }}</td>

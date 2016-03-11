@@ -5,6 +5,11 @@ use App\Controller\AppController;
 
 class RutasController extends AppController
 {
+    public function initialize() {
+        parent::initialize();
+        $this->loadComponent('RequestHandler');
+    }
+    
     public function index() {
         $this->viewBuilder()->layout(false);
         
@@ -18,10 +23,19 @@ class RutasController extends AppController
         $this->viewBuilder()->layout(false);
         
         $ruta = $this->Rutas->get($id, [
-            'contain' => ['Estados']
+            'contain' => [
+                'Estados', 
+                "DetalleDesplazamientos" => [
+                    "Origen" => [
+                        "Ubigeos"
+                    ], "Destino" => [
+                        "Ubigeos"
+                    ]
+                ]
+            ]
         ]);
 
-        $this->set(compact('ruta'));
+        $this->set('ruta', $ruta);
         $this->set('_serialize', ['ruta']);
     }
 

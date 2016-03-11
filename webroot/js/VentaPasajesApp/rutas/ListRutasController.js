@@ -1,8 +1,8 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("ListRutasController", function($scope, $http, RutasService) {
+VentaPasajesApp.controller("ListRutasController", function($scope, RutasService) {
     $scope.rutas = [];
-    $scope.ruta_selected = new RutasService();
+    $scope.ruta_selected = [];
     
     $scope.list = function() {
         $scope.rutas = RutasService.get(function() {
@@ -11,8 +11,8 @@ VentaPasajesApp.controller("ListRutasController", function($scope, $http, RutasS
     };
     
     $scope.loadDesplazamientos = function(id) {
-        $scope.ruta_selected = $http.get("http://localhost:8000/venta-pasajes/rutas/" + id + ".json", function() {
-            console.log($scope.ruta_selected);
+        $scope.ruta_selected = RutasService.get({id: id}, function() {
+           $scope.ruta_selected = $scope.ruta_selected.ruta;
         });
     };
     

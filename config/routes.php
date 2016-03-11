@@ -75,10 +75,10 @@ Router::scope('/', function (RouteBuilder $routes) {
 });
 
 Router::scope('/', function ($routes) {
-    $routes->extensions(['json']);
-    $routes->resources('buses');
-    $routes->resources('estados');
-    $routes->resources('rutas');
+    $routes->extensions(['json']);   
+    $routes->resources('Buses');
+    $routes->resources('Estados');
+    $routes->resources('Rutas');
 });
 /**
  * Load all plugin routes.  See the Plugin documentation on

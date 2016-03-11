@@ -6,8 +6,6 @@ use Cake\ORM\Entity;
 /**
  * Agencia Entity.
  *
- * @property int $cod_agencia
- * @property int $ubigeo_id
  * @property \App\Model\Entity\Ubigeo $ubigeo
  * @property string $direccion
  * @property string $telefono
@@ -26,8 +24,6 @@ class Agencia extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true,
-        'cod_agencia' => false,
-        'ubigeo_id' => false,
+        '*' => true
     ];
 }

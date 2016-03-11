@@ -14,7 +14,7 @@ class EstadosController extends AppController
 
     public function view($id = null) {
         $estado = $this->Estados->get($id, [
-            'contain' => ['Bus', 'BusAsientos', 'Buses']
+            'contain' => ['BusAsientos', 'Buses']
         ]);
 
         $this->set('estado', $estado);

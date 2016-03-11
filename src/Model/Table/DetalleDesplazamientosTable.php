@@ -12,7 +12,8 @@ use Cake\Validation\Validator;
  *
  * @property \Cake\ORM\Association\BelongsTo $Rutas
  * @property \Cake\ORM\Association\BelongsTo $ProgramacionViajes
- * @property \Cake\ORM\Association\BelongsTo $Agencias
+ * @property \Cake\ORM\Association\BelongsTo $Origen
+ * @property \Cake\ORM\Association\BelongsTo $Destino
  */
 class DetalleDesplazamientosTable extends Table
 {
@@ -29,7 +30,7 @@ class DetalleDesplazamientosTable extends Table
 
         $this->table('detalle_desplazamientos');
         $this->displayField('id');
-        $this->primaryKey(['id', 'ruta_id', 'programacion_viaje_id', 'agencia_id']);
+        $this->primaryKey('id');
 
         $this->belongsTo('Rutas', [
             'foreignKey' => 'ruta_id',
@@ -39,9 +40,17 @@ class DetalleDesplazamientosTable extends Table
             'foreignKey' => 'programacion_viaje_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('Agencias', [
-            'foreignKey' => 'agencia_id',
-            'joinType' => 'INNER'
+        $this->belongsTo('Origen', [
+            "className" => "Agencias",
+            'foreignKey' => 'origen',
+            'joinType' => 'INNER',
+            'propertyName' => 'origen'
+        ]);
+        $this->belongsTo('Destino', [
+            "className" => "Agencias",
+            'foreignKey' => 'destino',
+            'joinType' => 'INNER',
+            'propertyName' => 'destino'
         ]);
     }
 
@@ -78,8 +87,8 @@ class DetalleDesplazamientosTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['ruta_id'], 'Rutas'));
-        $rules->add($rules->existsIn(['programacion_viaje_id'], 'ProgramacionViajes'));
-        $rules->add($rules->existsIn(['agencia_id'], 'Agencias'));
+        $rules->add($rules->existsIn(['origen'], 'Agencias'));
+        $rules->add($rules->existsIn(['destino'], 'Agencias'));
         return $rules;
     }
 }

@@ -10,7 +10,6 @@ use Cake\Validation\Validator;
 /**
  * Estados Model
  *
- * @property \Cake\ORM\Association\HasMany $Bus
  * @property \Cake\ORM\Association\HasMany $BusAsientos
  * @property \Cake\ORM\Association\HasMany $Buses
  */
@@ -30,9 +29,6 @@ class EstadosTable extends Table
         $this->displayField('descripcion');
         $this->primaryKey('id');
 
-        $this->hasMany('Bus', [
-            'foreignKey' => 'estado_id'
-        ]);
         $this->hasMany('BusAsientos', [
             'foreignKey' => 'estado_id'
         ]);
