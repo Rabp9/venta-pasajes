@@ -12,6 +12,7 @@
         "VentaPasajesApp/estados/EstadosService.js",
         "VentaPasajesApp/rutas/RutasService.js",
          "VentaPasajesApp/agencias/AgenciasService.js",
+         "VentaPasajesApp/ubigeos/UbigeosService.js",
          "VentaPasajesApp/tarifas/TarifasService.js"])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 

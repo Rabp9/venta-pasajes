@@ -68,7 +68,7 @@ class BusesController extends AppController
                 );
             }
         }
-        $estados = $this->Buses->Estados->find('list', ['limit' => 200]);
+        $estados = $this->Buses->Estados->find('list');
         $this->set(compact('bus', 'estados'));
         $this->set("_serialize", ["message"]);
     }

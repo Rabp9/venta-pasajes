@@ -80,6 +80,7 @@ Router::scope('/', function ($routes) {
     $routes->resources('Estados');
     $routes->resources('Rutas');
     $routes->resources('Agencias');
+    $routes->resources('Ubigeos');
     $routes->resources('Tarifas', [
         'map' => [
             '/' => [

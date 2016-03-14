@@ -1,16 +1,32 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("ListAgenciasController", function($scope, AgenciasService) {
-    $scope.agencias = [];
+VentaPasajesApp.controller("ListAgenciasController", function($rootScope, $scope, AgenciasService) {
     $scope.id = "";
     $scope.loading = true;
+    $scope.reverse = false;
+    $scope.predicate = "id";
+    
+    $rootScope.$on('$includeContentLoaded', function(event, url) {
+        $("#mdlAgencias").modal("toggle");
+    });
+    
+    $("#mdlAgencias").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $scope.modalUrl = ""; 
+        });
+    });
     
     $scope.list = function() {
         $scope.loading = true;
-        $scope.agencias = AgenciasService.get(function() {
-            $scope.agencias = $scope.agencias.agencias;
+        AgenciasService.get(function(data) {
+            $scope.agencias = data.agencias;
             $scope.loading = false;
         });
+    };
+    
+    $scope.order = function(predicate) {
+        $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+        $scope.predicate = predicate;
     };
     
     $scope.addAgencia = function() {
@@ -28,9 +44,9 @@ VentaPasajesApp.controller("ListAgenciasController", function($scope, AgenciasSe
     };
     
     $scope.removeAgencia = function(id) {
-        if(confirm("¿Está seguro de desactivar este bus?")) {
-            var bus = AgenciasService.get({id: id}, function() {
-                bus.estado_id = 2;
+        if(confirm("¿Está seguro de desactivar esta Agencia?")) {
+            var agencia = AgenciasService.get({id: id}, function() {
+                agencia.estado_id = 2;
                 delete agencia.estado; 
                 agencia.$update({id: id}, function() {
                     $scope.list();

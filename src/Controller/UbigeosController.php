@@ -11,14 +11,11 @@ use App\Controller\AppController;
 class UbigeosController extends AppController
 {
     public function index() {
-        $this->Ubigeos->recover();
-        /*$this->paginate = [
-            'contain' => ['ParentUbigeos']
-        ];
-        $ubigeos = $this->paginate($this->Ubigeos);
+        //$this->Ubigeos->recover();
+        $ubigeos = $this->Ubigeos->find('treelist');
 
         $this->set(compact('ubigeos'));
-        $this->set('_serialize', ['ubigeos']);*/
+        $this->set('_serialize', ['ubigeos']);
     }
 
     /**
