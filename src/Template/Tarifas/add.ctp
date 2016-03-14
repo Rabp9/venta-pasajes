@@ -34,6 +34,9 @@
                     echo $this->Form->input("tiempo", [
                         "ng-model" => "newTarifa.tiempo"
                     ]);
+                    echo $this->Form->input("ida_vuelta", [
+                        "ng-model" => "newTarifa.ida_vuelta"
+                    ]);
                     ?>
                 </div>
             </div>

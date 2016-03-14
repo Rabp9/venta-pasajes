@@ -14,11 +14,6 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $rootScope
     });
     
     $scope.list = function() {
-        /*TarifasService.get(function(data) {
-            $scope.tarifas = data.tarifas;
-            $scope.loading = false;
-        });
-        */
         TarifasService.findByOrigenDestino({
             origen: $scope.origen_selected, 
             destino: $scope.destino_selected
@@ -59,7 +54,16 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $rootScope
         var tarifa = TarifasService.save($scope.newTarifa, function() {
             $("#mdlTarifas").modal('toggle');
             $scope.newTarifa = new TarifasService();
-            $scope.list();
+            if($scope.ida_vuelta) {
+                var temp = $scope.newTarifa.origen;
+                $scope.newTarifa.origen = $scope.newTarifa.destino;
+                $scope.newTarifa.destino = temp;
+                var tarifa = TarifasService.save($scope.newTarifa, function() {
+                    $("#mdlTarifas").modal('toggle');
+                    $scope.newTarifa = new TarifasService();
+                    $scope.list();
+                });
+            }
         });
     }
     
