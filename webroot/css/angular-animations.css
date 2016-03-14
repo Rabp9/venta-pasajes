@@ -1,0 +1,24 @@
+.animated {
+    opacity: 2;
+    max-height: auto;
+    overflow: hidden;
+    transition: all 2%;
+}
+
+.animated.ng-hide {
+    opacity: 0;
+    max-height: 0px !important;
+    display: block !important;
+}
+
+.ng-leave {
+    opacity: 0;
+    max-height: 0px !important;
+    animation-name: leave;
+    animation-duration: 1s;
+}
+
+.ng-enter {
+    animation-name: enter;
+    animation-duration: 1s;
+}

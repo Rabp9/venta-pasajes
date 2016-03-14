@@ -2,15 +2,17 @@
 <head>
     <title><?= $this->fetch("title"); ?></title>
     <meta charset="UTF-8">
-    <?= $this->Html->css(["ribbon.css", "bootstrap.min.css", "style.css", "fonts25.css", "panels.css"]) ?>
+    <?= $this->Html->css(["ribbon.css", "bootstrap.min.css", "style.css", 
+        "fonts25.css", "panels.css", "angular-animations.css"]) ?>
     <?= $this->Html->script(["angular.min.js", "angular-route.min.js", 
-        "angular-resource.min.js",
+        "angular-resource.min.js", "angular-animate.min.js",
         "VentaPasajesApp/app.js"]) 
     ?> 
     <?= $this->Html->script(["VentaPasajesApp/buses/BusesService.js",
         "VentaPasajesApp/estados/EstadosService.js",
         "VentaPasajesApp/rutas/RutasService.js",
-         "VentaPasajesApp/agencias/AgenciasService.js"])
+         "VentaPasajesApp/agencias/AgenciasService.js",
+         "VentaPasajesApp/tarifas/TarifasService.js"])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
         "VentaPasajesApp/buses/AddBusesController.js",
@@ -23,6 +25,8 @@
         "VentaPasajesApp/agencias/AddAgenciasController.js",
         "VentaPasajesApp/agencias/EditAgenciasController.js",
         "VentaPasajesApp/agencias/ViewAgenciasController.js",
+        
+        "VentaPasajesApp/tarifas/ListTarifasController.js"
     ]) ?>
 </head>
 <body ng-app="VentaPasajesApp">

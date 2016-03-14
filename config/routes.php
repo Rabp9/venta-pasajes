@@ -80,6 +80,18 @@ Router::scope('/', function ($routes) {
     $routes->resources('Estados');
     $routes->resources('Rutas');
     $routes->resources('Agencias');
+    $routes->resources('Tarifas', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'index/:origen/:destino' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ]
+        ]
+    ]);
 });
 /**
  * Load all plugin routes.  See the Plugin documentation on

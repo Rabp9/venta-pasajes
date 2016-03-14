@@ -9,6 +9,7 @@ $this->assign("title", "Rutas");
         <ul class="nav nav-pills nav-stacked" ng-repeat="ruta in rutas">
             <li role="presentation" ng-class='{active:$first}'><a ng-click="loadDesplazamientos(ruta.id)">{{ ruta.descripcion }}</a></li>
         </ul>
+        <button class="btn btn-primary" ng-click="addRuta()">Nueva Ruta</button>
     </div>
     <div class="col-sm-10">
         <h3>{{ ruta_selected.descripcion}} - Desplazamientos <small> Código: {{ ruta_selected.id }}</small></h3>
@@ -34,5 +35,13 @@ $this->assign("title", "Rutas");
                 </div>
             </div>
         </div>
+        <button type="button" class="btn btn-primary" ng-click="openNuevoDesplazamiento()">Nuevo Desplazamiento</button>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="mdlRutas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" ng-include="modalUrl">
+ 
     </div>
 </div>

@@ -15,7 +15,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Usuario</span>
                     </div>
@@ -24,7 +24,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Cerrar Sesión</span>
                     </div>
@@ -33,7 +33,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Mi Perfil</span>
                     </div>
@@ -42,7 +42,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Actualizar</span>
                     </div>
@@ -56,7 +56,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Ubigeos</span>
                     </div>
@@ -65,7 +65,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="#/agencias">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Agencias</span>
                     </div>
@@ -74,7 +74,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="#/buses">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Buses</span>
                     </div>
@@ -84,7 +84,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Personas</span>
                     </div>
@@ -94,12 +94,22 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Conductores</span>
                     </div>
                 </div>
-                <div class="ribbon-section-sep" unselectable="on"></div>      
+                <div class="ribbon-section-sep" unselectable="on"></div>
+                
+                <div class="ribbon-section" unselectable="on"> 
+                    <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
+                        <a href="#/tarifas">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                        </a>                 
+                        <span class="button-title" unselectable="on">Tarifas</span>
+                    </div>
+                </div>
+                <div class="ribbon-section-sep" unselectable="on"></div>
             </div>
         </div>
         <div role="tabpanel" class="tab-pane active" id="programacion">
@@ -107,7 +117,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="#/rutas">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Rutas</span>
                     </div>
@@ -116,7 +126,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Programación</span>
                     </div>
@@ -131,7 +141,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Pasajes</span>
                     </div>
@@ -141,7 +151,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Giros</span>
                     </div>
@@ -151,7 +161,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Encomiendas</span>
                     </div>
@@ -165,7 +175,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Reporte de Ventas</span>
                     </div>
@@ -175,7 +185,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Reporte 2</span>
                     </div>
@@ -185,7 +195,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="iconos_menus/966136474a.png" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Reporte 3</span>
                     </div>

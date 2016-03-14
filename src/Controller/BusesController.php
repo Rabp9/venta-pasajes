@@ -5,23 +5,10 @@ use App\Controller\AppController;
 
 class BusesController extends AppController
 {
-    public $paginate = [
-        "limit" => 10,
-        "order" => [
-            "Buses.placa" => "asc"
-        ],
-        "conditions" => [
-            "Buses.estado_id" => 1
-        ]
-    ];
-    
     public function index() {
         $this->viewBuilder()->layout(false);
         
-        $this->paginate = [
-            'contain' => ['Estados']
-        ];
-        $buses = $this->paginate($this->Buses);
+        $buses = $this->Buses->find("all");
 
         $this->set(compact('buses'));
         $this->set('_serialize', ['buses']);
