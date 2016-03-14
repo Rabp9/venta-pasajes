@@ -1,27 +1,42 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $agencia->cod_agencia],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $agencia->cod_agencia)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Agencias'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Ubigeos'), ['controller' => 'Ubigeos', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Ubigeo'), ['controller' => 'Ubigeos', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="agencias form large-9 medium-8 columns content">
-    <?= $this->Form->create($agencia) ?>
-    <fieldset>
-        <legend><?= __('Edit Agencia') ?></legend>
-        <?php
-            echo $this->Form->input('direccion');
-            echo $this->Form->input('telefono');
-            echo $this->Form->input('celular');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+<!-- src/Template/Buses/edit.ctp -->
+<div ng-controller="EditAgenciasController">
+    <?php echo $this->Form->create($agencia, ["url" => false, "ng-submit" => "updateAgencia()"]); ?>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Editar Agencia</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <?php
+                            echo $this->Form->input('direccion', ["ng-model" => "editAgencia.direccion"]);
+                            echo $this->Form->input('telefono', ["ng-model" => "editAgencia.telefono"]);
+                            echo $this->Form->input('celular', ["ng-model" => "editAgencia.celular"]);
+                            
+                            echo $this->Form->input("ubigeo_id", [
+                                "label" => "Ubigeo",
+                                "empty" => "Selecciona uno",
+                                "ng-model" => "editAgencia.ubigeo_id",
+                                "options" => [],
+                                "ng-options" => "ubigeo.id as ubigeo.descripcion for ubigeo in ubigeos"
+                            ]);
+                            
+                            echo $this->Form->input("estado_id", [
+                                "label" => "Estado",
+                                "empty" => "Selecciona uno",
+                                "ng-model" => "editAgencia.estado_id",
+                                "options" => [],
+                                "ng-options" => "estado.id as estado.descripcion for estado in estados"
+                            ]);
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Registrar</button>
+            </div>
+        </div>
     <?= $this->Form->end() ?>
 </div>

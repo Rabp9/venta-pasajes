@@ -48,9 +48,9 @@ $this->assign("title", "Lista de Agencias");
                         <td width="5%">{{ agencia.estado_id }}</td>
                        
                         <td width="4%">
-                            <a style="cursor: pointer;" ng-click="viewBus(agencia.id)" title="ver" data-toggle="modal" data-target="#mdlAgencias"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a> |
-                            <a style="cursor: pointer;" ng-click="editBus(agencia.id)" title="editar" data-toggle="modal" data-target="#mdlAgencias"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> |
-                            <a style="cursor: pointer;" ng-click="removeBus(agencia.id)" title="desactivar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                            <a style="cursor: pointer;" ng-click="viewAgencia(agencia.id)" title="ver" data-toggle="modal" data-target="#mdlAgencias"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a> |
+                            <a style="cursor: pointer;" ng-click="editAgencia(agencia.id)" title="editar" data-toggle="modal" data-target="#mdlAgencias"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> |
+                            <a style="cursor: pointer;" ng-click="removeAgencia(agencia.id)" title="desactivar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                         </td>
                     </tr>
                 </tbody>

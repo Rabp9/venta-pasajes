@@ -12,12 +12,12 @@ VentaPasajesApp.controller("EditAgenciasController", function($scope, AgenciasSe
         $scope.estados = $scope.estados.estados;
     });
     
-    $scope.updateBus = function() {
-        var bus = BusesService.get({id: $scope.$parent.id}, function() {
-            bus = angular.extend(bus, $scope.editBus);
-            delete bus.estado; 
-            bus.$update({id: $scope.$parent.id}, function() {
-                $("#mdlBuses").modal('toggle');
+    $scope.updateAgencia = function() {
+        var agencia = AgenciasService.get({id: $scope.$parent.id}, function() {
+            agencia = angular.extend(agencia, $scope.editBus);
+            delete agencia.estado; 
+            agencia.$update({id: $scope.$parent.id}, function() {
+                $("#mdlAgencias").modal('toggle');
                 $scope.$parent.list();
             });
         });
