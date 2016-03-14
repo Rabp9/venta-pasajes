@@ -4,21 +4,7 @@ $this->extend('/Common/vista');
 $this->assign("module-name", "Mantenedores");
 $this->assign("title", "Lista de Buses");
 ?>
-<style>
-    .animated {
-        opacity: 2;
-        max-height: auto;
-        overflow: hidden;
-        transition: all 2%;
-    }
-    
-    .animated.ng-hide {
-        opacity: 0;
-        max-height: 0px !important;
-        display: block !important;
-    }
-</style>  
-<a class="btn btn-primary" ng-click="addBus()" data-toggle="modal" data-target="#mdlBuses"><span class="glyphicon glyphicon-plus"></span> Nuevo Bus</a>
+<a class="btn btn-primary" ng-click="addBus()"><span class="glyphicon glyphicon-plus"></span> Nuevo Bus</a>
 
 <div id="marco_include">
     <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
@@ -72,7 +58,7 @@ $this->assign("title", "Lista de Buses");
                     <tr ng-show="buses.length == 0 && !loading">
                         <td colspan="7">No hay registros de Buses</td>
                     </tr>
-                    <tr ng-show="buses.length > 0" ng-repeat="bus in buses | orderBy:predicate:reverse"
+                    <tr ng-show="!loading" ng-repeat="bus in buses | orderBy:predicate:reverse"
                         class="textnot2 animated" style="background-color: #fff;" 
                         onmouseover="style.backgroundColor='#cccccc';" 
                         onmouseout="style.backgroundColor='#fff'">
@@ -84,8 +70,8 @@ $this->assign("title", "Lista de Buses");
                         <td width="5%">{{ bus.anio }}</td>
                         <td width="5%">{{ bus.estado.descripcion }}</td>
                         <td width="4%">
-                            <a style="cursor: pointer;" ng-click="viewBus(bus.id)" title="ver" data-toggle="modal" data-target="#mdlBuses"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a> |
-                            <a style="cursor: pointer;" ng-click="editBus(bus.id)" title="editar" data-toggle="modal" data-target="#mdlBuses"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> |
+                            <a style="cursor: pointer;" ng-click="viewBus(bus.id)" title="ver"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a> |
+                            <a style="cursor: pointer;" ng-click="editBus(bus.id)" title="editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> |
                             <a style="cursor: pointer;" ng-click="removeBus(bus.id)" title="desactivar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                         </td>
                     </tr>
@@ -94,7 +80,6 @@ $this->assign("title", "Lista de Buses");
         </div>  
     </div>
 </div>
-
 <!-- Modal -->
 <div class="modal fade" id="mdlBuses" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" ng-include="modalUrl">

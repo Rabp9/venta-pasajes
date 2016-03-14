@@ -1,4 +1,4 @@
-var VentaPasajesApp = angular.module("VentaPasajesApp", ["ngRoute", "ngResource"]);
+var VentaPasajesApp = angular.module("VentaPasajesApp", ["ngRoute", "ngResource", "ngAnimate"]);
 
 VentaPasajesApp.path_location = "http://localhost:8000/venta-pasajes/";
 
@@ -19,5 +19,9 @@ VentaPasajesApp.config(function($routeProvider) {
         .when("/rutas", {
             controller: "ListRutasController",
             templateUrl: "rutas"
+        })
+        .when("/tarifas", {
+            controller: "ListTarifasController",
+            templateUrl: "tarifas"
         });
 });

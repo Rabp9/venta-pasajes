@@ -1,20 +1,29 @@
-fieldset{ 
-background: url(../menusis/fond_leng.png) #C7D8EC repeat-x; 
-padding:3px;
- margin:3px;
- border:1px solid #6692CC}
- legend{FONT-WEIGHT: bold; FONT-SIZE: 11px; FONT-FAMILY: Arial, Tahoma, Helvetica}
-#marco_panel{
-background: url(../menusis/top_marco.png);
-height:23px;
-width:100%}
+fieldset { 
+    background: url(../menusis/fond_leng.png) #C7D8EC repeat-x; 
+    padding: 3px;
+    margin: 3px;
+    border: 1px solid #6692CC
+}
 
-#marco_panel2{
-background:#D7E6F6;
-margin:0px;
-border:solid 1px #6692CC;
-height: auto;
-width:100%}
+legend {
+    font-weight: bold; 
+    font-size: 11px; 
+    font-family: Arial, Tahoma, Helvetica
+}
+
+#marco_panel {
+    /*background: url(../img/top_marco.png);*/
+    height: 23px;
+    width: 100%
+}
+
+#marco_panel2 {
+    background: #D7E6F6;
+    margin: 0px;
+    border: solid 1px #6692CC;
+    height: auto;
+    width: 100%
+}
 #marco_panel3{
 background:#BFDBFF;
 padding:4px;
@@ -22,14 +31,14 @@ border:solid 1px #6692CC;
 height: auto;
 width: auto}
 #panel_status{	
-background: url(../menusis/fond_status.png);
+background: url(../img/fond_status.png);
 padding:2px;
 border:solid 1px #6692CC;
 margin:0px;
 height: auto;
 width: auto}
 #panel_status2{	
-background: url(menusis/fond_status.png);
+background: url(../img/fond_status.png);
 padding:2px;
 border:solid 1px #6692CC;
 margin:0px;

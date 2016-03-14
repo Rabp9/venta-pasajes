@@ -6,6 +6,7 @@ VentaPasajesApp.controller("ListRutasController", function($scope, RutasService,
     $scope.ruta_selected = [];
     $scope.detalle_desplazamiento = [];
     $scope.next_origen = [];
+    $scope.modalUrl = "";
     
     $scope.list = function() {
         $scope.rutas = RutasService.get(function() {
@@ -16,12 +17,16 @@ VentaPasajesApp.controller("ListRutasController", function($scope, RutasService,
         });
     };
     
-    $scope.loadDesplazamientos = function(id) {
-        $scope.ruta_selected = RutasService.get({id: id}, function() {
+    $scope.loadDesplazamientos = function(/*id*/) {
+        /*$scope.ruta_selected = RutasService.get({id: id}, function() {
            $scope.ruta_selected = $scope.ruta_selected.ruta;
            console.log($scope.ruta_selected);
            $scope.next_origen = $scope.ruta_selected.detalle_desplazamientos[$scope.ruta_selected.detalle_desplazamientos.length - 1];
-        });
+           
+        });*/
+        
+        $scope.id = id;
+        $scope.modalUrl = VentaPasajesApp.path_location + "DetalleDesplazamientos/index/" + id;
     };
     
     $scope.openNuevoDesplazamiento = function() {

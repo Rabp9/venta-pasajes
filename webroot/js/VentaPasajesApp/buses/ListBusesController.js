@@ -1,16 +1,25 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("ListBusesController", function($scope, BusesService) {
-    $scope.buses = [];
+VentaPasajesApp.controller("ListBusesController", function($rootScope, $scope, BusesService) {
     $scope.id = "";
     $scope.loading = true;
-    $scope.predicate = "id";
     $scope.reverse = false;
+    $scope.predicate = "id";
+    
+    $rootScope.$on('$includeContentLoaded', function(event, url) {
+        $("#mdlBuses").modal("toggle");
+    });
+    
+    $("#mdlBuses").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $scope.modalUrl = ""; 
+        });
+    });
     
     $scope.list = function() {
         $scope.loading = true;
-        $scope.buses = BusesService.get(function() {
-            $scope.buses = $scope.buses.buses;
+        BusesService.get(function(data) {
+            $scope.buses = data.buses;
             $scope.loading = false;
         });
     };
