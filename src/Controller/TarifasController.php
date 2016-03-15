@@ -34,10 +34,9 @@ class TarifasController extends AppController
         $this->set('_serialize', ['tarifas']);
     }
 
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $tarifa = $this->Tarifas->get($id, [
-            'contain' => []
+            'contain' => ["AgenciaOrigen", "AgenciaDestino"]
         ]);
 
         $this->set('tarifa', $tarifa);
@@ -66,29 +65,29 @@ class TarifasController extends AppController
         $this->set('_serialize', ['tarifa']);
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Tarifa id.
-     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
+        $this->viewBuilder()->layout(false);
+        
         $tarifa = $this->Tarifas->get($id, [
             'contain' => []
         ]);
+        
         if ($this->request->is(['patch', 'post', 'put'])) {
             $tarifa = $this->Tarifas->patchEntity($tarifa, $this->request->data);
             if ($this->Tarifas->save($tarifa)) {
-                $this->Flash->success(__('The tarifa has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $message = array(
+                    'text' => __('Saved'),
+                    'type' => 'success'
+                );
             } else {
-                $this->Flash->error(__('The tarifa could not be saved. Please, try again.'));
+                $message = array(
+                    'text' => __('Error'),
+                    'type' => 'error'
+                );
             }
         }
         $this->set(compact('tarifa'));
-        $this->set('_serialize', ['tarifa']);
+        $this->set('_serialize', ['message']);
     }
 
     /**

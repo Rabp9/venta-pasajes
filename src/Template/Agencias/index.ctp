@@ -84,7 +84,7 @@ $this->assign("title", "Lista de Agencias");
 
 <!-- Modal -->
 <div class="modal fade" id="mdlAgencias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" ng-include="modalUrl">
+    <div class="modal-dialog" role="document" ng-include="modalUrl" onload="openModal()">
         
     </div>
 </div>

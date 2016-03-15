@@ -51,20 +51,31 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $rootScope
     $scope.addTarifa = function() {
         $scope.newTarifa.origen = $scope.origen_selected;
         $scope.newTarifa.destino = $scope.destino_selected;
-        var tarifa = TarifasService.save($scope.newTarifa, function() {
-            $("#mdlTarifas").modal('toggle');
-            $scope.newTarifa = new TarifasService();
-            if($scope.ida_vuelta) {
-                var temp = $scope.newTarifa.origen;
-                $scope.newTarifa.origen = $scope.newTarifa.destino;
-                $scope.newTarifa.destino = temp;
-                var tarifa = TarifasService.save($scope.newTarifa, function() {
-                    $("#mdlTarifas").modal('toggle');
-                    $scope.newTarifa = new TarifasService();
-                    $scope.list();
-                });
-            }
+        TarifasService.save($scope.newTarifa, function() {
+            
+            var temp = $scope.newTarifa.origen;
+            $scope.newTarifa.origen = $scope.newTarifa.destino;
+            $scope.newTarifa.destino = temp;
+            TarifasService.save($scope.newTarifa, function() {
+                $scope.newTarifa = new TarifasService();
+                $("#mdlTarifas").modal('toggle');
+                $scope.newTarifa = new TarifasService();
+                $scope.list();
+            });
         });
+    }
+    
+    $scope.updateTarifa = function(id) {
+        $scope.modalUrl = VentaPasajesApp.path_location + "tarifas/edit/" + id;
+        
+        $scope.editTarifa = TarifasService.get({ id: id }, function() {
+            $scope.editTarifa = $scope.editTarifa.tarifa;
+            delete $scope.editTarifa.estado;
+        });
+    }
+    
+    $scope.updatePostTarifa = function() {
+        
     }
     
     $("#mdlTarifas").on("hidden.bs.modal", function(e) {
@@ -73,9 +84,9 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $rootScope
         });
     });
     
-    $rootScope.$on('$includeContentLoaded', function(event, url) {
+    $scope.openModal = function() {
         $("#mdlTarifas").modal("toggle");
-    });
+    };
     
     $scope.list();
 });

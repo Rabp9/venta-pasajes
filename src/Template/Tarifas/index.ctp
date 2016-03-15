@@ -96,7 +96,7 @@ $this->assign("title", "Lista de Tarifas");
                         <td width="5%">{{ tarifa.precio_min + ' - ' + tarifa.precio_max }}</td>
                         <td width="5%">{{ tarifa.tiempo }}</td>
                         <td width="4%">
-                            <a style="cursor: pointer;" ng-click="editTarifa(tarifa.id)" title="editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                            <a style="cursor: pointer;" ng-click="updateTarifa(tarifa.id)" title="editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                         </td>
                     </tr>
                 </tbody>
@@ -107,7 +107,7 @@ $this->assign("title", "Lista de Tarifas");
 
 <!-- Modal -->
 <div class="modal fade" id="mdlTarifas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" ng-include="modalUrl">
+    <div class="modal-dialog" role="document" ng-include="modalUrl" onload="openModal()">
         
     </div>
 </div>

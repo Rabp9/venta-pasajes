@@ -1,25 +1,46 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $tarifa->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $tarifa->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Tarifas'), ['action' => 'index']) ?></li>
-    </ul>
-</nav>
-<div class="tarifas form large-9 medium-8 columns content">
-    <?= $this->Form->create($tarifa) ?>
-    <fieldset>
-        <legend><?= __('Edit Tarifa') ?></legend>
-        <?php
-            echo $this->Form->input('precio_min');
-            echo $this->Form->input('precio_max');
-            echo $this->Form->input('tiempo');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<!-- src/Template/Tarifas/edit.ctp -->
+<?= $this->Form->create($tarifa, ["url" => false, "ng-submit" => "updatePostTarifa()"]); ?>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Editar Tarifa</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="txtOrigenEdit">Origen</label>
+                                <input id="txtOrigenEdit" type="text" class="form-control" value="{{ editTarifa.AgenciaOrigen.direccion }}" readonly />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="txtDestinoEdit">Destino</label>
+                                <input id="txtDestinoEdit" type="text" class="form-control" value="{{ editTarifa.AgenciaDestino.direccion }}" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                    echo $this->Form->input("precio_min", [
+                        "label" => "Precio Máximo",
+                        "ng-model" => "editTarifa.precio_min"
+                    ]);
+                    echo $this->Form->input("precio_max", [
+                        "label" => "Precio Mínimo",
+                        "ng-model" => "editTarifa.precio_max"
+                    ]);
+                    echo $this->Form->input("tiempo", [
+                        "ng-model" => "editTarifa.tiempo"
+                    ]);
+                    ?>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </div>
+    </div>
+<?= $this->Form->end() ?>

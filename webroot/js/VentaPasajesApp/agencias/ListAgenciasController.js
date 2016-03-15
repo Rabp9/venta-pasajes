@@ -6,15 +6,13 @@ VentaPasajesApp.controller("ListAgenciasController", function($rootScope, $scope
     $scope.reverse = false;
     $scope.predicate = "id";
     
-    $rootScope.$on('$includeContentLoaded', function(event, url) {
-        console.log("mostrando desde agencias");
+    $scope.openModal = function() {
         $("#mdlAgencias").modal("toggle");
-    });
-    
+    };
+      
     $("#mdlAgencias").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
             $scope.modalUrl = ""; 
-            console.log("ocultando agencias");
         });
     });
     

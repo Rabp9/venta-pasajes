@@ -6,15 +6,13 @@ VentaPasajesApp.controller("ListBusesController", function($rootScope, $scope, B
     $scope.reverse = false;
     $scope.predicate = "id";
     
-    $rootScope.$on('$includeContentLoaded', function(event, url) {
-        console.log("mostrando desde buses");
+    $scope.openModal = function() {
         $("#mdlBuses").modal("toggle");
-    });
+    }
     
     $("#mdlBuses").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
-            $scope.modalUrl = ""; 
-            console.log("ocultando buses");
+            $scope.modalUrl = "";
         });
     });
     
