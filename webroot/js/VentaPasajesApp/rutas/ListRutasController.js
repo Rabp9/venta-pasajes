@@ -17,21 +17,29 @@ VentaPasajesApp.controller("ListRutasController", function($scope, RutasService,
         });
     };
     
-    $scope.loadDesplazamientos = function(/*id*/) {
-        /*$scope.ruta_selected = RutasService.get({id: id}, function() {
-           $scope.ruta_selected = $scope.ruta_selected.ruta;
-           console.log($scope.ruta_selected);
-           $scope.next_origen = $scope.ruta_selected.detalle_desplazamientos[$scope.ruta_selected.detalle_desplazamientos.length - 1];
-           
-        });*/
-        
-        $scope.id = id;
-        $scope.modalUrl = VentaPasajesApp.path_location + "DetalleDesplazamientos/index/" + id;
+    $scope.loadDesplazamientos = function(id) {
+        RutasService.get({id: id}, function(data) {
+           $scope.ruta_selected = data.ruta;
+        });
     };
     
-    $scope.openNuevoDesplazamiento = function() {
-        $("#mdlDesplazamientos").modal("toggle");
+    $scope.addDesplazamiento = function() {
+        $scope.modalUrl = VentaPasajesApp.path_location + "DetalleDesplazamientos/add";
+    }
+    
+    $scope.addRuta = function() {
+        $scope.modalUrl = VentaPasajesApp.path_location + "rutas/add";
     }
     
     $scope.list();
+    
+    $("#mdlRutas").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $scope.modalUrl = "";
+        });
+    });
+    
+    $scope.openModal = function() {
+        $("#mdlRutas").modal("toggle");
+    }
 });

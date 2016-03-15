@@ -26,10 +26,9 @@ class RutasController extends AppController
             'contain' => [
                 'Estados', 
                 "DetalleDesplazamientos" => [
-                    "Origen" => [
-                        "Ubigeos"
-                    ], "Destino" => [
-                        "Ubigeos"
+                    "Tarifas" => [
+                        "AgenciaOrigen" => ["Ubigeos"],
+                        "AgenciaDestino" => ["Ubigeos"]
                     ]
                 ]
             ]
@@ -39,21 +38,27 @@ class RutasController extends AppController
         $this->set('_serialize', ['ruta']);
     }
 
-    public function add()
-    {
+    public function add() {
+        $this->viewBuilder()->layout(false);
+        
         $ruta = $this->Rutas->newEntity();
         if ($this->request->is('post')) {
             $ruta = $this->Rutas->patchEntity($ruta, $this->request->data);
             if ($this->Rutas->save($ruta)) {
-                $this->Flash->success(__('The ruta has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $message = array(
+                    'text' => __('Saved'),
+                    'type' => 'success'
+                );
             } else {
-                $this->Flash->error(__('The ruta could not be saved. Please, try again.'));
+                $message = array(
+                    'text' => __('Error'),
+                    'type' => 'error'
+                );
             }
         }
-        $estados = $this->Rutas->Estados->find('list', ['limit' => 200]);
+        $estados = $this->Rutas->Estados->find('list');
         $this->set(compact('ruta', 'estados'));
-        $this->set('_serialize', ['ruta']);
+        $this->set('_serialize', ['message']);
     }
 
     public function edit($id = null)

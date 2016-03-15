@@ -11,9 +11,7 @@ use Cake\Validation\Validator;
  * DetalleDesplazamientos Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Rutas
- * @property \Cake\ORM\Association\BelongsTo $ProgramacionViajes
- * @property \Cake\ORM\Association\BelongsTo $Origen
- * @property \Cake\ORM\Association\BelongsTo $Destino
+ * @property \Cake\ORM\Association\BelongsTo $Tarifas
  */
 class DetalleDesplazamientosTable extends Table
 {
@@ -36,21 +34,9 @@ class DetalleDesplazamientosTable extends Table
             'foreignKey' => 'ruta_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('ProgramacionViajes', [
-            'foreignKey' => 'programacion_viaje_id',
+        $this->belongsTo('Tarifas', [
+            'foreignKey' => 'tarifa_id',
             'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Origen', [
-            "className" => "Agencias",
-            'foreignKey' => 'origen',
-            'joinType' => 'INNER',
-            'propertyName' => 'origen'
-        ]);
-        $this->belongsTo('Destino', [
-            "className" => "Agencias",
-            'foreignKey' => 'destino',
-            'joinType' => 'INNER',
-            'propertyName' => 'destino'
         ]);
     }
 
