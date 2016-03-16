@@ -27,5 +27,10 @@ VentaPasajesApp.config(function($routeProvider) {
         .when("/personas", {
             controller: "ListPersonasController",
             templateUrl: "personas"
-        });
+        })
+        .when("/conductores", {
+            controller: "ListConductoresController",
+            templateUrl: "conductores"
+        })
+    ;
 });

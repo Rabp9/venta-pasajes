@@ -1,9 +1,9 @@
-<?php $this->Html->css("jquery-ui.min", ["block" => "css"]);
+<?php /*$this->Html->css("jquery-ui.min", ["block" => "css"]);
     $this->Html->css("jquery-ui.structure.min,css", ["block" => "css"]);
     $this->Html->css("jquery-ui.theme.min,css", ["block" => "css"]);
     
     $this->Html->script("jquery-ui.min", ["block" => "script"]);
-    $this->Html->script("datepicker-es", ["block" => "script"]);
+    $this->Html->script("datepicker-es", ["block" => "script"]);*/
 ?>
 
 

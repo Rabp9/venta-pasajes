@@ -15,7 +15,8 @@
          "VentaPasajesApp/ubigeos/UbigeosService.js",
          "VentaPasajesApp/tarifas/TarifasService.js",
          "VentaPasajesApp/detalleDesplazamientos/DetalleDesplazamientosService.js",
-        "VentaPasajesApp/personas/PersonasService.js"
+        "VentaPasajesApp/personas/PersonasService.js",
+        "VentaPasajesApp/conductores/ConductoresService.js"
     ])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
@@ -38,7 +39,12 @@
         "VentaPasajesApp/personas/ListPersonasController.js",
         "VentaPasajesApp/personas/AddPersonasController.js",
         "VentaPasajesApp/personas/EditPersonasController.js",
-        "VentaPasajesApp/personas/ViewPersonasController.js"
+        "VentaPasajesApp/personas/ViewPersonasController.js",
+        
+        "VentaPasajesApp/conductores/ListConductoresController.js",
+        "VentaPasajesApp/conductores/AddConductoresController.js",
+        "VentaPasajesApp/conductores/EditConductoresController.js",
+        "VentaPasajesApp/conductores/ViewConductoresController.js"
     ]) ?>
      <?php $this->fetch("css") ?>
     <?php $this->fetch("script") ?>
