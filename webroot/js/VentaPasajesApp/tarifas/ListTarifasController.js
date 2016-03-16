@@ -75,7 +75,15 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $rootScope
     }
     
     $scope.updatePostTarifa = function() {
-        
+        var tarifa = TarifasService.get({id: $scope.editTarifa.id}, function() {
+            tarifa = angular.extend(tarifa, $scope.editTarifa);
+            delete tarifa.AgenciaOrigen; 
+            delete tarifa.AgenciaDestino;
+            tarifa.$update({id: $scope.editTarifa.id}, function() {
+                $("#mdlTarifas").modal('toggle');
+                $scope.list();
+            });
+        });
     }
     
     $("#mdlTarifas").on("hidden.bs.modal", function(e) {
