@@ -1,38 +1,32 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Conductore'), ['action' => 'edit', $conductore->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Conductore'), ['action' => 'delete', $conductore->id], ['confirm' => __('Are you sure you want to delete # {0}?', $conductore->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Conductores'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Conductore'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Personas'), ['controller' => 'Personas', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Persona'), ['controller' => 'Personas', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Estados'), ['controller' => 'Estados', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Estado'), ['controller' => 'Estados', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="conductores view large-9 medium-8 columns content">
-    <h3><?= h($conductore->id) ?></h3>
-    <table class="vertical-table">
-        <tr>
-            <th><?= __('Persona') ?></th>
-            <td><?= $conductore->has('persona') ? $this->Html->link($conductore->persona->id, ['controller' => 'Personas', 'action' => 'view', $conductore->persona->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Licencia') ?></th>
-            <td><?= h($conductore->licencia) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Categoria') ?></th>
-            <td><?= h($conductore->categoria) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Estado') ?></th>
-            <td><?= $conductore->has('estado') ? $this->Html->link($conductore->estado->descripcion, ['controller' => 'Estados', 'action' => 'view', $conductore->estado->id]) : '' ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Id') ?></th>
-            <td><?= $this->Number->format($conductore->id) ?></td>
-        </tr>
-    </table>
+<div ng-controller="ViewConductoresController">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Ver Conductor</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <dl class="dl-horizontal">
+                        <dt>Código</dt>
+                        <dd><?= $conductor->id ?></dd>
+                        
+                        <dt>persona_id</dt>
+                        <dd><?= $conductor->persona_id ?></dd>
+                        
+                        <dt>licencia</dt>
+                        <dd><?= $conductor->licencia ?></dd>
+                        
+                        <dt>categoria</dt>
+                        <dd><?= $conductor->categoria ?></dd>
+                        <dt>Estado</dt>
+                        <dd><?= $conductor->estado->descripcion ?></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+    </div>
 </div>
