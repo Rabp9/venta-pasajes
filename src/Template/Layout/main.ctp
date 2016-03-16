@@ -14,7 +14,8 @@
          "VentaPasajesApp/agencias/AgenciasService.js",
          "VentaPasajesApp/ubigeos/UbigeosService.js",
          "VentaPasajesApp/tarifas/TarifasService.js",
-         "VentaPasajesApp/detalleDesplazamientos/DetalleDesplazamientosService.js"
+         "VentaPasajesApp/detalleDesplazamientos/DetalleDesplazamientosService.js",
+        "VentaPasajesApp/personas/PersonasService.js"
     ])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
@@ -32,8 +33,15 @@
         
         "VentaPasajesApp/detalleDesplazamientos/AddDetalleDesplazamientosController.js",
         
-        "VentaPasajesApp/tarifas/ListTarifasController.js"
+        "VentaPasajesApp/tarifas/ListTarifasController.js",
+      
+        "VentaPasajesApp/personas/ListPersonasController.js",
+        "VentaPasajesApp/personas/AddPersonasController.js",
+        "VentaPasajesApp/personas/EditPersonasController.js",
+        "VentaPasajesApp/personas/ViewPersonasController.js"
     ]) ?>
+     <?php $this->fetch("css") ?>
+    <?php $this->fetch("script") ?>
 </head>
 <body ng-app="VentaPasajesApp">
     <div class="row">
@@ -57,5 +65,6 @@
         "jquery-1.12.1.min.js",
         "bootstrap.min.js"
     ]) ?>
+    <?php $this->fetch('scriptBottom') ?>
 </body>
 </html>

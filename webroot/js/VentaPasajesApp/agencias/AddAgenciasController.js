@@ -1,5 +1,4 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
-
 VentaPasajesApp.controller("AddAgenciasController", function($scope, AgenciasService) {
     $scope.newAgencia = new AgenciasService();
     

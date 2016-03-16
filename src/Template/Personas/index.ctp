@@ -1,49 +1,108 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Persona'), ['action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="personas index large-9 medium-8 columns content">
-    <h3><?= __('Personas') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('dni') ?></th>
-                <th><?= $this->Paginator->sort('nombres') ?></th>
-                <th><?= $this->Paginator->sort('apellidos') ?></th>
-                <th><?= $this->Paginator->sort('domicilio') ?></th>
-                <th><?= $this->Paginator->sort('fecha_nac') ?></th>
-                <th><?= $this->Paginator->sort('sexo') ?></th>
-                <th class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($personas as $persona): ?>
-            <tr>
-                <td><?= $this->Number->format($persona->id) ?></td>
-                <td><?= h($persona->dni) ?></td>
-                <td><?= h($persona->nombres) ?></td>
-                <td><?= h($persona->apellidos) ?></td>
-                <td><?= h($persona->domicilio) ?></td>
-                <td><?= h($persona->fecha_nac) ?></td>
-                <td><?= h($persona->sexo) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $persona->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $persona->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $persona->id], ['confirm' => __('Are you sure you want to delete # {0}?', $persona->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
+<?php
+$this->extend('/Common/vista');
+$this->assign("module-name", "Mantenedores");
+$this->assign("title", "Lista de Personas");
+?>
+<a class="btn btn-primary" ng-click="addPersona()"><span class="glyphicon glyphicon-plus"></span> Nueva Persona</a>
+
+<div id="marco_include">
+    <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
+        <div id="busqueda">
+            <table class="table" border="0" cellpadding="1" cellspacing="1" id="marco_panel">
+                <thead>
+                    <tr class="e34X" id="panel_status">
+                        <th width="3%" align="center">
+                            <a ng-click="order('id')" style="cursor: pointer;">
+                                Código
+                                <span class="glyphicon" ng-show="predicate === 'id'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                            </a>
+                        </th>
+                        <th width="6%" align="center">
+                            <a ng-click="order('dni')" style="cursor: pointer;">
+                                DNI
+                                <span class="glyphicon" ng-show="predicate === 'dni'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                            </a>
+                        </th>
+                        <th width="8%" align="center">
+                            <a ng-click="order('nombres')" style="cursor: pointer;">
+                                NOMBRES
+                                <span class="glyphicon" ng-show="predicate === 'nombres'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                            </a>
+                        </th>
+                        <th width="5%" align="center">
+                            <a ng-click="order('apellidos')" style="cursor: pointer;">
+                                APELLIDOS
+                                <span class="glyphicon" ng-show="predicate === 'apellidos'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                            </a>
+                        </th>
+                        <th width="5%" align="center">
+                            <a ng-click="order('domicilio')" style="cursor: pointer;">
+                                DOMICILIO
+                                <span class="glyphicon" ng-show="predicate === 'domicilio'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                            </a>
+                        </th>
+                        <th width="5%" align="center">
+                            <a ng-click="order('fecha_nac')" style="cursor: pointer;">
+                                FECHA NACIMIENTO
+                                <span class="glyphicon" ng-show="predicate === 'fecha_nac'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                            </a>
+                        </th>
+                        <th width="5%" align="center">
+                            <a ng-click="order('sexo')" style="cursor: pointer;">
+                                SEXO
+                                <span class="glyphicon" ng-show="predicate === 'sexo'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                            </a>
+                        </th>
+                        <th width="5%" align="center">
+                            <a ng-click="order('estado_id')" style="cursor: pointer;">
+                                CELULAR
+                                <span class="glyphicon" ng-show="predicate === 'estado_id'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                            </a>
+                        </th>
+                        <th width="5%" align="center">
+                            <a ng-click="order('estado_id')" style="cursor: pointer;">
+                                CORREO
+                                <span class="glyphicon" ng-show="predicate === 'estado_id'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                            </a>
+                        </th>
+                        <th width="4%" align="center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-show="loading">
+                        <td colspan="7">Cargando</td>
+                    </tr>
+                    <tr ng-show="pesonas.length == 0 && !loading">
+                        <td colspan="7">No hay registros de Personas</td>
+                    </tr>
+                    <tr ng-show="!loading" ng-repeat="persona in personas | orderBy:predicate:reverse"
+                        class="textnot2 animated" style="background-color: #fff;" 
+                        onmouseover="style.backgroundColor='#cccccc';" 
+                        onmouseout="style.backgroundColor='#fff'">
+                        
+                        <td width="3%" bgcolor="#D6E4F2">{{ persona.id }}</td>
+                        <td width="6%">{{ persona.dni }}</td>
+                        <td width="8%">{{ persona.nombres }}</td>
+                        <td width="5%">{{ persona.apellidos }}</td>
+                        <td width="5%">{{ persona.domicilio }}</td>
+                        <td width="5%">{{ persona.fecha_nac }}</td>
+                        <td width="5%">{{ persona.sexo }}</td>
+                        <td width="5%">{{ persona.cel }}</td>
+                        <td width="5%">{{ persona.correo }}</td>
+                        <td width="4%">
+                            <a style="cursor: pointer;" ng-click="viewPersona(persona.id)" title="ver"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a> |
+                            <a style="cursor: pointer;" ng-click="editPersona(persona.id)" title="editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> |
+                            <a style="cursor: pointer;" ng-click="removePersona(persona.id)" title="desactivar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>  
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="mdlPersonas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" ng-include="modalUrl">
+        
     </div>
 </div>

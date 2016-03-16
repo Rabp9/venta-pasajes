@@ -81,7 +81,8 @@ Router::scope('/', function ($routes) {
     $routes->resources('Rutas');
     $routes->resources('Agencias');
     $routes->resources('Ubigeos');
-    $routes->resources('Tarifas', [
+    $routes->resources('Tarifas');
+     $routes->resources('Personas',[
         'map' => [
             '/' => [
                 'action' => 'index',

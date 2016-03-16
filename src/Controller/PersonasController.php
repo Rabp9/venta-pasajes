@@ -3,27 +3,18 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
-/**
- * Personas Controller
- *
- * @property \App\Model\Table\PersonasTable $Personas
- */
 class PersonasController extends AppController
 {
-
-    /**
-     * Index method
-     *
-     * @return \Cake\Network\Response|null
-     */
-    public function index()
+    
+    public function index(){
             
-    {
-        $this->viewBuilder()->layout("main");
-        $personas = $this->paginate($this->Personas);
+           $this->viewBuilder()->layout(false);
+        
+        $personas = $this->Personas->find("all");
 
         $this->set(compact('personas'));
         $this->set('_serialize', ['personas']);
+      
     }
 
     /**
@@ -34,8 +25,9 @@ class PersonasController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
-    {
-        $this->viewBuilder()->layout("main");
+    { 
+       
+        $this->viewBuilder()->layout(false);        
         $persona = $this->Personas->get($id, [
             'contain' => []
         ]);
@@ -51,20 +43,25 @@ class PersonasController extends AppController
      */
     public function add()
     {
-        $this->viewBuilder()->layout("main");
+      $this->viewBuilder()->layout(false);
+        
         $persona = $this->Personas->newEntity();
         if ($this->request->is('post')) {
             $persona = $this->Personas->patchEntity($persona, $this->request->data);
             if ($this->Personas->save($persona)) {
-                $this->Flash->success(__('The persona has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $message = array(
+                    'text' => __('Saved'),
+                    'type' => 'success'
+                );
             } else {
-                $this->Flash->error(__('The persona could not be saved. Please, try again.'));
+                $message = array(
+                    'text' => __('Error'),
+                    'type' => 'error'
+                );
             }
         }
         $this->set(compact('persona'));
-        $this->set('_serialize', ['persona']);
-        
+        $this->set('_serialize', ['persona']);  
     }
 
     /**
@@ -76,20 +73,28 @@ class PersonasController extends AppController
      */
     public function edit($id = null)
     {
+        $this->viewBuilder()->layout(false);
+        
         $persona = $this->Personas->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $persona = $this->Personas->patchEntity($persona, $this->request->data);
             if ($this->Personas->save($persona)) {
-                $this->Flash->success(__('The persona has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $message = array(
+                    'text' => __('Saved'),
+                    'type' => 'success'
+                );
             } else {
-                $this->Flash->error(__('The persona could not be saved. Please, try again.'));
+                $message = array(
+                    'text' => __('Error'),
+                    'type' => 'error'
+                );
             }
         }
+        /*$estados = $this->Buses->Estados->find('list');*/
         $this->set(compact('persona'));
-        $this->set('_serialize', ['persona']);
+        $this->set("_serialize", ["message"]);
     }
 
     /**
