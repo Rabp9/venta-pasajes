@@ -23,10 +23,12 @@ VentaPasajesApp.controller("AddDetalleDesplazamientosController", function($root
     }
     
     $scope.addDetalleDesplazamiento = function() {
-        var bus = DetalleDesplazamientosService.save($scope.newDetalleDesplazamiento, function() {
-            $("#mdlDetalleDesplazamientos").modal('toggle');
+        $scope.newDetalleDesplazamiento.ruta_id = $scope.$parent.ruta_selected.id;
+        $scope.newDetalleDesplazamiento.tarifa_id = $scope.tarifaSelected.id;
+        DetalleDesplazamientosService.save($scope.newDetalleDesplazamiento, function() {
+            $("#mdlRutas").modal('toggle');
             $scope.newDetalleDesplazamiento = new DetalleDesplazamientosService();
-            $scope.$parent.list();
+            $scope.$parent.loadDesplazamientos($scope.$parent.ruta_selected.id);
         });
     }
 });

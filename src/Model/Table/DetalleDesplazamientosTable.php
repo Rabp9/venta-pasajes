@@ -73,8 +73,7 @@ class DetalleDesplazamientosTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['ruta_id'], 'Rutas'));
-        $rules->add($rules->existsIn(['origen'], 'Agencias'));
-        $rules->add($rules->existsIn(['destino'], 'Agencias'));
+        $rules->add($rules->existsIn(['tarifa_id'], 'Tarifas'));
         return $rules;
     }
 }

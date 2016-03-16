@@ -9,8 +9,6 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $ruta_id
  * @property \App\Model\Entity\Ruta $ruta
- * @property int $programacion_viaje_id
- * @property \App\Model\Entity\ProgramacionViaje $programacion_viaje
  * @property int $tarifa_id
  * @property \App\Model\Entity\Tarifa $tarifa
  */

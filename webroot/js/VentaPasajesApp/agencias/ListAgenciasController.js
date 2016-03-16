@@ -5,6 +5,7 @@ VentaPasajesApp.controller("ListAgenciasController", function($rootScope, $scope
     $scope.loading = true;
     $scope.reverse = false;
     $scope.predicate = "id";
+    $scope.message = "";
     
     $scope.openModal = function() {
         $("#mdlAgencias").modal("toggle");
@@ -43,12 +44,21 @@ VentaPasajesApp.controller("ListAgenciasController", function($rootScope, $scope
         $scope.modalUrl = VentaPasajesApp.path_location + "agencias/view/" + id;
     };
     
+    $scope.actualizarMessage = function(message) {
+        $scope.message = message;
+    } 
+    
     $scope.removeAgencia = function(id) {
         if(confirm("¿Está seguro de desactivar esta Agencia?")) {
             var agencia = AgenciasService.get({id: id}, function() {
                 agencia.estado_id = 2;
                 delete agencia.estado; 
                 agencia.$update({id: id}, function() {
+                    var message = {
+                        type: "success",
+                        text: "Agencia desactivada correctamente"
+                    };
+                    $scope.actualizarMessage(message);
                     $scope.list();
                 });
             });

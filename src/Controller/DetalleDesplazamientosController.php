@@ -10,18 +10,11 @@ use App\Controller\AppController;
  */
 class DetalleDesplazamientosController extends AppController
 {
-
-    /**
-     * Index method
-     *
-     * @return \Cake\Network\Response|null
-     */
-    public function index()
-    {
-        $this->paginate = [
-            'contain' => ['Rutas', 'ProgramacionViajes', 'Agencias']
-        ];
-        $detalleDesplazamientos = $this->paginate($this->DetalleDesplazamientos);
+    public function index() {
+        $this->viewBuilder()->layout(false);
+        
+        $detalleDesplazamientos = $this->DetalleDesplazamientos->find("all")
+            ->contain(["Tarifas", "Rutas"]);
 
         $this->set(compact('detalleDesplazamientos'));
         $this->set('_serialize', ['detalleDesplazamientos']);

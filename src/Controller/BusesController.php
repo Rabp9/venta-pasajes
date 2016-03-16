@@ -8,7 +8,8 @@ class BusesController extends AppController
     public function index() {
         $this->viewBuilder()->layout(false);
         
-        $buses = $this->Buses->find("all");
+        $buses = $this->Buses->find("all")
+            ->contain(["Estados"]);
 
         $this->set(compact('buses'));
         $this->set('_serialize', ['buses']);
@@ -33,12 +34,12 @@ class BusesController extends AppController
             $bus = $this->Buses->patchEntity($bus, $this->request->data);
             if ($this->Buses->save($bus)) {
                 $message = array(
-                    'text' => __('Saved'),
+                    'text' => __('Bus registrado correctamente'),
                     'type' => 'success'
                 );
             } else {
                 $message = array(
-                    'text' => __('Error'),
+                    'text' => __('No fue posible registrar el bus'),
                     'type' => 'error'
                 );
             }
@@ -58,12 +59,12 @@ class BusesController extends AppController
             $bus = $this->Buses->patchEntity($bus, $this->request->data);
             if ($this->Buses->save($bus)) {
                 $message = array(
-                    'text' => __('Saved'),
+                    'text' => __('Bus modificado correctamente'),
                     'type' => 'success'
                 );
             } else {
                 $message = array(
-                    'text' => __('Error'),
+                    'text' => __('No fue posible modificar el bus'),
                     'type' => 'error'
                 );
             }
