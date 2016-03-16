@@ -33,6 +33,11 @@ VentaPasajesApp.controller("EditAgenciasController", function($scope, AgenciasSe
             delete agencia.ubigeo; 
             agencia.$update({id: $scope.$parent.id}, function() {
                 $("#mdlAgencias").modal('toggle');
+                var message = {
+                    type: "success",
+                    text: "Agencia modificada correctamente"
+                };
+                $scope.$parent.actualizarMessage(message);
                 $scope.$parent.list();
             });
         });

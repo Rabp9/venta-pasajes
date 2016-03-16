@@ -35,20 +35,20 @@ class AgenciasController extends AppController
             $agencia = $this->Agencias->patchEntity($agencia, $this->request->data);
             if ($this->Agencias->save($agencia)) {
                 $message = array(
-                    'text' => __('Saved'),
+                    'text' => __('Agencia registrada correctamente'),
                     'type' => 'success'
                 );
             } else {
                 $message = array(
-                    'text' => __('Error'),
+                    'text' => __('No fue posible registrar la agencia'),
                     'type' => 'error'
                 );
             }
         }
-        $ubigeos = $this->Agencias->Ubigeos->find('list');
+        $ubigeos = $this->Agencias->Ubigeos->find('treelist');
         $estados = $this->Agencias->Estados->find('list');
         $this->set(compact('agencia', 'ubigeos', 'estados'));
-        $this->set('_serialize', ['agencia']);
+        $this->set('_serialize', ['message']);
     }
 
     public function edit($id = null) {
@@ -61,12 +61,12 @@ class AgenciasController extends AppController
             $agencia = $this->Agencias->patchEntity($agencia, $this->request->data);
             if ($this->Agencias->save($agencia)) {
                 $message = array(
-                    'text' => __('Saved'),
+                    'text' => __('Agencia modificada correctamente'),
                     'type' => 'success'
                 );
             } else {
                 $message = array(
-                    'text' => __('Error'),
+                    'text' => __('No fue posible modificar la Agencia'),
                     'type' => 'error'
                 );
             }
@@ -74,7 +74,7 @@ class AgenciasController extends AppController
         $ubigeos = $this->Agencias->Ubigeos->find('list');
         $estados = $this->Agencias->Estados->find('list');
         $this->set(compact('agencia','ubigeos', 'estados'));
-        $this->set("_serialize", ["agencia"]);
+        $this->set("_serialize", ["message"]);
     } 
     
     public function delete($id = null) {

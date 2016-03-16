@@ -11,7 +11,7 @@
                     <div class="col-sm-8 col-sm-offset-2">
                         <div class="form-group">
                             <label for="txtRuta">Ruta</label>
-                            <input id="txtRuta" type="text" class="form-control" ng-model="$parent.ruta_selected.descripcion" />
+                            <input id="txtRuta" readonly type="text" class="form-control" ng-model="$parent.ruta_selected.descripcion" />
                         </div>
                         <div class="row">
                             <div class="col-sm-6">

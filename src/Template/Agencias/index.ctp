@@ -4,6 +4,14 @@ $this->extend('/Common/vista');
 $this->assign("module-name", "Mantenedores");
 $this->assign("title", "Lista de Agencias");
 ?>
+<div ng-show="message.type == 'success'" class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{ message.text }}
+</div>
+<div ng-show="message.type == 'error'" class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{ message.text }}
+</div>
 <a class="btn btn-primary" ng-click="addAgencia()"><span class="glyphicon glyphicon-plus"></span> Nueva Agencia</a>
 
 <div id="marco_include">
@@ -21,25 +29,25 @@ $this->assign("title", "Lista de Agencias");
                         <th width="6%" align="center">
                             <a ng-click="order('ubigeo_id')" style="cursor: pointer;">
                                 Ubigeo
-                                <span class="glyphicon" ng-show="predicate === 'placa'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                                <span class="glyphicon" ng-show="predicate === 'ubigeo_id'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>
                         <th width="8%" align="center">
                             <a ng-click="order('direccion')" style="cursor: pointer;">
                                 Dirección
-                                <span class="glyphicon" ng-show="predicate === 'chasis'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                                <span class="glyphicon" ng-show="predicate === 'direccion'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>
                         <th width="5%" align="center">
                             <a ng-click="order('telefono')" style="cursor: pointer;">
                                 Teléfono
-                                <span class="glyphicon" ng-show="predicate === 'asientos'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                                <span class="glyphicon" ng-show="predicate === 'telefono'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>
                         <th width="5%" align="center">
                             <a ng-click="order('celular')" style="cursor: pointer;">
                                 Celular
-                                <span class="glyphicon" ng-show="predicate === 'anio'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                                <span class="glyphicon" ng-show="predicate === 'celular'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>
                         <th width="5%" align="center">

@@ -31,7 +31,7 @@ $this->assign("title", "Rutas");
                                 <td width="5%" bgcolor="#D6E4F2">{{ desplazamiento.id }}</td>
                                 <td width="25%" align="center">{{ desplazamiento.tarifa.AgenciaOrigen.direccion }} ({{ desplazamiento.tarifa.AgenciaOrigen.ubigeo.descripcion }})</td>
                                 <td width="25%" align="center">{{ desplazamiento.tarifa.AgenciaDestino.direccion }} ({{ desplazamiento.tarifa.AgenciaDestino.ubigeo.descripcion }})</td>
-                                <td width="30%" align="center">{{ desplazamiento.tarifa.precio_min }} | {{ desplazamiento.tarifa.precio_max }}</td>
+                                <td width="30%" align="center">{{ desplazamiento.tarifa.precio_min }} - {{ desplazamiento.tarifa.precio_max }}</td>
                                 <td width="15%" align="center">{{ desplazamiento.tarifa.tiempo }}</td>
                             </tr>
                         </tbody>

@@ -18,7 +18,7 @@ VentaPasajesApp.config(function($routeProvider) {
         })
         .when("/rutas", {
             controller: "ListRutasController",
-            templateUrl: "rutas"
+            templateUrl: "ru    tas"
         })
         .when("/tarifas", {
             controller: "ListTarifasController",

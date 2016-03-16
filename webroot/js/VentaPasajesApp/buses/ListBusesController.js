@@ -1,10 +1,11 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("ListBusesController", function($rootScope, $scope, BusesService) {
+VentaPasajesApp.controller("ListBusesController", function($scope, BusesService) {
     $scope.id = "";
     $scope.loading = true;
     $scope.reverse = false;
     $scope.predicate = "id";
+    $scope.message = "";
     
     $scope.openModal = function() {
         $("#mdlBuses").modal("toggle");
@@ -43,12 +44,21 @@ VentaPasajesApp.controller("ListBusesController", function($rootScope, $scope, B
         $scope.modalUrl = VentaPasajesApp.path_location + "buses/view/" + id;
     };
     
+    $scope.actualizarMessage = function(message) {
+        $scope.message = message;
+    } 
+    
     $scope.removeBus = function(id) {
         if(confirm("¿Está seguro de desactivar este bus?")) {
             var bus = BusesService.get({id: id}, function() {
                 bus.estado_id = 2;
                 delete bus.estado; 
                 bus.$update({id: id}, function() {
+                    var message = {
+                        type: "success",
+                        text: "Bus desactivado correctamente"
+                    };
+                    $scope.actualizarMessage(message);
                     $scope.list();
                 });
             });
