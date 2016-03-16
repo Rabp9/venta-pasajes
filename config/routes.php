@@ -82,7 +82,18 @@ Router::scope('/', function ($routes) {
     $routes->resources('Agencias');
     $routes->resources('Ubigeos');
     $routes->resources('DetalleDesplazamientos');
-    $routes->resources('Personas');
+    $routes->resources('Personas', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'findByDni/:dni' => [
+                'action' => 'findByDni',
+                'method' => 'GET'
+            ]
+        ]
+    ]);
     $routes->resources('Conductores');
     $routes->resources('Tarifas', [
         'map' => [

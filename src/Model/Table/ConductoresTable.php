@@ -28,7 +28,7 @@ class ConductoresTable extends Table
 
         $this->table('conductores');
         $this->displayField('id');
-        $this->primaryKey(['id', 'persona_id', 'estado_id']);
+        $this->primaryKey('id');
 
         $this->belongsTo('Personas', [
             'foreignKey' => 'persona_id',

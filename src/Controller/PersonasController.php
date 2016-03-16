@@ -24,10 +24,9 @@ class PersonasController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    { 
-       
-        $this->viewBuilder()->layout(false);        
+    public function view($id = null) { 
+        $this->viewBuilder()->layout(false);
+        
         $persona = $this->Personas->get($id, [
             'contain' => []
         ]);
@@ -36,6 +35,18 @@ class PersonasController extends AppController
         $this->set('_serialize', ['persona']);
     }
 
+    public function findByDni($dni = null) { 
+        $this->viewBuilder()->layout(false);
+        
+        $dni = $this->request->param("dni");
+        
+        $persona = $this->Personas->find()
+            ->where(["dni" => $dni])
+            ->toArray();
+
+        $this->set('persona', $persona);
+        $this->set('_serialize', ['persona']);
+    }
     /**
      * Add method
      *

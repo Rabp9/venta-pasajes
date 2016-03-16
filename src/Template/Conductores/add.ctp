@@ -9,8 +9,20 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
+                        <div class="form-group">
+                            <label for="txtDni">DNI</label>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <input class="form-control" ng-model="dni" type="search">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button class="btn btn-primary" type="button" ng-click="buscarPersona()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+                        {{ persona.nombres }} {{ persona.apellidos }}
+                        <span ng-hide="persona != null">No existe</span>
                         <?php
-                            echo $this->Form->input('persona_id', ["ng-model" => "newConductor.persona_id"]);
                             echo $this->Form->input('licencia', ["ng-model" => "newConductor.licencia"]);
                             echo $this->Form->input('categoria', ["ng-model" => "newConductor.categoria"]);
                           
