@@ -13,7 +13,9 @@
         "VentaPasajesApp/rutas/RutasService.js",
          "VentaPasajesApp/agencias/AgenciasService.js",
          "VentaPasajesApp/ubigeos/UbigeosService.js",
-         "VentaPasajesApp/tarifas/TarifasService.js"])
+         "VentaPasajesApp/tarifas/TarifasService.js",
+         "VentaPasajesApp/detalleDesplazamientos/DetalleDesplazamientosService.js"
+    ])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
         "VentaPasajesApp/buses/AddBusesController.js",
@@ -21,11 +23,14 @@
         "VentaPasajesApp/buses/ViewBusesController.js",
         
         "VentaPasajesApp/rutas/ListRutasController.js",
+        "VentaPasajesApp/rutas/AddRutasController.js",
         
         "VentaPasajesApp/agencias/ListAgenciasController.js",
         "VentaPasajesApp/agencias/AddAgenciasController.js",
         "VentaPasajesApp/agencias/EditAgenciasController.js",
         "VentaPasajesApp/agencias/ViewAgenciasController.js",
+        
+        "VentaPasajesApp/detalleDesplazamientos/AddDetalleDesplazamientosController.js",
         
         "VentaPasajesApp/tarifas/ListTarifasController.js"
     ]) ?>

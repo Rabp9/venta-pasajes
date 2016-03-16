@@ -11,10 +11,8 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Ruta $ruta
  * @property int $programacion_viaje_id
  * @property \App\Model\Entity\ProgramacionViaje $programacion_viaje
- * @property int $origen
- * @property \App\Model\Entity\Agencia $Origen
- * @property int $destino
- * @property \App\Model\Entity\Agencia $Destino
+ * @property int $tarifa_id
+ * @property \App\Model\Entity\Tarifa $tarifa
  */
 class DetalleDesplazamiento extends Entity
 {
@@ -30,7 +28,6 @@ class DetalleDesplazamiento extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false,
-        'ruta_id' => false
+        'id' => false
     ];
 }

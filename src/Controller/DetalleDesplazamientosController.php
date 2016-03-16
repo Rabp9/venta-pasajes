@@ -43,29 +43,29 @@ class DetalleDesplazamientosController extends AppController
         $this->set('detalleDesplazamiento', $detalleDesplazamiento);
         $this->set('_serialize', ['detalleDesplazamiento']);
     }
-
-    /**
-     * Add method
-     *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
+    
+    public function add() {
+        $this->viewBuilder()->layout(false);
+        
         $detalleDesplazamiento = $this->DetalleDesplazamientos->newEntity();
         if ($this->request->is('post')) {
             $detalleDesplazamiento = $this->DetalleDesplazamientos->patchEntity($detalleDesplazamiento, $this->request->data);
             if ($this->DetalleDesplazamientos->save($detalleDesplazamiento)) {
-                $this->Flash->success(__('The detalle desplazamiento has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $message = array(
+                    'text' => __('Saved'),
+                    'type' => 'success'
+                );
             } else {
-                $this->Flash->error(__('The detalle desplazamiento could not be saved. Please, try again.'));
+                $message = array(
+                    'text' => __('Error'),
+                    'type' => 'error'
+                );
             }
         }
-        $rutas = $this->DetalleDesplazamientos->Rutas->find('list', ['limit' => 200]);
-        $programacionViajes = $this->DetalleDesplazamientos->ProgramacionViajes->find('list', ['limit' => 200]);
-        $agencias = $this->DetalleDesplazamientos->Agencias->find('list', ['limit' => 200]);
-        $this->set(compact('detalleDesplazamiento', 'rutas', 'programacionViajes', 'agencias'));
-        $this->set('_serialize', ['detalleDesplazamiento']);
+        $rutas = $this->DetalleDesplazamientos->Rutas->find("list");
+        $tarifas = $this->DetalleDesplazamientos->Tarifas->find("list");
+        $this->set(compact("detalleDesplazamiento", "rutas", "tarifas"));
+        $this->set('_serialize', ["message"]);
     }
 
     /**
