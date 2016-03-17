@@ -7,6 +7,7 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $rootScope
     $scope.origen_selected = 0;
     $scope.destino_selected = 0;
     $scope.restringido = false;
+    $scope.message = "";
     $scope.newTarifa = new TarifasService();
     
     $scope.agencias = AgenciasService.get(function() {
@@ -57,6 +58,11 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $rootScope
             $scope.newTarifa.origen = $scope.newTarifa.destino;
             $scope.newTarifa.destino = temp;
             TarifasService.save($scope.newTarifa, function() {
+                var message = {
+                    type: "success",
+                    text: "Bus desactivado correctamente"
+                };
+                $scope.message = message;
                 $scope.newTarifa = new TarifasService();
                 $("#mdlTarifas").modal('toggle');
                 $scope.newTarifa = new TarifasService();

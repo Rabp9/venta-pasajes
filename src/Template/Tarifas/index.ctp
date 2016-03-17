@@ -77,7 +77,7 @@ $this->assign("title", "Lista de Tarifas");
                         onmouseout="style.backgroundColor='#fff'">
                         <td colspan="7">
                             No hay registros de Tarifas 
-                            <button type="button" class="btn btn-primary" ng-click="registerTarifa()">Registrar Tarifa</button>
+                            <button ng-show="origen_selected != 0 && destino_selected != 0" type="button" class="btn btn-primary" ng-click="registerTarifa()">Registrar Tarifa</button>
                         </td>
                     </tr>
                     <tr ng-show="restringido" style="background-color: #fff;" 
