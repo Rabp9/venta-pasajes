@@ -64,7 +64,7 @@ $this->assign("title", "Lista de Agencias");
                         <td colspan="7">Cargando</td>
                     </tr>
                     <tr ng-show="agencias.length == 0 && !loading">
-                        <td colspan="7">No hay registros de Buses</td>
+                        <td colspan="7">No hay registros de Agencias</td>
                     </tr>
                     <tr ng-show="!loading" ng-repeat="agencia in agencias | orderBy:predicate:reverse"
                         class="textnot2 animated" style="background-color: #fff;" 
