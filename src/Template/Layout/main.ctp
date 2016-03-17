@@ -46,8 +46,11 @@
         "VentaPasajesApp/conductores/EditConductoresController.js",
         "VentaPasajesApp/conductores/ViewConductoresController.js"
     ]) ?>
-     <?php $this->fetch("css") ?>
-    <?php $this->fetch("script") ?>
+    <?= $this->Html->script([
+        "jquery-1.12.1.min",
+        "bootstrap.min",
+        "jquery-ui.min"
+    ]) ?>
 </head>
 <body ng-app="VentaPasajesApp">
     <div class="row">
@@ -66,11 +69,5 @@
             </div>
         </div>
     </div>
-        
-    <?= $this->Html->script([
-        "jquery-1.12.1.min.js",
-        "bootstrap.min.js"
-    ]) ?>
-    <?php $this->fetch('scriptBottom') ?>
 </body>
 </html>
