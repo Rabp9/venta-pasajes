@@ -7,13 +7,14 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2">
+                    <div><span style="color: blue; "><h2><?= $conductor->persona-> apellidos  ?> <?= $conductor->persona-> nombres  ?></h2></span></div>
+                    
                     <dl class="dl-horizontal">
                         <dt>Código</dt>
                         <dd><?= $conductor->id ?></dd>
                         
                         <dt>persona_id</dt>
                         <dd><?= $conductor->persona_id ?></dd>
-                        
                         <dt>licencia</dt>
                         <dd><?= $conductor->licencia ?></dd>
                         

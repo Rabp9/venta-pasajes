@@ -1,28 +1,35 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $conductore->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $conductore->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Conductores'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Personas'), ['controller' => 'Personas', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Persona'), ['controller' => 'Personas', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Estados'), ['controller' => 'Estados', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Estado'), ['controller' => 'Estados', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="conductores form large-9 medium-8 columns content">
-    <?= $this->Form->create($conductore) ?>
-    <fieldset>
-        <legend><?= __('Edit Conductore') ?></legend>
-        <?php
-            echo $this->Form->input('licencia');
-            echo $this->Form->input('categoria');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+<!-- src/Template/Buses/edit.ctp -->
+<div ng-controller="EditConductoresController">
+    <?php echo $this->Form->create($conductor, ["url" => false, "ng-submit" => "updateConductor()"]); ?>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Editar Conductor</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <div><span style="color: black; "><h3><?= $conductor->persona-> apellidos  ?> <?= $conductor->persona-> nombres  ?></h3></span></div>
+                                         
+                        <?php
+                            echo $this->Form->input('licencia', ["ng-model" => "editConductor.licencia"]);
+                            echo $this->Form->input('categoria', ["ng-model" => "editConductor.categoria"]);
+                            
+                            echo $this->Form->input("estado_id", [
+                                "label" => "Estado",
+                                "empty" => "Selecciona uno",
+                                "ng-model" => "editConductor.estado_id",
+                                "options" => [],
+                                "ng-options" => "estado.id as estado.descripcion for estado in estados"
+                            ]);
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Modificar</button>
+            </div>
+        </div>
     <?= $this->Form->end() ?>
 </div>
