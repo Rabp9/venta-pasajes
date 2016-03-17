@@ -27,6 +27,9 @@ class PersonasTable extends Table
         $this->table('personas');
         $this->displayField('id');
         $this->primaryKey('id');
+        $this->hasMany('Conductores', [
+            'foreignKey' => 'persona_id'
+        ]);
     }
 
     /**

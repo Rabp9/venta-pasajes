@@ -26,9 +26,15 @@ $this->assign("title", "Lista de Conductores");
                             </a>
                         </th>
                         <th width="6%" align="center">
-                            <a ng-click="order('persona_id')" style="cursor: pointer;">
-                                persona_id
-                                <span class="glyphicon" ng-show="predicate === 'persona_id'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                            <a ng-click="order('dni')" style="cursor: pointer;">
+                                DNI
+                                <span class="glyphicon" ng-show="predicate === 'dni'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                            </a>
+                        </th>
+                        <th width="6%" align="center">
+                            <a ng-click="order('nombres')" style="cursor: pointer;">
+                                Nombres
+                                <span class="glyphicon" ng-show="predicate === 'nombres'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>
                         <th width="8%" align="center">
@@ -63,9 +69,11 @@ $this->assign("title", "Lista de Conductores");
                         class="textnot2 animated" style="background-color: #fff;" 
                         onmouseover="style.backgroundColor='#cccccc';" 
                         onmouseout="style.backgroundColor='#fff'">
-                        
+                      
                         <td width="3%" bgcolor="#D6E4F2">{{ conductor.id }}</td>
-                        <td width="6%">{{ conductor.persona_id }}</td>
+                        <td width="6%">{{ conductor.persona.dni}}</td>
+                        <td width="6%">{{ conductor.persona.nombres + ' '+conductor.persona.apellidos }}</td>
+                        
                         <td width="8%">{{ conductor.licencia }}</td>
                         <td width="5%">{{ conductor.categoria }}</td>
                        

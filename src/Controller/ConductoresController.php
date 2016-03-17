@@ -17,7 +17,8 @@ class ConductoresController extends AppController
         
         $this->viewBuilder()->layout(false);        
         $conductores = $this->Conductores->find("all")
-            ->contain(["Estados"]);
+            ->contain(["Estados","Personas"])
+        ->toArray();
         $this->set(compact('conductores'));
         $this->set('_serialize', ['conductores']);
     }
@@ -33,8 +34,8 @@ class ConductoresController extends AppController
     {
         
         $this->viewBuilder()->layout(false);
-        $conductor = $this->Conductores->get($id, [
-            'contain' => ['Estados']
+        $conductor = $this->Conductores->get($id, [            
+            'contain' => ['Estados','Personas']
         ]);
         $this->set('conductor', $conductor);
         $this->set('_serialize', ['conductor']);  
@@ -80,7 +81,7 @@ class ConductoresController extends AppController
         $this->viewBuilder()->layout(false);
         
         $conductor = $this->Conductores->get($id, [
-            'contain' => []
+            'contain' => ['Estados','Personas']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $conductor = $this->Conductores->patchEntity($conductor, $this->request->data);
