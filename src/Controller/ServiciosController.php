@@ -16,6 +16,8 @@ class ServiciosController extends AppController
     }
 
     public function view($id = null) {
+        $this->viewBuilder()->layout(false);
+        
         $servicio = $this->Servicios->get($id, [
             'contain' => ['Estados']
         ]);
@@ -24,52 +26,52 @@ class ServiciosController extends AppController
         $this->set('_serialize', ['servicio']);
     }
 
-    /**
-     * Add method
-     *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
+    public function add() {
+        $this->viewBuilder()->layout(false);
+        
         $servicio = $this->Servicios->newEntity();
         if ($this->request->is('post')) {
             $servicio = $this->Servicios->patchEntity($servicio, $this->request->data);
             if ($this->Servicios->save($servicio)) {
-                $this->Flash->success(__('The servicio has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $message = array(
+                    'text' => __('Servicio registrado correctamente'),
+                    'type' => 'success'
+                );
             } else {
-                $this->Flash->error(__('The servicio could not be saved. Please, try again.'));
+                $message = array(
+                    'text' => __('No fue posible registrar el Servicio'),
+                    'type' => 'error'
+                );
             }
         }
-        $estados = $this->Servicios->Estados->find('list', ['limit' => 200]);
+        $estados = $this->Servicios->Estados->find('list');
         $this->set(compact('servicio', 'estados'));
-        $this->set('_serialize', ['servicio']);
+        $this->set('_serialize', ['message']);
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Servicio id.
-     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
+        $this->viewBuilder()->layout(false);
+        
         $servicio = $this->Servicios->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $servicio = $this->Servicios->patchEntity($servicio, $this->request->data);
             if ($this->Servicios->save($servicio)) {
-                $this->Flash->success(__('The servicio has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $message = array(
+                    'text' => __('Servicio modificado correctamente'),
+                    'type' => 'success'
+                );
             } else {
-                $this->Flash->error(__('The servicio could not be saved. Please, try again.'));
+                $message = array(
+                    'text' => __('No fue posible modificar el Servicio'),
+                    'type' => 'error'
+                );
             }
         }
-        $estados = $this->Servicios->Estados->find('list', ['limit' => 200]);
+        $estados = $this->Servicios->Estados->find('list');
         $this->set(compact('servicio', 'estados'));
-        $this->set('_serialize', ['servicio']);
+        $this->set('_serialize', ['message']);
     }
 
     /**

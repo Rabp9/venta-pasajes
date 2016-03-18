@@ -10,10 +10,11 @@ use App\Controller\AppController;
  */
 class TarifasController extends AppController
 {
-    public function index($origen = 0, $destino = 0) {
+    public function index($servicio_id = 0, $origen = 0, $destino = 0) {
         $this->viewBuilder()->layout(false);
         
         $tarifas = $this->Tarifas->find("all")->contain([
+            "Servicios",
             "AgenciaOrigen" => [
                 "Ubigeos"
             ], "AgenciaDestino" => [
@@ -21,9 +22,13 @@ class TarifasController extends AppController
             ]
         ]);
         
+        $servicio_id = $this->request->param("servicio_id");
         $origen = $this->request->param("origen");
         $destino = $this->request->param("destino");
         
+        if($servicio_id != 0) {
+            $tarifas->where(["Tarifas.servicio_id" => $servicio_id]);
+        }
         if($origen != 0) {
             $tarifas->where(["Tarifas.origen" => $origen]);
         }
@@ -36,7 +41,7 @@ class TarifasController extends AppController
 
     public function view($id = null) {
         $tarifa = $this->Tarifas->get($id, [
-            'contain' => ["AgenciaOrigen", "AgenciaDestino"]
+            'contain' => ["Servicios", "AgenciaOrigen", "AgenciaDestino"]
         ]);
 
         $this->set('tarifa', $tarifa);

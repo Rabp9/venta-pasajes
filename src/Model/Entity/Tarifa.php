@@ -7,6 +7,8 @@ use Cake\ORM\Entity;
  * Tarifa Entity.
  *
  * @property int $id 
+ * @property int $servicio_id
+ * @property \App\Model\Entity\Servicio $Servicio
  * @property int $origen
  * @property \App\Model\Entity\Agencia $AgenciaOrigen
  * @property int $destino

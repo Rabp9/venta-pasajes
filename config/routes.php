@@ -102,7 +102,7 @@ Router::scope('/', function ($routes) {
                 'action' => 'index',
                 'method' => 'GET'
             ],
-            'index/:origen/:destino' => [
+            'index/:servicio_id/:origen/:destino' => [
                 'action' => 'index',
                 'method' => 'GET'
             ]

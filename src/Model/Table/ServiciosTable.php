@@ -26,8 +26,8 @@ class ServiciosTable extends Table
         parent::initialize($config);
 
         $this->table('servicios');
-        $this->displayField('id');
-        $this->primaryKey(['id', 'estado_id']);
+        $this->displayField('descripcion');
+        $this->primaryKey('id');
 
         $this->belongsTo('Estados', [
             'foreignKey' => 'estado_id',

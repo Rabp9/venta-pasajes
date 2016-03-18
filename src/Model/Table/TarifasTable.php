@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
  * Tarifas Model
  * @property \Cake\ORM\Association\BelongsTo $AgenciaOrigen
  * @property \Cake\ORM\Association\BelongsTo $AgenciaDestino
+ * @property \Cake\ORM\Association\BelongsTo $Servicios
  */
 class TarifasTable extends Table
 {
@@ -41,6 +42,15 @@ class TarifasTable extends Table
             'foreignKey' => 'destino',
             'joinType' => 'INNER',
             'propertyName' => 'AgenciaDestino'
+        ]);
+        
+        $this->belongsTo('Servicios', [
+            'foreignKey' => 'servicio_id',
+            'joinType' => 'INNER'
+        ]);
+        
+        $this->hasMany('Detalle_desplazamientos', [
+            'foreignKey' => 'tarifa_id'
         ]);
     }
 

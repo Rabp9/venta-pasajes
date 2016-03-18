@@ -55,7 +55,7 @@ $this->assign("title", "Lista de Servicios");
                         
                         <td width="15%" bgcolor="#D6E4F2">{{ servicio.id }}</td>
                         <td width="35%">{{ servicio.descripcion }}</td>
-                        <td width="35%">{{ bus.estado.descripcion }}</td>
+                        <td width="35%">{{ servicio.estado.descripcion }}</td>
                         <td width="10%">
                             <a style="cursor: pointer;" ng-click="viewServicio(servicio.id)" title="ver"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a> |
                             <a style="cursor: pointer;" ng-click="editServicio(servicio.id)" title="editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> |

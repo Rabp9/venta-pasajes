@@ -25,7 +25,6 @@ class Servicio extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false,
-        'estado_id' => false,
+        'id' => false
     ];
 }

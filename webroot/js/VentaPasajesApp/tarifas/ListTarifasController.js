@@ -1,14 +1,19 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("ListTarifasController", function($filter, $rootScope, $scope, TarifasService, AgenciasService) {
+VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, TarifasService, AgenciasService, ServiciosService) {
     $scope.predicate = "id";
     $scope.loading = true;
     $scope.reverse = false;
     $scope.origen_selected = 0;
     $scope.destino_selected = 0;
+    $scope.servicio_selected = 0;
     $scope.restringido = false;
     $scope.message = "";
     $scope.newTarifa = new TarifasService();
+    
+    ServiciosService.get(function(data) {
+        $scope.servicios = data.servicios;
+    });
     
     $scope.agencias = AgenciasService.get(function() {
         $scope.agencias = $scope.agencias.agencias;
@@ -16,13 +21,20 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $rootScope
     
     $scope.list = function() {
         TarifasService.findByOrigenDestino({
+            servicio: $scope.servicio_selected, 
             origen: $scope.origen_selected, 
             destino: $scope.destino_selected
         }, function(data) {
             $scope.tarifas = data.tarifas;
             $scope.loading = false;
-            if($scope.origen_selected == $scope.destino_selected && $scope.origen_selected != 0 && $scope.destino_selected != 0) {
+            if($scope.origen_selected == $scope.destino_selected && 
+                $scope.origen_selected != 0 && $scope.destino_selected != 0) {
+                $scope.warning = "El origen y el destino no pueden ser los mismos";
                 $scope.restringido = true;
+            }
+            if($scope.servicio_selected == 0 && $scope.tarifas.length == 0) {
+                $scope.warning = "Seleccione un servicio";
+                $scope.restringido = true;                
             }
         });
     }
@@ -36,6 +48,9 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $rootScope
         if($scope.destino_selected == null) {
             $scope.destino_selected = 0;
         }
+        if($scope.servicio_selected == null) {
+            $scope.servicio_selected = 0;
+        }
         $scope.list();
     }
     
@@ -47,9 +62,13 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $rootScope
         $scope.AgenciaDestino = $filter('filter')($scope.agencias, function (a) {
             return a.id === $scope.destino_selected;
         })[0];
+        $scope.Servicio = $filter('filter')($scope.servicios, function (a) {
+            return a.id === $scope.servicio_selected;
+        })[0];
     };
     
     $scope.addTarifa = function() {
+        $scope.newTarifa.servicio_id = $scope.servicio_selected;
         $scope.newTarifa.origen = $scope.origen_selected;
         $scope.newTarifa.destino = $scope.destino_selected;
         TarifasService.save($scope.newTarifa, function() {
@@ -60,7 +79,7 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $rootScope
             TarifasService.save($scope.newTarifa, function() {
                 var message = {
                     type: "success",
-                    text: "Bus desactivado correctamente"
+                    text: "Tarifa registrada correctamente"
                 };
                 $scope.message = message;
                 $scope.newTarifa = new TarifasService();
@@ -83,7 +102,8 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $rootScope
     $scope.updatePostTarifa = function() {
         var tarifa = TarifasService.get({id: $scope.editTarifa.id}, function() {
             tarifa = angular.extend(tarifa, $scope.editTarifa);
-            delete tarifa.AgenciaOrigen; 
+            delete tarifa.servicio;
+            delete tarifa.AgenciaOrigen;
             delete tarifa.AgenciaDestino;
             tarifa.$update({id: $scope.editTarifa.id}, function() {
                 $("#mdlTarifas").modal('toggle');

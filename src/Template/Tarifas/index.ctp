@@ -4,9 +4,26 @@ $this->extend('/Common/vista');
 $this->assign("module-name", "Mantenedores");
 $this->assign("title", "Lista de Tarifas");
 ?>
-
+<div ng-show="message.type == 'success'" class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{ message.text }}
+</div>
+<div ng-show="message.type == 'error'" class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{ message.text }}
+</div>
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label for="sltServicio">Servicio</label>
+            <select id="sltServicio" class="form-control"
+                ng-options="servicio.id as servicio.descripcion for servicio in servicios"
+                ng-model="servicio_selected" ng-change="onSelected()">
+                <option value="">Selecciona un Servicio</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-4">
         <div class="form-group">
             <label for="sltOrigen">Origen</label>
             <select id="sltOrigen" class="form-control"
@@ -16,7 +33,7 @@ $this->assign("title", "Lista de Tarifas");
             </select>
         </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-4">
         <div class="form-group">
             <label for="sltDestino">Destino</label>
             <select id="sltDestino" class="form-control"
@@ -51,6 +68,12 @@ $this->assign("title", "Lista de Tarifas");
                                 <span class="glyphicon" ng-show="predicate === 'destino'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>
+                        <th width="8%" align="center">
+                            <a ng-click="order('servicio_id')" style="cursor: pointer;">
+                                Servicio
+                                <span class="glyphicon" ng-show="predicate === 'servicio_id'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
+                            </a>
+                        </th>
                         <th width="5%" align="center">
                             <a ng-click="order('asientos')" style="cursor: pointer;">
                                 Tarifario
@@ -83,7 +106,7 @@ $this->assign("title", "Lista de Tarifas");
                     <tr ng-show="restringido" style="background-color: #fff;" 
                         onmouseover="style.backgroundColor='#cccccc';" 
                         onmouseout="style.backgroundColor='#fff'">
-                        <td colspan="7">El origen y el destino no pueden ser los mismos</td>
+                        <td colspan="7">{{ warning }}</td>
                     </tr>
                     <tr ng-show="!loading" ng-repeat="tarifa in tarifas | orderBy:predicate:reverse"
                         class="textnot2 animated" style="background-color: #fff;" 
@@ -93,6 +116,7 @@ $this->assign("title", "Lista de Tarifas");
                         <td width="3%" bgcolor="#D6E4F2">{{ tarifa.id }}</td>
                         <td width="8%">{{ tarifa.AgenciaOrigen.direccion + ' (' + tarifa.AgenciaOrigen.ubigeo.descripcion + ')' }}</td>
                         <td width="8%">{{ tarifa.AgenciaDestino.direccion + ' (' + tarifa.AgenciaDestino.ubigeo.descripcion + ')' }}</td>
+                        <td width="8%">{{ tarifa.servicio.descripcion }}</td>
                         <td width="5%">{{ tarifa.precio_min + ' - ' + tarifa.precio_max }}</td>
                         <td width="5%">{{ tarifa.tiempo }}</td>
                         <td width="4%">

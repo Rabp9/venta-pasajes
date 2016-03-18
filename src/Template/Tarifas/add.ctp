@@ -9,13 +9,19 @@
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="txtServicioAdd">Servicio</label>
+                                <input id="txtServicioAdd" type="text" class="form-control" value="{{ Servicio.descripcion }}" readonly />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="txtOrigenAdd">Origen</label>
                                 <input id="txtOrigenAdd" type="text" class="form-control" value="{{ AgenciaOrigen.direccion }}" readonly />
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="txtDestinoAdd">Destino</label>
                                 <input id="txtDestinoAdd" type="text" class="form-control" value="{{ AgenciaDestino.direccion }}" readonly />
@@ -24,11 +30,11 @@
                     </div>
                     <?php
                     echo $this->Form->input("precio_min", [
-                        "label" => "Precio Máximo",
+                        "label" => "Precio Mínimo",
                         "ng-model" => "newTarifa.precio_min"
                     ]);
                     echo $this->Form->input("precio_max", [
-                        "label" => "Precio Mínimo",
+                        "label" => "Precio Máximo",
                         "ng-model" => "newTarifa.precio_max"
                     ]);
                     echo $this->Form->input("tiempo", [
