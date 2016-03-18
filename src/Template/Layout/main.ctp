@@ -11,12 +11,13 @@
     <?= $this->Html->script(["VentaPasajesApp/buses/BusesService.js",
         "VentaPasajesApp/estados/EstadosService.js",
         "VentaPasajesApp/rutas/RutasService.js",
-         "VentaPasajesApp/agencias/AgenciasService.js",
-         "VentaPasajesApp/ubigeos/UbigeosService.js",
-         "VentaPasajesApp/tarifas/TarifasService.js",
-         "VentaPasajesApp/detalleDesplazamientos/DetalleDesplazamientosService.js",
+        "VentaPasajesApp/agencias/AgenciasService.js",
+        "VentaPasajesApp/ubigeos/UbigeosService.js",
+        "VentaPasajesApp/tarifas/TarifasService.js",
+        "VentaPasajesApp/detalleDesplazamientos/DetalleDesplazamientosService.js",
         "VentaPasajesApp/personas/PersonasService.js",
-        "VentaPasajesApp/conductores/ConductoresService.js"
+        "VentaPasajesApp/conductores/ConductoresService.js",
+        "VentaPasajesApp/servicios/ServiciosService.js"
     ])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
@@ -40,6 +41,11 @@
         "VentaPasajesApp/personas/AddPersonasController.js",
         "VentaPasajesApp/personas/EditPersonasController.js",
         "VentaPasajesApp/personas/ViewPersonasController.js",
+        
+        "VentaPasajesApp/servicios/ListServiciosController.js",
+        "VentaPasajesApp/servicios/AddServiciosController.js",
+        "VentaPasajesApp/servicios/EditServiciosController.js",
+        "VentaPasajesApp/servicios/ViewServiciosController.js",
         
         "VentaPasajesApp/conductores/ListConductoresController.js",
         "VentaPasajesApp/conductores/AddConductoresController.js",
