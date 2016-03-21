@@ -22,10 +22,10 @@ class DesplazamientosController extends AppController
         $destino = $this->request->param("destino");
         
         if($origen != 0) {
-            $tarifas->where(["Desplazamiento.origen" => $origen]);
+            $desplazamientos->where(["Desplazamientos.origen" => $origen]);
         }
         if($destino != 0) {
-            $tarifas->where(["Desplazamiento.destino" => $destino]);
+            $desplazamientos->where(["Desplazamientos.destino" => $destino]);
         }
         
         $this->set(compact('desplazamientos'));

@@ -69,8 +69,15 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
     
     $scope.addTarifa = function() {
         $scope.newTarifa.servicio_id = $scope.servicio_selected;
+        
+        //
         DesplazamientosService.findByOrigenDestino({origen: $scope.origen_selected, destino: $scope.destino_selected}, function(data) {
-            console.log(data);
+            if(data.desplazamientos.length == 1) {
+                $scope.desplazamiento = data.desplazamientos[0];
+            } else {
+                // crear desplazamiento
+                Desplazamiento
+            }
         })
         /*$scope.newTarifa.origen = $scope.origen_selected;
         $scope.newTarifa.destino = $scope.destino_selected;
