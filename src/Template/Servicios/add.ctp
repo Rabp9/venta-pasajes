@@ -10,7 +10,10 @@
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <?php
-                            echo $this->Form->input('descripcion', ["ng-model" => "newServicio.descripcion"]);
+                            echo $this->Form->input('descripcion', [
+                                "label" => "Descripción", 
+                                "ng-model" => "newServicio.descripcion"
+                            ]);
                             echo $this->Form->input("estado_id", [
                                 "label" => "Estado",
                                 "empty" => "Selecciona uno",

@@ -15,13 +15,11 @@ class TarifasController extends AppController
         
         $tarifas = $this->Tarifas->find("all")->contain([
             "Servicios",
-            "AgenciaOrigen" => [
-                "Ubigeos"
-            ], "AgenciaDestino" => [
-                "Ubigeos"
+            "Desplazamientos" => [
+                "AgenciaOrigen" => ["Ubigeos"],
+                "AgenciaDestino" => ["Ubigeos"]
             ]
         ]);
-        
         $servicio_id = $this->request->param("servicio_id");
         $origen = $this->request->param("origen");
         $destino = $this->request->param("destino");
@@ -30,11 +28,18 @@ class TarifasController extends AppController
             $tarifas->where(["Tarifas.servicio_id" => $servicio_id]);
         }
         if($origen != 0) {
-            $tarifas->where(["Tarifas.origen" => $origen]);
+            $tarifas->contain(["Desplazamientos" => function($q) use ($origen) {
+                    return $q->where(["Desplazamientos.origen" => $origen]);
+                }
+            ]);
         }
         if($destino != 0) {
-            $tarifas->where(["Tarifas.destino" => $destino]);
+            $tarifas->contain(["Desplazamientos" => function($q) use ($destino) {
+                    return $q->where(["Desplazamientos.destino" => $destino]);
+                }
+            ]);
         }
+        
         $this->set(compact('tarifas'));
         $this->set('_serialize', ['tarifas']);
     }

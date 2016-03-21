@@ -17,7 +17,8 @@
         "VentaPasajesApp/detalleDesplazamientos/DetalleDesplazamientosService.js",
         "VentaPasajesApp/personas/PersonasService.js",
         "VentaPasajesApp/conductores/ConductoresService.js",
-        "VentaPasajesApp/servicios/ServiciosService.js"
+        "VentaPasajesApp/servicios/ServiciosService.js",
+        "VentaPasajesApp/desplazamientos/DesplazamientosService.js"
     ])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 

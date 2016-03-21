@@ -114,8 +114,8 @@ $this->assign("title", "Lista de Tarifas");
                         onmouseout="style.backgroundColor='#fff'">
                         
                         <td width="3%" bgcolor="#D6E4F2">{{ tarifa.id }}</td>
-                        <td width="8%">{{ tarifa.AgenciaOrigen.direccion + ' (' + tarifa.AgenciaOrigen.ubigeo.descripcion + ')' }}</td>
-                        <td width="8%">{{ tarifa.AgenciaDestino.direccion + ' (' + tarifa.AgenciaDestino.ubigeo.descripcion + ')' }}</td>
+                        <td width="8%">{{ tarifa.desplazamiento.AgenciaOrigen.direccion + ' (' + tarifa.desplazamiento.AgenciaOrigen.ubigeo.descripcion + ')' }}</td>
+                        <td width="8%">{{ tarifa.desplazamiento.AgenciaDestino.direccion + ' (' + tarifa.desplazamiento.AgenciaDestino.ubigeo.descripcion + ')' }}</td>
                         <td width="8%">{{ tarifa.servicio.descripcion }}</td>
                         <td width="5%">{{ tarifa.precio_min + ' - ' + tarifa.precio_max }}</td>
                         <td width="5%">{{ tarifa.tiempo }}</td>

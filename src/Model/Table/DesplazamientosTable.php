@@ -1,18 +1,17 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Tarifa;
+use App\Model\Entity\Desplazamiento;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Tarifas Model
- * @property \Cake\ORM\Association\BelongsTo $Desplazamientos
- * @property \Cake\ORM\Association\BelongsTo $Servicios
+ * Desplazamientos Model
+ *
  */
-class TarifasTable extends Table
+class DesplazamientosTable extends Table
 {
 
     /**
@@ -25,18 +24,22 @@ class TarifasTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('tarifas');
+        $this->table('desplazamientos');
         $this->displayField('id');
         $this->primaryKey('id');
         
-        $this->belongsTo('Desplazamientos', [
-            'foreignKey' => 'desplazamiento_id',
-            'joinType' => 'INNER'
+        $this->belongsTo('AgenciaOrigen', [
+            "className" => "Agencias",
+            'foreignKey' => 'origen',
+            'joinType' => 'INNER',
+            'propertyName' => 'AgenciaOrigen'
         ]);
         
-        $this->belongsTo('Servicios', [
-            'foreignKey' => 'servicio_id',
-            'joinType' => 'INNER'
+        $this->belongsTo('AgenciaDestino', [
+            "className" => "Agencias",
+            'foreignKey' => 'destino',
+            'joinType' => 'INNER',
+            'propertyName' => 'AgenciaDestino'
         ]);
     }
 
@@ -53,16 +56,12 @@ class TarifasTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->decimal('precio_min')
-            ->allowEmpty('precio_min');
+            ->integer('origen')
+            ->allowEmpty('origen', 'create');
 
         $validator
-            ->decimal('precio_max')
-            ->allowEmpty('precio_max');
-
-        $validator
-            ->integer('tiempo')
-            ->allowEmpty('tiempo');
+            ->integer('destino')
+            ->allowEmpty('destino', 'create');
 
         return $validator;
     }

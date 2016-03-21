@@ -13,12 +13,16 @@
                             echo $this->Form->input('direccion', ["ng-model" => "newAgencia.direccion"]);
                             echo $this->Form->input('telefono', ["ng-model" => "newAgencia.telefono"]);
                             echo $this->Form->input('celular', ["ng-model" => "newAgencia.celular"]);
-                            
-                            echo $this->Form->input("ubigeo_id", [
-                                "label" => "Ubigeo",
-                                "empty" => "Selecciona uno",
-                                "ng-model" => "newAgencia.ubigeo_id"
-                            ]);
+                        ?>
+                        <div class="form-group">
+                            <label for="sltUbigeo">Ubigeo</label>
+                            <input class="form-control" type="search" ng-model="search" />
+                            <select id="sltUbigeo" class="form-control" ng-model="newAgencia.ubigeo_id"
+                                ng-options="ubigeo.id as ubigeo.descripcion for ubigeo in ubigeos | filterUbigeo:search">
+                                <option value="">Selecciona uno</option>
+                            </select>
+                        </div>
+                        <?php
                             echo $this->Form->input("estado_id", [
                                 "label" => "Estado",
                                 "empty" => "Selecciona uno",

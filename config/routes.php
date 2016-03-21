@@ -82,6 +82,18 @@ Router::scope('/', function ($routes) {
     $routes->resources('Agencias');
     $routes->resources('Ubigeos');
     $routes->resources('DetalleDesplazamientos');
+    $routes->resources('Desplazamientos', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'index/:origen/:destino' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ]
+        ]
+    ]);
     $routes->resources('Servicios');
     $routes->resources('Personas', [
         'map' => [

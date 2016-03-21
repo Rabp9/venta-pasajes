@@ -1,6 +1,6 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, TarifasService, AgenciasService, ServiciosService) {
+VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, TarifasService, AgenciasService, ServiciosService, DesplazamientosService) {
     $scope.predicate = "id";
     $scope.loading = true;
     $scope.reverse = false;
@@ -69,7 +69,10 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
     
     $scope.addTarifa = function() {
         $scope.newTarifa.servicio_id = $scope.servicio_selected;
-        $scope.newTarifa.origen = $scope.origen_selected;
+        DesplazamientosService.findByOrigenDestino({origen: $scope.origen_selected, destino: $scope.destino_selected}, function(data) {
+            console.log(data);
+        })
+        /*$scope.newTarifa.origen = $scope.origen_selected;
         $scope.newTarifa.destino = $scope.destino_selected;
         TarifasService.save($scope.newTarifa, function() {
             
@@ -87,7 +90,7 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
                 $scope.newTarifa = new TarifasService();
                 $scope.list();
             });
-        });
+        });*/
     }
     
     $scope.updateTarifa = function(id) {

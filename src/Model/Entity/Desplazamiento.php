@@ -4,18 +4,13 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Tarifa Entity.
+ * Desplazamiento Entity.
  *
- * @property int $id 
- * @property int $servicio_id
- * @property \App\Model\Entity\Servicio $Servicio
- * @property int $desplazamiento_id
- * @property \App\Model\Entity\Desplazamiento $Desplazamiento
- * @property float $precio_min
- * @property float $precio_max
- * @property int $tiempo
+ * @property int $id
+ * @property int $origen
+ * @property int $destino
  */
-class Tarifa extends Entity
+class Desplazamiento extends Entity
 {
 
     /**
@@ -29,6 +24,8 @@ class Tarifa extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false
+        'id' => false,
+        'origen' => false,
+        'destino' => false,
     ];
 }
