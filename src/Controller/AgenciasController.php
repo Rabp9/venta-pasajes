@@ -47,7 +47,7 @@ class AgenciasController extends AppController
         }
         $ubigeos = $this->Agencias->Ubigeos->find('treelist');
         $estados = $this->Agencias->Estados->find('list');
-        $this->set(compact('agencia', 'ubigeos', 'estados'));
+        $this->set(compact('agencia', 'ubigeos', 'estados', 'message'));
         $this->set('_serialize', ['message']);
     }
 
@@ -73,7 +73,7 @@ class AgenciasController extends AppController
         }
         $ubigeos = $this->Agencias->Ubigeos->find('list');
         $estados = $this->Agencias->Estados->find('list');
-        $this->set(compact('agencia','ubigeos', 'estados'));
+        $this->set(compact('agencia','ubigeos', 'estados', 'message'));
         $this->set("_serialize", ["message"]);
     } 
     

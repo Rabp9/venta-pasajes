@@ -70,7 +70,7 @@ class BusesController extends AppController
             }
         }
         $estados = $this->Buses->Estados->find('list');
-        $this->set(compact('bus', 'estados'));
+        $this->set(compact('bus', 'estados', 'message'));
         $this->set("_serialize", ["message"]);
     }
 

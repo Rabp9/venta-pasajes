@@ -8,11 +8,7 @@ VentaPasajesApp.controller("AddServiciosController", function($scope, ServiciosS
             console.log(data);
             $("#mdlServicios").modal('toggle');
             $scope.newServicio = new ServiciosService();
-            var message = {
-                type: "success",
-                text: "Servicio registrado correctamente"
-            };
-            $scope.$parent.actualizarMessage(message);
+            $scope.$parent.actualizarMessage(data.message);
             $scope.$parent.list();
         });;
     }

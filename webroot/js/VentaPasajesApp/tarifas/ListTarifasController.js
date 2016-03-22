@@ -70,34 +70,12 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
     $scope.addTarifa = function() {
         $scope.newTarifa.servicio_id = $scope.servicio_selected;
         
-        //
-        DesplazamientosService.findByOrigenDestino({origen: $scope.origen_selected, destino: $scope.destino_selected}, function(data) {
-            if(data.desplazamientos.length == 1) {
-                $scope.desplazamiento = data.desplazamientos[0];
-            } else {
-                // crear desplazamiento
-                Desplazamiento
-            }
-        })
-        /*$scope.newTarifa.origen = $scope.origen_selected;
-        $scope.newTarifa.destino = $scope.destino_selected;
-        TarifasService.save($scope.newTarifa, function() {
-            
-            var temp = $scope.newTarifa.origen;
-            $scope.newTarifa.origen = $scope.newTarifa.destino;
-            $scope.newTarifa.destino = temp;
-            TarifasService.save($scope.newTarifa, function() {
-                var message = {
-                    type: "success",
-                    text: "Tarifa registrada correctamente"
-                };
-                $scope.message = message;
-                $scope.newTarifa = new TarifasService();
-                $("#mdlTarifas").modal('toggle');
-                $scope.newTarifa = new TarifasService();
-                $scope.list();
-            });
-        });*/
+        TarifasService.save({tarifa: $scope.newTarifa, origen: $scope.origen_selected, destino: $scope.destino_selected}, function(data) {
+            $("#mdlTarifas").modal('toggle');
+            $scope.newTarifa = new TarifasService();
+            $scope.actualizarMessage(data.message);
+            $scope.list();
+        });
     }
     
     $scope.updateTarifa = function(id) {
@@ -131,6 +109,10 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
     $scope.openModal = function() {
         $("#mdlTarifas").modal("toggle");
     };
+    
+    $scope.actualizarMessage = function(message) {
+        $scope.message = message;
+    } 
     
     $scope.list();
 });

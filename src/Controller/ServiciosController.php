@@ -45,7 +45,7 @@ class ServiciosController extends AppController
             }
         }
         $estados = $this->Servicios->Estados->find('list');
-        $this->set(compact('servicio', 'estados'));
+        $this->set(compact('servicio', 'estados', 'message'));
         $this->set('_serialize', ['message']);
     }
 
@@ -70,7 +70,7 @@ class ServiciosController extends AppController
             }
         }
         $estados = $this->Servicios->Estados->find('list');
-        $this->set(compact('servicio', 'estados'));
+        $this->set(compact('servicio', 'estados', 'message'));
         $this->set('_serialize', ['message']);
     }
 

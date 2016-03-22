@@ -18,11 +18,7 @@ VentaPasajesApp.controller("EditServiciosController", function($scope, Servicios
             delete servicio.estado;
             servicio.$update({id: $scope.$parent.id}, function(data) {
                 $("#mdlServicios").modal('toggle');
-                var message = {
-                    type: "success",
-                    text: "Servicio modificado correctamente"
-                };
-                $scope.$parent.actualizarMessage(message);
+                $scope.$parent.actualizarMessage(data.message);
                 $scope.$parent.list();
             });
         });
