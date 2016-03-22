@@ -53,12 +53,8 @@ VentaPasajesApp.controller("ListAgenciasController", function($rootScope, $scope
             var agencia = AgenciasService.get({id: id}, function() {
                 agencia.estado_id = 2;
                 delete agencia.estado; 
-                agencia.$update({id: id}, function() {
-                    var message = {
-                        type: "success",
-                        text: "Agencia desactivada correctamente"
-                    };
-                    $scope.actualizarMessage(message);
+                agencia.$update({id: id}, function(data) {
+                    $scope.actualizarMessage(data.message);
                     $scope.list();
                 });
             });

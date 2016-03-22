@@ -53,12 +53,8 @@ VentaPasajesApp.controller("ListBusesController", function($scope, BusesService)
             var bus = BusesService.get({id: id}, function() {
                 bus.estado_id = 2;
                 delete bus.estado; 
-                bus.$update({id: id}, function() {
-                    var message = {
-                        type: "success",
-                        text: "Bus desactivado correctamente"
-                    };
-                    $scope.actualizarMessage(message);
+                bus.$update({id: id}, function(data) {
+                    $scope.actualizarMessage(data.message);
                     $scope.list();
                 });
             });

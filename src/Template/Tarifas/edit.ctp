@@ -18,13 +18,13 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="txtOrigenEdit">Origen</label>
-                                <input id="txtOrigenEdit" type="text" class="form-control" value="{{ editTarifa.AgenciaOrigen.direccion }}" readonly />
+                                <input id="txtOrigenEdit" type="text" class="form-control" value="{{ editTarifa.desplazamiento.AgenciaOrigen.direccion }}" readonly />
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="txtDestinoEdit">Destino</label>
-                                <input id="txtDestinoEdit" type="text" class="form-control" value="{{ editTarifa.AgenciaDestino.direccion }}" readonly />
+                                <input id="txtDestinoEdit" type="text" class="form-control" value="{{ editTarifa.desplazamiento.AgenciaDestino.direccion }}" readonly />
                             </div>
                         </div>
                     </div>

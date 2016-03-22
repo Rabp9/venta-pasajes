@@ -15,14 +15,10 @@ VentaPasajesApp.controller("AddAgenciasController", function($scope, AgenciasSer
     });
     
     $scope.addAgencia = function() {
-        AgenciasService.save($scope.newAgencia, function() {
+        AgenciasService.save($scope.newAgencia, function(data) {
             $("#mdlAgencias").modal('toggle');
             $scope.newAgencia = new AgenciasService();
-            var message = {
-                type: "success",
-                text: "Agencia registrada correctamente"
-            };
-            $scope.$parent.actualizarMessage(message);
+            $scope.$parent.actualizarMessage(data.message);
             $scope.$parent.list();
         });
     }
