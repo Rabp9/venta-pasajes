@@ -24,8 +24,6 @@ class Desplazamiento extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false,
-        'origen' => false,
-        'destino' => false,
+        'id' => false
     ];
 }

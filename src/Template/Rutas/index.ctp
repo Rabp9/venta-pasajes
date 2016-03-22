@@ -6,12 +6,15 @@ $this->assign("title", "Rutas");
 ?>
 <div class="row">
     <div class="col-sm-2">
-        <ul class="nav nav-pills nav-stacked" ng-repeat="ruta in rutas">
-            <li role="presentation" ng-class='{active:$first}'><a ng-click="loadDesplazamientos(ruta.id)">{{ ruta.descripcion }}</a></li>
+        <p ng-show="loading_rutas">Cargando...</p>
+        <p ng-show="rutas.length == 0 && !loading">No hay registros de Rutas</p>
+        <ul id="ulRutas" class="nav nav-pills nav-stacked">
+            <li role="presentation" ng-repeat="ruta in rutas"><a ng-click="loadDesplazamientos($event, ruta.id)">{{ ruta.descripcion }}</a></li>
         </ul>
         <button class="btn btn-primary" ng-click="addRuta()">Nueva Ruta</button>
     </div>
-    <div class="col-sm-10">
+    <p ng-show="loading_ruta_selected">Cargando...</p>
+    <div ng-hide="ruta_selected.length == 0 || loading_ruta_selected" class="col-sm-10" ng-show="ruta_selected.length != []">
         <h3>{{ ruta_selected.descripcion}} - Desplazamientos <small> Código: {{ ruta_selected.id }}</small></h3>
         <div id="marco_include">
             <div style="height:200px; overflow:auto" class="justificado_not" id="busqueda">
@@ -20,19 +23,15 @@ $this->assign("title", "Rutas");
                         <thead>
                             <tr class="e34X" id="panel_status">
                                 <th width="5%" align="center">Código</th>
-                                <th width="25%" align="center">Origen</th>
-                                <th width="25%" align="center">Destino</th>
-                                <th width="30%" align="center">Tarifario</th>
-                                <th width="15%" align="center">Tiempo</th>
+                                <th width="35%" align="center">Origen</th>
+                                <th width="35%" align="center">Destino</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="desplazamiento in ruta_selected.detalle_desplazamientos" class="textnot2 animated" style="background-color: #fff;" onmouseover="style.backgroundColor='#cccccc';" onmouseout="style.backgroundColor='#fff'">
                                 <td width="5%" bgcolor="#D6E4F2">{{ desplazamiento.id }}</td>
-                                <td width="25%" align="center">{{ desplazamiento.tarifa.AgenciaOrigen.direccion }} ({{ desplazamiento.tarifa.AgenciaOrigen.ubigeo.descripcion }})</td>
-                                <td width="25%" align="center">{{ desplazamiento.tarifa.AgenciaDestino.direccion }} ({{ desplazamiento.tarifa.AgenciaDestino.ubigeo.descripcion }})</td>
-                                <td width="30%" align="center">{{ desplazamiento.tarifa.precio_min }} - {{ desplazamiento.tarifa.precio_max }}</td>
-                                <td width="15%" align="center">{{ desplazamiento.tarifa.tiempo }}</td>
+                                <td width="35%" align="center">{{ desplazamiento | json }} ({{ desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
+                                <td width="35%" align="center">{{ desplazamiento.AgenciaDestino.direccion }} ({{ desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
                             </tr>
                         </tbody>
                     </table>

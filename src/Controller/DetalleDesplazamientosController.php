@@ -14,7 +14,7 @@ class DetalleDesplazamientosController extends AppController
         $this->viewBuilder()->layout(false);
         
         $detalleDesplazamientos = $this->DetalleDesplazamientos->find("all")
-            ->contain(["Tarifas", "Rutas"]);
+            ->contain(["Rutas", "Desplazamientos"]);
 
         $this->set(compact('detalleDesplazamientos'));
         $this->set('_serialize', ['detalleDesplazamientos']);
@@ -56,8 +56,8 @@ class DetalleDesplazamientosController extends AppController
             }
         }
         $rutas = $this->DetalleDesplazamientos->Rutas->find("list");
-        $tarifas = $this->DetalleDesplazamientos->Tarifas->find("list");
-        $this->set(compact("detalleDesplazamiento", "rutas", "tarifas"));
+        $desplazamientos = $this->DetalleDesplazamientos->Desplazamientos->find("list");
+        $this->set(compact("detalleDesplazamiento", "rutas", "desplazamientos"));
         $this->set('_serialize', ["message"]);
     }
 

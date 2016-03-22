@@ -12,6 +12,7 @@ use Cake\Validation\Validator;
  *
  * @property \Cake\ORM\Association\BelongsTo $Estados
  * @property \Cake\ORM\Association\HasMany $DetalleDesplazamientos
+ * @property \Cake\ORM\Association\HasMany $DetalleProgramaciones
  */
 class RutasTable extends Table
 {
@@ -30,6 +31,10 @@ class RutasTable extends Table
         $this->primaryKey('id');
 
         $this->hasMany('DetalleDesplazamientos', [
+            'foreignKey' => 'ruta_id'
+        ]);
+        
+        $this->hasMany('DetalleProgramaciones', [
             'foreignKey' => 'ruta_id'
         ]);
         

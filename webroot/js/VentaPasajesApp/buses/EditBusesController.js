@@ -17,7 +17,6 @@ VentaPasajesApp.controller("EditBusesController", function($scope, BusesService,
             bus = angular.extend(bus, $scope.editBus);
             delete bus.estado;
             bus.$update({id: $scope.$parent.id}, function(data) {
-                console.log(data);
                 $("#mdlBuses").modal('toggle');
                 $scope.$parent.actualizarMessage(data.message);
                 $scope.$parent.list();

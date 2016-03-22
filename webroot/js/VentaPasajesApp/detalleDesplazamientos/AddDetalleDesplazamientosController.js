@@ -1,6 +1,6 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("AddDetalleDesplazamientosController", function($rootScope, $scope, DetalleDesplazamientosService, AgenciasService, TarifasService) {
+VentaPasajesApp.controller("AddDetalleDesplazamientosController", function($scope, DetalleDesplazamientosService, AgenciasService, DesplazamientosService) {
     $scope.origen_selected = 0;
     $scope.destino_selected = 0;
     $scope.newDetalleDesplazamiento = new DetalleDesplazamientosService();
@@ -10,25 +10,29 @@ VentaPasajesApp.controller("AddDetalleDesplazamientosController", function($root
     });
     
     $scope.onSelected = function() {
-        TarifasService.findByOrigenDestino({
+        $scope.loading = true;
+        DesplazamientosService.findByOrigenDestino({
             origen: $scope.origen_selected, 
             destino: $scope.destino_selected
         }, function(data) {
-            if (data.tarifas.length == 1) {
-                $scope.tarifaSelected = data.tarifas[0];
+            $scope.loading = false;
+            if (data.desplazamientos.length == 1) {
+                $scope.desplazamiento = data.desplazamientos[0];
             } else {
-                console.log("no hay coincidencias");
+                $scope.desplazamiento = null;
             }
         });
     }
     
     $scope.addDetalleDesplazamiento = function() {
+        
         $scope.newDetalleDesplazamiento.ruta_id = $scope.$parent.ruta_selected.id;
-        $scope.newDetalleDesplazamiento.tarifa_id = $scope.tarifaSelected.id;
-        DetalleDesplazamientosService.save($scope.newDetalleDesplazamiento, function() {
+        $scope.newDetalleDesplazamiento.desplazamiento_id = $scope.desplazamiento.id;
+        DetalleDesplazamientosService.save($scope.newDetalleDesplazamiento, function(data) {
             $("#mdlRutas").modal('toggle');
             $scope.newDetalleDesplazamiento = new DetalleDesplazamientosService();
-            $scope.$parent.loadDesplazamientos($scope.$parent.ruta_selected.id);
+            //$scope.$parent.actualizarMessage(data.message);
+            $scope.$parent.fetchDesplazamientos($scope.$parent.ruta_selected.id);
         });
     }
 });

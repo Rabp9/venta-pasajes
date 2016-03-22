@@ -15,7 +15,8 @@ class DesplazamientosController extends AppController
         
         $desplazamientos = $this->Desplazamientos->find("all")->contain([
             "AgenciaOrigen" => ["Ubigeos"],
-            "AgenciaDestino" => ["Ubigeos"]
+            "AgenciaDestino" => ["Ubigeos"],
+            "Tarifas" => ["Servicios"]
         ]);
         
         $origen = $this->request->param("origen");
@@ -39,11 +40,8 @@ class DesplazamientosController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
-        $desplazamiento = $this->Desplazamientos->get($id, [
-            'contain' => []
-        ]);
+    public function view($id = null) {
+        $desplazamiento = $this->Desplazamientos->get($id);
 
         $this->set('desplazamiento', $desplazamiento);
         $this->set('_serialize', ['desplazamiento']);

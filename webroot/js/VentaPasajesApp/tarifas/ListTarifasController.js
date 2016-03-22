@@ -92,8 +92,9 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
             tarifa = angular.extend(tarifa, $scope.editTarifa);
             delete tarifa.servicio;
             delete tarifa.desplazamiento;
-            tarifa.$update({id: $scope.editTarifa.id}, function() {
+            tarifa.$update({id: $scope.editTarifa.id}, function(data) {
                 $("#mdlTarifas").modal('toggle');
+                $scope.actualizarMessage(data.message);
                 $scope.list();
             });
         });

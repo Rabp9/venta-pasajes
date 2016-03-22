@@ -26,7 +26,7 @@ class RutasController extends AppController
             'contain' => [
                 'Estados', 
                 "DetalleDesplazamientos" => [
-                    "Tarifas" => [
+                    "Desplazamientos" => [
                         "AgenciaOrigen" => ["Ubigeos"],
                         "AgenciaDestino" => ["Ubigeos"]
                     ]

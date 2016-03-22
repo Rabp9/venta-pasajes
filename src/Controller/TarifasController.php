@@ -93,17 +93,17 @@ class TarifasController extends AppController
             $tarifa = $this->Tarifas->patchEntity($tarifa, $this->request->data);
             if ($this->Tarifas->save($tarifa)) {
                 $message = array(
-                    'text' => __('Saved'),
+                    'text' => __('Tarifa modificada correctamente'),
                     'type' => 'success'
                 );
             } else {
                 $message = array(
-                    'text' => __('Error'),
+                    'text' => __('No fue posible modificar la tarifa'),
                     'type' => 'error'
                 );
             }
         }
-        $this->set(compact('tarifa'));
+        $this->set(compact('tarifa', "message"));
         $this->set('_serialize', ['message']);
     }
 

@@ -35,24 +35,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="txtTarifaId">Código de Tarifa</label>
-                            <input id="txtTarifaId" type="text" ng-model="tarifaSelected.id" class="form-control" readonly />
+                        <p ng-show="loading">Cargando...</p>
+                        <p ng-show="desplazamiento == null && !loading">Desplazamiento no registrado</p>
+                        <div ng-show="desplazamiento != null && !loading">
+                            <div class="form-group">
+                                <label for="txtDesplazamientoId">Código de Desplazamiento</label>
+                                <input id="txtDesplazamientoId" type="text" ng-model="desplazamiento.id" class="form-control" readonly />
+                            </div>
+                            <p>Servicios actualmente disponibles:</p>
+                            <ul>
+                                <li ng-repeat="tarifa in desplazamiento.tarifas">
+                                    {{tarifa.servicio.descripcion}} - (Precio: {{tarifa.precio_min}} - {{tarifa.precio_max}}, Tiempo: {{tarifa.tiempo}})
+                                </li> 
+                            </ul>
                         </div>
-                        <?= $this->Form->input("precio_min", [
-                            "label" => "Precio Mínimo",
-                            "ng-model" => "tarifaSelected.precio_min",
-                            "readonly" => true
-                        ]) ?>
-                        <?= $this->Form->input("precio_max", [
-                            "label" => "Precio Máximo",
-                            "ng-model" => "tarifaSelected.precio_max",
-                            "readonly" => true
-                        ]) ?>
-                        <?= $this->Form->input("tiempo", [
-                            "ng-model" => "tarifaSelected.tiempo",
-                            "readonly" => true
-                        ]) ?>
                     </div>
                 </div>
             </div>

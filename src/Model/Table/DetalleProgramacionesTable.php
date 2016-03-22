@@ -1,19 +1,20 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\DetalleDesplazamiento;
+use App\Model\Entity\DetalleProgramacione;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * DetalleDesplazamientos Model
+ * DetalleProgramaciones Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Rutas
- * @property \Cake\ORM\Association\BelongsTo $Desplazamientos
+ * @property \Cake\ORM\Association\BelongsTo $Programaciones
+ * @property \Cake\ORM\Association\BelongsTo $Servicios
  */
-class DetalleDesplazamientosTable extends Table
+class DetalleProgramacionesTable extends Table
 {
 
     /**
@@ -26,16 +27,20 @@ class DetalleDesplazamientosTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('detalle_desplazamientos');
+        $this->table('detalle_programaciones');
         $this->displayField('id');
-        $this->primaryKey('id');
+        $this->primaryKey(['id', 'ruta_id', 'programacion_id', 'servicio_id']);
 
         $this->belongsTo('Rutas', [
             'foreignKey' => 'ruta_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('Desplazamientos', [
-            'foreignKey' => 'desplazamiento_id',
+        $this->belongsTo('Programaciones', [
+            'foreignKey' => 'programacion_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Servicios', [
+            'foreignKey' => 'servicio_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -52,14 +57,6 @@ class DetalleDesplazamientosTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        $validator
-            ->dateTime('hora_salida')
-            ->allowEmpty('hora_salida');
-
-        $validator
-            ->dateTime('hora_llegada')
-            ->allowEmpty('hora_llegada');
-
         return $validator;
     }
 
@@ -73,7 +70,8 @@ class DetalleDesplazamientosTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['ruta_id'], 'Rutas'));
-        $rules->add($rules->existsIn(['desplazamiento_id'], 'Desplazamientos'));
+        $rules->add($rules->existsIn(['programacion_id'], 'Programaciones'));
+        $rules->add($rules->existsIn(['servicio_id'], 'Servicios'));
         return $rules;
     }
 }

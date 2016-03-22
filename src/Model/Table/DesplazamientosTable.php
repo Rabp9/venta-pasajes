@@ -41,6 +41,10 @@ class DesplazamientosTable extends Table
             'joinType' => 'INNER',
             'propertyName' => 'AgenciaDestino'
         ]);
+        
+        $this->hasMany('Tarifas', [
+            'foreignKey' => 'desplazamiento_id'
+        ]);
     }
 
     /**
