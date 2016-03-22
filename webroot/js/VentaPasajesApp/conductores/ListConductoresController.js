@@ -64,6 +64,13 @@ VentaPasajesApp.controller("ListConductoresController", function($scope, Conduct
             });
         }
     }
-    
+   $scope.buscarconductor = function() {
+       $scope.loading = true;
+        ConductoresService.findByDni({dni: $scope.dni}, function(data) {           
+            $scope.conductores = data.conductor;
+            $scope.loading = false;
+            
+        });
+    }
     $scope.list();
 });

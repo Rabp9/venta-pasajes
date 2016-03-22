@@ -54,6 +54,13 @@ VentaPasajesApp.controller("ListPersonasController", function($rootScope, $scope
             });
         }
     }
-    
+    $scope.buscarpersona = function() {
+       $scope.loading = true;
+        PersonasService.findByDni({dni: $scope.dni}, function(data) {           
+            $scope.personas = data.persona;
+            $scope.loading = false;
+            
+        });
+    }
     $scope.list();
 });

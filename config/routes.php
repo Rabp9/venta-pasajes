@@ -107,7 +107,18 @@ Router::scope('/', function ($routes) {
             ]
         ]
     ]);
-    $routes->resources('Conductores');
+    $routes->resources('Conductores', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'findByDni/:dni' => [
+                'action' => 'findByDni',
+                'method' => 'GET'
+            ]
+        ]
+    ]);
     $routes->resources('Tarifas', [
         'map' => [
             '/' => [

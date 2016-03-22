@@ -120,4 +120,20 @@ class ConductoresController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+    
+    public function findByDni($dni = null) { 
+        $this->viewBuilder()->layout(false);
+        
+        $dni = $this->request->param("dni");
+       
+        $conductor = $this->Conductores->find()
+            ->contain(["Personas" =>  function($q) use ($dni) {
+                    return $q->where(["personas.dni" => $dni]);
+                }])
+            ->toArray();
+
+       $this->set('conductor', $conductor);
+        $this->set('_serialize', ['conductor']);
+        
+    }
 }

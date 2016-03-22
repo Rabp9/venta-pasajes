@@ -3,7 +3,20 @@ $this->extend('/Common/vista');
 $this->assign("module-name", "Mantenedores");
 $this->assign("title", "Lista de Personas");
 ?>
-<a class="btn btn-primary" ng-click="addPersona()"><span class="glyphicon glyphicon-plus"></span> Nueva Persona</a>
+
+
+
+
+<div  class= "row" > 
+    <div  class= "col-sm-1"> <a class="btn btn-primary" ng-click="addPersona()"><span class="glyphicon glyphicon-plus"></span> Nueva Persona</a></div> 
+    <div  class= "col-md-1" style="text-align: right " >  <label for="txtDni">DNI</label></div> 
+  <div  class= "col-md-1" style="text-align: left"> <input class="form-control" ng-model="dni" type="search" maxlength="8" > </div> 
+  <div  class= "col-md-1" > 
+  <button class="btn btn-primary" type="button" ng-click="buscarpersona()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
+   </div> 
+  
+</div>
+
 
 <div id="marco_include">
     <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
