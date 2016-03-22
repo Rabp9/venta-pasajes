@@ -46,7 +46,13 @@ class TarifasController extends AppController
 
     public function view($id = null) {
         $tarifa = $this->Tarifas->get($id, [
-            'contain' => ["Servicios", "AgenciaOrigen", "AgenciaDestino"]
+            "contain" => [
+                "Servicios",
+                "Desplazamientos" => [
+                    "AgenciaOrigen" => ["Ubigeos"], 
+                    "AgenciaDestino" => ["Ubigeos"]
+                ]
+            ]
         ]);
 
         $this->set('tarifa', $tarifa);
@@ -81,9 +87,7 @@ class TarifasController extends AppController
     public function edit($id = null) {
         $this->viewBuilder()->layout(false);
         
-        $tarifa = $this->Tarifas->get($id, [
-            'contain' => []
-        ]);
+        $tarifa = $this->Tarifas->get($id);
         
         if ($this->request->is(['patch', 'post', 'put'])) {
             $tarifa = $this->Tarifas->patchEntity($tarifa, $this->request->data);
