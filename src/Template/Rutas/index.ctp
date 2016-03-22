@@ -28,10 +28,10 @@ $this->assign("title", "Rutas");
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="desplazamiento in ruta_selected.detalle_desplazamientos" class="textnot2 animated" style="background-color: #fff;" onmouseover="style.backgroundColor='#cccccc';" onmouseout="style.backgroundColor='#fff'">
-                                <td width="5%" bgcolor="#D6E4F2">{{ desplazamiento.id }}</td>
-                                <td width="35%" align="center">{{ desplazamiento | json }} ({{ desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
-                                <td width="35%" align="center">{{ desplazamiento.AgenciaDestino.direccion }} ({{ desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
+                            <tr ng-repeat="detalle_desplazamiento in ruta_selected.detalle_desplazamientos" class="textnot2 animated" style="background-color: #fff;" onmouseover="style.backgroundColor='#cccccc';" onmouseout="style.backgroundColor='#fff'">
+                                <td width="5%" bgcolor="#D6E4F2">{{ detalle_desplazamiento.id }}</td>
+                                <td width="35%" align="center">{{ detalle_desplazamiento.desplazamiento.AgenciaOrigen.direccion }} ({{ detalle_desplazamiento.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
+                                <td width="35%" align="center">{{ detalle_desplazamiento.desplazamiento.AgenciaDestino.direccion }} ({{ detalle_desplazamiento.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
                             </tr>
                         </tbody>
                     </table>
