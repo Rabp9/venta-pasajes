@@ -10,7 +10,8 @@ class PersonasController extends AppController
             
            $this->viewBuilder()->layout(false);
         
-        $personas = $this->Personas->find("all");
+        $personas = $this->Personas->find("all")
+                ->limit(50);
 
         $this->set(compact('personas'));
         $this->set('_serialize', ['personas']);
