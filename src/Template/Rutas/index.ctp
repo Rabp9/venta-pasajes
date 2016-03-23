@@ -39,6 +39,7 @@ $this->assign("title", "Rutas");
             </div>
         </div>
         <button type="button" class="btn btn-primary" ng-click="addDesplazamiento()">Nuevo Desplazamiento</button>
+        <button type="button" class="btn btn-primary" ng-click="setRestricciones()">Restricciones</button>
     </div>
 </div>
 

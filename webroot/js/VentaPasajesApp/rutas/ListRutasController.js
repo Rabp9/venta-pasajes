@@ -53,4 +53,8 @@ VentaPasajesApp.controller("ListRutasController", function($scope, RutasService,
     $scope.openModal = function() {
         $("#mdlRutas").modal("toggle");
     }
+    
+    $scope.setRestricciones = function() {
+        $scope.modalUrl = VentaPasajesApp.path_location + "rutas/add";
+    }
 });
