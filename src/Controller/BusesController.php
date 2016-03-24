@@ -73,15 +73,8 @@ class BusesController extends AppController
         $this->set(compact('bus', 'estados', 'message'));
         $this->set("_serialize", ["message"]);
     }
-
-    public function delete($id = null) {
-        $this->request->allowMethod(['post', 'delete']);
-        $bus = $this->Buses->get($id);
-        if ($this->Buses->delete($bus)) {
-            $this->Flash->success(__('The bus has been deleted.'));
-        } else {
-            $this->Flash->error(__('The bus could not be deleted. Please, try again.'));
-        }
-        return $this->redirect(['action' => 'index']);
+    
+    public function administrar() {
+        $this->viewBuilder()->layout(false);
     }
 }

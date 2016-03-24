@@ -107,4 +107,8 @@ class DetalleDesplazamientosController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+    
+    public function setRestricciones($id = null) {
+        $this->viewBuilder()->layout(false);
+    }
 }

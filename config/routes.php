@@ -81,6 +81,7 @@ Router::scope('/', function ($routes) {
     $routes->resources('Rutas');
     $routes->resources('Agencias');
     $routes->resources('Ubigeos');
+    $routes->resources('Programaciones');
     $routes->resources('DetalleDesplazamientos');
     $routes->resources('Desplazamientos', [
         'map' => [

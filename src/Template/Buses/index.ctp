@@ -80,6 +80,7 @@ $this->assign("title", "Lista de Buses");
                         <td width="4%">
                             <a style="cursor: pointer;" ng-click="viewBus(bus.id)" title="ver"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a> |
                             <a style="cursor: pointer;" ng-click="editBus(bus.id)" title="editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> |
+                            <a style="cursor: pointer;" href="#/buses/administrar/{{bus.id}}"  title="administrar"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a> |
                             <a style="cursor: pointer;" ng-click="removeBus(bus.id)" title="desactivar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                         </td>
                     </tr>

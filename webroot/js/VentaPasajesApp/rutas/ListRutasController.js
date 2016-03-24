@@ -55,6 +55,6 @@ VentaPasajesApp.controller("ListRutasController", function($scope, RutasService,
     }
     
     $scope.setRestricciones = function() {
-        $scope.modalUrl = VentaPasajesApp.path_location + "rutas/add";
+        $scope.modalUrl = VentaPasajesApp.path_location + "detalleDesplazamientos/setRestricciones";
     }
 });

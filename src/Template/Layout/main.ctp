@@ -18,7 +18,8 @@
         "VentaPasajesApp/personas/PersonasService.js",
         "VentaPasajesApp/conductores/ConductoresService.js",
         "VentaPasajesApp/servicios/ServiciosService.js",
-        "VentaPasajesApp/desplazamientos/DesplazamientosService.js"
+        "VentaPasajesApp/desplazamientos/DesplazamientosService.js",
+        "VentaPasajesApp/programaciones/ProgramacionesService.js"
     ])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
@@ -35,8 +36,12 @@
         "VentaPasajesApp/agencias/ViewAgenciasController.js",
         
         "VentaPasajesApp/detalleDesplazamientos/AddDetalleDesplazamientosController.js",
+        "VentaPasajesApp/detalleDesplazamientos/SetRestriccionesController.js",
         
         "VentaPasajesApp/tarifas/ListTarifasController.js",
+        
+        "VentaPasajesApp/programaciones/ListProgramacionesController.js",
+        "VentaPasajesApp/programaciones/AddProgramacionesController.js",
       
         "VentaPasajesApp/personas/ListPersonasController.js",
         "VentaPasajesApp/personas/AddPersonasController.js",

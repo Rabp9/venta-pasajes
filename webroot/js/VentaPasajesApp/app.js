@@ -12,6 +12,10 @@ VentaPasajesApp.config(function($routeProvider) {
             controller: "ListBusesController",
             templateUrl: "buses"
         })
+        .when("/buses/administrar/:id", {
+            controller: "AdministrarBusesController",
+            templateUrl: "buses/administrar"
+        })
         .when("/agencias", {
             controller: "ListAgenciasController",
             templateUrl: "agencias"
@@ -35,6 +39,10 @@ VentaPasajesApp.config(function($routeProvider) {
         .when("/programaciones", {
             controller: "ListProgramacionesController",
             templateUrl: "programaciones"
+        })
+        .when("/programaciones/add", {
+            controller: "AddProgramacionesController",
+            templateUrl: "programaciones/add"
         })
         .when("/servicios", {
             controller: "ListServiciosController",
