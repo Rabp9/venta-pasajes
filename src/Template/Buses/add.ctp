@@ -12,7 +12,6 @@
                         <?php
                             echo $this->Form->input('placa', ["ng-model" => "newBus.placa"]);
                             echo $this->Form->input('chasis', ["ng-model" => "newBus.chasis"]);
-                            echo $this->Form->input('asientos', ["ng-model" => "newBus.asientos"]);
                             echo $this->Form->input('anio', ['label' => "Año", "ng-model" => "newBus.anio"]);
                             echo $this->Form->input('motor', ["ng-model" => "newBus.motor"]);
                             echo $this->Form->input("estado_id", [

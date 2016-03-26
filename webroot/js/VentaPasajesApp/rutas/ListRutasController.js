@@ -36,10 +36,12 @@ VentaPasajesApp.controller("ListRutasController", function($scope, RutasService,
     
     $scope.addDesplazamiento = function() {
         $scope.modalUrl = VentaPasajesApp.path_location + "DetalleDesplazamientos/add";
+        $scope.modal_grande = false;
     }
     
     $scope.addRuta = function() {
         $scope.modalUrl = VentaPasajesApp.path_location + "rutas/add";
+        $scope.modal_grande = false;
     }
     
     $scope.list();
@@ -56,5 +58,6 @@ VentaPasajesApp.controller("ListRutasController", function($scope, RutasService,
     
     $scope.setRestricciones = function() {
         $scope.modalUrl = VentaPasajesApp.path_location + "detalleDesplazamientos/setRestricciones";
+        $scope.modal_grande = true;
     }
 });

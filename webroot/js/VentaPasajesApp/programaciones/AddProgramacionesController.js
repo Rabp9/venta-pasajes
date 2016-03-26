@@ -20,4 +20,10 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
     EstadosService.get(function(data) {
         $scope.estados = data.estados;
     });
+    
+    $scope.onBusSelected = function() {
+        BusesService.get({id: $scope.programacion.bus_id}, function(data) {
+            $scope.busSelected = data.bus;
+        })
+    }
 });

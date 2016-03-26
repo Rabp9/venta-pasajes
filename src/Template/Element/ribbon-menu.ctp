@@ -1,11 +1,11 @@
 <div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#perfil" aria-controls="home" role="tab" data-toggle="tab">Perfil</a></li>
-        <li role="presentation"><a href="#mantenedores" aria-controls="profile" role="tab" data-toggle="tab">Mantenedores</a></li>
-        <li role="presentation"><a href="#programacion" aria-controls="settings" role="tab" data-toggle="tab">Programación</a></li>
-        <li role="presentation"><a href="#ventas" aria-controls="messages" role="tab" data-toggle="tab">Ventas</a></li>
-        <li role="presentation"><a href="#reportes" aria-controls="settings" role="tab" data-toggle="tab">Reportes</a></li>
+        <li role="presentation" class="active"><a data-target="#perfil" aria-controls="home" role="tab" data-toggle="tab">Perfil</a></li>
+        <li role="presentation"><a data-target="#mantenedores" aria-controls="profile" role="tab" data-toggle="tab">Mantenedores</a></li>
+        <li role="presentation"><a data-target="#programacion" aria-controls="settings" role="tab" data-toggle="tab">Programación</a></li>
+        <li role="presentation"><a data-target="#ventas" aria-controls="messages" role="tab" data-toggle="tab">Ventas</a></li>
+        <li role="presentation"><a data-target="#reportes" aria-controls="settings" role="tab" data-toggle="tab">Reportes</a></li>
     </ul>
 
     <!-- Tab panes -->

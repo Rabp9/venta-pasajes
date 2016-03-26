@@ -26,6 +26,7 @@
         "VentaPasajesApp/buses/AddBusesController.js",
         "VentaPasajesApp/buses/EditBusesController.js",
         "VentaPasajesApp/buses/ViewBusesController.js",
+        "VentaPasajesApp/buses/AdministrarBusesController.js",
         
         "VentaPasajesApp/rutas/ListRutasController.js",
         "VentaPasajesApp/rutas/AddRutasController.js",

@@ -8,25 +8,32 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-12">
-                        <table class="table-responsive table-bordered">
-                            <tr>
-                                <td> </td>
-                                <td ng-repeat="desplazamiento_x in desplazamientos_x">
-                                    Cod. Des. {{desplazamiento_x.id}}
-                                </td>
-                            </tr>
-                            <tr ng-repeat="desplazamiento_y in desplazamientos_y">
-                                <td>
-                                    Cod. Des. {{desplazamiento_y.id}}
-                                </td>
-                                <td ng-repeat="desplazamiento_x in desplazamientos_x">
-                                    <input ng-disabled="$index == $parent.$index" type="checkbox" ng-model="restricciones[($index + $parent.$index + $index * 2).toString()].valor">
-                                </td>
-                            </tr>
+                    <div class="col-sm-12 table-responsive">
+                        <h4>Restricciones</h4>
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td> </td>
+                                    <td ng-repeat="desplazamiento_x in desplazamientos_x">
+                                        Cod. Des. {{desplazamiento_x.id}}
+                                    </td>
+                                </tr>
+                                <tr ng-repeat="desplazamiento_y in desplazamientos_y">
+                                    <td>
+                                        Cod. Des. {{desplazamiento_y.id}}
+                                    </td>
+                                    <td ng-repeat="desplazamiento_x in desplazamientos_x">
+                                        <input ng-disabled="$index == $parent.$index" type="checkbox" ng-model="restricciones[($index + $parent.$index + $index * 2).toString()].valor">
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 table-responsive">
                         <h4>Leyenda</h4>
-                        <table class="table-responsive table-striped">
+                        <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>Código</th>

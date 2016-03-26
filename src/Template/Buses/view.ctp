@@ -18,9 +18,6 @@
                         <dt>Chasis</dt>
                         <dd><?= $bus->chasis ?></dd>
                         
-                        <dt>Asientos</dt>
-                        <dd><?= $bus->asientos ?></dd>
-                        
                         <dt>Año</dt>
                         <dd><?= $bus->anio ?></dd>
                         
