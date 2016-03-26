@@ -77,4 +77,28 @@ class BusesController extends AppController
     public function administrar() {
         $this->viewBuilder()->layout(false);
     }
+    
+    public function subir() {
+        $this->viewBuilder()->layout(false);
+        if ($this->request->is("post")) {
+            $imagen = $this->request->data["file"];
+
+            if (move_uploaded_file($imagen["tmp_name"], 
+                WWW_ROOT . "img" . DS . "cache" . DS . $imagen["name"])) {
+                $message = [
+                    "type" => "success",
+                    "text" => "Imagen subida con éxito",
+                    "fileUrl" => "cache/" . $imagen["name"]
+                ];
+            } else {
+                $message = [
+                    "type" => "error",
+                    "text" => "La imagen no fue subida con éxito",
+                ];
+            }
+            
+            $this->set(compact("message"));
+            $this->set("_serialize", ["message"]);
+        }
+    }
 }

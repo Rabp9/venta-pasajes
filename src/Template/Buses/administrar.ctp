@@ -24,32 +24,39 @@ $this->assign("title", "Administrar Bus");
         </dl>
     </div>
 </div>
-<div class="row">
-    <div class="col-sm-12">
-        <div class="form-group">
-            <label for="sltPisos">Pisos</label>
-            <select id="sltPisos" class="form-control" type="text" ng-model="bus.nro_pisos">
-                <option value="">Selecciona el número de Pisos</option>
-                <option value="1">1 Piso</option>
-                <option value="2">2 Piso</option>
-                <option value="3">3 Piso</option>
-            </select>
-        </div>
-    </div>
-    <div class="col-sm-12">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" ng-repeat="n in [bus.nro_pisos] | makeRange" ng-class='{active:$first}'>
-                <a data-target="#piso{{n + 1}}" aria-controls="piso{{n + 1}}" role="tab" data-toggle="tab">Piso {{n + 1}}</a>
-            </li>
-        </ul>
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div ng-repeat="n in [bus.nro_pisos] | makeRange" role="tabpanel" 
-                class="tab-pane" ng-class='{active:$first, in: $first}' id="piso{{n + 1}}">
-                Asientos en Piso {{n + 1}}
+<form ng-submit="saveBus()">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="sltPisos">Pisos</label>
+                <select id="sltPisos" class="form-control" type="text" ng-model="bus.nro_pisos">
+                    <option value="">Selecciona el número de Pisos</option>
+                    <option value="1">1 Piso</option>
+                    <option value="2">2 Piso</option>
+                    <option value="3">3 Piso</option>
+                </select>
             </div>
         </div>
-    </div>
-</div> 
+        <div class="col-sm-12">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" ng-repeat="n in [bus.nro_pisos] | makeRange" ng-class='{active:$first}'>
+                    <a data-target="#piso{{n + 1}}" aria-controls="piso{{n + 1}}" role="tab" data-toggle="tab">Piso {{n + 1}}</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div ng-repeat="n in [bus.nro_pisos] | makeRange" role="tabpanel" 
+                    class="tab-pane" ng-class='{active:$first, in: $first}' id="piso{{n + 1}}">
+                    <div class="form-group">
+                        <label for="flImagen{{n + 1}}">Imagen</label>
+                        <input id="flImagen{{n + 1}}" type="file"  file-model="imagen[n]" 
+                            ngf-select="uploadFile(n)"/>
+                    </div>
+                    <img ng-src="img/{{imgUrl[n]}}" width="300px"/>
+                </div>
+            </div>
+        </div>
+    </div> 
+</form>

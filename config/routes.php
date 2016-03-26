@@ -76,7 +76,18 @@ Router::scope('/', function (RouteBuilder $routes) {
 
 Router::scope('/', function ($routes) {
     $routes->extensions(['json']);   
-    $routes->resources('Buses');
+    $routes->resources('Buses', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'subir/' => [
+                'action' => 'subir',
+                'method' => 'POST'
+            ]
+        ]
+    ]);
     $routes->resources('Estados');
     $routes->resources('Rutas');
     $routes->resources('Agencias');

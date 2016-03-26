@@ -5,7 +5,7 @@
     <?= $this->Html->css(["ribbon.css", "bootstrap.min.css", "style.css", 
         "fonts25.css", "panels.css", "angular-animations.css"]) ?>
     <?= $this->Html->script(["angular.min.js", "angular-route.min.js", 
-        "angular-resource.min.js", "angular-animate.min.js",
+        "angular-resource.min.js", "angular-animate.min.js", "ng-file-upload.min.js",
         "VentaPasajesApp/app.js"]) 
     ?> 
     <?= $this->Html->script(["VentaPasajesApp/buses/BusesService.js",
