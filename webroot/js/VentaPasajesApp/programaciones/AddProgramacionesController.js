@@ -25,5 +25,17 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
         BusesService.get({id: $scope.programacion.bus_id}, function(data) {
             $scope.busSelected = data.bus;
         })
-    }
+    };
+    
+    $scope.onRutaSelected = function() {
+        RutasService.get({id: $scope.programacion.ruta_id}, function(data) {
+            $scope.rutaSelected = data.ruta;
+        })
+    };
+    
+    $scope.onServicioSelected = function() {
+        ServiciosService.get({id: $scope.programacion.servicio_id}, function(data) {
+            $scope.servicioSelected = data.servicio;
+        })
+    };
 });

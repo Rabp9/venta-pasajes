@@ -1,8 +1,8 @@
-<!-- src/Template/Programaciones/index.ctp -->
+<!-- src/Template/Pasajes/index.ctp -->
 <?php
 $this->extend('/Common/vista');
-$this->assign("module-name", "Programación");
-$this->assign("title", "Lista de Programaciones");
+$this->assign("module-name", "Ventas");
+$this->assign("title", "Pasajes");
 ?>
 <div ng-show="message.type == 'success'" class="alert alert-success alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -12,7 +12,31 @@ $this->assign("title", "Lista de Programaciones");
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
-<a class="btn btn-primary" href="#/programaciones/add"><span class="glyphicon glyphicon-plus"></span> Nueva Programación</a>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label for="dtFecha">Fecha</label>
+            <input id="dtFecha" class="form-control" type="date" ng-model="fecha" /> 
+        </div>    
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label for="sltOrigen">Origen</label>
+            <select id="sltOrigen" ng-model="origen" class="form-control">
+                <option value="">Selecciona un Origen</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label for="sltDestino">Destino</label>
+            <select id="sltDestino" ng-model="destino" class="form-control">
+                <option value="">Selecciona un Destino</option>
+            </select>
+        </div>
+    </div>
+</div>
 
 <div id="marco_include">
     <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
@@ -34,7 +58,7 @@ $this->assign("title", "Lista de Programaciones");
                         </th>
                         <th width="8%" align="center">
                             <a ng-click="order('chasis')" style="cursor: pointer;">
-                                Fecha y Hora Programado
+                                Fecha y Hora Programada
                                 <span class="glyphicon" ng-show="predicate === 'chasis'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>

@@ -48,6 +48,10 @@ VentaPasajesApp.config(function($routeProvider) {
             controller: "ListServiciosController",
             templateUrl: "servicios"
         })
+        .when("/pasajes", {
+            controller: "PasajesController",
+            templateUrl: "pasajes"
+        })
     ;
 });
 

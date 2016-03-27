@@ -54,6 +54,8 @@
         "VentaPasajesApp/servicios/EditServiciosController.js",
         "VentaPasajesApp/servicios/ViewServiciosController.js",
         
+        "VentaPasajesApp/pasajes/PasajesController.js",
+        
         "VentaPasajesApp/conductores/ListConductoresController.js",
         "VentaPasajesApp/conductores/AddConductoresController.js",
         "VentaPasajesApp/conductores/EditConductoresController.js",
