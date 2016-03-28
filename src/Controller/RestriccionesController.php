@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Datasource\ConnectionManager;
 
 /**
  * Restricciones Controller
@@ -11,13 +12,7 @@ use App\Controller\AppController;
 class RestriccionesController extends AppController
 {
 
-    /**
-     * Index method
-     *
-     * @return \Cake\Network\Response|null
-     */
-    public function index()
-    {
+    public function index() {
         $restricciones = $this->paginate($this->Restricciones);
 
         $this->set(compact('restricciones'));
@@ -104,5 +99,33 @@ class RestriccionesController extends AppController
             $this->Flash->error(__('The restriccione could not be deleted. Please, try again.'));
         }
         return $this->redirect(['action' => 'index']);
+    }
+    
+    public function saveMany() {
+        if ($this->request->is("post")) {
+            $conn = ConnectionManager::get($this->Restricciones->defaultConnectionName());
+            $restrcciones = $this->Restricciones->newEntities($this->request->data);
+            $conn->begin();
+            foreach ($restrcciones as $restriccion) {
+                $r = $this->Restricciones->save($restriccion);
+                if(!$r) {
+                    $conn->rollback();
+                    $message = [
+                        "type" => "error",
+                        "text" => "No se pudo registrar las restricciones"
+                    ];
+                    break;
+                }
+            }
+            if($r) {
+                $conn->commit();
+                $message = [
+                    "type" => "success",
+                    "text" => "Las restricciones fueron registradas correctamente"
+                ];
+            }
+            $this->set(compact('message'));
+            $this->set('_serialize', ['message']);
+        }
     }
 }

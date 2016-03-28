@@ -17,4 +17,25 @@ VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesS
             $scope.imgUrl[index] = data.message.fileUrl;
         });
     };
+    
+    allowDrop = function(ev) {
+        ev.preventDefault();
+    }
+    
+    drag = function(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+    
+    drop = function(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        var img_bus_id = "#" + ev.target.id;
+        var div_asiento_id = "#" + data;
+        console.log("x: " + ev.clientX);
+        console.log("y: " + ev.clientY);
+        $(div_asiento_id).css("left", ev.clientX);
+        $(div_asiento_id).css("top", ev.clientY);
+        $(div_asiento_id).css("position", "absolute");
+        $(img_bus_id).parent().append($(div_asiento_id));
+    }
 });

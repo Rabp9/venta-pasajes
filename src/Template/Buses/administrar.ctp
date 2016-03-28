@@ -49,12 +49,33 @@ $this->assign("title", "Administrar Bus");
             <div class="tab-content">
                 <div ng-repeat="n in [bus.nro_pisos] | makeRange" role="tabpanel" 
                     class="tab-pane" ng-class='{active:$first, in: $first}' id="piso{{n + 1}}">
-                    <div class="form-group">
-                        <label for="flImagen{{n + 1}}">Imagen</label>
-                        <input id="flImagen{{n + 1}}" type="file"  file-model="imagen[n]" 
-                            ngf-select="uploadFile(n)"/>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="nmAsientos{{n + 1}}">Asientos</label>
+                                <input class="form-control" id="nmAsientos{{n + 1}}" type="number" min="0" max="100" ng-model="asientos[n]"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="flImagen{{n + 1}}">Imagen</label>
+                                <input class="form-control" id="flImagen{{n + 1}}" type="file"  file-model="imagen[n]" 
+                                    ngf-select="uploadFile(n)"/>
+                            </div>
+                        </div>
                     </div>
-                    <img ng-src="img/{{imgUrl[n]}}" width="300px"/>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div id="asiento{{n}}{{$index}}" class="draggable" ng-repeat="m in [asientos[n]] | makeRange"
+                                 draggable="true" ondragstart="drag(event)">
+                                {{m + 1}}
+                            </div>
+                        </div>
+                        <div class="col-sm-10 draggable-container">
+                            <img id="img-bus{{n}}" ondragover="allowDrop(event)" class="img-bus" 
+                                 ng-src="img/{{imgUrl[n]}}" ondrop="drop(event)"/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

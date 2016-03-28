@@ -20,8 +20,7 @@ class RestriccionesTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->table('restricciones');
@@ -48,10 +47,6 @@ class RestriccionesTable extends Table
         $validator
             ->integer('desplazamiento_y')
             ->allowEmpty('desplazamiento_y', 'create');
-
-        $validator
-            ->requirePresence('valor', 'create')
-            ->notEmpty('valor');
 
         return $validator;
     }

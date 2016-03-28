@@ -94,6 +94,18 @@ Router::scope('/', function ($routes) {
     $routes->resources('Ubigeos');
     $routes->resources('Programaciones');
     $routes->resources('DetalleDesplazamientos');
+    $routes->resources('Restricciones', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'saveMany/' => [
+                'action' => 'saveMany',
+                'method' => 'POST'
+            ]
+        ]
+    ]);
     $routes->resources('Desplazamientos', [
         'map' => [
             '/' => [

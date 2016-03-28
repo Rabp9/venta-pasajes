@@ -33,4 +33,11 @@ class Persona extends Entity
         '*' => true,
         'id' => false,
     ];
+    
+    protected $_virtual = ['full_name'];
+    
+    protected function _getFullName() {
+        return $this->_properties['apellidos'] . ', ' .
+            $this->_properties['nombres'];
+    }
 }

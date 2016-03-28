@@ -1,6 +1,6 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("SetRestriccionesController", function($scope) {
+VentaPasajesApp.controller("SetRestriccionesController", function($scope, RestriccionesService) {
     $scope.desplazamientos_x = $scope.$parent.ruta_selected.detalle_desplazamientos;
     $scope.desplazamientos_y = $scope.$parent.ruta_selected.detalle_desplazamientos;
     $scope.restricciones = [];
@@ -16,6 +16,8 @@ VentaPasajesApp.controller("SetRestriccionesController", function($scope) {
     });
     
     $scope.setRestricciones = function() {
-        console.log($scope.restricciones);
+        RestriccionesService.saveMany($scope.restricciones, function(data) {
+            console.log(data);
+        })
     }
 });

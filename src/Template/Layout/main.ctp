@@ -13,6 +13,7 @@
         "VentaPasajesApp/rutas/RutasService.js",
         "VentaPasajesApp/agencias/AgenciasService.js",
         "VentaPasajesApp/ubigeos/UbigeosService.js",
+        "VentaPasajesApp/restricciones/RestriccionesService.js",
         "VentaPasajesApp/tarifas/TarifasService.js",
         "VentaPasajesApp/detalleDesplazamientos/DetalleDesplazamientosService.js",
         "VentaPasajesApp/personas/PersonasService.js",

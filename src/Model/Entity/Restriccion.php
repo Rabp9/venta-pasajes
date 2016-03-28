@@ -8,7 +8,9 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $desplazamiento_x
+ * @property \App\Model\Entity\DetalleDesplazamiento $Desplazamiento_x
  * @property int $desplazamiento_y
+ * @property \App\Model\Entity\DetalleDesplazamiento $Desplazamiento_y
  * @property string $valor
  */
 class Restriccion extends Entity
