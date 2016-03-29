@@ -65,15 +65,19 @@ $this->assign("title", "Administrar Bus");
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-2">
-                            <div id="asiento{{n}}{{$index}}" class="draggable" ng-repeat="m in [asientos[n]] | makeRange"
-                                 draggable="true" ondragstart="drag(event)">
-                                {{m + 1}}
+                        <div class="col-sm-12 col-md-2">
+                            <div class="draggable-container">
+                                <div id="asiento{{n}}{{$index}}" class="draggable" ng-repeat="m in [asientos[n]] | makeRange"
+                                     draggable="true" ondragstart="drag(event)">
+                                    {{m + 1}}
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-10 draggable-container">
-                            <img id="img-bus{{n}}" ondragover="allowDrop(event)" class="img-bus" 
-                                 ng-src="img/{{imgUrl[n]}}" ondrop="drop(event)"/>
+                        <div class="col-md-10 col-sm-12">
+                            <div class="droppable-container">
+                                <img id="img-bus{{n}}" ondragover="allowDrop(event)" class="img-bus" 
+                                     ng-src="img/{{imgUrl[n]}}" ondrop="drop(event)"/>
+                            </div>
                         </div>
                     </div>
                 </div>

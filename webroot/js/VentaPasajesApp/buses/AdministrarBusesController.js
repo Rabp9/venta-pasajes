@@ -24,17 +24,19 @@ VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesS
     
     drag = function(ev) {
         ev.dataTransfer.setData("text", ev.target.id);
+        ev.dataTransfer.setData("offset_x", ev.offsetX);
+        ev.dataTransfer.setData("offset_y", ev.offsetY);
     }
     
     drop = function(ev) {
         ev.preventDefault();
         var data = ev.dataTransfer.getData("text");
+        var offset_x = ev.dataTransfer.getData("offset_x");
+        var offset_y = ev.dataTransfer.getData("offset_y");
         var img_bus_id = "#" + ev.target.id;
         var div_asiento_id = "#" + data;
-        console.log("x: " + ev.clientX);
-        console.log("y: " + ev.clientY);
-        $(div_asiento_id).css("left", ev.clientX);
-        $(div_asiento_id).css("top", ev.clientY);
+        $(div_asiento_id).css("left", ev.offsetX - offset_x - 5);
+        $(div_asiento_id).css("top", ev.offsetY - offset_y - 5);
         $(div_asiento_id).css("position", "absolute");
         $(img_bus_id).parent().append($(div_asiento_id));
     }

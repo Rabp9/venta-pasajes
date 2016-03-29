@@ -19,13 +19,16 @@ body {
     background-color: #CDE2FF;
 }
 
-.draggable-container {
+.droppable-container {
     position: relative;
+}
+
+.draggable-container {
+    overflow: hidden;
 }
 
 .draggable { 
     margin: 3px; 
-    padding: 1px; 
     float: left;
     width: 50px; 
     height: 50px;
@@ -34,6 +37,7 @@ body {
     border: solid 1px;
 }
   
-.img-bus {
-    width: 100%;
+.img-bus { 
+  min-height: 355px;
+  min-width: 930px;
 }
