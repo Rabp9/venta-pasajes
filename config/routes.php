@@ -75,7 +75,7 @@ Router::scope('/', function (RouteBuilder $routes) {
 });
 
 Router::scope('/', function ($routes) {
-    $routes->extensions(['json']);   
+    $routes->extensions(['json']);
     $routes->resources('Buses', [
         'map' => [
             '/' => [
@@ -91,7 +91,18 @@ Router::scope('/', function ($routes) {
     $routes->resources('Estados');
     $routes->resources('Rutas');
     $routes->resources('Agencias');
-    $routes->resources('Ubigeos');
+    $routes->resources('Ubigeos', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'findByParent/:parent_id' => [
+                'action' => 'findByParent',
+                'method' => 'GET'
+            ]
+        ]
+    ]);
     $routes->resources('Programaciones');
     $routes->resources('BusPisos');
     $routes->resources('DetalleDesplazamientos');

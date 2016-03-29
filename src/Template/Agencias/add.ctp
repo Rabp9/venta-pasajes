@@ -16,11 +16,29 @@
                         ?>
                         <div class="form-group">
                             <label for="sltUbigeo">Ubigeo</label>
-                            <input class="form-control" type="search" ng-model="search" />
-                            <select id="sltUbigeo" class="form-control" ng-model="newAgencia.ubigeo_id"
-                                ng-options="ubigeo.id as ubigeo.descripcion for ubigeo in ubigeos | filterUbigeo:search">
-                                <option value="">Selecciona uno</option>
-                            </select>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <select id="sltDepartamento" class="form-control" ng-model="departamentoSelected"
+                                        ng-options="departamento.id as departamento.descripcion for departamento in departamentos"
+                                        ng-change="onDepartamentoSelect()">
+                                        <option value="">Selecciona un Departamento</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select id="sltProvincia" class="form-control" ng-model="provinciaSelected"
+                                        ng-options="provincia.id as provincia.descripcion for provincia in provincias"
+                                        ng-change="onProvinciaSelect()">
+                                        <option value="">Selecciona una Provincia</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <select id="sltDistrito" class="form-control" ng-model="distritoSelected"
+                                        ng-options="distrito.id as distrito.descripcion for distrito in distritos"
+                                        ng-change="onDistritoSelect()">
+                                        <option value="">Selecciona un Distrito</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <?php
                             echo $this->Form->input("estado_id", [

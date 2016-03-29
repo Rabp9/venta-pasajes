@@ -3,15 +3,8 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 VentaPasajesApp.controller("AddAgenciasController", function($scope, AgenciasService, UbigeosService) {
     $scope.newAgencia = new AgenciasService();
     
-    $scope.ubigeos = UbigeosService.get(function() {
-        $scope.ubigeos = $scope.ubigeos.ubigeos;
-        $scope.ubigeos = Object.keys($scope.ubigeos).map(function(value, index) {
-            var obj = {
-                id: parseInt(value),
-                descripcion: $scope.ubigeos[value]
-            };
-            return obj;
-        });
+    UbigeosService.findByParent({parent_id: 0},function(data) {
+        $scope.departamentos = data.ubigeos;
     });
     
     $scope.addAgencia = function() {
@@ -21,5 +14,17 @@ VentaPasajesApp.controller("AddAgenciasController", function($scope, AgenciasSer
             $scope.$parent.actualizarMessage(data.message);
             $scope.$parent.list();
         });
-    }
+    };
+    
+    $scope.onDepartamentoSelect = function() {
+        AgenciasService.findByParent({parent_id: $scope.departamentoSelected}, function(data) {
+            $scope.provincias = data.ubigeos;
+        });
+    };
+    
+    $scope.onProvinciaSelect = function() {
+        AgenciasService.findByParent({parent_id: $scope.provinciaSelected}, function(data) {
+            $scope.distritos = data.ubigeos;
+        });
+    };
 });

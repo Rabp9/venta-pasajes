@@ -12,7 +12,8 @@ class UbigeosController extends AppController
 {
     public function index() {
         //$this->Ubigeos->recover();
-        $ubigeos = $this->Ubigeos->find('treelist');
+        $ubigeos = $this->Ubigeos->find('all')
+            ->where(["parent_id" => 0]);
 
         $this->set(compact('ubigeos'));
         $this->set('_serialize', ['ubigeos']);
@@ -100,5 +101,15 @@ class UbigeosController extends AppController
             $this->Flash->error(__('The ubigeo could not be deleted. Please, try again.'));
         }
         return $this->redirect(['action' => 'index']);
+    }
+    
+    public function findByParent($parent_id = 0) {
+        $this->viewBuilder()->layout(false);
+        $ubigeos = $this->Ubigeos->find()->where(["parent_id" => $parent_id]);
+        
+        $parent_id = $this->request->param("parent_id");
+        
+        $this->set(compact("ubigeos"));
+        $this->set("_serialize", ["ubigeos"]);
     }
 }
