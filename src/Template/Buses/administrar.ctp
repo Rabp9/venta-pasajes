@@ -48,7 +48,7 @@ $this->assign("title", "Administrar Bus");
             <!-- Tab panes -->
             <div class="tab-content">
                 <div ng-repeat="n in [bus.nro_pisos] | makeRange" role="tabpanel" 
-                    class="tab-pane" ng-class='{active:$first, in: $first}' id="piso{{n + 1}}">
+                    class="tab-pane panel{{n}}" ng-class='{active:$first, in: $first}' id="piso{{n + 1}}">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -69,7 +69,7 @@ $this->assign("title", "Administrar Bus");
                             <div class="draggable-container">
                                 <div id="asiento{{n}}{{$index}}" class="draggable" ng-repeat="m in [asientos[n]] | makeRange"
                                      draggable="true" ondragstart="drag(event)">
-                                    {{m + 1}}
+                                    <span>{{m + 1}}</span>
                                 </div>
                             </div>
                         </div>
@@ -84,4 +84,5 @@ $this->assign("title", "Administrar Bus");
             </div>
         </div>
     </div> 
+    <button type="submit" class="btn btn-primary">Guardar</button>
 </form>

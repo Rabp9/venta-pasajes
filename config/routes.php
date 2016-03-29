@@ -93,6 +93,7 @@ Router::scope('/', function ($routes) {
     $routes->resources('Agencias');
     $routes->resources('Ubigeos');
     $routes->resources('Programaciones');
+    $routes->resources('BusPisos');
     $routes->resources('DetalleDesplazamientos');
     $routes->resources('Restricciones', [
         'map' => [

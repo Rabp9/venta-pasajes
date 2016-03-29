@@ -1,6 +1,6 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesService, $routeParams, Upload) {
+VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesService, $routeParams, BusPisosService) {
     $scope.imagen = [];
     $scope.imgUrl = [];
     
@@ -39,5 +39,32 @@ VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesS
         $(div_asiento_id).css("top", ev.offsetY - offset_y - 5);
         $(div_asiento_id).css("position", "absolute");
         $(img_bus_id).parent().append($(div_asiento_id));
+    }
+    
+    $scope.saveBus = function() {
+        var bus_pisos = [];
+        for (var i = 0; i < $scope.bus.nro_pisos; i++) {
+            var nro_asientos = $(".panel" + i).find(".draggable").length;
+            var bus_piso = {
+                bus_id: $scope.bus.id,
+                nro_piso: i + 1,
+                imagen: $scope.imgUrl[i],
+                nro_asientos: nro_asientos,
+                bus_asientos: []
+            };
+            $(".panel" + i).find(".draggable").each(function() {
+                var bus_asiento = {
+                    nro_asiento: $(this).find("span").text(),
+                    x: $(this).css("left").substring(0, $(this).css("left").length - 2),
+                    y: $(this).css("top").substring(0, $(this).css("top").length - 2),
+                    estado_id: 1
+                };
+                bus_piso.bus_asientos.push(bus_asiento);
+            });
+            bus_pisos.push(bus_piso);
+        }
+        BusPisosService.save(bus_pisos, function(data) {
+            console.log(data);
+        })
     }
 });
