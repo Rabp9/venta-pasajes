@@ -33,10 +33,18 @@ class UbigeosTable extends Table
         
         $this->addBehavior('Tree');
 
-        $this->belongsTo('ParentUbigeos', [
+        $this->belongsTo('ParentUbigeos1', [
             'className' => 'Ubigeos',
-            'foreignKey' => 'parent_id'
+            'foreignKey' => 'parent_id',
+            'joinType' => 'INNER'
         ]);
+        
+        $this->belongsTo('ParentUbigeos2', [
+            'className' => 'Ubigeos',
+            'foreignKey' => 'parent_id',
+            'joinType' => 'INNER'
+        ]);
+        
         $this->hasMany('Agencias', [
             'foreignKey' => 'ubigeo_id'
         ]);

@@ -32,7 +32,7 @@
                                     </select>
                                 </div>
                                 <div class="col-sm-4">
-                                    <select id="sltDistrito" class="form-control" ng-model="distritoSelected"
+                                    <select id="sltDistrito" class="form-control" ng-model="newAgencia.ubigeo_id"
                                         ng-options="distrito.id as distrito.descripcion for distrito in distritos"
                                         ng-change="onDistritoSelect()">
                                         <option value="">Selecciona un Distrito</option>

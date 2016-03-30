@@ -17,13 +17,14 @@ VentaPasajesApp.controller("AddAgenciasController", function($scope, AgenciasSer
     };
     
     $scope.onDepartamentoSelect = function() {
-        AgenciasService.findByParent({parent_id: $scope.departamentoSelected}, function(data) {
+        UbigeosService.findByParent({parent_id: $scope.departamentoSelected}, function(data) {
             $scope.provincias = data.ubigeos;
         });
+        $scope.distritos = [];
     };
     
     $scope.onProvinciaSelect = function() {
-        AgenciasService.findByParent({parent_id: $scope.provinciaSelected}, function(data) {
+        UbigeosService.findByParent({parent_id: $scope.provinciaSelected}, function(data) {
             $scope.distritos = data.ubigeos;
         });
     };

@@ -4,29 +4,40 @@ VentaPasajesApp.controller("EditAgenciasController", function($scope, AgenciasSe
     $scope.estados = new EstadosService();
     $scope.ubigeos = new UbigeosService();
     
-    $scope.editAgencia = AgenciasService.get({ id: $scope.$parent.id }, function() {
-        $scope.editAgencia = $scope.editAgencia.agencia;
-        delete $scope.editAgencia.estado;
-        delete $scope.editAgencia.ubigeo;
+    UbigeosService.findByParent({parent_id: 0},function(data) {
+        $scope.departamentos = data.ubigeos;
+    });
+    
+    UbigeosService.findByParent({parent_id: 0},function(data) {
+        $scope.departamentos = data.ubigeos;
+    });
+    
+    AgenciasService.get({ id: $scope.$parent.id }, function(data) {
+        $scope.editAgencia = data.agencia;
+        $scope.departamentoSelected = $scope.editAgencia.ubigeo.parent_ubigeos1.parent_ubigeos2.id;
+        $scope.onDepartamentoSelect();
+        $scope.provinciaSelected = $scope.editAgencia.ubigeo.parent_ubigeos1.id;
+        $scope.onProvinciaSelect();
     });
     
     $scope.estados = EstadosService.get(function() {
         $scope.estados = $scope.estados.estados;
     });
     
-    $scope.ubigeos = UbigeosService.get(function() {
-        $scope.ubigeos = $scope.ubigeos.ubigeos;
-        $scope.ubigeos = Object.keys($scope.ubigeos).map(function(value, index) {
-            var obj = {
-                id: parseInt(value),
-                descripcion: $scope.ubigeos[value]
-            };
-            return obj;
+    $scope.onDepartamentoSelect = function() {
+        UbigeosService.findByParent({parent_id: $scope.departamentoSelected}, function(data) {
+            $scope.provincias = data.ubigeos;
         });
-    });
+        $scope.distritos = [];
+    };
+    
+    $scope.onProvinciaSelect = function() {
+        UbigeosService.findByParent({parent_id: $scope.provinciaSelected}, function(data) {
+            $scope.distritos = data.ubigeos;
+        });
+    };
     
     $scope.updateAgencia = function() {
-        alert("dasdas");
         var agencia = AgenciasService.get({id: $scope.$parent.id}, function() {
             agencia = angular.extend(agencia, $scope.editAgencia);
             delete agencia.estado; 

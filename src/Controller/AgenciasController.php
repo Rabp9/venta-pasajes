@@ -9,7 +9,7 @@ class AgenciasController extends AppController
         $this->viewBuilder()->layout(false);
         
         $agencias = $this->Agencias->find("all")
-            ->contain(["Estados", "Ubigeos" => ["ParentUbigeos"]]);
+            ->contain(["Estados", "Ubigeos" => ["ParentUbigeos1"]]);
 
         $this->set(compact('agencias'));
         $this->set('_serialize', ['agencias']);
@@ -19,8 +19,12 @@ class AgenciasController extends AppController
         $this->viewBuilder()->layout(false);
         
         $agencia = $this->Agencias->get($id, [
-            'contain' => ['Ubigeos', 'Estados']
-            
+            'contain' => [
+                'Ubigeos' => [
+                    'ParentUbigeos1' => ["ParentUbigeos2"]
+                ], 
+                'Estados'
+            ]
         ]);
 
         $this->set('agencia', $agencia);

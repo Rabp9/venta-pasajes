@@ -29,9 +29,8 @@ class UbigeosController extends AppController
     public function view($id = null)
     {
         $ubigeo = $this->Ubigeos->get($id, [
-            'contain' => ['ParentUbigeos', 'Agencias', 'ChildUbigeos']
+            'contain' => ['ParentUbigeos1', 'Agencias', 'ChildUbigeos']
         ]);
-
         $this->set('ubigeo', $ubigeo);
         $this->set('_serialize', ['ubigeo']);
     }
@@ -105,9 +104,9 @@ class UbigeosController extends AppController
     
     public function findByParent($parent_id = 0) {
         $this->viewBuilder()->layout(false);
-        $ubigeos = $this->Ubigeos->find()->where(["parent_id" => $parent_id]);
         
         $parent_id = $this->request->param("parent_id");
+        $ubigeos = $this->Ubigeos->find()->where(["parent_id" => $parent_id]);
         
         $this->set(compact("ubigeos"));
         $this->set("_serialize", ["ubigeos"]);
