@@ -3,12 +3,21 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesService, $routeParams, BusPisosService) {
     $scope.imagen = [];
     $scope.imgUrl = [];
+    $scope.asientos = [];
+    $scope.imgUrl = [];
+    $scope.pisosLoaded = false;
     
     BusesService.get({id: $routeParams.id}, function(data) {
         $scope.bus = data.bus;
-        console.log($scope.bus);
+        if ($scope.bus.bus_pisos.length > 0) {
+            for (var i = 0; i < $scope.bus.bus_pisos.length; i++) {
+                $scope.asientos[i] = $scope.bus.bus_pisos[i].nro_asientos;
+                $scope.imgUrl[i] = $scope.bus.bus_pisos[i].imagen;
+                $scope.pisosLoaded = true;
+            }
+        }
     });
-   
+       
     $scope.uploadFile = function(index){
         var file = $scope.imagen[index];
         var fd = new FormData();
@@ -42,6 +51,13 @@ VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesS
         $(img_bus_id).parent().append($(div_asiento_id));
     }
     
+    $scope.onAsientosChange = function(n) {
+        $scope.asientos[n];
+        $(".droppable-container").find("div").each(function() {
+            console.log($(this));
+        });
+    };
+    
     $scope.saveBus = function() {
         var bus_pisos = [];
         for (var i = 0; i < $scope.bus.nro_pisos; i++) {
@@ -70,9 +86,4 @@ VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesS
             }
         })
     }
-    
-    $scope.loadBus = function() {
-        console.log($scope.bus);
-    };
-    $scope.loadBus();
 });

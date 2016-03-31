@@ -55,7 +55,8 @@ $this->assign("title", "Administrar Bus");
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="nmAsientos{{n + 1}}">Asientos</label>
-                                <input class="form-control" id="nmAsientos{{n + 1}}" type="number" min="0" max="100" ng-model="asientos[n]"/>
+                                <input class="form-control" id="nmAsientos{{n + 1}}" type="number" min="0" max="100" ng-model="asientos[n]"
+                                    ng-change="onAsientosChange(n)"/>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -69,7 +70,7 @@ $this->assign("title", "Administrar Bus");
                     <div class="row">
                         <div class="col-sm-12 col-md-2">
                             <div class="draggable-container">
-                                <div id="asiento{{n}}{{$index}}" class="draggable" ng-repeat="m in [asientos[n]] | makeRange"
+                                <div ng-if="!pisosLoaded" id="asiento{{n}}{{$index}}" class="draggable" ng-repeat="m in [asientos[n]] | makeRange"
                                      draggable="true" ondragstart="drag(event)">
                                     <span>{{m + 1}}</span>
                                 </div>
@@ -79,6 +80,10 @@ $this->assign("title", "Administrar Bus");
                             <div class="droppable-container">
                                 <img id="img-bus{{n}}" ondragover="allowDrop(event)" class="img-bus" 
                                      ng-src="img/{{imgUrl[n]}}" ondrop="drop(event)"/>
+                                <div ng-if="pisosLoaded" id="asiento{{n}}{{$index}}" class="draggable" ng-repeat="m in [asientos[n]] | makeRange"
+                                     draggable="true" ondragstart="drag(event)" dv-draggable data-nro-asiento="{{m}}" data-nro-piso="{{n}}">
+                                    <span>{{m + 1}}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
