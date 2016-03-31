@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
  * Buses Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Estados
+ * @property \Cake\ORM\Association\HasMany $BusPisos
  */
 class BusesTable extends Table
 {
@@ -31,6 +32,10 @@ class BusesTable extends Table
         $this->belongsTo('Estados', [
             'foreignKey' => 'estado_id',
             'joinType' => 'INNER'
+        ]);
+        
+        $this->hasMany('BusPisos', [
+            'foreignKey' => 'bus_id'
         ]);
     }
 

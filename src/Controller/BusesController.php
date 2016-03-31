@@ -19,7 +19,7 @@ class BusesController extends AppController
         $this->viewBuilder()->layout(false);
         
         $bus = $this->Buses->get($id, [
-            'contain' => ['Estados']
+            'contain' => ['Estados', "BusPisos"]
         ]);
 
         $this->set('bus', $bus);

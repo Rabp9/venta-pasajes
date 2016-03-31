@@ -31,7 +31,9 @@ class BusPisosController extends AppController
         if ($this->request->is("post")) {
             $conn = ConnectionManager::get($this->BusPisos->defaultConnectionName());
             $bus_pisos = $this->BusPisos->newEntities($this->request->data);
+            $nro_asientos = 0;
             foreach ($bus_pisos as $k_bus_piso => $bus_piso) {
+                $nro_asientos += $bus_piso["nro_asientos"];
                 $r = $this->BusPisos->save($bus_piso);
                 if(!$r) {
                     $conn->rollback();
@@ -43,11 +45,23 @@ class BusPisosController extends AppController
                 }
             }
             if($r) {
-                $conn->commit();
-                $message = [
-                    "type" => "success",
-                    "text" => "La información del Bus fue guardada exitosamente"
-                ];
+                $bus_id = $bus_pisos[0]["bus_id"];
+                $bus = $this->BusPisos->Buses->get($bus_id);
+                $bus->nro_pisos = sizeof($bus_pisos);
+                $bus->nro_asientos = $nro_asientos;
+                if($this->BusPisos->Buses->save($bus)) {
+                    $conn->commit();
+                    $message = [
+                        "type" => "success",
+                        "text" => "La información del Bus fue guardada exitosamente"
+                    ];
+                } else {
+                    $conn->rollback();
+                    $message = [
+                        "type" => "error",
+                        "text" => "No se pudo guardar la información del bus"
+                    ];
+                }
             }
         }
         $this->set(compact("message"));

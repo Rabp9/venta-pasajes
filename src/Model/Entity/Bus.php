@@ -14,6 +14,7 @@ use Cake\ORM\Entity;
  * @property string $motor
  * @property int $estado_id
  * @property \App\Model\Entity\Estado $estado
+ * @property \App\Model\Entity\BusPiso[] $bus_pisos
  */
 class Bus extends Entity
 {

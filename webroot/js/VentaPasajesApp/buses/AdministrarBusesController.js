@@ -6,6 +6,7 @@ VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesS
     
     BusesService.get({id: $routeParams.id}, function(data) {
         $scope.bus = data.bus;
+        console.log($scope.bus);
     });
    
     $scope.uploadFile = function(index){
@@ -64,7 +65,14 @@ VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesS
             bus_pisos.push(bus_piso);
         }
         BusPisosService.save(bus_pisos, function(data) {
-            console.log(data);
+            if (data.message.type == "success") {
+                window.location = VentaPasajesApp.path_location + "#/buses/";
+            }
         })
     }
+    
+    $scope.loadBus = function() {
+        console.log($scope.bus);
+    };
+    $scope.loadBus();
 });
