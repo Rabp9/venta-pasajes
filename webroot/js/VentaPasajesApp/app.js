@@ -109,12 +109,12 @@ VentaPasajesApp.directive('fileModel', ['$parse', function ($parse) {
     };
 }]);
 
-VentaPasajesApp.directive('dvDraggable', function($compile) {
+VentaPasajesApp.directive('dvDraggable', function() {
     return {
         link: function (scope, element, attrs) {
             var nroPiso = attrs.nroPiso;
             var nroAsiento = attrs.nroAsiento;
-            
+
             var bus_asiento = scope.bus.bus_pisos[nroPiso].bus_asientos[nroAsiento];
             
             element.css("left", bus_asiento.x);

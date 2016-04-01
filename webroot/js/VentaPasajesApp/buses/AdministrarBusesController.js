@@ -88,6 +88,10 @@ VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesS
     }
     
     $scope.onAsientosChange = function(n) {
-        console.log($scope.asientos[n]);
+        var n_actual = $scope.asientos[n];
+        var n_total = $(".draggable").length;
+        for (var i = n_actual + 1; i <= n_total; i++) {
+            $(".draggable:contains('" + i + "')").remove();
+        }
     }
 });
