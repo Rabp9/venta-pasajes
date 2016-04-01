@@ -10,7 +10,7 @@ class BusesController extends AppController
         
         $buses = $this->Buses->find("all")
             ->contain(["Estados"]);
-
+        
         $this->set(compact('buses'));
         $this->set('_serialize', ['buses']);
     }
