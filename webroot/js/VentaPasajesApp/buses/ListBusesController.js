@@ -1,11 +1,11 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("ListBusesController", function($scope, BusesService) {
+VentaPasajesApp.controller("ListBusesController", function($scope, BusesService, $routeParams) {
     $scope.id = "";
     $scope.loading = true;
     $scope.reverse = false;
     $scope.predicate = "id";
-    $scope.message = "";
+    $scope.message = {};
     
     $scope.openModal = function() {
         $("#mdlBuses").modal("toggle");
@@ -23,6 +23,11 @@ VentaPasajesApp.controller("ListBusesController", function($scope, BusesService)
             $scope.buses = data.buses;
             $scope.loading = false;
         });
+        
+        if ($routeParams.type !== null) {
+            $scope.message.type = $routeParams.type;
+            $scope.message.text = $routeParams.text;
+        }
     };
     
     $scope.order = function(predicate) {

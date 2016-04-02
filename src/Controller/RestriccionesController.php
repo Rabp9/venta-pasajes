@@ -104,9 +104,9 @@ class RestriccionesController extends AppController
     public function saveMany() {
         if ($this->request->is("post")) {
             $conn = ConnectionManager::get($this->Restricciones->defaultConnectionName());
-            $restrcciones = $this->Restricciones->newEntities($this->request->data);
+            $restricciones = $this->Restricciones->newEntities($this->request->data);
             $conn->begin();
-            foreach ($restrcciones as $restriccion) {
+            foreach ($restricciones as $restriccion) {
                 $r = $this->Restricciones->save($restriccion);
                 if(!$r) {
                     $conn->rollback();

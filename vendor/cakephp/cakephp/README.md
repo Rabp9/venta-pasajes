@@ -40,7 +40,7 @@ tests for CakePHP by doing the following:
 
 [CakePHP](http://www.cakephp.org) - The rapid development PHP framework.
 
-[CookBook](http://book.cakephp.org) - THE CakePHP user documentation; start learning here!
+[CookBook](http://book.cakephp.org) - The CakePHP user documentation; start learning here!
 
 [API](http://api.cakephp.org) - A reference to CakePHP's classes.
 
@@ -68,7 +68,7 @@ tests for CakePHP by doing the following:
 
 ## Contributing
 
-[CONTRIBUTING.md](CONTRIBUTING.md) - Quick pointers for contributing to the CakePHP project.
+[CONTRIBUTING.md](.github/CONTRIBUTING.md) - Quick pointers for contributing to the CakePHP project.
 
 [CookBook "Contributing" Section](http://book.cakephp.org/3.0/en/contributing.html) - Details about contributing to the project.
 

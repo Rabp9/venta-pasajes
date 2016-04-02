@@ -7,6 +7,10 @@ VentaPasajesApp.factory("ConductoresService", function($resource) {
         findByDni: {
             method: 'GET',
             url: VentaPasajesApp.path_location + "conductores/findByDni/:dni.json"
-        }
+        },
+        getMany: {
+            method: 'POST',
+            url: VentaPasajesApp.path_location + "conductores/getMany/.json"
+        },
     });
 });

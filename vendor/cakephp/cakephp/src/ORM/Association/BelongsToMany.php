@@ -853,7 +853,13 @@ class BelongsToMany extends Association
         }
         $alias = $this->_junctionAssociationName() . '.';
         foreach ($conditions as $field => $value) {
-            if (is_string($field) && strpos($field, $alias) === 0) {
+            $isString = is_string($field);
+            if ($isString && strpos($field, $alias) === 0) {
+                $matching[$field] = $value;
+            }
+            // Assume that operators contain junction conditions.
+            // Trying to munge complex conditions could result in incorrect queries.
+            if ($isString && in_array(strtoupper($field), ['OR', 'NOT', 'AND', 'XOR'])) {
                 $matching[$field] = $value;
             }
         }
@@ -868,7 +874,7 @@ class BelongsToMany extends Association
      * If your association includes conditions, the junction table will be
      * included in the query's contained associations.
      *
-     * @param string|array $type the type of query to perform, if an array is passed,
+     * @param string|array|null $type the type of query to perform, if an array is passed,
      *   it will be interpreted as the `$options` parameter
      * @param array $options The options to for the find
      * @see \Cake\ORM\Table::find()
@@ -982,7 +988,7 @@ class BelongsToMany extends Association
 
         return $this->junction()->connection()->transactional(
             function () use ($sourceEntity, $targetEntities, $primaryValue, $options) {
-                $foreignKey = (array)$this->foreignKey();
+                $foreignKey = array_map([$this->_junctionTable, 'aliasField'], (array)$this->foreignKey());
                 $hasMany = $this->source()->association($this->_junctionTable->alias());
                 $existing = $hasMany->find('all')
                     ->where(array_combine($foreignKey, $primaryValue));

@@ -4,11 +4,11 @@ VentaPasajesApp.controller("AddRutasController", function($scope, RutasService) 
     $scope.newRuta = new RutasService();
     
     $scope.addRuta = function() {
-        console.log($scope.newRuta);
-        var ruta = RutasService.save($scope.newRuta, function() {
-            $("#mdlRutas").modal('toggle');
+        RutasService.save($scope.newRuta, function(data) {
             $scope.newRuta = new RutasService();
             $scope.$parent.list();
+            $scope.$parent.actualizarMessage(data.message);
+            $("#mdlRutas").modal('toggle');
         });
     }
 });

@@ -15,7 +15,6 @@
 namespace Cake\Error;
 
 use Cake\Core\Configure;
-use Cake\Error\PHP7ErrorException;
 use Cake\Log\Log;
 use Cake\Routing\Router;
 use Error;
@@ -271,6 +270,11 @@ abstract class BaseErrorHandler
                 'start' => 1,
                 'format' => 'log'
             ]);
+
+            $request = Router::getRequest();
+            if ($request) {
+                $message .= $this->_requestContext($request);
+            }
             $message .= "\nTrace:\n" . $trace . "\n";
         }
         $message .= "\n\n";
@@ -305,6 +309,27 @@ abstract class BaseErrorHandler
     }
 
     /**
+     * Get the request context for an error/exception trace.
+     *
+     * @param \Cake\Network\Request $request The request to read from.
+     * @return string
+     */
+    protected function _requestContext($request)
+    {
+        $message = "\nRequest URL: " . $request->here();
+
+        $referer = $request->env('HTTP_REFERER');
+        if ($referer) {
+            $message .= "\nReferer URL: " . $referer;
+        }
+        $clientIp = $request->clientIp();
+        if ($clientIp && $clientIp !== '::1') {
+            $message .= "\nClient IP: " . $clientIp;
+        }
+        return $message;
+    }
+
+    /**
      * Generates a formatted error message
      *
      * @param \Exception $exception Exception instance
@@ -332,12 +357,7 @@ abstract class BaseErrorHandler
 
         $request = Router::getRequest();
         if ($request) {
-            $message .= "\nRequest URL: " . $request->here();
-
-            $referer = $request->env('HTTP_REFERER');
-            if ($referer) {
-                $message .= "\nReferer URL: " . $referer;
-            }
+            $message .= $this->_requestContext($request);
         }
 
         if (!empty($config['trace'])) {

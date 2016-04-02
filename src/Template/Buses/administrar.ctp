@@ -4,10 +4,6 @@ $this->extend('/Common/vista');
 $this->assign("module-name", "Mantenedores");
 $this->assign("title", "Administrar Bus");
 ?>
-<div ng-show="message.type == 'error'" class="alert alert-warning alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    {{ message.text }}
-</div>
 <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
         <dl class="dl-horizontal">

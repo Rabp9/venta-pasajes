@@ -23,7 +23,7 @@
                                         Cod. Des. {{desplazamiento_y.id}}
                                     </td>
                                     <td ng-repeat="desplazamiento_x in desplazamientos_x">
-                                        <input ng-disabled="$index == $parent.$index" type="checkbox" ng-model="restricciones[($index + $parent.$index + $index * 2).toString()].valor">
+                                        <input ng-checked="$index == $parent.$index" ng-disabled="$index == $parent.$index" type="checkbox" ng-model="restricciones[($index + $parent.$index + $index * 2).toString()].valor">
                                     </td>
                                 </tr>
                             </tbody>

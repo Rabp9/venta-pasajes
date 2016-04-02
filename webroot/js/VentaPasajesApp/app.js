@@ -8,11 +8,11 @@ VentaPasajesApp.config(function($routeProvider) {
             controller: "HomeController",
             templateUrl: "templates/home.html"
         })
-        .when("/buses", {
+        .when("/buses/:type?/:text?", {
             controller: "ListBusesController",
             templateUrl: "buses"
         })
-        .when("/buses/administrar/:id", {
+        .when("/busesAdministrar/:id", {
             controller: "AdministrarBusesController",
             templateUrl: "buses/administrar"
         })

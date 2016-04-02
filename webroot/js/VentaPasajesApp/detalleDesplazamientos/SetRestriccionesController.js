@@ -16,8 +16,15 @@ VentaPasajesApp.controller("SetRestriccionesController", function($scope, Restri
     });
     
     $scope.setRestricciones = function() {
+        angular.forEach($scope.restricciones, function(value, key) {
+            if (value.desplazamiento_x == value.desplazamiento_y) {
+                value.valor = true;
+                $scope.restricciones[key] = value;
+            }
+        });
         RestriccionesService.saveMany($scope.restricciones, function(data) {
-            console.log(data);
+            $scope.$parent.actualizarMessage(data.message);
+            $("#mdlRutas").modal('toggle');
         })
     }
 });

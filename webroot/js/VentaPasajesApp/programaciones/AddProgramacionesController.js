@@ -38,4 +38,10 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
             $scope.servicioSelected = data.servicio;
         })
     };
+    
+    $scope.onConductoresSelected = function() {
+        ConductoresService.getMany($scope.programacion.conductores, function(data) {
+            $scope.conductoresSelected = data.conductores;
+        })
+    };
 });

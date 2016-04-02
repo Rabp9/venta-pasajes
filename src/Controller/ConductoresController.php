@@ -132,8 +132,20 @@ class ConductoresController extends AppController
                 }])
             ->toArray();
 
-       $this->set('conductor', $conductor);
+        $this->set('conductor', $conductor);
         $this->set('_serialize', ['conductor']);
         
+    }
+    
+    public function getMany() {
+        $this->viewBuilder()->layout(false);
+        
+        if ($this->request->is("post")) {
+            $conductores = $this->Conductores->find("all")
+                ->contain(["Estados","Personas"])
+                ->where(["Conductores.id IN" => $this->request->data]);
+        }
+        $this->set(compact('conductores'));
+        $this->set('_serialize', ['conductores']);
     }
 }

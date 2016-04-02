@@ -46,18 +46,18 @@ class RutasController extends AppController
             $ruta = $this->Rutas->patchEntity($ruta, $this->request->data);
             if ($this->Rutas->save($ruta)) {
                 $message = array(
-                    'text' => __('Saved'),
+                    'text' => __('La Ruta fue registrada correctamente'),
                     'type' => 'success'
                 );
             } else {
                 $message = array(
-                    'text' => __('Error'),
+                    'text' => __('La Ruta no puso ser registrada correctamente'),
                     'type' => 'error'
                 );
             }
         }
         $estados = $this->Rutas->Estados->find('list');
-        $this->set(compact('ruta', 'estados'));
+        $this->set(compact('ruta', 'estados', 'message'));
         $this->set('_serialize', ['message']);
     }
 

@@ -30,8 +30,13 @@ class BusPisosController extends AppController
         $this->viewBuilder()->layout(false);
         if ($this->request->is("post")) {
             $conn = ConnectionManager::get($this->BusPisos->defaultConnectionName());
-            $bus_pisos = $this->BusPisos->newEntities($this->request->data);
+            $bus_pisos = $this->BusPisos->newEntities($this->request->data["bus_pisos"]);
             $nro_asientos = 0;
+            
+            if ($this->request->data["modified"]) {
+                $this->BusPisos->deleteAll(["bus_id" => $this->request->data["bus_id"]]);
+            }
+            
             foreach ($bus_pisos as $k_bus_piso => $bus_piso) {
                 $nro_asientos += $bus_piso["nro_asientos"];
                 $r = $this->BusPisos->save($bus_piso);

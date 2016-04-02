@@ -96,33 +96,36 @@ $this->assign("title", "Nueva Programación");
             <label for="sltConductores">Conductores</label>
             <select id="sltConductores" class="form-control" ng-model="programacion.conductores" 
                 ng-options="conductor.id as conductor.persona.full_name for conductor in conductores" 
-                ng-change="onCondcutoresSelected()" multiple>
+                ng-change="onConductoresSelected()" multiple>
                 <option value="">Selecciona los Conductores</option>
             </select>
         </div>
         <div ng-show="programacion.conductores != null">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Conductor</th>
-                        <th>Condición</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="conductor in programacion.conductores">
-                        <td>{{conductor | json}}</td>
-                        <td>
-                            <select class="form-control">
-                                <option value="">Selecciona una condición</option>
-                                <option value="chofer">Chofer</option>
-                                <option value="copiloto">Copiloto</option>
-                            </select>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Conductor</th>
+                            <th>Condición</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="conductor in conductoresSelected">
+                            <td>{{conductor.persona.full_name}}</td>
+                            <td>
+                                <select class="form-control">
+                                    <option value="">Selecciona una condición</option>
+                                    <option value="chofer">Chofer</option>
+                                    <option value="copiloto">Copiloto</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+    <button type="submit" class="btn btn-primary">Registrar</button>
 </div>
 
 <!-- Modal -->
