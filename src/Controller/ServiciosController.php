@@ -92,4 +92,12 @@ class ServiciosController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+    
+    public function findServiciosAvailablesByRuta() {
+        $this->viewBuilder()->layout(false);
+        
+        $data = $this->Servicios->query("call sp_find_services_availables_by_ruta(2)")->toArray();
+        debug($data);
+        die();
+    }
 }

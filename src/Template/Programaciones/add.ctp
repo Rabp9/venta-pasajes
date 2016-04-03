@@ -62,14 +62,18 @@ $this->assign("title", "Nueva Programación");
 
                 <dt>Descripción</dt>
                 <dd>{{rutaSelected.descripcion}}</dd>
-
+                
                 <dt>Desplazamientos</dt>
-                <dd>
-                    <ul>
-                        <li>des 1</li>
-                        <li>des 2</li>
-                    </ul>
-                </dd>
+                <dd></dd>
+                
+                <ul>
+                    <li ng-repeat="detalle in rutaSelected.detalle_desplazamientos">
+                        {{detalle.desplazamiento.AgenciaOrigen.direccion}} 
+                        ({{detalle.desplazamiento.AgenciaOrigen.ubigeo.descripcion}}) - 
+                        {{detalle.desplazamiento.AgenciaDestino.direccion}}
+                        ({{detalle.desplazamiento.AgenciaDestino.ubigeo.descripcion}})
+                    </li>
+                </ul>
             </dl>
         </div>
     </div>
@@ -125,8 +129,8 @@ $this->assign("title", "Nueva Programación");
             </div>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary">Registrar</button>
 </div>
+<button type="submit" class="btn btn-primary">Registrar</button>
 
 <!-- Modal -->
 <div class="modal fade" id="mdlProgramacionesAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

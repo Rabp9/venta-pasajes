@@ -30,6 +30,7 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
     $scope.onRutaSelected = function() {
         RutasService.get({id: $scope.programacion.ruta_id}, function(data) {
             $scope.rutaSelected = data.ruta;
+            console.log($scope.rutaSelected);
         })
     };
     
