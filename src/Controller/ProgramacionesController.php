@@ -26,9 +26,9 @@ class ProgramacionesController extends AppController
     public function add() {
         $this->viewBuilder()->layout(false);
         
-        $programacione = $this->Programaciones->newEntity();
+        /*$programacion = $this->Programaciones->newEntity();
         if ($this->request->is('post')) {
-            $programacione = $this->Programaciones->patchEntity($programacione, $this->request->data);
+            $programacion = $this->Programaciones->patchEntity($programacione, $this->request->data);
             if ($this->Programaciones->save($programacione)) {
                 $this->Flash->success(__('The programacione has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -36,9 +36,10 @@ class ProgramacionesController extends AppController
                 $this->Flash->error(__('The programacione could not be saved. Please, try again.'));
             }
         }
-        $buses = $this->Programaciones->Buses->find('list', ['limit' => 200]);
-        $this->set(compact('programacione', 'buses'));
-        $this->set('_serialize', ['programacione']);
+        $buses = $this->Programaciones->Buses->find('list', ['limit' => 200]);/*/
+        $programacion = $this->request->data;
+        $this->set(compact('programacion', 'buses'));
+        $this->set('_serialize', ['programacion']);
     }
 
     /**

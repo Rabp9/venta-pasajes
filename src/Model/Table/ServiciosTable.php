@@ -6,6 +6,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Datasource\ConnectionManager;
 
 /**
  * Servicios Model
@@ -66,4 +67,11 @@ class ServiciosTable extends Table
         $rules->add($rules->existsIn(['estado_id'], 'Estados'));
         return $rules;
     }
+    
+    public function getServiciosAvailablesByRuta($ruta_id) {
+        $connection = ConnectionManager::get($this->defaultConnectionName());
+        $servicios = $connection->execute("call sp_find_services_availables_by_ruta($ruta_id)")->fetchAll('assoc');
+        return $servicios;
+    }
+    
 }

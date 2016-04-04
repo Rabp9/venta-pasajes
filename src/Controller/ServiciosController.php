@@ -96,8 +96,11 @@ class ServiciosController extends AppController
     public function findServiciosAvailablesByRuta() {
         $this->viewBuilder()->layout(false);
         
-        $data = $this->Servicios->query("call sp_find_services_availables_by_ruta(2)")->toArray();
-        debug($data);
-        die();
+        $ruta_id = $this->request->params["ruta_id"];
+        
+        $servicios = $this->Servicios->getServiciosAvailablesByRuta($ruta_id);
+        
+        $this->set(compact("servicios"));
+        $this->set('_serialize', ['servicios']);
     }
 }

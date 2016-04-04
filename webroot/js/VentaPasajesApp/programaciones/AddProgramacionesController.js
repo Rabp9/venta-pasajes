@@ -8,11 +8,7 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
     RutasService.get(function(data) {
         $scope.rutas = data.rutas;
     });
-    
-    ServiciosService.get(function(data) {
-        $scope.servicios = data.servicios;
-    });
-    
+        
     ConductoresService.get(function(data) {
         $scope.conductores = data.conductores;
     });
@@ -30,7 +26,9 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
     $scope.onRutaSelected = function() {
         RutasService.get({id: $scope.programacion.ruta_id}, function(data) {
             $scope.rutaSelected = data.ruta;
-            console.log($scope.rutaSelected);
+            ServiciosService.findServiciosAvailablesByRuta({ruta_id: $scope.rutaSelected.id}, function(data) {
+                $scope.servicios = data.servicios;
+            });
         })
     };
     
@@ -41,8 +39,15 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
     };
     
     $scope.onConductoresSelected = function() {
-        ConductoresService.getMany($scope.programacion.conductores, function(data) {
+        ConductoresService.getMany($scope.conductores_ids, function(data) {
             $scope.conductoresSelected = data.conductores;
         })
     };
+    
+    $scope.saveProgramacion = function() {
+        
+        ProgramacionesService.save($scope.programacion, function(data) {
+            console.log(data);
+        })
+    }
 });

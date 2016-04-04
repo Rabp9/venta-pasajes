@@ -130,7 +130,18 @@ Router::scope('/', function ($routes) {
             ]
         ]
     ]);
-    $routes->resources('Servicios');
+    $routes->resources('Servicios', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'findServiciosAvailablesByRuta/:ruta_id' => [
+                'action' => 'findServiciosAvailablesByRuta',
+                'method' => 'GET'
+            ]
+        ]
+    ]);
     $routes->resources('Personas', [
         'map' => [
             '/' => [
