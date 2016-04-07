@@ -26,20 +26,23 @@ class ProgramacionesController extends AppController
     public function add() {
         $this->viewBuilder()->layout(false);
         
-        /*$programacion = $this->Programaciones->newEntity();
+        $programacion = $this->Programaciones->newEntity();
         if ($this->request->is('post')) {
-            $programacion = $this->Programaciones->patchEntity($programacione, $this->request->data);
-            if ($this->Programaciones->save($programacione)) {
-                $this->Flash->success(__('The programacione has been saved.'));
-                return $this->redirect(['action' => 'index']);
+            $programacion = $this->Programaciones->patchEntity($programacion, $this->request->data);
+            if ($this->Programaciones->save($programacion)) {
+                $message = array(
+                    'text' => __('Programación registrada correctamente'),
+                    'type' => 'success'
+                );
             } else {
-                $this->Flash->error(__('The programacione could not be saved. Please, try again.'));
+                $message = array(
+                    'text' => __('No fue posible registrar la Programación'),
+                    'type' => 'error' 
+                );
             }
         }
-        $buses = $this->Programaciones->Buses->find('list', ['limit' => 200]);/*/
-        $programacion = $this->request->data;
-        $this->set(compact('programacion', 'buses'));
-        $this->set('_serialize', ['programacion']);
+        $this->set(compact('programacion', 'message'));
+        $this->set('_serialize', ['message']);
     }
 
     /**

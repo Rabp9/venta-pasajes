@@ -4,7 +4,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Programacione Entity.
+ * Programacion Entity.
  *
  * @property int $id
  * @property \Cake\I18n\Time $fechahora_prog
@@ -12,7 +12,7 @@ use Cake\ORM\Entity;
  * @property int $bus_id
  * @property \App\Model\Entity\Bus $bus
  */
-class Programacione extends Entity
+class Programacion extends Entity
 {
 
     /**
@@ -26,7 +26,6 @@ class Programacione extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false,
-        'bus_id' => false,
+        'id' => false
     ];
 }

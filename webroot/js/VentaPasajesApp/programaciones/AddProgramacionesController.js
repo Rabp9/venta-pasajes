@@ -45,8 +45,9 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
     };
     
     $scope.saveProgramacion = function() {
-        angular.forEach($scope.conductores_selected, function(value, key) {
-            console.log(value);
+        angular.forEach($scope.conductoresSelected, function(value, key) {
+            var conductor = value;
+            $scope.programacion.detalle_conductores[key].conductor_id = conductor.id;
         });
         ProgramacionesService.save($scope.programacion, function(data) {
             console.log(data);
