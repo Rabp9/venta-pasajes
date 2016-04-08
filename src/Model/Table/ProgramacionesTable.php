@@ -11,6 +11,10 @@ use Cake\Validation\Validator;
  * Programaciones Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Buses
+ * @property \Cake\ORM\Association\BelongsTo $Rutas
+ * @property \Cake\ORM\Association\BelongsTo $Servicios
+ * @property \Cake\ORM\Association\BelongsTo $Estados
+ * @property \Cake\ORM\Association\HasMany $DetalleConductores
  */
 class ProgramacionesTable extends Table
 {
@@ -27,11 +31,30 @@ class ProgramacionesTable extends Table
 
         $this->table('programaciones');
         $this->displayField('id');
-        $this->primaryKey(['id', 'bus_id']);
+        $this->primaryKey('id');
 
         $this->belongsTo('Buses', [
             'foreignKey' => 'bus_id',
             'joinType' => 'INNER'
+        ]);
+        
+        $this->belongsTo('Rutas', [
+            'foreignKey' => 'ruta_id',
+            'joinType' => 'INNER'
+        ]);
+        
+        $this->belongsTo('Servicios', [
+            'foreignKey' => 'servicio_id',
+            'joinType' => 'INNER'
+        ]);
+        
+        $this->belongsTo('Estados', [
+            'foreignKey' => 'estado_id',
+            'joinType' => 'INNER'
+        ]);
+        
+        $this->hasMany('DetalleConductores', [
+            'foreignKey' => 'programacion_id'
         ]);
     }
 
@@ -68,6 +91,9 @@ class ProgramacionesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['bus_id'], 'Buses'));
+        $rules->add($rules->existsIn(['ruta_id'], 'Rutas'));
+        $rules->add($rules->existsIn(['servicio_id'], 'Servicios'));
+        $rules->add($rules->existsIn(['estado_id'], 'Estados'));
         return $rules;
     }
 }

@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\I18n\Time;
 
 class ProgramacionesController extends AppController
 {
@@ -28,6 +29,7 @@ class ProgramacionesController extends AppController
         
         $programacion = $this->Programaciones->newEntity();
         if ($this->request->is('post')) {
+            $this->request->data["fechahora_prog"] = Time::createFromFormat("Y-m-d H:i:s", $this->request->data["fechahora_prog"]);
             $programacion = $this->Programaciones->patchEntity($programacion, $this->request->data);
             if ($this->Programaciones->save($programacion)) {
                 $message = array(

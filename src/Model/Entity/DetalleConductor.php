@@ -4,16 +4,16 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * DetalleConductore Entity.
+ * DetalleConductor Entity.
  *
  * @property int $id
  * @property int $programacion_id
- * @property \App\Model\Entity\Programacione $programacione
+ * @property \App\Model\Entity\Programacion $programacion
  * @property int $conductor_id
- * @property \App\Model\Entity\Conductore $conductore
+ * @property \App\Model\Entity\Conductor $conductor
  * @property string $condicion
  */
-class DetalleConductore extends Entity
+class DetalleConductor extends Entity
 {
 
     /**
@@ -27,8 +27,6 @@ class DetalleConductore extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false,
-        'programacion_id' => false,
-        'conductor_id' => false,
+        'id' => false
     ];
 }

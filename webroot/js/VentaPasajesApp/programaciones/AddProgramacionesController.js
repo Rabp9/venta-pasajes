@@ -1,6 +1,6 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("AddProgramacionesController", function($scope, ProgramacionesService, BusesService, RutasService, ServiciosService, ConductoresService, EstadosService) {  
+VentaPasajesApp.controller("AddProgramacionesController", function($scope, ProgramacionesService, BusesService, RutasService, ServiciosService, ConductoresService, EstadosService, $filter) {  
     BusesService.get(function(data) {
         $scope.buses = data.buses;
     });
@@ -49,6 +49,8 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
             var conductor = value;
             $scope.programacion.detalle_conductores[key].conductor_id = conductor.id;
         });
+        $scope.programacion.fechahora_prog = $filter("date")($scope.programacion.prefechahora_prog, "yyyy-MM-dd HH:mm:ss");
+        $scope.programacion.estado_id = 1;
         ProgramacionesService.save($scope.programacion, function(data) {
             console.log(data);
         })

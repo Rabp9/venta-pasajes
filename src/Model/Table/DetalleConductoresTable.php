@@ -1,7 +1,7 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\DetalleConductore;
+use App\Model\Entity\DetalleConductor;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -28,7 +28,7 @@ class DetalleConductoresTable extends Table
 
         $this->table('detalle_conductores');
         $this->displayField('id');
-        $this->primaryKey(['id', 'programacion_id', 'conductor_id']);
+        $this->primaryKey('id');
 
         $this->belongsTo('Programaciones', [
             'foreignKey' => 'programacion_id',

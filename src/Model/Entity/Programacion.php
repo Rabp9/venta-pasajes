@@ -11,6 +11,13 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $fecha_via
  * @property int $bus_id
  * @property \App\Model\Entity\Bus $bus
+ * @property int $ruta_id
+ * @property \App\Model\Entity\Ruta $ruta
+ * @property int $servicio_id
+ * @property \App\Model\Entity\Servicio $servicio
+ * @property int $estado_id
+ * @property \App\Model\Entity\Estado $estado
+ * @property \App\Model\Entity\DetalleConductor[] $detalle_conductores
  */
 class Programacion extends Entity
 {
