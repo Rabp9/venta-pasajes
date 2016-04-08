@@ -36,11 +36,11 @@ VentaPasajesApp.config(function($routeProvider) {
             controller: "ListConductoresController",
             templateUrl: "conductores"
         })
-        .when("/programaciones", {
+        .when("/programaciones/:type?/:text?", {
             controller: "ListProgramacionesController",
             templateUrl: "programaciones"
         })
-        .when("/programaciones/add", {
+        .when("/programacionesAdd", {
             controller: "AddProgramacionesController",
             templateUrl: "programaciones/add"
         })

@@ -12,7 +12,7 @@ $this->assign("title", "Lista de Programaciones");
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
-<a class="btn btn-primary" href="#/programaciones/add"><span class="glyphicon glyphicon-plus"></span> Nueva Programación</a>
+<a class="btn btn-primary" href="#/programacionesAdd"><span class="glyphicon glyphicon-plus"></span> Nueva Programación</a>
 
 <div id="marco_include">
     <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">

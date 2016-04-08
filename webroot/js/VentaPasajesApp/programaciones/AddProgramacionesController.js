@@ -52,7 +52,9 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
         $scope.programacion.fechahora_prog = $filter("date")($scope.programacion.prefechahora_prog, "yyyy-MM-dd HH:mm:ss");
         $scope.programacion.estado_id = 1;
         ProgramacionesService.save($scope.programacion, function(data) {
-            console.log(data);
+            var type = data.message.type;
+            var text = data.message.text;
+            window.location = VentaPasajesApp.path_location + "#/programaciones/" + type + "/" + text;
         })
     }
 });
