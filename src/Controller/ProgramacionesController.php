@@ -9,7 +9,8 @@ class ProgramacionesController extends AppController
     public function index() {
         $this->viewBuilder()->layout(false);
         
-        $programaciones = $this->Programaciones->find("all");
+        $programaciones = $this->Programaciones->find("all")
+            ->contain(["Rutas", "Servicios", "Buses"]);
 
         $this->set(compact('programaciones'));
         $this->set('_serialize', ['programaciones']);

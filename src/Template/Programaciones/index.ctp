@@ -14,73 +14,26 @@ $this->assign("title", "Lista de Programaciones");
 </div>
 <a class="btn btn-primary" href="#/programacionesAdd"><span class="glyphicon glyphicon-plus"></span> Nueva Programación</a>
 
-<div id="marco_include">
-    <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
-        <div id="busqueda">
-            <table class="table" border="0" cellpadding="1" cellspacing="1" id="marco_panel">
-                <thead>
-                    <tr class="e34X" id="panel_status">
-                        <th width="3%" align="center">
-                            <a ng-click="order('id')" style="cursor: pointer;">
-                                Código
-                                <span class="glyphicon" ng-show="predicate === 'id'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
-                            </a>
-                        </th>
-                        <th width="6%" align="center">
-                            <a ng-click="order('placa')" style="cursor: pointer;">
-                                Bus
-                                <span class="glyphicon" ng-show="predicate === 'placa'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
-                            </a>
-                        </th>
-                        <th width="8%" align="center">
-                            <a ng-click="order('chasis')" style="cursor: pointer;">
-                                Fecha y Hora Programado
-                                <span class="glyphicon" ng-show="predicate === 'chasis'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
-                            </a>
-                        </th>
-                        <th width="5%" align="center">
-                            <a ng-click="order('asientos')" style="cursor: pointer;">
-                                Fecha y Hora de Viaje
-                                <span class="glyphicon" ng-show="predicate === 'asientos'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
-                            </a>
-                        </th>
-                        <th width="5%" align="center">
-                            <a ng-click="order('estado_id')" style="cursor: pointer;">
-                                Estado
-                                <span class="glyphicon" ng-show="predicate === 'estado_id'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
-                            </a>
-                        </th>
-                        <th width="4%" align="center">Acciones</th>
+<div class="list-group">
+    <a ng-repeat="programacion in programaciones" class="list-group-item">
+        <h4 class="list-group-item-heading">{{programacion.ruta.descripcion}}: Trujillo - Chao - Virú</h4>
+        <p class="list-group-item-text">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                        <td><strong>Servicio</strong></td>
+                        <td><strong>Bus</strong></td>
+                        <td><strong>Fecha y Hora</strong></td>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr ng-show="loading">
-                        <td colspan="7">Cargando</td>
+                    <tr>
+                        <td>{{programacion.servicio.descripcion}}</td>
+                        <td>{{programacion.bus.placa}}</td>
+                        <td>{{programacion.fechahora_prog}}</td>
                     </tr>
-                    <tr ng-show="buses.length == 0 && !loading">
-                        <td colspan="7">No hay registros de Buses</td>
-                    </tr>
-                    <tr ng-show="!loading" ng-repeat="bus in buses | orderBy:predicate:reverse"
-                        class="textnot2 animated" style="background-color: #fff;" 
-                        onmouseover="style.backgroundColor='#cccccc';" 
-                        onmouseout="style.backgroundColor='#fff'">
-                        
-                        <td width="3%" bgcolor="#D6E4F2">{{ bus.id }}</td>
-                        <td width="6%">{{ bus.placa }}</td>
-                        <td width="8%">{{ bus.chasis }}</td>
-                        <td width="5%">{{ bus.asientos }}</td>
-                        <td width="5%">{{ bus.anio }}</td>
-                        <td width="5%">{{ bus.estado.descripcion }}</td>
-                        <td width="4%">
-                            <a style="cursor: pointer;" ng-click="viewBus(bus.id)" title="ver"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a> |
-                            <a style="cursor: pointer;" ng-click="editBus(bus.id)" title="editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> |
-                            <a style="cursor: pointer;" ng-click="removeBus(bus.id)" title="desactivar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>  
-    </div>
+                </table>
+            </div>
+        </p>
+    </a>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="mdlBuses" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
