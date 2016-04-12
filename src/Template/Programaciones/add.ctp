@@ -10,7 +10,7 @@ $this->assign("title", "Nueva Programación");
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="txtFechaHora">Fecha y Hora</label>
-                <input id="txtFechaHora" type="datetime-local" ng-model="programacion.prefechahora_prog" class="form-control"/>
+                <input id="txtFechaHora" type="datetime-local" ng-model="prefechahora_prog" class="form-control"/>
             </div>
         </div>
     </div>

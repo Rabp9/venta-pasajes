@@ -103,7 +103,18 @@ Router::scope('/', function ($routes) {
             ]
         ]
     ]);
-    $routes->resources('Programaciones');
+    $routes->resources('Programaciones', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'getByFechaByOrigenByDestino' => [
+                'action' => 'getByFechaByOrigenByDestino',
+                'method' => 'POST'
+            ]
+        ]
+    ]);
     $routes->resources('BusPisos');
     $routes->resources('DetalleDesplazamientos');
     $routes->resources('Restricciones', [

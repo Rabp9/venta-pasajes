@@ -49,7 +49,7 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
             var conductor = value;
             $scope.programacion.detalle_conductores[key].conductor_id = conductor.id;
         });
-        $scope.programacion.fechahora_prog = $filter("date")($scope.programacion.prefechahora_prog, "yyyy-MM-dd HH:mm:ss");
+        $scope.programacion.fechahora_prog = $filter("date")($scope.prefechahora_prog, "yyyy-MM-dd HH:mm:ss");
         $scope.programacion.estado_id = 1;
         ProgramacionesService.save($scope.programacion, function(data) {
             var type = data.message.type;

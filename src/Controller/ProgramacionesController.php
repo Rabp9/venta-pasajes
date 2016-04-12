@@ -17,12 +17,10 @@ class ProgramacionesController extends AppController
     }
 
     public function view($id = null) {
-        $programacione = $this->Programaciones->get($id, [
-            'contain' => ['Buses']
-        ]);
-
-        $this->set('programacione', $programacione);
-        $this->set('_serialize', ['programacione']);
+        $programacion = $this->Programaciones->get($id)
+            ->contain(["Rutas", "Servicios", "Buses.BusPisos.BusAsientos"]);
+        $this->set(compact("programacion"));
+        $this->set('_serialize', ['programacion']);
     }
 
     public function add() {
@@ -91,5 +89,23 @@ class ProgramacionesController extends AppController
             $this->Flash->error(__('The programacione could not be deleted. Please, try again.'));
         }
         return $this->redirect(['action' => 'index']);
+    }
+    
+    public function getByFechaByOrigenByDestino() {
+        $this->viewBuilder()->layout(false);
+        
+        $fecha = $this->request->data["fecha"];
+        $origen = $this->request->data["origen"];
+        $destino = $this->request->data["destino"];
+        
+        $programaciones = $this->Programaciones->find()
+            ->where(["DATE(fechahora_prog)" => $fecha])
+            ->contain(["Rutas", "Servicios", "Buses"])
+            ->matching("Rutas.DetalleDesplazamientos.Desplazamientos", function($q) use($origen, $destino) {
+                return $q->where(["Desplazamientos.origen" => $origen, "Desplazamientos.destino" => $destino]);
+        });
+        
+        $this->set(compact('programaciones'));
+        $this->set('_serialize', ['programaciones']);
     }
 }
