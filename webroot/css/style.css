@@ -38,6 +38,6 @@ body {
 }
   
 .img-bus { 
-  min-height: 355px;
-  min-width: 930px;
+    height: 355px;
+    width: 930px;
 }

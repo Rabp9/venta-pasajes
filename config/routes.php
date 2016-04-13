@@ -116,6 +116,7 @@ Router::scope('/', function ($routes) {
         ]
     ]);
     $routes->resources('BusPisos');
+    $routes->resources('BusAsientos');
     $routes->resources('DetalleDesplazamientos');
     $routes->resources('Restricciones', [
         'map' => [

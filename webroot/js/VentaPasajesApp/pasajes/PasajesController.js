@@ -1,9 +1,10 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService, ProgramacionesService, $filter) {
+VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService, ProgramacionesService, BusAsientosService, $filter) {
     $scope.searching = false;
     $scope.reverse = false;
     $scope.predicate = "id";
+    $scope.bus_asientos_selected = [];
     
     $scope.agencias = AgenciasService.get(function() {
         $scope.agencias = $scope.agencias.agencias;
@@ -33,10 +34,15 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         });
     }
     
-    $scope.onProgramacionSelect = function(programacion_id) {
-        ProgramacionesService.get({id: programacion_id}, function(data) {
+    $scope.onProgramacionSelect = function() {
+        ProgramacionesService.get({id: $scope.programacion_id_selected}, function(data) {
             $scope.programacion_selected = data.programacion;
         });
     }
     
+    $scope.showBusAsiento = function(bus_asiento_id) {
+        BusAsientosService.get({id: bus_asiento_id}, function(data) {
+            $scope.bus_asientos_selected.push(data.busAsiento);
+        });
+    }
 });

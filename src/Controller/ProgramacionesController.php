@@ -17,8 +17,9 @@ class ProgramacionesController extends AppController
     }
 
     public function view($id = null) {
-        $programacion = $this->Programaciones->get($id)
-            ->contain(["Rutas", "Servicios", "Buses.BusPisos.BusAsientos"]);
+        $programacion = $this->Programaciones->get($id, [
+            "contain" => ["Rutas", "Servicios", "Buses.BusPisos.BusAsientos"]
+        ]);
         $this->set(compact("programacion"));
         $this->set('_serialize', ['programacion']);
     }

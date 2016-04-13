@@ -14,7 +14,7 @@ $this->assign("title", "Pasajes");
 </div>
 
 <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-9">
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
@@ -100,7 +100,7 @@ $this->assign("title", "Pasajes");
                                 onmouseout="style.backgroundColor='#fff'">
 
                                 <td width="1%" bgcolor="#D6E4F2">
-                                    <input type="radio" name="programacion" ng-change="onProgramacionSelect(programacion.id)" />
+                                    <input type="radio" ng-model="$parent.programacion_id_selected" ng-value="programacion.id" ng-change="onProgramacionSelect()"/>
                                 </td>
                                 <td width="3%" bgcolor="#D6E4F2">{{ programacion.id }}</td>
                                 <td width="6%">{{ programacion.ruta.descripcion }}</td>
@@ -114,15 +114,35 @@ $this->assign("title", "Pasajes");
             </div>
         </div>
         <div class="col-md-10 col-sm-12">
-            <div class="droppable-container">
-                <img id="img-bus" class="img-bus" ng-src="img/cache/bb2.jpg" />
-                <div class="draggable">
-                    <span>1</span>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" ng-repeat="bus_piso in programacion_selected.bus.bus_pisos" ng-class='{active:$first}'>
+                    <a data-target="#piso{{$index + 1}}" aria-controls="piso{{$index + 1}}" role="tab" data-toggle="tab">Piso {{$index + 1}}</a>
+                </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div ng-repeat="bus_piso in programacion_selected.bus.bus_pisos" role="tabpanel" 
+                    class="tab-pane panel{{$index}}" ng-class='{active:$first, in: $first}' id="piso{{$index + 1}}">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="droppable-container">
+                                <img id="img-bus{{$index}}" class="img-bus" 
+                                     ng-src="img/{{bus_piso.imagen}}"/>
+                                <div id="asiento{{$parent.$index}}{{$index}}" 
+                                    class="draggable" ng-repeat="bus_asiento in bus_piso.bus_asientos"
+                                    style="position: absolute; left: {{bus_asiento.x}}; top: {{bus_asiento.y}}"
+                                    ng-click="showBusAsiento(bus_asiento.id)">
+                                    <span>{{bus_asiento.nro_asiento}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
         <p>dasdadada</p>
         <p>dasdadada</p>
         <p>dasdadada</p>

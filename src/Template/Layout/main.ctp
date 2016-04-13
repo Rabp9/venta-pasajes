@@ -21,6 +21,7 @@
         "VentaPasajesApp/servicios/ServiciosService.js",
         "VentaPasajesApp/desplazamientos/DesplazamientosService.js",
         "VentaPasajesApp/busPisos/BusPisosService.js",
+        "VentaPasajesApp/busAsientos/BusAsientosService.js",
         "VentaPasajesApp/programaciones/ProgramacionesService.js"
     ])
     ?>
