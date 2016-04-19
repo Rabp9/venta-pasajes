@@ -143,13 +143,28 @@ $this->assign("title", "Pasajes");
         </div>
     </div>
     <div class="col-md-3">
-        <p>dasdadada</p>
-        <p>dasdadada</p>
-        <p>dasdadada</p>
-        <p>dasdadada</p>
-        <p>dasdadada</p>
-        <p>dasdadada</p>
-        <p>dasdadada</p>
+        <div class="panel panel-primary" ng-repeat="pasaje in pasajes">
+            <div class="panel-heading">Pasaje</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="txtProgramacionId">Còdigo de Programaciòn</label>
+                    <input id="txtProgramacionId" type="text" ng-value="pasaje.programacion.id" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="txtNumAsiento">Nùmero de Asiento</label>
+                    <input id="txtNumAsiento" type="text" ng-value="pasaje.busAsiento.nro_asiento" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="txtPersonaDni">Persona</label>
+                    <input id="txtPersonaDni" type="text" ng-model="dnis[$index]" ng-keyup="onKupDni($index)" class="form-control" />
+                    <input type="text" ng-model="personas[$index].full_name" class="form-control" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="txtValor">Valor</label>
+                    <input id="txtValor" type="text" ng-model="pasajes[$index].valor" class="form-control" />
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

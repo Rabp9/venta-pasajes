@@ -111,4 +111,17 @@ class DetalleDesplazamientosController extends AppController
     public function setRestricciones($id = null) {
         $this->viewBuilder()->layout(false);
     }
+    
+    public function getByRutaAndDesplazamiento() {
+        $this->viewBuilder()->layout(false);
+        
+        $ruta_id = $this->request->param("ruta_id");
+        $desplazamiento_id = $this->request->param("desplazamiento_id");
+        
+        $detalleDesplazamiento = $this->DetalleDesplazamientos->find()
+            ->where(["ruta_id" => $ruta_id, "desplazamiento_id" => $desplazamiento_id])->first();
+        
+        $this->set(compact('detalleDesplazamiento'));
+        $this->set('_serialize', ['detalleDesplazamiento']);
+    }
 }

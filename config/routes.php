@@ -117,7 +117,18 @@ Router::scope('/', function ($routes) {
     ]);
     $routes->resources('BusPisos');
     $routes->resources('BusAsientos');
-    $routes->resources('DetalleDesplazamientos');
+    $routes->resources('DetalleDesplazamientos', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'getByRutaAndDesplazamiento/:ruta_id/:desplazamiento_id' => [
+                'action' => 'getByRutaAndDesplazamiento',
+                'method' => 'GET'
+            ]
+        ]
+    ]);
     $routes->resources('Restricciones', [
         'map' => [
             '/' => [
@@ -138,6 +149,10 @@ Router::scope('/', function ($routes) {
             ],
             'index/:origen/:destino' => [
                 'action' => 'index',
+                'method' => 'GET'
+            ],
+            'getByOrigenAndDestino/:origen/:destino' => [
+                'action' => 'getByOrigenAndDestino',
                 'method' => 'GET'
             ]
         ]

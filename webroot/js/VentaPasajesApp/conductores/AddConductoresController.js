@@ -16,8 +16,7 @@ VentaPasajesApp.controller("AddConductoresController", function($scope, Conducto
     
     $scope.buscarPersona = function() {
         PersonasService.findByDni({dni: $scope.dni}, function(data) {
-            console.log(data.persona);
-            $scope.persona = data.persona[0];
+            $scope.persona = data.persona;
         });
     }
     

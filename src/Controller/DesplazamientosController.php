@@ -111,4 +111,17 @@ class DesplazamientosController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+    
+    public function getByOrigenAndDestino() {
+        $this->viewBuilder()->layout(false);
+        
+        $origen = $this->request->param("origen");
+        $destino = $this->request->param("destino");
+        
+        $desplazamiento = $this->Desplazamientos->find()
+            ->where(["origen" => $origen, "destino" => $destino])->first();
+        
+        $this->set(compact('desplazamiento'));
+        $this->set('_serialize', ['desplazamiento']);
+    }
 }

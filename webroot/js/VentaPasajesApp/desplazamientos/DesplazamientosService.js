@@ -7,6 +7,10 @@ VentaPasajesApp.factory("DesplazamientosService", function($resource) {
         findByOrigenDestino: {
             method: 'GET',
             url: VentaPasajesApp.path_location + "desplazamientos/index/:origen/:destino.json"
+        },
+        getByOrigenAndDestino: {
+            method: 'GET',
+            url: VentaPasajesApp.path_location + "desplazamientos/getByOrigenAndDestino/:origen/:destino/.json"
         }
     });
 });

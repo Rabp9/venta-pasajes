@@ -43,9 +43,9 @@ class PersonasController extends AppController
         
         $persona = $this->Personas->find()
             ->where(["dni" => $dni])
-            ->toArray();
+            ->first();
 
-        $this->set('persona', $persona);
+        $this->set(compact('persona'));
         $this->set('_serialize', ['persona']);
     }
     /**
