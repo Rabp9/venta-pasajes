@@ -52,9 +52,9 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
             DetalleDesplazamientosService.getByRutaAndDesplazamiento({
                 ruta_id: $scope.programacion_selected.ruta.id, 
                 desplazamiento_id: $scope.desplazamiento_selected.id
-            }), function(data) {
-                $scope.detalle_desplazamiento_selected = data.detalle_desplazamiento;
-            }
+            }, function(data) {
+                $scope.detalle_desplazamiento_selected = data.detalleDesplazamiento;
+            });
         });
     }
     
