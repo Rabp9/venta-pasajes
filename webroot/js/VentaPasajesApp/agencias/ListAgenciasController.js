@@ -13,6 +13,7 @@ VentaPasajesApp.controller("ListAgenciasController", function($rootScope, $scope
       
     $("#mdlAgencias").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
+            $("#btnAddAgencia").removeClass("disabled");
             $scope.modalUrl = ""; 
         });
     });
@@ -31,6 +32,7 @@ VentaPasajesApp.controller("ListAgenciasController", function($rootScope, $scope
     };
     
     $scope.addAgencia = function() {
+        $("#btnAddAgencia").addClass("disabled");
         $scope.modalUrl = VentaPasajesApp.path_location + "agencias/add";
     };
     

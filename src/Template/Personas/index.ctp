@@ -4,19 +4,20 @@ $this->assign("module-name", "Mantenedores");
 $this->assign("title", "Lista de Personas");
 ?>
 
-
-
-
-<div  class= "row" > 
-    <div  class= "col-sm-1"> <a class="btn btn-primary" ng-click="addPersona()"><span class="glyphicon glyphicon-plus"></span> Nueva Persona</a></div> 
-    <div  class= "col-md-1" style="text-align: right " >  <label for="txtDni">DNI</label></div> 
-  <div  class= "col-md-1" style="text-align: left"> <input class="form-control" ng-model="dni" type="search" maxlength="8" > </div> 
-  <div  class= "col-md-1" > 
-  <button class="btn btn-primary" type="button" ng-click="buscarpersona()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
-   </div> 
-  
+<div class="row"> 
+    <div class= "col-sm-2"> 
+        <a id="btnAddPersona" class="btn btn-primary" ng-click="addPersona()"><span class="glyphicon glyphicon-plus"></span> Nueva Persona</a>
+    </div>
+    
+    <div class= "col-md-3">
+        <form class="form-inline">
+            <div class="form-group">
+                <input id="txtDni" class="form-control" ng-model="dni" type="search" maxlength="8" placeholder="Buscar por DNI">
+            </div>
+            <button class="btn btn-primary" type="button" ng-click="buscarpersona()"><samp class="glyphicon glyphicon-search"></samp></button>
+        </form>
+    </div>
 </div>
-
 
 <div id="marco_include">
     <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
@@ -38,43 +39,43 @@ $this->assign("title", "Lista de Personas");
                         </th>
                         <th width="8%" align="center">
                             <a ng-click="order('nombres')" style="cursor: pointer;">
-                                NOMBRES
+                                Nombres
                                 <span class="glyphicon" ng-show="predicate === 'nombres'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>
                         <th width="5%" align="center">
                             <a ng-click="order('apellidos')" style="cursor: pointer;">
-                                APELLIDOS
+                                Apellidos
                                 <span class="glyphicon" ng-show="predicate === 'apellidos'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>
                         <th width="5%" align="center">
                             <a ng-click="order('domicilio')" style="cursor: pointer;">
-                                DOMICILIO
+                                Domicilio
                                 <span class="glyphicon" ng-show="predicate === 'domicilio'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>
                         <th width="5%" align="center">
                             <a ng-click="order('fecha_nac')" style="cursor: pointer;">
-                                FECHA NACIMIENTO
+                                Fecha Nacimiento
                                 <span class="glyphicon" ng-show="predicate === 'fecha_nac'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>
                         <th width="5%" align="center">
                             <a ng-click="order('sexo')" style="cursor: pointer;">
-                                SEXO
+                                Sexo
                                 <span class="glyphicon" ng-show="predicate === 'sexo'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>
                         <th width="5%" align="center">
                             <a ng-click="order('estado_id')" style="cursor: pointer;">
-                                CELULAR
+                                Celular
                                 <span class="glyphicon" ng-show="predicate === 'estado_id'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>
                         <th width="5%" align="center">
                             <a ng-click="order('estado_id')" style="cursor: pointer;">
-                                CORREO
+                                Correo
                                 <span class="glyphicon" ng-show="predicate === 'estado_id'" ng-class="{'glyphicon-chevron-down':reverse, 'glyphicon-chevron-up':!reverse}"></span>
                             </a>
                         </th>

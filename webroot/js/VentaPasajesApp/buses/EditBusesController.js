@@ -13,6 +13,7 @@ VentaPasajesApp.controller("EditBusesController", function($scope, BusesService,
     });
     
     $scope.updateBus = function() {
+        $("#btnRegistrar").addClass("disabled");
         var bus = BusesService.get({id: $scope.$parent.id}, function() {
             bus = angular.extend(bus, $scope.editBus);
             delete bus.estado;

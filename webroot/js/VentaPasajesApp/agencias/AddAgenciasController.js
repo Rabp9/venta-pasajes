@@ -8,6 +8,7 @@ VentaPasajesApp.controller("AddAgenciasController", function($scope, AgenciasSer
     });
     
     $scope.addAgencia = function() {
+        $("#btnRegistrar").addClass("disabled");
         AgenciasService.save($scope.newAgencia, function(data) {
             $("#mdlAgencias").modal('toggle');
             $scope.newAgencia = new AgenciasService();

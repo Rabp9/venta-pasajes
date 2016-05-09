@@ -38,6 +38,7 @@ VentaPasajesApp.controller("EditAgenciasController", function($scope, AgenciasSe
     };
     
     $scope.updateAgencia = function() {
+        $("#btnRegistrar").addClass("disabled");
         var agencia = AgenciasService.get({id: $scope.$parent.id}, function() {
             agencia = angular.extend(agencia, $scope.editAgencia);
             delete agencia.estado; 

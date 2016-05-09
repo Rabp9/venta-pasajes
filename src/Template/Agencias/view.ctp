@@ -12,12 +12,12 @@
                         <dd><?= $agencia->id ?></dd>
                         
                         <dt>Ubigeo</dt>
-                        <dd><?= $agencia->ubigeo_id ?></dd>
+                        <dd><?= $agencia->ubigeo->descripcion ?> (<?= $agencia->ubigeo->parent_ubigeos1->descripcion ?>)</dd>
                         
-                        <dt>Direccion</dt>
+                        <dt>Dirección</dt>
                         <dd><?= $agencia->direccion ?></dd>
                         
-                        <dt>Telefono</dt>
+                        <dt>Teléfono</dt>
                         <dd><?= $agencia->telefono ?></dd>
                         
                         <dt>Celular</dt>

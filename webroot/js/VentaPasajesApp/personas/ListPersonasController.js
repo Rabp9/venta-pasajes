@@ -12,6 +12,7 @@ VentaPasajesApp.controller("ListPersonasController", function($rootScope, $scope
     
     $("#mdlPersonas").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
+            $("#btnAddPersona").removeClass("disabled");
             $scope.modalUrl = ""; 
         });
     });
@@ -30,6 +31,7 @@ VentaPasajesApp.controller("ListPersonasController", function($rootScope, $scope
     };
     
     $scope.addPersona = function() {
+        $("#btnAddPersona").addClass("disabled");
         $scope.modalUrl = VentaPasajesApp.path_location + "personas/add";
     };
     

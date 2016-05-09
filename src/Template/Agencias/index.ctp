@@ -12,7 +12,7 @@ $this->assign("title", "Lista de Agencias");
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
-<a class="btn btn-primary" ng-click="addAgencia()"><span class="glyphicon glyphicon-plus"></span> Nueva Agencia</a>
+<a id="btnAddAgencia" class="btn btn-primary" ng-click="addAgencia()"><span class="glyphicon glyphicon-plus"></span> Nueva Agencia</a>
 
 <div id="marco_include">
     <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
@@ -72,7 +72,7 @@ $this->assign("title", "Lista de Agencias");
                         onmouseout="style.backgroundColor='#fff'">
                         
                         <td width="3%" bgcolor="#D6E4F2">{{ agencia.id }}</td>
-                        <td width="6%">{{ agencia.ubigeo.descripcion + " (" + agencia.ubigeo.parent_ubigeo.descripcion + ")" }}</td>
+                        <td width="6%">{{ agencia.ubigeo.descripcion + " (" + agencia.ubigeo.parent_ubigeos1.descripcion + ")" }}</td>
                         <td width="8%">{{ agencia.direccion }}</td>
                         <td width="5%">{{ agencia.telefono }}</td>
                         <td width="5%">{{ agencia.celular }}</td>

@@ -12,7 +12,7 @@ $this->assign("title", "Lista de Buses");
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
-<a class="btn btn-primary" ng-click="addBus()"><span class="glyphicon glyphicon-plus"></span> Nuevo Bus</a>
+<a id="btnAddBus" class="btn btn-primary" ng-click="addBus()"><span class="glyphicon glyphicon-plus"></span> Nuevo Bus</a>
 
 <div id="marco_include">
     <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">

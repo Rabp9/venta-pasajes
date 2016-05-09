@@ -21,7 +21,7 @@ class AgenciasController extends AppController
         $agencia = $this->Agencias->get($id, [
             'contain' => [
                 'Ubigeos' => [
-                    'ParentUbigeos' => ["ParentUbigeos"]
+                    'ParentUbigeos1' => ["ParentUbigeos2"]
                 ], 
                 'Estados'
             ]

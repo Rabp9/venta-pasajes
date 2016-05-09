@@ -13,6 +13,7 @@ VentaPasajesApp.controller("ListBusesController", function($scope, BusesService,
     
     $("#mdlBuses").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
+            $("#btnAddBus").removeClass("disabled");
             $scope.modalUrl = "";
         });
     });
@@ -36,6 +37,7 @@ VentaPasajesApp.controller("ListBusesController", function($scope, BusesService,
     };
     
     $scope.addBus = function() {
+        $("#btnAddBus").addClass("disabled");
         $scope.modalUrl = VentaPasajesApp.path_location + "buses/add";
     };
     

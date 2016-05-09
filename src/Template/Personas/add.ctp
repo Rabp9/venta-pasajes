@@ -1,12 +1,4 @@
-<?php /*$this->Html->css("jquery-ui.min", ["block" => "css"]);
-    $this->Html->css("jquery-ui.structure.min,css", ["block" => "css"]);
-    $this->Html->css("jquery-ui.theme.min,css", ["block" => "css"]);
-    
-    $this->Html->script("jquery-ui.min", ["block" => "script"]);
-    $this->Html->script("datepicker-es", ["block" => "script"]);*/
-?>
-
-
+<!-- src/Template/Personas/add.ctp -->
 <div ng-controller="AddPersonasController">
     <?= $this->Form->create($persona, ["url" => false, "ng-submit" => "addPersona()"]); ?>
         <div class="modal-content">
@@ -18,21 +10,16 @@
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <?php
-                            echo $this->Form->input('dni', ["ng-model" => "newPersona.dni"]);
+                            echo $this->Form->input('dni', ["ng-model" => "newPersona.dni", "label" => "DNI"]);
                             echo $this->Form->input('nombres', ["ng-model" => "newPersona.nombres"]);
                             echo $this->Form->input('apellidos', ["ng-model" => "newPersona.apellidos"]);
-                             echo $this->Form->input('domicilio', ["ng-model" => "newPersona.domicilio"]);
-                           echo '<input type="date" name="fecha_nac" id="fecha_nac"
-       ng-model="date" 
-       value="{{ date | date: "yyyy-MM-dd" }}" />';
-                           
-                           /* echo $this->Form->input("fecha_nac", 
-                                ["label" => "Fecha de Nacimiento","type" => "date",
-                                    
-                                    ]); */
-                            
-                            
-                            
+                            echo $this->Form->input('domicilio', ["ng-model" => "newPersona.domicilio"]);
+                        ?>
+                        <div class="form-group">
+                            <label for="fecha_nac">Fecha de Nacimiento</label>
+                            <input id="fecha_nac" type="date" ng-model="newPersona.fecha_nac" class="form-control">
+                        </div>
+                        <?php
                             echo $this->Form->input('sexo', ["ng-model" => "newPersona.sexo"]);
                             echo $this->Form->input('telefono', ["ng-model" => "newPersona.telefono"]);
                             echo $this->Form->input('cel', ["ng-model" => "newPersona.cel"]);
