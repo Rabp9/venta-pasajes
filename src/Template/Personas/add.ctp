@@ -19,10 +19,16 @@
                             <label for="fecha_nac">Fecha de Nacimiento</label>
                             <input id="fecha_nac" type="date" ng-model="newPersona.fecha_nac" class="form-control">
                         </div>
+                        <div class="form-group">
+                            <label for="sexo">Sexo</label>
+                            <select id="sexo" ng-model="newPersona.sexo" class="form-control"
+                                ng-options="sexo.value as sexo.text for sexo in [{'value': 'M', 'text': 'Masculino'}, {'value': 'F', 'text': 'Femenino'}]">
+                                <option value="">Selecciona uno</option>
+                            </select>
+                        </div>
                         <?php
-                            echo $this->Form->input('sexo', ["ng-model" => "newPersona.sexo"]);
-                            echo $this->Form->input('telefono', ["ng-model" => "newPersona.telefono"]);
-                            echo $this->Form->input('cel', ["ng-model" => "newPersona.cel"]);
+                            echo $this->Form->input('telefono', ["label" => "Teléfono", "ng-model" => "newPersona.telefono"]);
+                            echo $this->Form->input('cel', ["label" => "Celular", "ng-model" => "newPersona.cel"]);
                             echo $this->Form->input('correo', ["ng-model" => "newPersona.correo"]);
                         ?>
                     </div>

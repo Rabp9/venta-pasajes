@@ -62,18 +62,18 @@ class PersonasController extends AppController
             $persona = $this->Personas->patchEntity($persona, $this->request->data);
             if ($this->Personas->save($persona)) {
                 $message = array(
-                    'text' => __('Saved'),
+                    'text' => __('Persona registrada correctamente'),
                     'type' => 'success'
                 );
             } else {
                 $message = array(
-                    'text' => __('Error'),
+                    'text' => __('No fue posible registrar la persona'),
                     'type' => 'error'
                 );
             }
         }
-        $this->set(compact('persona'));
-        $this->set('_serialize', ['persona']);  
+        $this->set(compact('persona', 'message'));
+        $this->set('_serialize', ['message']);  
     }
 
     /**

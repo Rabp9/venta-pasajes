@@ -56,12 +56,18 @@ VentaPasajesApp.controller("ListPersonasController", function($rootScope, $scope
             });
         }
     }
+    
+    $scope.actualizarMessage = function(message) {
+        $scope.message = message;
+    } 
+    
     $scope.buscarpersona = function() {
-       $scope.loading = true;
-        PersonasService.findByDni({dni: $scope.dni}, function(data) {           
-            $scope.personas = data.persona;
+        $scope.loading = true;
+        PersonasService.findByDni({dni: $scope.dni}, function(data) {
+            $scope.personas = [];
+            if(data.persona !== null)
+                $scope.personas.push(data.persona);
             $scope.loading = false;
-            
         });
     }
     $scope.list();
