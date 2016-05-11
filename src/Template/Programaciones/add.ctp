@@ -61,7 +61,7 @@ $this->assign("title", "Nueva Programación");
                         <label for="sltRutas">Ruta</label>
                         <select id="sltRutas" class="form-control" ng-model="programacion.ruta_id" 
                             ng-options="ruta.id as ruta.descripcion for ruta in rutas" ng-change="onRutaSelected()">
-                            <option value="">Selecciona un Ruta</option>
+                            <option value="">Selecciona una Ruta</option>
                         </select>
                     </div>
                     <div ng-show="programacion.ruta_id != null">

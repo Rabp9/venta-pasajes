@@ -17,7 +17,7 @@
                         ?>
                         <div class="form-group">
                             <label for="fecha_nac">Fecha de Nacimiento</label>
-                            <input id="fecha_nac" type="date" ng-model="newPersona.fecha_nac" class="form-control">
+                            <input id="fecha_nac" type="date" ng-model="prefecha_nac" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="sexo">Sexo</label>
@@ -36,7 +36,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Registrar</button>
+                <button id="btnRegistrar" type="submit" class="btn btn-primary">Registrar</button>
             </div>
         </div>
     <?= $this->Form->end() ?>

@@ -7,24 +7,16 @@ class PersonasController extends AppController
 {
     
     public function index(){
-            
-           $this->viewBuilder()->layout(false);
+        $this->viewBuilder()->layout(false);
         
         $personas = $this->Personas->find("all")
-                ->limit(50);
-
+            ->limit(50);
+        
         $this->set(compact('personas'));
         $this->set('_serialize', ['personas']);
       
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id Persona id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
     public function view($id = null) { 
         $this->viewBuilder()->layout(false);
         
@@ -48,18 +40,15 @@ class PersonasController extends AppController
         $this->set(compact('persona'));
         $this->set('_serialize', ['persona']);
     }
-    /**
-     * Add method
-     *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-      $this->viewBuilder()->layout(false);
+
+    public function add() {
+        $this->viewBuilder()->layout(false);
         
         $persona = $this->Personas->newEntity();
+        $var1 = $this->request->data;
         if ($this->request->is('post')) {
             $persona = $this->Personas->patchEntity($persona, $this->request->data);
+            $var2 = $persona;
             if ($this->Personas->save($persona)) {
                 $message = array(
                     'text' => __('Persona registrada correctamente'),
@@ -72,8 +61,8 @@ class PersonasController extends AppController
                 );
             }
         }
-        $this->set(compact('persona', 'message'));
-        $this->set('_serialize', ['message']);  
+        $this->set(compact('persona', 'message', 'var1', 'var2'));
+        $this->set('_serialize', ['message', 'persona', 'var1', 'var2']);  
     }
 
     /**

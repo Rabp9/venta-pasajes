@@ -5,10 +5,12 @@ VentaPasajesApp.controller("ListPersonasController", function($rootScope, $scope
     $scope.loading = true;
     $scope.reverse = false;
     $scope.predicate = "id";
+    $scope.message = "";
     
-    $rootScope.$on('$includeContentLoaded', function(event, url) {
+    
+    $scope.openModal = function() {
         $("#mdlPersonas").modal("toggle");
-    });
+    };
     
     $("#mdlPersonas").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
@@ -45,21 +47,22 @@ VentaPasajesApp.controller("ListPersonasController", function($rootScope, $scope
         $scope.modalUrl = VentaPasajesApp.path_location + "personas/view/" + id;
     };
     
+    $scope.actualizarMessage = function(message) {
+        $scope.message = message;
+    } 
+    
     $scope.removePersona = function(id) {
-        if(confirm("¿Está seguro de desactivar cliente?")) {
+        if(confirm("¿Está seguro de desactivar este cliente?")) {
             var persona = PersonasService.get({id: id}, function() {
                 persona.estado_id = 2;
                 delete persona.estado; 
                 persona.$update({id: id}, function() {
+                    $scope.actualizarMessage(data.message);
                     $scope.list();
                 });
             });
         }
     }
-    
-    $scope.actualizarMessage = function(message) {
-        $scope.message = message;
-    } 
     
     $scope.buscarpersona = function() {
         $scope.loading = true;

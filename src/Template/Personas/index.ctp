@@ -1,3 +1,4 @@
+<!-- src/Template/Personas/index.ctp -->
 <?php
 $this->extend('/Common/vista');
 $this->assign("module-name", "Mantenedores");
@@ -121,9 +122,10 @@ $this->assign("title", "Lista de Personas");
         </div>  
     </div>
 </div>
+
 <!-- Modal -->
 <div class="modal fade" id="mdlPersonas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" ng-include="modalUrl">
+    <div class="modal-dialog" role="document" ng-include="modalUrl" onload="openModal()">
         
     </div>
 </div>
