@@ -107,7 +107,7 @@ $this->assign("title", "Lista de Personas");
                         <td width="8%">{{ persona.nombres }}</td>
                         <td width="5%">{{ persona.apellidos }}</td>
                         <td width="5%">{{ persona.domicilio }}</td>
-                        <td width="5%">{{ persona.fecha_nac }}</td>
+                        <td width="5%">{{ persona.fecha_nac | date: 'medium' }}</td>
                         <td width="5%">{{ persona.sexo }}</td>
                         <td width="5%">{{ persona.cel }}</td>
                         <td width="5%">{{ persona.correo }}</td>

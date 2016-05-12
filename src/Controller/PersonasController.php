@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\I18n\Time;
 
 class PersonasController extends AppController
 {
@@ -45,10 +46,9 @@ class PersonasController extends AppController
         $this->viewBuilder()->layout(false);
         
         $persona = $this->Personas->newEntity();
-        $var1 = $this->request->data;
         if ($this->request->is('post')) {
+            $this->request->data["fecha_nac"] = Time::createFromFormat("Y-m-d", $this->request->data["fecha_nac"]);
             $persona = $this->Personas->patchEntity($persona, $this->request->data);
-            $var2 = $persona;
             if ($this->Personas->save($persona)) {
                 $message = array(
                     'text' => __('Persona registrada correctamente'),
@@ -61,8 +61,8 @@ class PersonasController extends AppController
                 );
             }
         }
-        $this->set(compact('persona', 'message', 'var1', 'var2'));
-        $this->set('_serialize', ['message', 'persona', 'var1', 'var2']);  
+        $this->set(compact('persona', 'message'));
+        $this->set('_serialize', ['message']);  
     }
 
     /**
