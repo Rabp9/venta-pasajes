@@ -93,6 +93,16 @@ VentaPasajesApp.filter('makeRange', function() {
     };
 });
 
+VentaPasajesApp.filter('sexo', function() {
+    return function(input) {
+        switch(input) {
+            case 'M': return 'Masculino';
+            case 'F': return 'Femenino';
+        }
+        return '';
+    };
+});
+
 VentaPasajesApp.directive('fileModel', ['$parse', function ($parse) {
     return {
         restrict: 'A',

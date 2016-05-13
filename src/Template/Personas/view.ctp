@@ -24,7 +24,7 @@
                         <dd><?= $persona->domicilio ?></dd>
                         
                         <dt>Fecha de Nacimiento</dt>
-                        <dd><?= $persona->fecha_nac ?></dd>
+                        <dd><?= $persona->fecha_nac->format('Y-m-d') ?></dd>
                         
                         <dt>Sexo</dt>
                         <dd><?= $persona->sexo ?></dd>
