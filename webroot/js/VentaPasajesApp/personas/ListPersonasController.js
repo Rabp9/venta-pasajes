@@ -7,7 +7,6 @@ VentaPasajesApp.controller("ListPersonasController", function($rootScope, $scope
     $scope.predicate = "id";
     $scope.message = "";
     
-    
     $scope.openModal = function() {
         $("#mdlPersonas").modal("toggle");
     };

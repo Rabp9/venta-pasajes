@@ -1,4 +1,4 @@
-var VentaPasajesApp = angular.module("VentaPasajesApp", ["ngRoute", "ngResource", "ngAnimate", "ngFileUpload"]);
+var VentaPasajesApp = angular.module("VentaPasajesApp", ["ngRoute", "ngResource", "ngAnimate", "ngFileUpload", "ngInputDate"]);
 
 VentaPasajesApp.path_location = "http://localhost:8000/venta-pasajes/";
 

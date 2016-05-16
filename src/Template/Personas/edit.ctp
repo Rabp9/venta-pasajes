@@ -14,15 +14,22 @@
                             echo $this->Form->input('nombres', ["ng-model" => "editPersona.nombres"]);
                             echo $this->Form->input('apellidos', ["ng-model" => "editPersona.apellidos"]);
                             echo $this->Form->input('domicilio', ['ng-model' => "editPersona.domicilio"]);
-                            echo $this->Form->input('fecha_nac', ["ng-model" => "editPersona.fecha_nac"]);
-                            
-                            
-                            
-                            
-                            echo $this->Form->input('sexo', ["ng-model" => "editPersona.sexo"]);
+                        ?>
+                        <div class="form-group">
+                            <label for="fecha_nac">Fecha de Nacimiento</label>
+                            <input id="fecha_nac" type="date" ng-model="editPersona.fecha_nac" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="sexo">Sexo</label>
+                            <select id="sexo" ng-model="editPersona.sexo" class="form-control"
+                                ng-options="sexo.value as sexo.text for sexo in [{'value': 'M', 'text': 'Masculino'}, {'value': 'F', 'text': 'Femenino'}]">
+                                <option value="">Selecciona uno</option>
+                            </select>
+                        </div>
+                        <?php
                             echo $this->Form->input('telefono', ["ng-model" => "editPersona.telefono"]);
                             echo $this->Form->input('cel', ["ng-model" => "editPersona.cel"]);
-                             echo $this->Form->input('correo', ["ng-model" => "editPersona.correo"]);
+                            echo $this->Form->input('correo', ["ng-model" => "editPersona.correo"]);
                         ?>
                     </div>
                 </div>

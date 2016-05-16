@@ -6,7 +6,7 @@
         "fonts25.css", "panels.css", "angular-animations.css"]) ?>
     <?= $this->Html->script(["angular.min.js", "angular-route.min.js", 
         "angular-resource.min.js", "angular-animate.min.js", "ng-file-upload.min.js",
-        "VentaPasajesApp/app.js"]) 
+        "angular-input-date", "VentaPasajesApp/app.js"])
     ?> 
     <?= $this->Html->script(["VentaPasajesApp/buses/BusesService.js",
         "VentaPasajesApp/estados/EstadosService.js",

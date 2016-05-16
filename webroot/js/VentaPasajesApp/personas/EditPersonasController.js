@@ -1,11 +1,9 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("EditPersonasController", function($scope, PersonasService) {
-    
-    
-    $scope.editPersona = PersonasService.get({ id: $scope.$parent.id }, function() {
-        $scope.editPersona = $scope.editPersona.persona;
-        
+    PersonasService.get({ id: $scope.$parent.id }, function(data) {
+        data.persona.fecha_nac = new Date(2014, 3, 3);
+        $scope.editPersona = data.persona;
     });
     
     
