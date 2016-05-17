@@ -113,8 +113,7 @@ $this->assign("title", "Lista de Personas");
                         <td width="5%">{{ persona.correo }}</td>
                         <td width="4%">
                             <a style="cursor: pointer;" ng-click="viewPersona(persona.id)" title="ver"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a> |
-                            <a style="cursor: pointer;" ng-click="editPersona(persona.id)" title="editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> |
-                            <a style="cursor: pointer;" ng-click="removePersona(persona.id)" title="desactivar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                            <a style="cursor: pointer;" ng-click="editPersona(persona.id)" title="editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                         </td>
                     </tr>
                 </tbody>
