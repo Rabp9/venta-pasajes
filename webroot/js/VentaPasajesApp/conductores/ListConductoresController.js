@@ -53,26 +53,20 @@ VentaPasajesApp.controller("ListConductoresController", function($scope, Conduct
     $scope.removeConductor = function(id) {
         if(confirm("¿Está seguro de desactivar este Conductor?")) {
             var conductor = ConductoresService.get({id: id}, function() {
-                conductor.estado_id = 2;
-                delete conductor.estado; 
-                conductor.$update({id: id}, function() {
-                    var message = {
-                        type: "success",
-                        text: "conductor desactivado correctamente"
-                    };
-                    $scope.actualizarMessage(message);
-                    $scope.list();
+                conductor.$update({id: id}, function(data) {
+                    
                 });
             });
         }
-    }
-   $scope.buscarconductor = function() {
-       $scope.loading = true;
+    };
+    
+    $scope.buscarconductor = function() {
+        $scope.loading = true;
         ConductoresService.findByDni({dni: $scope.dni}, function(data) {           
             $scope.conductores = data.conductor;
             $scope.loading = false;
-            
         });
     }
+    
     $scope.list();
 });

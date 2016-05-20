@@ -7,19 +7,21 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2">
-                    <div><span style="color: blue; "><h2><?= $conductor->persona-> apellidos  ?> <?= $conductor->persona-> nombres  ?></h2></span></div>
+                    <h2 style="color: blue"><?= $conductor->persona-> apellidos  ?> <?= $conductor->persona-> nombres  ?></h2>
                     
                     <dl class="dl-horizontal">
                         <dt>Código</dt>
                         <dd><?= $conductor->id ?></dd>
                         
-                        <dt>persona_id</dt>
-                        <dd><?= $conductor->persona_id ?></dd>
-                        <dt>licencia</dt>
+                        <dt>DNI</dt>
+                        <dd><?= $conductor->persona->dni ?></dd>
+                        
+                        <dt>Licencia</dt>
                         <dd><?= $conductor->licencia ?></dd>
                         
-                        <dt>categoria</dt>
+                        <dt>Categoria</dt>
                         <dd><?= $conductor->categoria ?></dd>
+                        
                         <dt>Estado</dt>
                         <dd><?= $conductor->estado->descripcion ?></dd>
                     </dl>

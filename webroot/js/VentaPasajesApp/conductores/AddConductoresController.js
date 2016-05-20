@@ -5,18 +5,6 @@ VentaPasajesApp.controller("AddConductoresController", function($scope, Conducto
     $scope.dni = "";
     $scope.persona = new PersonasService();
     
-    /*
-    $scope.addConductor = function() {
-        $("#btnRegistrar").addClass("disabled");
-        ConductoresService.save($scope.newConductor, function(data) {
-            $("#mdlConductores").modal('toggle');
-            $scope.newConductor = new ConductoresService();
-            $scope.$parent.actualizarMessage(data.message);
-            $scope.$parent.list();
-        });;
-    }
-    */
-    
     $scope.buscarPersona = function() {
         PersonasService.findByDni({dni: $scope.dni}, function(data) {
             $scope.persona = data.persona;
@@ -29,7 +17,7 @@ VentaPasajesApp.controller("AddConductoresController", function($scope, Conducto
         ConductoresService.save($scope.newConductor, function(data) {
             $("#mdlConductores").modal('toggle');
             $scope.newConductor = new ConductoresService();
-            //$scope.$parent.actualizarMessage(data.message);
+            $scope.$parent.actualizarMessage(data.message);
             $scope.$parent.list();
         });;
     }

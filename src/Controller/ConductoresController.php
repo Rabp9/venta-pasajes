@@ -3,36 +3,20 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
-/**
- * Conductores Controller
- *
- * @property \App\Model\Table\ConductoresTable $Conductores
- */
 class ConductoresController extends AppController
 {
 
-    public function index()
-    {
+    public function index() {
+        $this->viewBuilder()->layout(false);
         
-        
-        $this->viewBuilder()->layout(false);        
         $conductores = $this->Conductores->find("all")
-            ->contain(["Estados","Personas"])
-        ->toArray();
+            ->contain(["Estados","Personas"]);
+        
         $this->set(compact('conductores'));
         $this->set('_serialize', ['conductores']);
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id Conductore id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        
+    public function view($id = null) {
         $this->viewBuilder()->layout(false);
         $conductor = $this->Conductores->get($id, [            
             'contain' => ['Estados','Personas']
@@ -46,9 +30,9 @@ class ConductoresController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
-        $this->viewBuilder()->layout(false);        
+    public function add() {
+        $this->viewBuilder()->layout(false);
+        
         $conductor = $this->Conductores->newEntity();
         if ($this->request->is('post')) {
             $conductor = $this->Conductores->patchEntity($conductor, $this->request->data);
@@ -69,15 +53,7 @@ class ConductoresController extends AppController
         $this->set("_serialize", ["message"]);      
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Conductore id.
-     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
         $this->viewBuilder()->layout(false);
         
         $conductor = $this->Conductores->get($id, [

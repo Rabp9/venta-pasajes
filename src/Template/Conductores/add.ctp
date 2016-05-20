@@ -1,4 +1,4 @@
-<!-- src/Template/Buses/add.ctp -->
+<!-- src/Template/Conductores/add.ctp -->
 <div ng-controller="AddConductoresController">
     <?= $this->Form->create($conductor, ["url" => false, "ng-submit" => "addConductor()"]); ?>
         <div class="modal-content">
@@ -13,15 +13,16 @@
                             <label for="txtDni">DNI</label>
                             <div class="row">
                                 <div class="col-sm-8">
-                                    <input class="form-control" ng-model="dni" type="search">
+                                    <input class="form-control" ng-model="dni" type="search" maxlength="8">
                                 </div>
                                 <div class="col-sm-2">
                                     <button class="btn btn-primary" type="button" ng-click="buscarPersona()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
                                 </div>
                             </div>
                         </div>
-                        {{ persona.nombres }} {{ persona.apellidos }}
-                        <span ng-hide="persona != null">No existe</span>
+                        <span ng-show="searching">Buscando</span>
+                        <span ng-show="persona !== null">{{ persona.nombres }} {{ persona.apellidos }}</span>
+                        <span ng-hide="persona !== null">No existe</span>
                         <?php
                             echo $this->Form->input('licencia', ["ng-model" => "newConductor.licencia"]);
                             echo $this->Form->input('categoria', ["ng-model" => "newConductor.categoria"]);
