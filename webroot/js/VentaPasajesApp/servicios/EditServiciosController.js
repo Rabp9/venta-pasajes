@@ -13,6 +13,7 @@ VentaPasajesApp.controller("EditServiciosController", function($scope, Servicios
     });
     
     $scope.updateServicio = function() {
+        $("#btnRegistrar").addClass("disabled");
         var servicio = ServiciosService.get({id: $scope.$parent.id}, function() {
             servicio = angular.extend(servicio, $scope.editServicio);
             delete servicio.estado;
