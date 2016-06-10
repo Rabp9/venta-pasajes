@@ -16,7 +16,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     });
     
     $scope.onSearchChange = function() {
-        if ($scope.fecha == null) {
+        /*if ($scope.fecha == null) {
             return;
         }
         if ($scope.origen_selected == null) {
@@ -25,10 +25,12 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         if ($scope.destino_selected == null) {
             return;
         }
-        $scope.searching = true;
+        $scope.searching = true;*/
         var fecha = $filter("date")($scope.fecha, "yyyy-MM-dd");
+        console.log(fecha);
         
-        $scope.loading = true;
+        // var fecha = $filter("date")($scope.fecha, "yyyy-MM-dd");
+        /*$scope.loading = true;
         ProgramacionesService.getByFechaByOrigenByDestino({
             fecha: fecha,
             origen: $scope.origen_selected,
@@ -43,7 +45,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
             destino: $scope.destino_selected
         }, function(data) {
             $scope.desplazamiento_selected = data.desplazamiento;
-        })
+        })*/
     }
     
     $scope.onProgramacionSelect = function() {

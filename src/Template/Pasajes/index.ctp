@@ -20,7 +20,7 @@ $this->assign("title", "Pasajes");
                 <div class="form-group">
                     <label for="dtFecha">Fecha</label>
                     <input id="dtFecha" class="form-control" type="date" ng-model="fecha"
-                        ng-change="onSearchChange()"/> 
+                        ng-keyup="onSearchChange()"/> 
                 </div>    
             </div>
             <div class="col-sm-4">
