@@ -92,12 +92,15 @@ class ProgramacionesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
     
-    public function getByFechaByOrigenByDestino() {
-        $this->viewBuilder()->layout(false);
+    /*public function getByFechaByOrigenByDestino() {
         
-        $fecha = $this->request->data["fecha"];
+        /*$fecha = $this->request->data["fecha"];
         $origen = $this->request->data["origen"];
         $destino = $this->request->data["destino"];
+        */
+        /*$fecha = "2016-06-09";
+        $origen = 2;
+        $destino = 3;
         
         $programaciones = $this->Programaciones->find()
             ->where(["DATE(fechahora_prog)" => $fecha])
@@ -108,5 +111,14 @@ class ProgramacionesController extends AppController
         
         $this->set(compact('programaciones'));
         $this->set('_serialize', ['programaciones']);
+        $algo = "dadadada";
+        $this->set(compact('algo'));
+        $this->set('_serialize', ['algo']);
+    }
+    */
+    public function getByFechaByOrigenByDestino() {
+        $algo = "dadadada";
+        $this->set(compact('algo'));
+        $this->set('_serialize', ['algo']);
     }
 }

@@ -19,7 +19,7 @@ $this->assign("title", "Pasajes");
             <div class="col-sm-4">
                 <div class="form-group">
                     <label for="dtFecha">Fecha</label>
-                    <input id="dtFecha" class="form-control" type="date" ng-model="fecha"
+                    <input id="dtFecha" class="form-control" type="datetime-local" ng-model="fecha"
                         ng-keyup="onSearchChange()"/> 
                 </div>    
             </div>
@@ -88,19 +88,19 @@ $this->assign("title", "Pasajes");
                             <tr ng-show="!searching">
                                 <td colspan="6">Especifique los criterios de bùsqueda</td>
                             </tr>
-                            <tr ng-show="loading">
+                            <tr ng-show="searching">
                                 <td colspan="6">Cargando...</td>
                             </tr>
-                            <tr ng-show="programaciones.length == 0 && !loading">
+                            <tr ng-show="programaciones.length == 0 && !searching">
                                 <td colspan="6">No hay registros de Programaciones</td>
                             </tr>
-                            <tr ng-show="!loading" ng-repeat="programacion in programaciones | orderBy:predicate:reverse"
+                            <tr ng-show="!searching" ng-repeat="programacion in programaciones | orderBy:predicate:reverse"
                                 class="textnot2 animated" style="background-color: #fff;" 
                                 onmouseover="style.backgroundColor='#cccccc';" 
                                 onmouseout="style.backgroundColor='#fff'">
 
                                 <td width="1%" bgcolor="#D6E4F2">
-                                    <input type="radio" ng-model="$parent.programacion_id_selected" ng-value="programacion.id" ng-change="onProgramacionSelect()"/>
+                                    <input type="radio"/>
                                 </td>
                                 <td width="3%" bgcolor="#D6E4F2">{{ programacion.id }}</td>
                                 <td width="6%">{{ programacion.ruta.descripcion }}</td>

@@ -16,7 +16,7 @@ $this->assign("title", "Lista de Programaciones");
 
 <div class="list-group">
     <a ng-repeat="programacion in programaciones" class="list-group-item">
-        <h4 class="list-group-item-heading">{{programacion.ruta.descripcion}}: Trujillo - Chao - Virú</h4>
+        <h4 class="list-group-item-heading">{{programacion.ruta.descripcion}}: Trujillo - Chao</h4>
         <p class="list-group-item-text">
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -28,7 +28,7 @@ $this->assign("title", "Lista de Programaciones");
                     <tr>
                         <td>{{programacion.servicio.descripcion}}</td>
                         <td>{{programacion.bus.placa}}</td>
-                        <td>{{programacion.fechahora_prog}}</td>
+                        <td>{{programacion.fechahora_prog | date: 'yyyy-MM-dd'}}</td>
                     </tr>
                 </table>
             </div>

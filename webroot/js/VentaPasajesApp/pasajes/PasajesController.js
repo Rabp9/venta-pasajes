@@ -2,7 +2,7 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService, 
     ProgramacionesService, BusAsientosService, DetalleDesplazamientosService, 
-    DesplazamientosService, PersonasService, $filter
+    PersonasService, $filter
 ) {
     $scope.searching = false;
     $scope.reverse = false;
@@ -16,36 +16,32 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     });
     
     $scope.onSearchChange = function() {
-        /*if ($scope.fecha == null) {
-            return;
-        }
         if ($scope.origen_selected == null) {
             return;
         }
         if ($scope.destino_selected == null) {
             return;
         }
-        $scope.searching = true;*/
+        $scope.searching = true;
         var fecha = $filter("date")($scope.fecha, "yyyy-MM-dd");
-        console.log(fecha);
         
-        // var fecha = $filter("date")($scope.fecha, "yyyy-MM-dd");
-        /*$scope.loading = true;
         ProgramacionesService.getByFechaByOrigenByDestino({
             fecha: fecha,
             origen: $scope.origen_selected,
             destino: $scope.destino_selected
         }, function(data) {
-            $scope.programaciones = data.programaciones;
-            $scope.loading = false;
+           console.log(data);
         });
-        
-        DesplazamientosService.getByOrigenAndDestino({
+/*
+        ProgramacionesService.getByFechaByOrigenByDestino({
+            fecha: fecha,
             origen: $scope.origen_selected,
             destino: $scope.destino_selected
         }, function(data) {
-            $scope.desplazamiento_selected = data.desplazamiento;
-        })*/
+            console.log(data);
+            $scope.programaciones = data.programaciones;
+            $scope.searching = false;
+        });*/
     }
     
     $scope.onProgramacionSelect = function() {
