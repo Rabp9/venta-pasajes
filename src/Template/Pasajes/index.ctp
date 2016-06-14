@@ -85,7 +85,7 @@ $this->assign("title", "Pasajes");
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-show="!searching">
+                            <tr ng-show="!searching && (origen_selected == null || destino_selected == null || fecha == null)">
                                 <td colspan="6">Especifique los criterios de bùsqueda</td>
                             </tr>
                             <tr ng-show="searching">

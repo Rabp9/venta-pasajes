@@ -117,8 +117,18 @@ class ProgramacionesController extends AppController
     }
     */
     public function getByFechaByOrigenByDestino() {
-        $algo = "dadadada";
-        $this->set(compact('algo'));
-        $this->set('_serialize', ['algo']);
+        $fecha = $this->request->data["fecha"];
+        $origen = $this->request->data["origen"];
+        $destino = $this->request->data["destino"];
+        
+        $programaciones = $this->Programaciones->find()
+            ->where(["DATE(fechahora_prog)" => $fecha])
+            ->contain(["Rutas", "Servicios", "Buses"])
+            ->matching("Rutas.DetalleDesplazamientos.Desplazamientos", function($q) use($origen, $destino) {
+                return $q->where(["Desplazamientos.origen" => $origen, "Desplazamientos.destino" => $destino]);
+        });
+        
+        $this->set(compact('programaciones'));
+        $this->set('_serialize', ['programaciones']);
     }
 }

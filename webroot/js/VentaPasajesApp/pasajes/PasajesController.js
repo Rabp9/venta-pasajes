@@ -30,18 +30,9 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
             origen: $scope.origen_selected,
             destino: $scope.destino_selected
         }, function(data) {
-           console.log(data);
-        });
-/*
-        ProgramacionesService.getByFechaByOrigenByDestino({
-            fecha: fecha,
-            origen: $scope.origen_selected,
-            destino: $scope.destino_selected
-        }, function(data) {
-            console.log(data);
             $scope.programaciones = data.programaciones;
             $scope.searching = false;
-        });*/
+        });
     }
     
     $scope.onProgramacionSelect = function() {
