@@ -35,15 +35,9 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         });
     }
     
-    $scope.onProgramacionSelect = function() {
-        ProgramacionesService.get({id: $scope.programacion_id_selected}, function(data) {
+    $scope.onProgramacionSelect = function(programacion_id_selected) {
+        ProgramacionesService.get({id: programacion_id_selected}, function(data) {
             $scope.programacion_selected = data.programacion;
-            DetalleDesplazamientosService.getByRutaAndDesplazamiento({
-                ruta_id: $scope.programacion_selected.ruta.id, 
-                desplazamiento_id: $scope.desplazamiento_selected.id
-            }, function(data) {
-                $scope.detalle_desplazamiento_selected = data.detalleDesplazamiento;
-            });
         });
     }
     
@@ -53,10 +47,9 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                 busAsiento: data.busAsiento,
                 bus_asiento_id: data.busAsiento.id,
                 programacion: $scope.programacion_selected,
-                programacion_id: $scope.programacion_selected.id,
-                detalle_desplazamiento: $scope.detalle_desplazamiento_selected,
-                detalle_desplazamiento_id: $scope.detalle_desplazamiento_selected.id
+                programacion_id: $scope.programacion_selected.id
             }
+            console.log(pasaje);
             $scope.pasajes.push(pasaje);
         });
     }

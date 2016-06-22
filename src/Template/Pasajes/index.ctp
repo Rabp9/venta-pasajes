@@ -14,7 +14,7 @@ $this->assign("title", "Pasajes");
 </div>
 
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-8">
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
@@ -100,7 +100,7 @@ $this->assign("title", "Pasajes");
                                 onmouseout="style.backgroundColor='#fff'">
 
                                 <td width="1%" bgcolor="#D6E4F2">
-                                    <input type="radio"/>
+                                    <input type="radio" ng-click="onProgramacionSelect(programacion.id)"/>
                                 </td>
                                 <td width="3%" bgcolor="#D6E4F2">{{ programacion.id }}</td>
                                 <td width="6%">{{ programacion.ruta.descripcion }}</td>
@@ -110,26 +110,26 @@ $this->assign("title", "Pasajes");
                             </tr>
                         </tbody>
                     </table>
-                </div>  
+                </div>
             </div>
         </div>
         <div class="col-md-10 col-sm-12">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" ng-repeat="bus_piso in programacion_selected.bus.bus_pisos" ng-class='{active:$first}'>
-                    <a data-target="#piso{{$index + 1}}" aria-controls="piso{{$index + 1}}" role="tab" data-toggle="tab">Piso {{$index + 1}}</a>
+                    <a data-target="#piso{{bus_piso.nro_piso}}" aria-controls="piso{{bus_piso.nro_piso}}" role="tab" data-toggle="tab">Piso {{bus_piso.nro_piso}}</a>
                 </li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
                 <div ng-repeat="bus_piso in programacion_selected.bus.bus_pisos" role="tabpanel" 
-                    class="tab-pane panel{{$index}}" ng-class='{active:$first, in: $first}' id="piso{{$index + 1}}">
+                    class="tab-pane panel{{bus_piso.nro_piso}}" ng-class='{active:$first, in: $first}' id="piso{{bus_piso.nro_piso}}">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="droppable-container">
-                                <img id="img-bus{{$index}}" class="img-bus" 
+                                <img id="img-bus{{bus_piso.nro_piso}}" class="img-bus" 
                                      ng-src="img/{{bus_piso.imagen}}"/>
-                                <div id="asiento{{$parent.$index}}{{$index}}" 
+                                <div id="asiento{{bus_piso.nro_piso}}{{bus_asiento.nro_asiento}}" 
                                     class="draggable" ng-repeat="bus_asiento in bus_piso.bus_asientos"
                                     style="position: absolute; left: {{bus_asiento.x}}; top: {{bus_asiento.y}}"
                                     ng-click="showBusAsiento(bus_asiento.id)">
@@ -142,7 +142,7 @@ $this->assign("title", "Pasajes");
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="panel panel-primary" ng-repeat="pasaje in pasajes">
             <div class="panel-heading">Pasaje</div>
             <div class="panel-body">
