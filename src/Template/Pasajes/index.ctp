@@ -14,7 +14,7 @@ $this->assign("title", "Pasajes");
 </div>
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
@@ -142,28 +142,31 @@ $this->assign("title", "Pasajes");
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="panel panel-primary" ng-repeat="pasaje in pasajes">
-            <div class="panel-heading">Pasaje</div>
-            <div class="panel-body">
-                <div class="form-group">
-                    <label for="txtProgramacionId">Còdigo de Programaciòn</label>
-                    <input id="txtProgramacionId" type="text" ng-value="pasaje.programacion.id" class="form-control" readonly />
+            <form ng-submit="buy()">
+                <div class="panel-heading">Pasaje</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="txtProgramacionId">Código de Programación</label>
+                        <input id="txtProgramacionId" type="text" ng-value="pasaje.programacion.id" class="form-control" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtNumAsiento">Nùmero de Asiento</label>
+                        <input id="txtNumAsiento" type="text" ng-value="pasaje.busAsiento.nro_asiento" class="form-control" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtPersonaDni">Persona</label>
+                        <input id="txtPersonaDni" type="text" ng-model="dnis[$index]" ng-keyup="onKupDni($index)" class="form-control" />
+                        <input type="text" ng-model="pasaje.persona.full_name" class="form-control" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="txtValor">Valor</label>
+                        <input id="txtValor" type="text" ng-model="pasaje.valor" class="form-control" />
+                    </div>
+                    <button class="btn-primary" type="submit">Comprar</button>
                 </div>
-                <div class="form-group">
-                    <label for="txtNumAsiento">Nùmero de Asiento</label>
-                    <input id="txtNumAsiento" type="text" ng-value="pasaje.busAsiento.nro_asiento" class="form-control" readonly />
-                </div>
-                <div class="form-group">
-                    <label for="txtPersonaDni">Persona</label>
-                    <input id="txtPersonaDni" type="text" ng-model="dnis[$index]" ng-keyup="onKupDni($index)" class="form-control" />
-                    <input type="text" ng-model="personas[$index].full_name" class="form-control" readonly />
-                </div>
-                <div class="form-group">
-                    <label for="txtValor">Valor</label>
-                    <input id="txtValor" type="text" ng-model="pasajes[$index].valor" class="form-control" />
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
