@@ -31,23 +31,26 @@ class PasajesController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
+        $this->viewBuilder()->layout(false);
+        
         $pasaje = $this->Pasajes->newEntity();
         if ($this->request->is('post')) {
             $pasaje = $this->Pasajes->patchEntity($pasaje, $this->request->data);
             if ($this->Pasajes->save($pasaje)) {
-                $this->Flash->success(__('The pasaje has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $message = array(
+                    'text' => __('Pasaje registrado correctamente'),
+                    'type' => 'success'
+                );
             } else {
-                $this->Flash->error(__('The pasaje could not be saved. Please, try again.'));
+                $message = array(
+                    'text' => __('No fue posible registrar el pasaje'),
+                    'type' => 'error'
+                );
             }
         }
-        $personas = $this->Pasajes->Personas->find('list', ['limit' => 200]);
-        $busAsientos = $this->Pasajes->BusAsientos->find('list', ['limit' => 200]);
-        $programaciones = $this->Pasajes->Programaciones->find('list', ['limit' => 200]);
-        $this->set(compact('pasaje', 'personas', 'busAsientos', 'programaciones'));
-        $this->set('_serialize', ['pasaje']);
+        $this->set(compact('message'));
+        $this->set('_serialize', ['message']);
     }
 
     /**

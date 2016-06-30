@@ -12,7 +12,9 @@ use Cake\ORM\Entity;
  * @property int $bus_asiento_id
  * @property \App\Model\Entity\BusAsiento $bus_asiento
  * @property int $programacion_id
- * @property \App\Model\Entity\Programacione $programacione
+ * @property \App\Model\Entity\Programacion $programacion
+ * @property int $detalle_desplazamiento_id
+ * @property \App\Model\Entity\DetalleDesplazamiento $detalle_desplazamiento
  * @property float $valor
  * @property \Cake\I18n\Time $fechahora
  */
@@ -30,9 +32,6 @@ class Pasaje extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false,
-        'persona_id' => false,
-        'bus_asiento_id' => false,
-        'programacion_id' => false,
+        'id' => false
     ];
 }

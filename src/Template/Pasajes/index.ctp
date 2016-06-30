@@ -144,7 +144,7 @@ $this->assign("title", "Pasajes");
     </div>
     <div class="col-md-3">
         <div class="panel panel-primary" ng-repeat="pasaje in pasajes">
-            <form ng-submit="buy()">
+            <form id="frmPasaje{{$index}}" ng-submit="buy(pasaje, $index)">
                 <div class="panel-heading">Pasaje</div>
                 <div class="panel-body">
                     <div class="form-group">
@@ -164,7 +164,7 @@ $this->assign("title", "Pasajes");
                         <label for="txtValor">Valor</label>
                         <input id="txtValor" type="text" ng-model="pasaje.valor" class="form-control" />
                     </div>
-                    <button class="btn-primary" type="submit">Comprar</button>
+                    <button class="btn btn-primary" type="submit">Comprar</button>
                 </div>
             </form>
         </div>

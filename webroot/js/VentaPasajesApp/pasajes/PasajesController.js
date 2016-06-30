@@ -2,7 +2,7 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService, 
     ProgramacionesService, BusAsientosService, DetalleDesplazamientosService, 
-    PersonasService, DesplazamientosService, $filter
+    PersonasService, DesplazamientosService, PasajesService, $filter
 ) {
     $scope.searching = false;
     $scope.reverse = false;
@@ -45,6 +45,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     
     $scope.onProgramacionSelect = function(programacion_id_selected) {
         ProgramacionesService.get({id: programacion_id_selected}, function(data) {
+            console.log(data.programacion);
             $scope.programacion_selected = data.programacion;
             DetalleDesplazamientosService.getByRutaAndDesplazamiento({
                 ruta_id: $scope.programacion_selected.ruta_id,
@@ -64,8 +65,8 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                 bus_asiento_id: data.busAsiento.id,
                 programacion: $scope.programacion_selected,
                 programacion_id: $scope.programacion_selected.id,
-                detalle_desplazamiento: $scope.detalle_desplazamiento,
-                detalle_deaplzamiento_id: $scope.detalle_desplazamiento.id
+                detalleDesplazamiento: $scope.detalle_desplazamiento,
+                detalle_desplazamiento_id: $scope.detalle_desplazamiento.id
             }
             $scope.pasajes.push(pasaje);
         });
@@ -80,8 +81,17 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         });
     }
     
-    $scope.buy = function() {
-        alert("dsadsa");
-        console.log($scope.pasajes);
+    $scope.buy = function(pasaje, index) {
+        console.log(index);
+        // $("#btnRegistrar").addClass("disabled");
+        delete pasaje.persona;
+        delete pasaje.busAsiento;
+        delete pasaje.programacion;
+        delete pasaje.detalleDesplazamiento;
+        console.log(pasaje);
+        PasajesService.save(pasaje, function(data) {
+            console.log(data);
+            $("#frmPasaje" + index).parent().fadeOut(500);
+        });
     }
 });

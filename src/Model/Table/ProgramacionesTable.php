@@ -96,4 +96,14 @@ class ProgramacionesTable extends Table
         $rules->add($rules->existsIn(['estado_id'], 'Estados'));
         return $rules;
     }
+    
+    public function findProgramacion($id) {
+        $programacion = $this->get($id, [
+            "contain" => ["Rutas", "Servicios", "Buses.BusPisos.BusAsientos"]
+        ]);
+        
+        foreach ($programacion->buses as $bus) {
+            
+        }
+    }
 }

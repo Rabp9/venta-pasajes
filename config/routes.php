@@ -91,6 +91,7 @@ Router::scope('/', function ($routes) {
     $routes->resources('Estados');
     $routes->resources('Rutas');
     $routes->resources('Agencias');
+    $routes->resources('Pasajes');
     $routes->resources('Ubigeos', [
         'map' => [
             '/' => [
