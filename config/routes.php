@@ -91,7 +91,20 @@ Router::scope('/', function ($routes) {
     $routes->resources('Estados');
     $routes->resources('Rutas');
     $routes->resources('Agencias');
-    $routes->resources('Pasajes');
+    $routes->resources('Encomiendas');
+    $routes->resources('TipoProductos');
+    $routes->resources('Pasajes', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'getEstado/:bus_asiento_id/:programacion_id/:detalle_desplazamiento_id' => [
+                'action' => 'getEstado',
+                'method' => 'GET'
+            ] 
+        ]
+    ]);
     $routes->resources('Ubigeos', [
         'map' => [
             '/' => [

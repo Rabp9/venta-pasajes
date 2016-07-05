@@ -1,22 +1,19 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Programacione;
+use App\Model\Entity\TipoProducto;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Datasource\ConnectionManager;
 
 /**
- * Programaciones Model
+ * Servicios Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Buses
- * @property \Cake\ORM\Association\BelongsTo $Rutas
- * @property \Cake\ORM\Association\BelongsTo $Servicios
  * @property \Cake\ORM\Association\BelongsTo $Estados
- * @property \Cake\ORM\Association\HasMany $DetalleConductores
  */
-class ProgramacionesTable extends Table
+class TipoProductosTable extends Table
 {
 
     /**
@@ -29,32 +26,13 @@ class ProgramacionesTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('programaciones');
-        $this->displayField('id');
+        $this->table('tipo_productos');
+        $this->displayField('descripcion');
         $this->primaryKey('id');
 
-        $this->belongsTo('Buses', [
-            'foreignKey' => 'bus_id',
-            'joinType' => 'INNER'
-        ]);
-        
-        $this->belongsTo('Rutas', [
-            'foreignKey' => 'ruta_id',
-            'joinType' => 'INNER'
-        ]);
-        
-        $this->belongsTo('Servicios', [
-            'foreignKey' => 'servicio_id',
-            'joinType' => 'INNER'
-        ]);
-        
         $this->belongsTo('Estados', [
             'foreignKey' => 'estado_id',
             'joinType' => 'INNER'
-        ]);
-        
-        $this->hasMany('DetalleConductores', [
-            'foreignKey' => 'programacion_id'
         ]);
     }
 
@@ -71,12 +49,12 @@ class ProgramacionesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->dateTime('fechahora_prog')
-            ->allowEmpty('fechahora_prog');
+            ->decimal('valor')
+            ->allowEmpty('valor');
 
         $validator
-            ->dateTime('fecha_via')
-            ->allowEmpty('fecha_via');
+            ->requirePresence('descripcion', 'create')
+            ->notEmpty('descripcion');
 
         return $validator;
     }
@@ -88,11 +66,7 @@ class ProgramacionesTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->existsIn(['bus_id'], 'Buses'));
-        $rules->add($rules->existsIn(['ruta_id'], 'Rutas'));
-        $rules->add($rules->existsIn(['servicio_id'], 'Servicios'));
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['estado_id'], 'Estados'));
         return $rules;
     }

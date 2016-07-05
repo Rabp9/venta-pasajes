@@ -112,6 +112,16 @@
                 </div>
                 <div class="ribbon-section-sep" unselectable="on"></div>
                 
+                <div class="ribbon-section" unselectable="on"> 
+                    <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
+                        <a href="#/tipoProductos">
+                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                        </a>                 
+                        <span class="button-title" unselectable="on">Tipo de Productos</span>
+                    </div>
+                </div>
+                <div class="ribbon-section-sep" unselectable="on"></div>
+                
             </div>
         </div>
         <div role="tabpanel" class="tab-pane active" id="programacion">
@@ -162,7 +172,7 @@
                 
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
+                        <a href="#/encomiendas">
                             <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
                         </a>                 
                         <span class="button-title" unselectable="on">Encomiendas</span>

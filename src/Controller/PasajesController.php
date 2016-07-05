@@ -49,8 +49,8 @@ class PasajesController extends AppController
                 );
             }
         }
-        $this->set(compact('message'));
-        $this->set('_serialize', ['message']);
+        $this->set(compact('message', 'pasaje'));
+        $this->set('_serialize', ['message', 'pasaje']);
     }
 
     /**
@@ -98,5 +98,38 @@ class PasajesController extends AppController
             $this->Flash->error(__('The pasaje could not be deleted. Please, try again.'));
         }
         return $this->redirect(['action' => 'index']);
+    }
+    
+    public function getEstado() {
+        $this->viewBuilder()->layout(false);
+        
+        $this->loadModel('Restricciones');
+        
+        $bus_asiento_id = $this->request->param("bus_asiento_id");
+        $programacion_id = $this->request->param("programacion_id");
+        $detalle_desplazamiento_id = $this->request->param("detalle_desplazamiento_id");
+        $estado = 1;
+        
+        $pasajes = $this->Pasajes->find()
+            ->where(["bus_asiento_id" => $bus_asiento_id, "programacion_id" => $programacion_id])
+            ->toArray();
+        
+        if (!empty($pasajes)) {
+            foreach ($pasajes as $pasaje) {
+                $restriccion = $this->Restricciones->find()
+                    ->where(["desplazamiento_x" => $pasaje->detalle_desplazamiento_id, "desplazamiento_y" => $detalle_desplazamiento_id])
+                    ->first();
+                if ($restriccion->valor == 1) {
+                    $estado = "restringido";
+                } elseif ($restriccion->valor == 2) {
+                    $estado = "disponible";
+                }
+            }
+        } else {
+            $estado = "disponible";
+        }
+        
+        $this->set(compact('estado'));
+        $this->set('_serialize', ['estado']);
     }
 }

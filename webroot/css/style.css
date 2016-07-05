@@ -41,3 +41,17 @@ body {
     height: 355px;
     width: 930px;
 }
+
+.disponible {
+    background-color: #33ff00;
+}
+
+.restringido {
+    background-color: red;
+    color: white;
+}
+
+.close-white {
+    color: #fff; 
+    opacity: 1;
+}

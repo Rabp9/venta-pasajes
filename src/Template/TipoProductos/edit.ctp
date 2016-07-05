@@ -1,20 +1,21 @@
-<!-- src/Template/Servicios/edit.ctp -->
-<div ng-controller="EditServiciosController">
-    <?php echo $this->Form->create($servicio, ["url" => false, "ng-submit" => "updateServicio()"]); ?>
+<!-- src/Template/TipoProductos/edit.ctp -->
+<div ng-controller="EditTipoProductosController">
+    <?php echo $this->Form->create($tipoProducto, ["url" => false, "ng-submit" => "updateTipoProducto()"]); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Editar Servicio</h4>
+                <h4 class="modal-title" id="myModalLabel">Editar TipoProducto</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <?php
-                            echo $this->Form->input('descripcion', ["ng-model" => "editServicio.descripcion"]);
+                            echo $this->Form->input('descripcion', ["ng-model" => "editTipoProducto.descripcion"]);
+                            echo $this->Form->input('valor', ["ng-model" => "editTipoProducto.valor"]);
                             echo $this->Form->input("estado_id", [
                                 "label" => "Estado",
                                 "empty" => "Selecciona uno",
-                                "ng-model" => "editServicio.estado_id",
+                                "ng-model" => "editTipoProducto.estado_id",
                                 "options" => [],
                                 "ng-options" => "estado.id as estado.descripcion for estado in estados"
                             ]);

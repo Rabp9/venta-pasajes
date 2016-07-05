@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <?= $this->Html->css(["ribbon.css", "bootstrap.min.css", "style.css", 
         "fonts25.css", "panels.css", "angular-animations.css"]) ?>
+    <?= $this->Html->css(["jquery-ui.min.css", "jquery-ui.structure.css", "jquery-ui.theme.min.css"]) ?>
     <?= $this->Html->script(["angular.min.js", "angular-route.min.js", 
         "angular-resource.min.js", "angular-animate.min.js", "ng-file-upload.min.js",
         "angular-input-date", "VentaPasajesApp/app.js"])
@@ -23,7 +24,9 @@
         "VentaPasajesApp/busPisos/BusPisosService.js",
         "VentaPasajesApp/busAsientos/BusAsientosService.js",
         "VentaPasajesApp/programaciones/ProgramacionesService.js",
-        "VentaPasajesApp/pasajes/PasajesService.js"
+        "VentaPasajesApp/pasajes/PasajesService.js",
+        "VentaPasajesApp/encomiendas/EncomiendasService.js",
+        "VentaPasajesApp/tipoProductos/TipoProductosService.js"
     ])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
@@ -63,12 +66,20 @@
         "VentaPasajesApp/conductores/ListConductoresController.js",
         "VentaPasajesApp/conductores/AddConductoresController.js",
         "VentaPasajesApp/conductores/EditConductoresController.js",
-        "VentaPasajesApp/conductores/ViewConductoresController.js"
+        "VentaPasajesApp/conductores/ViewConductoresController.js",
+        
+        "VentaPasajesApp/tipoProductos/ListTipoProductosController.js",
+        "VentaPasajesApp/tipoProductos/AddTipoProductosController.js",
+        "VentaPasajesApp/tipoProductos/EditTipoProductosController.js",
+        "VentaPasajesApp/tipoProductos/ViewTipoProductosController.js",
+        
+        "VentaPasajesApp/encomiendas/EncomiendasController.js"
     ]) ?>
     <?= $this->Html->script([
         "jquery-1.12.1.min",
         "bootstrap.min",
-        "jquery-ui.min"
+        "jquery-ui.min",
+        "datepicker-es"
     ]) ?>
 </head>
 <body ng-app="VentaPasajesApp">
