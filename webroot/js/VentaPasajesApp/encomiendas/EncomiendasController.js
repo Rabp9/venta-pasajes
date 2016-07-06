@@ -1,9 +1,16 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasService, EncomiendasService) {
+VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasService, $filter, 
+    ProgramacionesService, DesplazamientosService, EncomiendasService, 
+    TipoProductosService, PersonasService,
+    DetalleDesplazamientosService
+) {
     $scope.searching = false;
     $scope.reverse = false;
     $scope.predicate = "id";
+    var date = new Date();
+    $scope.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+    $scope.encomiendas_tipos = [];
     
     $("#txtFecha").datepicker({
         changeMonth: true,
@@ -13,6 +20,15 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     
     AgenciasService.get(function(data) {
         $scope.agencias = data.agencias;
+    });
+    
+    PersonasService.get(function(data) {
+        $scope.personas = data.personas; 
+    });
+    
+    TipoProductosService.get(function(data) {
+        $scope.tipo_productos = data.tipoProductos; 
+        console.log(data);
     });
     
     $scope.onSearchChange = function() {
@@ -42,4 +58,47 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             $scope.searching = false;
         });
     }
+    
+    $scope.onProgramacionSelect = function(programacion_id_selected) {
+        ProgramacionesService.get({id: programacion_id_selected}, function(data) {
+            $scope.programacion_selected = data.programacion;
+            DetalleDesplazamientosService.getByRutaAndDesplazamiento({
+                ruta_id: $scope.programacion_selected.ruta_id,
+                desplazamiento_id: $scope.desplazamiento.id
+            }, function(data) {
+                $scope.detalle_desplazamiento = data.detalleDesplazamiento;
+            });
+        });
+    }
+    
+    $scope.buscarRemitente = function() {
+        PersonasService.findByDni({dni: $scope.remitente_dni}, function(data) {
+            $scope.remitente = data.persona;
+        });
+    }
+    
+    $scope.buscarDestinatario = function() {
+        PersonasService.findByDni({dni: $scope.destinatario_dni}, function(data) {
+            $scope.destinatario = data.persona;
+        });
+    }
+    
+    $scope.openFrmEncomiendaTipoAdd = function() {
+        $("#mdlEncomiendaTipoAdd").modal("toggle");
+    }
+    
+    $scope.addTipoProducto = function() {
+        $scope.encomiendas_tipos.push($scope.newTipoProducto);
+        $("#mdlEncomiendaTipoAdd").modal("toggle");
+    }
+    
+    $scope.getTotal = function() {
+        var total = 0;
+        angular.forEach($scope.encomiendas_tipos, function(v_encomienda_tipo, k_encomienda_tipo) {
+            var subtotal = v_encomienda_tipo.cantidad * v_encomienda_tipo.producto.valor;
+            total = subtotal;
+        })
+        return total;
+    }
+    
 });
