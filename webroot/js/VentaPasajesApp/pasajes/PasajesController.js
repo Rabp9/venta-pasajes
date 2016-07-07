@@ -10,6 +10,8 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     $scope.pasajes = [];
     $scope.dnis = [];
     $scope.personas = [];
+    $scope.newTipoProducto.cantidad = 0;
+    $scope.newTipoProducto.producto.valor = 0;
     
     $("#txtFecha").datepicker({
         changeMonth: true,
