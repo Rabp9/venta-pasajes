@@ -107,7 +107,7 @@ $this->assign("title", "Encomiendas");
                             <tfoot>
                                 <tr>
                                     <td colspan="4">Total</td>
-                                    <td>{{getTotal()}}</td>
+                                    <td><input class="form-control" type="text" ng-model="newEncomienda.valor" ng-value="getTotal()"/></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -152,7 +152,7 @@ $this->assign("title", "Encomiendas");
                             </div>
                             <div class="form-group">
                                 <label for="txtSubTotal">Sub Total</label>
-                                <input id="txtSubTotal" type="text" class="form-control" ng-model="newTipoProducto.cantidad * newTipoProducto.producto.valor" readonly>
+                                <input id="txtSubTotal" type="text" class="form-control" value="{{getSubTotal()}}" readonly>
                             </div>
                         </div>
                     </div>

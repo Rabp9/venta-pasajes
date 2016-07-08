@@ -8,6 +8,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.predicate = "id";
     var date = new Date();
     $scope.newEncomienda = {};
+    $scope.newTipoProducto = {};
     $scope.newEncomienda.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
     $scope.encomiendas_tipos = [];
     
@@ -47,7 +48,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     
     $scope.addTipoProducto = function() {
         $scope.encomiendas_tipos.push($scope.newTipoProducto);
-        $scope.newTipoProducto = null;
+        $scope.newTipoProducto = {};
         $("#mdlEncomiendaTipoAdd").modal("toggle");
     }
     
@@ -58,18 +59,27 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             total += subtotal;
         })
         return total;
+    };
+    
+    $scope.getSubTotal = function() {
+        if ($scope.newTipoProducto.hasOwnProperty("producto") && $scope.newTipoProducto.cantidad != undefined){
+            return $scope.newTipoProducto.cantidad * $scope.newTipoProducto.producto.valor;
+        } else {
+            return 0;
+        }
     }
     
     $scope.saveEncomienda = function() {
         $scope.newEncomienda.remitente = $scope.remitente.id;
         $scope.newEncomienda.destinatario = $scope.destinatario.id;
-        $scope.valor = $scope.getTotal();
         DesplazamientosService.getByOrigenAndDestino({
-            origen: $scope.origen_selected.id,
-            destino: $scope.destino_selected.id
+            origen: $scope.origen_selected,
+            destino: $scope.destino_selected
         }, function(data) {
             $scope.newEncomienda.desplazamiento_id = data.desplazamiento.id;
+            EncomiendasService.save($scope.newEncomienda, function(data) {
+                
+            });
         });
-        console.log($scope.newEncomienda);
     };
 });
