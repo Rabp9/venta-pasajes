@@ -9,8 +9,12 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     var date = new Date();
     $scope.newEncomienda = {};
     $scope.newTipoProducto = {};
-    $scope.newEncomienda.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+    $scope.newEncomienda.preFechahora = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
     $scope.encomiendas_tipos = [];
+    
+    EncomiendasService.get(function(data) {
+       $scope.encomiendas = data.encomiendas; 
+    });
     
     $("#txtFecha").datepicker({
         changeMonth: true,
@@ -72,13 +76,19 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.saveEncomienda = function() {
         $scope.newEncomienda.remitente = $scope.remitente.id;
         $scope.newEncomienda.destinatario = $scope.destinatario.id;
+        $scope.newEncomienda.estado_id = 1;
+        $scope.newEncomienda.fechahora = $filter("date")($scope.newEncomienda.preFechahora, "yyyy-MM-dd HH:mm:ss");
+        if ($scope.newEncomienda.valor == null) {
+            $scope.newEncomienda.valor = $scope.getTotal();
+        }
         DesplazamientosService.getByOrigenAndDestino({
             origen: $scope.origen_selected,
             destino: $scope.destino_selected
         }, function(data) {
             $scope.newEncomienda.desplazamiento_id = data.desplazamiento.id;
+            console.log($scope.newEncomienda);
             EncomiendasService.save($scope.newEncomienda, function(data) {
-                
+                console.log(data);
             });
         });
     };
