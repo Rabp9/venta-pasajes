@@ -13,7 +13,6 @@ $this->assign("title", "Encomiendas");
     {{ message.text }}
 </div>
 <div>
-
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a data-target="#list" aria-controls="list" role="tab" data-toggle="tab">Lista</a></li>
@@ -66,14 +65,14 @@ $this->assign("title", "Encomiendas");
                                     onmouseout="style.backgroundColor='#fff'">
 
                                     <td width="3%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
-                                    <td width="6%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }}</td>
-                                    <td width="8%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }}</td>
+                                    <td width="8%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
+                                    <td width="6%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ encomienda.remitente.full_name }}</td>
                                     <td width="5%">{{ encomienda.destinatario.full_name }}</td>
                                     <td width="5%">{{ encomienda.fechahora }}</td>
                                     <td width="5%">{{ encomienda.valor }}</td>
-
                                     <td width="4%">
+                                        <input type="checkbox" class="form-control" checklist-model="encomiendas_selected" checklist-value="encomienda.id"/>
                                     </td>
                                 </tr>
                             </tbody>

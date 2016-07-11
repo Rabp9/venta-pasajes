@@ -13,8 +13,8 @@ class EncomiendasController extends AppController
             ->contain([
                 "Estados", 
                 "Desplazamientos" => [
-                    "AgenciaOrigen",
-                    "AgenciaDestino"
+                    "AgenciaOrigen" => ["Ubigeos"],
+                    "AgenciaDestino" => ["Ubigeos"]
                 ], 
                 "Remitente", 
                 "Destinatario"

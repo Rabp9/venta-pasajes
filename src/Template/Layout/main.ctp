@@ -79,7 +79,8 @@
         "jquery-1.12.1.min",
         "bootstrap.min",
         "jquery-ui.min",
-        "datepicker-es"
+        "datepicker-es",
+        "checklist-model"
     ]) ?>
 </head>
 <body ng-app="VentaPasajesApp">

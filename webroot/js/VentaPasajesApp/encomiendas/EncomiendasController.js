@@ -11,6 +11,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.newTipoProducto = {};
     $scope.newEncomienda.preFechahora = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
     $scope.encomiendas_tipos = [];
+    $scope.encomiendas_selected = [];
     
     EncomiendasService.get(function(data) {
        $scope.encomiendas = data.encomiendas; 
