@@ -15,8 +15,9 @@ $this->assign("title", "Encomiendas");
 <div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a data-target="#list" aria-controls="list" role="tab" data-toggle="tab">Lista</a></li>
+        <li role="presentation" class="active"><a data-target="#list" aria-controls="list" role="tab" data-toggle="tab">Lista Pendientes</a></li>
         <li role="presentation"><a data-target="#new" aria-controls="new" role="tab" data-toggle="tab">Nuevo</a></li>
+        <li role="presentation"><a data-target="#list" aria-controls="list" role="tab" data-toggle="tab">Lista </a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
@@ -49,6 +50,7 @@ $this->assign("title", "Encomiendas");
                                         Valor
                                     </th>
                                     <th width="4%" align="center">
+                                        <button type="button" class="btn btn-primary" ng-click="asignar()">Asignar</button>
                                     </th>
                                 </tr>
                             </thead>
@@ -67,8 +69,8 @@ $this->assign("title", "Encomiendas");
                                     <td width="3%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
                                     <td width="8%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="6%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
-                                    <td width="5%">{{ encomienda.remitente.full_name }}</td>
-                                    <td width="5%">{{ encomienda.destinatario.full_name }}</td>
+                                    <td width="5%">{{ encomienda.personaRemitente.full_name }}</td>
+                                    <td width="5%">{{ encomienda.personaDestinatario.full_name }}</td>
                                     <td width="5%">{{ encomienda.fechahora }}</td>
                                     <td width="5%">{{ encomienda.valor }}</td>
                                     <td width="4%">
@@ -192,7 +194,7 @@ $this->assign("title", "Encomiendas");
 
 </div>
 
-<!-- Modal -->
+<!-- Modal mdlEncomiendaTipoAdd -->
 <div class="modal fade" id="mdlEncomiendaTipoAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <form ng-submit="addTipoProducto()">
@@ -237,5 +239,54 @@ $this->assign("title", "Encomiendas");
                 </div>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- Modal mdlEncomiendaTipoAdd -->
+<div class="modal fade" id="mdlAsignarEncomiendas" tabindex="-1" role="dialog" aria-labelledby="Asignar Encomiendas">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Asignar a Programación</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Bus</th>
+                                        <th>Ruta</th>
+                                        <th>Fecha y Hora</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody> 
+                                    <tr ng-show="loading_programaciones">
+                                        <td colspan="4">Cargando</td>
+                                    </tr>
+                                    <tr ng-show="programaciones_filtradas.length == 0 && !loading_programaciones">
+                                        <td colspan="4">No hay Programaciones disponibles</td>
+                                    </tr>
+                                    <tr ng-show="!loading_programaciones" ng-repeat="programacion in programaciones_filtradas">
+                                        <td>{{ programacion.id }}</td>
+                                        <td>{{ programacion.bus.placa }}</td>
+                                        <td>{{ programacion.ruta.descripcion }}</td>
+                                        <td>{{ programacion.fechahora_prog | date: 'yyyy-MM-dd' }}</td>
+                                        <td><button class="btn btn-primary" ng-click="registrarAsignacion(programacion.id)"><span class="glyphicon glyphicon-ok"></span></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
     </div>
 </div>

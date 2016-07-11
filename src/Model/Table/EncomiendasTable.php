@@ -40,18 +40,18 @@ class EncomiendasTable extends Table
             'joinType' => 'INNER'
         ]);
         
-        $this->belongsTo('Remitente', [
+        $this->belongsTo('PersonaRemitente', [
             "className" => "Personas",
             'foreignKey' => 'remitente',
             'joinType' => 'INNER',
-            'propertyName' => 'remitente'
+            'propertyName' => 'personaRemitente'
         ]);
         
-        $this->belongsTo('Destinatario', [
+        $this->belongsTo('PersonaDestinatario', [
             "className" => "Personas",
             'foreignKey' => 'destinatario',
             'joinType' => 'INNER',
-            'propertyName' => 'destinatario'
+            'propertyName' => 'personaDestinatario'
         ]);
     }
 

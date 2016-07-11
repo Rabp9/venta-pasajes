@@ -1,7 +1,7 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasService, $filter, 
-    EncomiendasService, TipoProductosService, PersonasService, DesplazamientosService
+    EncomiendasService, TipoProductosService, PersonasService, DesplazamientosService, ProgramacionesService
 ) {
     $scope.searching = false;
     $scope.reverse = false;
@@ -12,10 +12,13 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.newEncomienda.preFechahora = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
     $scope.encomiendas_tipos = [];
     $scope.encomiendas_selected = [];
+    $scope.loading_programaciones = false;
     
-    EncomiendasService.get(function(data) {
-       $scope.encomiendas = data.encomiendas; 
-    });
+    $scope.listEncomiendas = function() {
+        EncomiendasService.getPendientes(function(data) {
+           $scope.encomiendas = data.encomiendas; 
+        });
+    }
     
     $("#txtFecha").datepicker({
         changeMonth: true,
@@ -87,10 +90,35 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             destino: $scope.destino_selected
         }, function(data) {
             $scope.newEncomienda.desplazamiento_id = data.desplazamiento.id;
-            console.log($scope.newEncomienda);
             EncomiendasService.save($scope.newEncomienda, function(data) {
                 console.log(data);
+                $scope.listEncomiendas();
             });
         });
     };
+    
+    $scope.asignar = function() {
+        if ($scope.encomiendas_selected.length != 0) {
+            $("#mdlAsignarEncomiendas").modal("toggle");
+            $scope.loading_programaciones = true;
+            ProgramacionesService.get(function(data) {
+                $scope.programaciones_filtradas = data.programaciones;
+                $scope.loading_programaciones = false;
+            });
+        } else {
+            alert("Seleccione una o más encomiendas");
+        }
+    }
+    
+    $scope.registrarAsignacion = function(programacion_id) {
+        EncomiendasService.asignar({
+            encomiendas: $scope.encomiendas_selected,
+            programacion_id: programacion_id
+        }, function(data) {
+            console.log(data);
+            $("#mdlAsignarEncomiendas").modal("toggle");
+        });
+    }
+    
+    $scope.listEncomiendas();
 });

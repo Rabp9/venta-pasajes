@@ -91,7 +91,22 @@ Router::scope('/', function ($routes) {
     $routes->resources('Estados');
     $routes->resources('Rutas');
     $routes->resources('Agencias');
-    $routes->resources('Encomiendas');
+    $routes->resources('Encomiendas', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'asignar' => [
+                'action' => 'asignar',
+                'method' => 'POST'
+            ],
+            'getPendientes' => [
+                "action" => "getPendientes",
+                "method" => "GET"
+            ]
+        ]
+    ]);
     $routes->resources('TipoProductos');
     $routes->resources('Pasajes', [
         'map' => [

@@ -16,14 +16,32 @@ class EncomiendasController extends AppController
                     "AgenciaOrigen" => ["Ubigeos"],
                     "AgenciaDestino" => ["Ubigeos"]
                 ], 
-                "Remitente", 
-                "Destinatario"
+                "PersonaRemitente", 
+                "PersonaDestinatario"
             ]);
 
         $this->set(compact('encomiendas'));
         $this->set('_serialize', ['encomiendas']);
     }
-     
+    
+    public function getPendientes() {
+        $this->viewBuilder()->layout(false);
+        
+        $encomiendas = $this->Encomiendas->find("all")
+            ->contain([
+                "Estados", 
+                "Desplazamientos" => [
+                    "AgenciaOrigen" => ["Ubigeos"],
+                    "AgenciaDestino" => ["Ubigeos"]
+                ], 
+                "PersonaRemitente", 
+                "PersonaDestinatario"
+            ])->where(["Encomiendas.programacion_id" => null]);
+
+        $this->set(compact('encomiendas'));
+        $this->set('_serialize', ['encomiendas']);
+    }
+
     public function add() {
         $this->viewBuilder()->layout(false);
 
@@ -43,6 +61,37 @@ class EncomiendasController extends AppController
                 );
             }
         }
+        $this->set(compact('message'));
+        $this->set('_serialize', ['message']);
+    }
+    
+    public function asignar() {
+        $encomiendas = $this->request->data["encomiendas"];
+        $programacion_id = $this->request->data["programacion_id"];
+        
+        $asignados = true;
+        foreach ($encomiendas as $encomienda) {
+            $encomienda_asignada = $this->Encomiendas->newEntity();
+            $encomienda_asignada->id = $encomienda;
+            $encomienda_asignada->programacion_id = $programacion_id;
+
+            if (!$this->Encomiendas->save($encomienda_asignada)) {
+                $asignados = false;
+                break;
+            }
+        }
+        if ($asignados) {
+            $message = array(
+                'text' => __('Encomiendas asignadas correctamente'),
+                'type' => 'success'
+            );
+        } else {
+            $message = array(
+                'text' => __('No fue posible asignar las encomiendas'),
+                'type' => 'error'
+            );
+        }
+        
         $this->set(compact('message'));
         $this->set('_serialize', ['message']);
     }

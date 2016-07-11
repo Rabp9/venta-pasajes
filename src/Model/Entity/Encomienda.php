@@ -13,6 +13,8 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $fechahora
  * @property float $valor
  * @property string $observaciones
+ * @property \Cake\I18n\Time $fecha_envio
+ * @property \Cake\I18n\Time $fecha_recepcion
  * @property \App\Model\Entity\Estado $estado
  */
 class Encomienda extends Entity
