@@ -104,6 +104,10 @@ Router::scope('/', function ($routes) {
             'getPendientes' => [
                 "action" => "getPendientes",
                 "method" => "GET"
+            ],
+            'getSinEntregar' => [
+                "action" => "getSinEntregar",
+                "method" => "GET"
             ]
         ]
     ]);

@@ -36,7 +36,25 @@ class EncomiendasController extends AppController
                 ], 
                 "PersonaRemitente", 
                 "PersonaDestinatario"
-            ])->where(["Encomiendas.programacion_id" => null]);
+            ])->where(["Encomiendas.programacion_id IS" => null]);
+
+        $this->set(compact('encomiendas'));
+        $this->set('_serialize', ['encomiendas']);
+    }
+    
+    public function getSinEntregar() {
+        $this->viewBuilder()->layout(false);
+        
+        $encomiendas = $this->Encomiendas->find("all")
+            ->contain([
+                "Estados", 
+                "Desplazamientos" => [
+                    "AgenciaOrigen" => ["Ubigeos"],
+                    "AgenciaDestino" => ["Ubigeos"]
+                ], 
+                "PersonaRemitente", 
+                "PersonaDestinatario"
+            ])->where(["Encomiendas.estado_id" => 3]);
 
         $this->set(compact('encomiendas'));
         $this->set('_serialize', ['encomiendas']);
@@ -74,6 +92,7 @@ class EncomiendasController extends AppController
             $encomienda_asignada = $this->Encomiendas->newEntity();
             $encomienda_asignada->id = $encomienda;
             $encomienda_asignada->programacion_id = $programacion_id;
+            $encomienda_asignada->estado_id = 3;
 
             if (!$this->Encomiendas->save($encomienda_asignada)) {
                 $asignados = false;

@@ -8,6 +8,10 @@ VentaPasajesApp.factory("EncomiendasService", function($resource) {
         getPendientes: {
             method: "GET",
             url: VentaPasajesApp.path_location + "encomiendas/getPendientes/.json"
+        },
+        getSinEntregar: {
+            method: "GET",
+            url: VentaPasajesApp.path_location + "encomiendas/getSinEntregar/.json"
         }
     });
 });

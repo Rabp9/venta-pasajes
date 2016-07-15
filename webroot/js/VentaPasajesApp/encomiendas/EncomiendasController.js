@@ -16,8 +16,11 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     
     $scope.listEncomiendas = function() {
         EncomiendasService.getPendientes(function(data) {
-           $scope.encomiendas = data.encomiendas; 
+            $scope.encomiendas = data.encomiendas; 
         });
+        EncomiendasService.getSinEntregar(function(data) {
+            $scope.encomiendas_sin_entregar = data.encomiendas;
+        })
     }
     
     $("#txtFecha").datepicker({
@@ -117,7 +120,37 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         }, function(data) {
             console.log(data);
             $("#mdlAsignarEncomiendas").modal("toggle");
+            $scope.listEncomiendas();
         });
+    }
+    
+    $scope.onSearchChange = function() {
+        $scope.loading_programaciones = true;
+        if ($scope.origen_selected === null && $scope.destino_selected === null) {
+            ProgramacionesService.get(function(data) {
+                $scope.programaciones_filtradas = data.programaciones;
+                $scope.loading_programaciones = false;
+            });
+        } else {
+            if ($scope.origen_selected == null) {
+                $scope.programaciones_filtradas = [];
+                $scope.loading_programaciones = false;
+                return;
+            }
+            if ($scope.destino_selected == null) {
+                $scope.programaciones_filtradas = [];
+                $scope.loading_programaciones = false;
+                return;
+            }
+            ProgramacionesService.getByFechaByOrigenByDestino({
+                fecha: null,
+                origen: $scope.origen_selected,
+                destino: $scope.destino_selected
+            }, function(data) {
+                $scope.programaciones_filtradas = data.programaciones;
+                $scope.loading_programaciones = false;
+            });
+        }
     }
     
     $scope.listEncomiendas();

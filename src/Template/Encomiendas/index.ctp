@@ -15,13 +15,13 @@ $this->assign("title", "Encomiendas");
 <div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a data-target="#list" aria-controls="list" role="tab" data-toggle="tab">Lista Pendientes</a></li>
-        <li role="presentation"><a data-target="#new" aria-controls="new" role="tab" data-toggle="tab">Nuevo</a></li>
-        <li role="presentation"><a data-target="#list" aria-controls="list" role="tab" data-toggle="tab">Lista </a></li>
+        <li role="presentation" class="active"><a data-target="#listpendientes" aria-controls="list" role="tab" data-toggle="tab">Encomiendas Pendientes</a></li>
+        <li role="presentation"><a data-target="#new" aria-controls="new" role="tab" data-toggle="tab">Nueva Encomienda</a></li>
+        <li role="presentation"><a data-target="#listsinentregar" aria-controls="list" role="tab" data-toggle="tab">Encomiendas sin entregar</a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="list">
+        <div role="tabpanel" class="tab-pane active" id="listpendientes">
             <div id="marco_include">
                 <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
                     <div id="busqueda">
@@ -190,6 +190,66 @@ $this->assign("title", "Encomiendas");
                 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Registrar</button>
             </form>
         </div>
+        <div role="tabpanel" class="tab-pane active" id="listsinentregar">
+            <div id="marco_include">
+                <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
+                    <div id="busqueda">
+                        <table class="table" border="0" cellpadding="1" cellspacing="1" id="marco_panel">
+                            <thead>
+                                <tr class="e34X" id="panel_status">
+                                    <th width="3%" align="center">
+                                        Código
+                                    </th>
+                                    <th width="6%" align="center">
+                                        Origen
+                                    </th>
+                                    <th width="8%" align="center">
+                                        Destino
+                                    </th>
+                                    <th width="5%" align="center">
+                                        Remitente
+                                    </th>
+                                    <th width="5%" align="center">
+                                        Destinatario
+                                    </th>
+                                    <th width="5%" align="center">
+                                        Fecha y Hora
+                                    </th>
+                                    <th width="5%" align="center">
+                                        Valor
+                                    </th>
+                                    <th width="4%" align="center">
+                                        Acciones
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-show="loading_sin_entregar">
+                                    <td colspan="7">Cargando</td>
+                                </tr>
+                                <tr ng-show="encomiendas_sin_entregar.length == 0 && !loading_sin_entregar">
+                                    <td colspan="7">No hay registros de Encomiendas</td>
+                                </tr>
+                                <tr ng-show="!loading_sin_entregar" ng-repeat="encomienda in encomiendas_sin_entregar | orderBy:'codigo'"
+                                    class="textnot2 animated" style="background-color: #fff;" 
+                                    onmouseover="style.backgroundColor='#cccccc';" 
+                                    onmouseout="style.backgroundColor='#fff'">
+
+                                    <td width="3%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
+                                    <td width="8%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
+                                    <td width="6%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
+                                    <td width="5%">{{ encomienda.personaRemitente.full_name }}</td>
+                                    <td width="5%">{{ encomienda.personaDestinatario.full_name }}</td>
+                                    <td width="5%">{{ encomienda.fechahora }}</td>
+                                    <td width="5%">{{ encomienda.valor }}</td>
+                                    <td width="4%">Acciones</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -253,6 +313,22 @@ $this->assign("title", "Encomiendas");
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <select id="sltOrigen" class="form-control"
+                                    ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                    ng-model="origen_selected" ng-change="onSearchChange()">
+                                    <option value="">Selecciona un Origen</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <select id="sltDestino" class="form-control"
+                                    ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                    ng-model="destino_selected" ng-change="onSearchChange()">
+                                    <option value="">Selecciona un Destino</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-bordered">
                                 <thead>

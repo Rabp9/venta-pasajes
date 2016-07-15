@@ -97,12 +97,20 @@ class ProgramacionesController extends AppController
         $origen = $this->request->data["origen"];
         $destino = $this->request->data["destino"];
         
-        $programaciones = $this->Programaciones->find()
-            ->where(["DATE(fechahora_prog)" => $fecha])
-            ->contain(["Rutas", "Servicios", "Buses"])
-            ->matching("Rutas.DetalleDesplazamientos.Desplazamientos", function($q) use($origen, $destino) {
-                return $q->where(["Desplazamientos.origen" => $origen, "Desplazamientos.destino" => $destino]);
-        });
+        if ($fecha == null) {
+            $programaciones = $this->Programaciones->find()
+                ->contain(["Rutas", "Servicios", "Buses"])
+                ->matching("Rutas.DetalleDesplazamientos.Desplazamientos", function($q) use($origen, $destino) {
+                    return $q->where(["Desplazamientos.origen" => $origen, "Desplazamientos.destino" => $destino]);
+            });
+        } else {
+            $programaciones = $this->Programaciones->find()
+                ->where(["DATE(fechahora_prog)" => $fecha])
+                ->contain(["Rutas", "Servicios", "Buses"])
+                ->matching("Rutas.DetalleDesplazamientos.Desplazamientos", function($q) use($origen, $destino) {
+                    return $q->where(["Desplazamientos.origen" => $origen, "Desplazamientos.destino" => $destino]);
+            });
+        }
         
         $this->set(compact('programaciones'));
         $this->set('_serialize', ['programaciones']);
