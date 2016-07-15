@@ -1,7 +1,8 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasService, $filter, 
-    EncomiendasService, TipoProductosService, PersonasService, DesplazamientosService, ProgramacionesService
+    EncomiendasService, TipoProductosService, PersonasService, DesplazamientosService, ProgramacionesService,
+    $window
 ) {
     $scope.searching = false;
     $scope.reverse = false;
@@ -13,6 +14,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.encomiendas_tipos = [];
     $scope.encomiendas_selected = [];
     $scope.loading_programaciones = false;
+    $scope.tipodoc = "";
     
     $scope.listEncomiendas = function() {
         EncomiendasService.getPendientes(function(data) {
@@ -94,7 +96,9 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         }, function(data) {
             $scope.newEncomienda.desplazamiento_id = data.desplazamiento.id;
             EncomiendasService.save($scope.newEncomienda, function(data) {
-                console.log(data);
+                $scope.message = data.message;
+                $('#ulTabs li:eq(0) a').tab('show');
+                $window.open('encomiendas/' + data.message.id, '_blank');
                 $scope.listEncomiendas();
             });
         });
@@ -118,7 +122,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             encomiendas: $scope.encomiendas_selected,
             programacion_id: programacion_id
         }, function(data) {
-            console.log(data);
+            $scope.message = data.message;
             $("#mdlAsignarEncomiendas").modal("toggle");
             $scope.listEncomiendas();
         });

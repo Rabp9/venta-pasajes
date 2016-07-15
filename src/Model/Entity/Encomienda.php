@@ -15,6 +15,9 @@ use Cake\ORM\Entity;
  * @property string $observaciones
  * @property \Cake\I18n\Time $fecha_envio
  * @property \Cake\I18n\Time $fecha_recepcion
+ * @property string $tipodoc
+ * @property string $ruc
+ * @property string $razonsocial
  * @property \App\Model\Entity\Estado $estado
  */
 class Encomienda extends Entity

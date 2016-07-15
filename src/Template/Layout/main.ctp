@@ -73,7 +73,8 @@
         "VentaPasajesApp/tipoProductos/EditTipoProductosController.js",
         "VentaPasajesApp/tipoProductos/ViewTipoProductosController.js",
         
-        "VentaPasajesApp/encomiendas/EncomiendasController.js"
+        "VentaPasajesApp/encomiendas/EncomiendasController.js",
+        "VentaPasajesApp/encomiendas/EncomiendasViewController.js"
     ]) ?>
     <?= $this->Html->script([
         "jquery-1.12.1.min",

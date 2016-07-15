@@ -70,7 +70,8 @@ class EncomiendasController extends AppController
             if ($this->Encomiendas->save($encomienda)) {
                 $message = array(
                     'text' => __('Encomienda registrada correctamente'),
-                    'type' => 'success'
+                    'type' => 'success',
+                    "id" => $encomienda->id
                 );
             } else {
                 $message = array(
@@ -113,5 +114,10 @@ class EncomiendasController extends AppController
         
         $this->set(compact('message'));
         $this->set('_serialize', ['message']);
+    }
+    
+    public function view() {
+        $this->viewBuilder()->layout(false);
+        
     }
 }

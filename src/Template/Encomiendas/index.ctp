@@ -14,10 +14,10 @@ $this->assign("title", "Encomiendas");
 </div>
 <div>
     <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a data-target="#listpendientes" aria-controls="list" role="tab" data-toggle="tab">Encomiendas Pendientes</a></li>
+    <ul id="ulTabs" class="nav nav-tabs" role="tablist" >
+        <li role="presentation" class="active"><a data-target="#listpendientes" aria-controls="listpendientes" role="tab" data-toggle="tab">Encomiendas Pendientes</a></li>
         <li role="presentation"><a data-target="#new" aria-controls="new" role="tab" data-toggle="tab">Nueva Encomienda</a></li>
-        <li role="presentation"><a data-target="#listsinentregar" aria-controls="list" role="tab" data-toggle="tab">Encomiendas sin entregar</a></li>
+        <li role="presentation"><a data-target="#listsinentregar" aria-controls="listsinentregar" role="tab" data-toggle="tab">Encomiendas sin entregar</a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
@@ -114,6 +114,26 @@ $this->assign("title", "Encomiendas");
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label><input type="radio" ng-model="newEncomienda.tipodoc" value="boleta" /> Boleta</label>
+                                    <label><input type="radio" ng-model="newEncomienda.tipodoc" value="factura" /> Factura</label>
+                                </div>
+                            </div>
+                            <div ng-show="newEncomienda.tipodoc === 'factura'">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="txtRuc">RUC</label>
+                                        <input id="txtRuc" class="form-control" type="text" ng-model="newEncomienda.ruc" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="txtRazonSocial">Razón Social</label>
+                                        <input id="txtRazonSocial" class="form-control" type="text" ng-model="newEncomienda.razonsocial" />
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="txtRemitenteDni">Remitente</label>
@@ -190,7 +210,7 @@ $this->assign("title", "Encomiendas");
                 <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Registrar</button>
             </form>
         </div>
-        <div role="tabpanel" class="tab-pane active" id="listsinentregar">
+        <div role="tabpanel" class="tab-pane" id="listsinentregar">
             <div id="marco_include">
                 <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
                     <div id="busqueda">
@@ -342,10 +362,10 @@ $this->assign("title", "Encomiendas");
                                 </thead>
                                 <tbody> 
                                     <tr ng-show="loading_programaciones">
-                                        <td colspan="4">Cargando</td>
+                                        <td colspan="5">Cargando</td>
                                     </tr>
                                     <tr ng-show="programaciones_filtradas.length == 0 && !loading_programaciones">
-                                        <td colspan="4">No hay Programaciones disponibles</td>
+                                        <td colspan="5">No hay Programaciones disponibles</td>
                                     </tr>
                                     <tr ng-show="!loading_programaciones" ng-repeat="programacion in programaciones_filtradas">
                                         <td>{{ programacion.id }}</td>
