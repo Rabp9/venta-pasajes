@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\I18n\Time;
+use rabp9\PDF;
 
 class EncomiendasController extends AppController
 {
@@ -117,7 +118,12 @@ class EncomiendasController extends AppController
     }
     
     public function view() {
-        $this->viewBuilder()->layout(false);
+        require_once(ROOT .DS. 'vendor' . DS . 'rabp9' . DS . 'PDF.php');
+
+        $this->viewBuilder()->layout('pdf'); //this will use the pdf.ctp layout
+
+        $this->set("pdf", new PDF("P", "mm", "A4"));
         
+        $this->response->type("application/pdf");
     }
 }

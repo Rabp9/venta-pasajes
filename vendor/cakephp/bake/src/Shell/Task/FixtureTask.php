@@ -22,7 +22,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use Cake\Utility\Text;
-use DateTime;
+use DateTimeInterface;
 
 /**
  * Task class for creating and updating fixtures files.
@@ -51,6 +51,7 @@ class FixtureTask extends BakeTask
         if (isset($this->plugin)) {
             $path = $this->_pluginPath($this->plugin) . 'tests/' . $dir;
         }
+
         return str_replace('/', DS, $path);
     }
 
@@ -97,7 +98,7 @@ class FixtureTask extends BakeTask
      * Handles dispatching to interactive, named, or all processes.
      *
      * @param string|null $name The name of the fixture to bake.
-     * @return void
+     * @return null|bool
      */
     public function main($name = null)
     {
@@ -109,6 +110,7 @@ class FixtureTask extends BakeTask
             foreach ($this->Model->listUnskipped() as $table) {
                 $this->out('- ' . $this->_camelize($table));
             }
+
             return true;
         }
 
@@ -193,6 +195,7 @@ class FixtureTask extends BakeTask
         if (!empty($this->params['records'])) {
             $records = $this->_makeRecordString($this->_getRecordsFromTable($model, $useTable));
         }
+
         return $this->generateFixtureFile($model, compact('records', 'table', 'schema', 'import'));
     }
 
@@ -230,6 +233,7 @@ class FixtureTask extends BakeTask
         $this->createFile($path . $filename, $content);
         $emptyFile = $path . 'empty';
         $this->_deleteEmptyFile($emptyFile);
+
         return $content;
     }
 
@@ -272,6 +276,7 @@ class FixtureTask extends BakeTask
             }
             $content .= "        '_options' => [\n" . implode(",\n", $options) . "\n        ],\n";
         }
+
         return "[\n$content    ]";
     }
 
@@ -302,6 +307,7 @@ class FixtureTask extends BakeTask
                 }
             }
         }
+
         return $vals;
     }
 
@@ -373,6 +379,7 @@ class FixtureTask extends BakeTask
             }
             $records[] = $record;
         }
+
         return $records;
     }
 
@@ -388,7 +395,7 @@ class FixtureTask extends BakeTask
         foreach ($records as $record) {
             $values = [];
             foreach ($record as $field => $value) {
-                if ($value instanceof DateTime) {
+                if ($value instanceof DateTimeInterface) {
                     $value = $value->format('Y-m-d H:i:s');
                 }
                 $val = var_export($value, true);
@@ -402,6 +409,7 @@ class FixtureTask extends BakeTask
             $out .= "\n        ],\n";
         }
         $out .= "    ]";
+
         return $out;
     }
 

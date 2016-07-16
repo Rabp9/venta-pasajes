@@ -153,6 +153,10 @@ class Cache
         $config = static::$_config[$name];
         $registry->load($name, $config);
 
+        if ($config['className'] instanceof CacheEngine) {
+            $config = $config['className']->config();
+        }
+
         if (!empty($config['groups'])) {
             foreach ($config['groups'] as $group) {
                 static::$_groups[$group][] = $name;
@@ -444,6 +448,23 @@ class Cache
     {
         $engine = static::engine($config);
         return $engine->clear($check);
+    }
+    
+    /**
+     * Delete all keys from the cache from all configurations.
+     *
+     * @param bool $check if true will check expiration, otherwise delete all
+     * @return array Status code. For each configuration, it reports the status of the operation
+     */
+    public static function clearAll($check = false)
+    {
+        $status = [];
+        
+        foreach (self::configured() as $config) {
+            $status[$config] = self::clear($check, $config);
+        }
+        
+        return $status;
     }
 
     /**

@@ -42,6 +42,7 @@ class PostgresSchema extends BaseSchema
             data_type AS type,
             is_nullable AS null, column_default AS default,
             character_maximum_length AS char_length,
+            c.collation_name,
             d.description as comment,
             ordinal_position,
             pg_get_serial_sequence(attr.attrelid::regclass::text, attr.attname) IS NOT NULL AS has_serial
@@ -153,6 +154,7 @@ class PostgresSchema extends BaseSchema
         $field += [
             'default' => $this->_defaultValue($row['default']),
             'null' => $row['null'] === 'YES' ? true : false,
+            'collate' => $row['collation_name'],
             'comment' => $row['comment']
         ];
         $field['length'] = $row['char_length'] ?: $field['length'];
@@ -334,7 +336,6 @@ class PostgresSchema extends BaseSchema
             'binary' => ' BYTEA',
             'float' => ' FLOAT',
             'decimal' => ' DECIMAL',
-            'text' => ' TEXT',
             'date' => ' DATE',
             'time' => ' TIME',
             'datetime' => ' TIMESTAMP',
@@ -355,7 +356,11 @@ class PostgresSchema extends BaseSchema
             $out .= $type;
         }
 
-        if ($data['type'] === 'string') {
+        if ($data['type'] === 'text' && $data['length'] !== Table::LENGTH_TINY) {
+            $out .= ' TEXT';
+        }
+
+        if ($data['type'] === 'string' || ($data['type'] === 'text' && $data['length'] === Table::LENGTH_TINY)) {
             $isFixed = !empty($data['fixed']);
             $type = ' VARCHAR';
             if ($isFixed) {
@@ -365,6 +370,11 @@ class PostgresSchema extends BaseSchema
             if (isset($data['length']) && $data['length'] != 36) {
                 $out .= '(' . (int)$data['length'] . ')';
             }
+        }
+
+        $hasCollate = ['text', 'string'];
+        if (in_array($data['type'], $hasCollate, true) && isset($data['collate']) && $data['collate'] !== '') {
+            $out .= ' COLLATE "' . $data['collate'] . '"';
         }
 
         if ($data['type'] === 'float' && isset($data['precision'])) {

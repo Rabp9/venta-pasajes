@@ -1027,7 +1027,7 @@ class Query implements ExpressionInterface, IteratorAggregate
     }
 
     /**
-     * Add an ORDER BY clause with an ASC direction.
+     * Add an ORDER BY clause with a DESC direction.
      *
      * This method allows you to set complex expressions
      * as order conditions unlike order()
@@ -1320,11 +1320,11 @@ class Query implements ExpressionInterface, IteratorAggregate
         $this->_dirty();
         $this->_type = 'insert';
         $this->_parts['insert'][1] = $columns;
-
         if (!$this->_parts['values']) {
             $this->_parts['values'] = new ValuesExpression($columns, $this->typeMap()->types($types));
+        } else {
+            $this->_parts['values']->columns($columns);
         }
-
         return $this;
     }
 
@@ -1685,8 +1685,14 @@ class Query implements ExpressionInterface, IteratorAggregate
      *
      * If type is expressed as "atype[]" (note braces) then it will cause the
      * placeholder to be re-written dynamically so if the value is an array, it
-     * will create as many placeholders as values are in it. For example "string[]"
-     * will create several placeholders of type string.
+     * will create as many placeholders as values are in it. For example:
+     *
+     * ```
+     * $query->bind(':id', [1, 2, 3], 'int[]');
+     * ```
+     *
+     * Will create 3 int placeholders. When using named placeholders, this method
+     * requires that the placeholders include `:` e.g. `:value`.
      *
      * @param string|int $param placeholder to be replaced with quoted version
      *   of $value
@@ -1890,10 +1896,23 @@ class Query implements ExpressionInterface, IteratorAggregate
      */
     public function __debugInfo()
     {
+        try {
+            $restore = set_error_handler(function ($errno, $errstr) {
+                throw new RuntimeException($errstr, $errno);
+            }, E_ALL);
+            $sql = $this->sql();
+            $params = $this->valueBinder()->bindings();
+        } catch (RuntimeException $e) {
+            $sql = 'SQL could not be generated for this query as it is incomplete.';
+            $params = [];
+        } finally {
+            restore_error_handler();
+        }
+
         return [
             '(help)' => 'This is a Query object, to get the results execute or iterate it.',
-            'sql' => $this->sql(),
-            'params' => $this->valueBinder()->bindings(),
+            'sql' => $sql,
+            'params' => $params,
             'defaultTypes' => $this->defaultTypes(),
             'decorators' => count($this->_resultDecorators),
             'executed' => $this->_iterator ? true : false
