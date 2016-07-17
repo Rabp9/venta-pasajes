@@ -184,7 +184,7 @@
     // Detalle
     // Body
     $h_celda = 5;
-    $borde_celda = 1;
+    $borde_celda = 'RL';
     
     for ($i = 0; $i < 35; $i++) {
         
@@ -231,18 +231,28 @@
     
     // Firmas
     $h_celda = 5;
+    $borde_celda = 0;
     
     $pdf->SetFont("Arial", "", 8);
-    $pdf->Cell(80, $h_celda, utf8_decode('sobre'), $borde_celda, 0, 'C');
-    $pdf->Cell(80, $h_celda, utf8_decode('sobre'), $borde_celda, 0, 'C');
-    $pdf->Cell(37, $h_celda, utf8_decode('15.00'), $borde_celda, 0, 'C');
+    $pdf->Cell(20, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
+    $pdf->Cell(40, $h_celda, utf8_decode(''), 'B', 0, 'C');
+    $pdf->Cell(20, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
+    $pdf->Cell(20, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
+    $pdf->Cell(40, $h_celda, utf8_decode(''), 'B', 0, 'C');
+    $pdf->Cell(20, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
+    $pdf->Cell(37, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
     
     $pdf->ln();
     
-    $pdf->SetFont("Arial", "", 8);
-    $pdf->Cell(80, $h_celda, utf8_decode('sobre'), $borde_celda, 0, 'C');
-    $pdf->Cell(80, $h_celda, utf8_decode('sobre'), $borde_celda, 0, 'C');
-    $pdf->Cell(37, $h_celda, utf8_decode('15.00'), $borde_celda, 0, 'C');
+    $pdf->SetFont("Arial", "B", 8);
+    $pdf->Cell(20, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
+    $pdf->Cell(40, $h_celda, utf8_decode('Jhany Tours S.A.C.'), $borde_celda, 0, 'C');
+    $pdf->Cell(20, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
+    $pdf->Cell(20, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
+    $pdf->Cell(40, $h_celda, utf8_decode('Recibi conforme'), $borde_celda, 0, 'C');
+    $pdf->Cell(20, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
+    $pdf->SetFont("Arial", "B", 10);
+    $pdf->Cell(37, $h_celda, utf8_decode('EMISOR'), $borde_celda, 0, 'C');
     
     $pdf->Output("Reporte_de_Morosos.pdf", "I");
 ?>
