@@ -12,6 +12,14 @@ VentaPasajesApp.factory("EncomiendasService", function($resource) {
         getSinEntregar: {
             method: "GET",
             url: VentaPasajesApp.path_location + "encomiendas/getSinEntregar/.json"
+        },
+        cancelarAsignacion: {
+            method: "POST",
+            url: VentaPasajesApp.path_location + "encomiendas/cancelarAsignacion/.json"
+        },
+        registrarEntrega: {
+            method: 'POST',
+            url: VentaPasajesApp.path_location + "encomiendas/registrarEntrega/.json"
         }
     });
 });

@@ -262,7 +262,11 @@ $this->assign("title", "Encomiendas");
                                     <td width="5%">{{ encomienda.personaDestinatario.full_name }}</td>
                                     <td width="5%">{{ encomienda.fechahora }}</td>
                                     <td width="5%">{{ encomienda.valor }}</td>
-                                    <td width="4%">Acciones</td>
+                                    <td width="4%">
+                                        <a style="cursor: pointer;" ng-click="printBoleta(encomienda.id)" title="imprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a> |
+                                        <a style="cursor: pointer;" ng-click="cancelarAsignacion(encomienda.id)" title="cancelar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> |
+                                        <a style="cursor: pointer;" ng-click="registrarEntrega(encomienda.id)" title="entregar"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

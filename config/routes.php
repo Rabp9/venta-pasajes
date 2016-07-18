@@ -108,6 +108,14 @@ Router::scope('/', function ($routes) {
             'getSinEntregar' => [
                 "action" => "getSinEntregar",
                 "method" => "GET"
+            ],
+            'cancelarAsignacion' => [
+                'action' => 'cancelarAsignacion',
+                'method' => 'POST'
+            ],
+            'registrarEntrega' => [
+                'action' => 'registrarEntrega',
+                'method' => 'POST'
             ]
         ]
     ]);

@@ -3,6 +3,8 @@
     $margen_y = 10;
     $borde_celda = 0;
     $h_celda = 3;
+    $meses = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SET', 'OCT', 'NOV', 'DIC'];
+    
     $pdf->SetLeftMargin(6);
     $pdf->SetAutoPageBreak(true, 5);  
     
@@ -116,7 +118,7 @@
     $pdf->Text($margen_x + 136, $margen_y + 16, utf8_decode("BOLETA DE VENTA"));
     
     $pdf->SetFont("Arial", '', 18);
-    $pdf->Text($margen_x + 136, $margen_y + 26, utf8_decode("0001 - N° 008512"));
+    $pdf->Text($margen_x + 136, $margen_y + 26, utf8_decode('0001 - N° ' . str_pad($encomienda->id,  6, '0', STR_PAD_LEFT)));
     
     // Datos
     $h_celda = 5;
@@ -126,7 +128,7 @@
     $pdf->Cell(22, $h_celda, utf8_decode('Remitente:'), $borde_celda, 0, 'L');
     
     $pdf->SetFont("Arial", "", 9);
-    $pdf->Cell(100, $h_celda, utf8_decode('JUAN GUILLERMO CUADRADO ESQUIVEZ'), $borde_celda, 0, 'L');
+    $pdf->Cell(100, $h_celda, utf8_decode($encomienda->personaRemitente->full_name), $borde_celda, 0, 'L');
     
     $pdf->ln();
     
@@ -134,7 +136,7 @@
     $pdf->Cell(22, $h_celda, utf8_decode('Destinatario:'), $borde_celda, 0, 'L');
     
     $pdf->SetFont("Arial", "", 9);
-    $pdf->Cell(100, $h_celda, utf8_decode('JUAN GUILLERMO CUADRADO ESQUIVEZ'), $borde_celda, 0, 'L');
+    $pdf->Cell(100, $h_celda, utf8_decode($encomienda->personaDestinatario->full_name), $borde_celda, 0, 'L');
     
     $pdf->ln();
     
@@ -142,7 +144,7 @@
     $pdf->Cell(22, $h_celda, utf8_decode('Origen:'), $borde_celda, 0, 'L');
     
     $pdf->SetFont("Arial", "", 9);
-    $pdf->Cell(100, $h_celda, utf8_decode('JUAN GUILLERMO CUADRADO ESQUIVEZ'), $borde_celda, 0, 'L');
+    $pdf->Cell(100, $h_celda, utf8_decode($encomienda->desplazamiento->AgenciaOrigen->direccion . ' (' . $encomienda->desplazamiento->AgenciaOrigen->ubigeo->descripcion . ')'), $borde_celda, 0, 'L');
     
     $pdf->ln();
     
@@ -150,7 +152,7 @@
     $pdf->Cell(22, $h_celda, utf8_decode('Destino:'), $borde_celda, 0, 'L');
     
     $pdf->SetFont("Arial", "", 9);
-    $pdf->Cell(100, $h_celda, utf8_decode('JUAN GUILLERMO CUADRADO ESQUIVEZ'), $borde_celda, 0, 'L');
+    $pdf->Cell(100, $h_celda, utf8_decode($encomienda->desplazamiento->AgenciaDestino->direccion . ' (' . $encomienda->desplazamiento->AgenciaDestino->ubigeo->descripcion . ')'), $borde_celda, 0, 'L');
     
     $pdf->ln();
     
@@ -161,9 +163,10 @@
 
     $pdf->SetFont("Arial", '', 13);
     $pdf->Text($margen_x + 137, $margen_y + 47, utf8_decode('FECHA'));
-    $pdf->Text($margen_x + 157, $margen_y + 47, utf8_decode('08'));
-    $pdf->Text($margen_x + 167, $margen_y + 47, utf8_decode('OCT'));
-    $pdf->Text($margen_x + 185, $margen_y + 47, utf8_decode('2016'));
+    $pdf->Text($margen_x + 157, $margen_y + 47, utf8_decode(str_pad($encomienda->fechahora->day,  2, '0', STR_PAD_LEFT)));
+    $pdf->Text($margen_x + 168, $margen_y + 47, utf8_decode($meses[$encomienda->fechahora->month - 1]));
+    // $pdf->Text($margen_x + 170, $margen_y + 47, utf8_decode(str_pad($encomienda->fechahora->month,  2, '0', STR_PAD_LEFT)));
+    $pdf->Text($margen_x + 185, $margen_y + 47, utf8_decode($encomienda->fechahora->year));
     
     // Detalle
     // Header
@@ -222,7 +225,7 @@
     $pdf->Text($margen_x + 28, $margen_y + 87 + ($h_celda * 35), utf8_decode('de su llegada. Una vez firmada de haber recibido conforme no aceptamos ningún reclamo.'));
     
     $pdf->SetFont("Arial", 'B', 16);
-    $pdf->Text($margen_x + 135, $margen_y + 86 + ($h_celda * 35), utf8_decode('TOTAL S/.'));
+    $pdf->Text($margen_x + 132, $margen_y + 86 + ($h_celda * 35), utf8_decode('TOTAL S/.'));
     
     $pdf->SetFont("Arial", 'B', 16);
     $pdf->Text($margen_x + 170, $margen_y + 86 + ($h_celda * 35), utf8_decode('150.00'));

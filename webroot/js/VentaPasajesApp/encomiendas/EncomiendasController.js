@@ -155,7 +155,25 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
                 $scope.loading_programaciones = false;
             });
         }
-    }
+    };
+    
+    $scope.printBoleta = function(id) {
+        $window.open('encomiendas/' + id, '_blank');
+    };
+    
+    $scope.cancelarAsignacion = function(id) {
+        EncomiendasService.cancelarAsignacion({id: id}, function(data) {
+            $scope.message = data.message;
+            $scope.listEncomiendas();
+        });
+    };
+    
+    $scope.registrarEntrega = function(id) {
+        EncomiendasService.registrarEntrega({id: id}, function(data) {
+            $scope.message = data.message;
+            $scope.listEncomiendas();
+        });
+    };
     
     $scope.listEncomiendas();
 });

@@ -5,7 +5,8 @@ USE bd_janytours;
 INSERT INTO estados(descripcion) values
 	('activo'),
 	('inactivo'),
-    ('programado');
+    ('programado')
+    ('entregado');
 
 -- Agencias
 
