@@ -196,9 +196,17 @@ $this->assign("title", "Encomiendas");
                                             </tr>
                                         </tbody>
                                         <tfoot>
+                                            <tr ng-show="newEncomienda.tipodoc === 'factura'">
+                                                <td colspan="4">Valor Neto</td>
+                                                <td><input class="form-control" type="text" ng-model="newEncomienda.valor_neto" ng-value="getNeto()"/></td>
+                                            </tr>
+                                            <tr ng-show="newEncomienda.tipodoc === 'factura'">
+                                                <td colspan="4">IGV</td>
+                                                <td><input class="form-control" type="text" ng-model="newEncomienda.igv" ng-value="getIgv()"/></td>
+                                            </tr>
                                             <tr>
-                                                <td colspan="4">Total</td>
-                                                <td><input class="form-control" type="text" ng-model="newEncomienda.valor" ng-value="getTotal()"/></td>
+                                                <td colspan="4">Valor Total</td>
+                                                <td><input class="form-control" type="text" ng-model="newEncomienda.valor_total" ng-value="getTotal()"/></td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -207,7 +215,7 @@ $this->assign("title", "Encomiendas");
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Registrar</button>
+                <button id="btnRegistrarEncomienda" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Registrar</button>
             </form>
         </div>
         <div role="tabpanel" class="tab-pane" id="listsinentregar">

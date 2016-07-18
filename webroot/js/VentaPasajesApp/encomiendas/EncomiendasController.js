@@ -66,13 +66,25 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     }
     
     $scope.getTotal = function() {
-        var total = 0;
-        angular.forEach($scope.encomiendas_tipos, function(v_encomienda_tipo, k_encomienda_tipo) {
-            var subtotal = v_encomienda_tipo.cantidad * v_encomienda_tipo.producto.valor;
-            total += subtotal;
-        })
-        return total;
+        if ($scope.newEncomienda.tipodoc === 'boleta') {
+            return $scope.getNeto();
+        } else {
+            return $scope.getNeto() + $scope.getIgv($scope.getNeto());
+        }
     };
+    
+    $scope.getNeto = function() {
+        var neto = 0;
+        angular.forEach($scope.encomiendas_tipos, function(v_encomienda_tipo, k_encomienda_tipo) {
+            var subneto = v_encomienda_tipo.cantidad * v_encomienda_tipo.producto.valor;
+            neto += subneto;
+        })
+        return neto;
+    };
+    
+    $scope.getIgv = function() {
+        return 18 * $scope.newEncomienda.valor_neto /100;
+    }
     
     $scope.getSubTotal = function() {
         if ($scope.newTipoProducto.hasOwnProperty("producto") && $scope.newTipoProducto.cantidad != undefined){
@@ -83,12 +95,15 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     }
     
     $scope.saveEncomienda = function() {
+        $("#btnRegistrarEncomienda").addClass("disabled");
         $scope.newEncomienda.remitente = $scope.remitente.id;
         $scope.newEncomienda.destinatario = $scope.destinatario.id;
         $scope.newEncomienda.estado_id = 1;
         $scope.newEncomienda.fechahora = $filter("date")($scope.newEncomienda.preFechahora, "yyyy-MM-dd HH:mm:ss");
-        if ($scope.newEncomienda.valor == null) {
-            $scope.newEncomienda.valor = $scope.getTotal();
+        if ($scope.newEncomienda.tipodoc === 'boleta') {
+            if ($scope.newEncomienda.valor_total == null) {
+                $scope.newEncomienda.valor_total = $scope.getTotal();
+            }
         }
         DesplazamientosService.getByOrigenAndDestino({
             origen: $scope.origen_selected,
@@ -102,6 +117,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
                 $scope.listEncomiendas();
             });
         });
+        $("#btnRegistrarEncomienda").removeClass("disabled");
     };
     
     $scope.asignar = function() {
