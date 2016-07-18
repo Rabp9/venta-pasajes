@@ -6,7 +6,6 @@ VentaPasajesApp.controller("AddServiciosController", function($scope, ServiciosS
     $scope.addServicio = function() {
         $("#btnRegistrar").addClass("disabled");
         ServiciosService.save($scope.newServicio, function(data) {
-            console.log(data);
             $("#mdlServicios").modal('toggle');
             $scope.newServicio = new ServiciosService();
             $scope.$parent.actualizarMessage(data.message);

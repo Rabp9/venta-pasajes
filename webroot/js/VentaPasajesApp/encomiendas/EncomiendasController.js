@@ -11,7 +11,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.newEncomienda = {};
     $scope.newTipoProducto = {};
     $scope.newEncomienda.preFechahora = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-    $scope.encomiendas_tipos = [];
+    $scope.newEncomienda.encomiendas_tipos = [];
     $scope.encomiendas_selected = [];
     $scope.loading_programaciones = false;
     $scope.tipodoc = "";
@@ -60,22 +60,33 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     }
     
     $scope.addTipoProducto = function() {
-        $scope.encomiendas_tipos.push($scope.newTipoProducto);
+        $scope.newTipoProducto.estado_id = 1;
+        $scope.newTipoProducto.tipo_producto_id = $scope.newTipoProducto.producto.id;
+        
+        $scope.newEncomienda.encomiendas_tipos.push($scope.newTipoProducto);
         $scope.newTipoProducto = {};
         $("#mdlEncomiendaTipoAdd").modal("toggle");
+        
+        if ($scope.newEncomienda.tipodoc === 'factura') {
+            $scope.newEncomienda.valor_neto = $scope.getNeto();
+            $scope.newEncomienda.igv = $scope.getIgv();
+        }
+        alert($scope.newEncomienda.valor_total);
+        alert($scope.getTotal());
+        $scope.newEncomienda.valor_total = $scope.getTotal();
     }
     
     $scope.getTotal = function() {
         if ($scope.newEncomienda.tipodoc === 'boleta') {
             return $scope.getNeto();
         } else {
-            return $scope.getNeto() + $scope.getIgv($scope.getNeto());
+            return parseFloat($scope.newEncomienda.valor_neto) + parseFloat($scope.newEncomienda.igv);
         }
     };
     
     $scope.getNeto = function() {
         var neto = 0;
-        angular.forEach($scope.encomiendas_tipos, function(v_encomienda_tipo, k_encomienda_tipo) {
+        angular.forEach($scope.newEncomienda.encomiendas_tipos, function(v_encomienda_tipo, k_encomienda_tipo) {
             var subneto = v_encomienda_tipo.cantidad * v_encomienda_tipo.producto.valor;
             neto += subneto;
         })
@@ -190,6 +201,20 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             $scope.listEncomiendas();
         });
     };
+    
+    $scope.cancelarPrdoucto = function(index) {
+        $scope.newEncomienda.encomiendas_tipos.splice(index, 1);
+        if ($scope.newEncomienda.tipodoc === 'factura') {
+            $scope.newEncomienda.valor_neto = $scope.getNeto();
+            $scope.newEncomienda.igv = $scope.getIgv();
+        }
+        $scope.newEncomienda.valor_total = $scope.getTotal();
+    }
+    
+    $scope.calcularTotal = function() {
+        $scope.newEncomienda.igv = $scope.getIgv();
+        $scope.newEncomienda.valor_total = $scope.getTotal();
+    }
     
     $scope.listEncomiendas();
 });

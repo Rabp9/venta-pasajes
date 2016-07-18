@@ -19,6 +19,7 @@ use Cake\ORM\Entity;
  * @property string $ruc
  * @property string $razonsocial
  * @property \App\Model\Entity\Estado $estado
+ * @property \App\Model\Entity\EncomiendasTipo[] $encomiendas_tipos
  */
 class Encomienda extends Entity
 {

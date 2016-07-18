@@ -125,7 +125,8 @@ class EncomiendasController extends AppController
         $encomienda = $this->Encomiendas->get($id, [    
             'contain' => [
                 'PersonaRemitente', 
-                'PersonaDestinatario', 
+                'PersonaDestinatario',
+                'EncomiendasTipos' => ['TipoProductos'],
                 'Desplazamientos' => [
                     'AgenciaOrigen' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]],
                     'AgenciaDestino' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]]
@@ -137,6 +138,8 @@ class EncomiendasController extends AppController
         $this->set(compact('encomienda'));
         
         $this->response->type("application/pdf");
+        
+        $this->render('view_' . $encomienda->tipodoc);
     }
     
     public function cancelarAsignacion() {

@@ -21,6 +21,7 @@ $this->assign("title", "Encomiendas");
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
+        <button type="button" class="btn btn-primary" ng-click="asignar()">Asignar</button>
         <div role="tabpanel" class="tab-pane active" id="listpendientes">
             <div id="marco_include">
                 <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
@@ -28,7 +29,7 @@ $this->assign("title", "Encomiendas");
                         <table class="table" border="0" cellpadding="1" cellspacing="1" id="marco_panel">
                             <thead>
                                 <tr class="e34X" id="panel_status">
-                                    <th width="3%" align="center">
+                                    <th colspan="2" width="2%" align="center">
                                         Código
                                     </th>
                                     <th width="6%" align="center">
@@ -50,23 +51,24 @@ $this->assign("title", "Encomiendas");
                                         Valor
                                     </th>
                                     <th width="4%" align="center">
-                                        <button type="button" class="btn btn-primary" ng-click="asignar()">Asignar</button>
+                                        Acciones
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-show="loading">
-                                    <td colspan="7">Cargando</td>
+                                    <td colspan="8">Cargando</td>
                                 </tr>
                                 <tr ng-show="encomiendas.length == 0 && !loading">
-                                    <td colspan="7">No hay registros de Encomiendas</td>
+                                    <td colspan="8">No hay registros de Encomiendas</td>
                                 </tr>
                                 <tr ng-show="!loading" ng-repeat="encomienda in encomiendas | orderBy:'codigo'"
                                     class="textnot2 animated" style="background-color: #fff;" 
                                     onmouseover="style.backgroundColor='#cccccc';" 
                                     onmouseout="style.backgroundColor='#fff'">
 
-                                    <td width="3%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
+                                    <td width="1%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
+                                    <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control" checklist-model="encomiendas_selected" checklist-value="encomienda.id"/></td>
                                     <td width="8%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="6%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ encomienda.personaRemitente.full_name }}</td>
@@ -74,7 +76,7 @@ $this->assign("title", "Encomiendas");
                                     <td width="5%">{{ encomienda.fechahora }}</td>
                                     <td width="5%">{{ encomienda.valor }}</td>
                                     <td width="4%">
-                                        <input type="checkbox" class="form-control" checklist-model="encomiendas_selected" checklist-value="encomienda.id"/>
+                                        <a style="cursor: pointer;" ng-click="printBoleta(encomienda.id)" title="imprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a> |
                                     </td>
                                 </tr>
                             </tbody>
@@ -186,27 +188,27 @@ $this->assign("title", "Encomiendas");
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="encomienda_tipo in encomiendas_tipos">
+                                            <tr ng-repeat="encomienda_tipo in newEncomienda.encomiendas_tipos">
                                                 <td>{{encomienda_tipo.producto.descripcion}}</td>
                                                 <td>{{encomienda_tipo.detalle}}</td>
                                                 <td>{{encomienda_tipo.producto.valor}}</td>
                                                 <td>{{encomienda_tipo.cantidad}}</td>
                                                 <td>{{encomienda_tipo.cantidad * encomienda_tipo.producto.valor}}</td>
-                                                <td><button type="button" class="btn btn-primary" ng-click="encomiendas_tipos.splice($index, 1);"><span class="glyphicon glyphicon-remove"></span></button></td>
+                                                <td><button type="button" class="btn btn-primary" ng-click="cancelarPrdoucto($index)"><span class="glyphicon glyphicon-remove"></span></button></td>
                                             </tr>
                                         </tbody>
                                         <tfoot>
                                             <tr ng-show="newEncomienda.tipodoc === 'factura'">
                                                 <td colspan="4">Valor Neto</td>
-                                                <td><input class="form-control" type="text" ng-model="newEncomienda.valor_neto" ng-value="getNeto()"/></td>
+                                                <td><input class="form-control" type="text" ng-model="newEncomienda.valor_neto" ng-change="calcularTotal()"/></td>
                                             </tr>
                                             <tr ng-show="newEncomienda.tipodoc === 'factura'">
                                                 <td colspan="4">IGV</td>
-                                                <td><input class="form-control" type="text" ng-model="newEncomienda.igv" ng-value="getIgv()"/></td>
+                                                <td><input class="form-control" disabled type="text" ng-model="newEncomienda.igv"/></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="4">Valor Total</td>
-                                                <td><input class="form-control" type="text" ng-model="newEncomienda.valor_total" ng-value="getTotal()"/></td>
+                                                <td><input class="form-control" ng-disabled="newEncomienda.tipodoc === 'factura'" type="text" ng-model="newEncomienda.valor_total"/></td>
                                             </tr>
                                         </tfoot>
                                     </table>

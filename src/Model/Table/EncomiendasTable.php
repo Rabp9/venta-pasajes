@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  * @property \Cake\ORM\Association\BelongsTo $Programaciones
  * @property \Cake\ORM\Association\BelongsTo $Desplazamientos
  * @property \Cake\ORM\Association\BelongsTo $Estados
- * @property \Cake\ORM\Association\HasMany $eEncomiendasTipos
+ * @property \Cake\ORM\Association\HasMany $EncomiendasTipos
  */
 class EncomiendasTable extends Table
 {
@@ -35,6 +35,7 @@ class EncomiendasTable extends Table
             'foreignKey' => 'desplazamiento_id',
             'joinType' => 'INNER'
         ]);
+        
         $this->belongsTo('Estados', [
             'foreignKey' => 'estado_id',
             'joinType' => 'INNER'
@@ -52,6 +53,10 @@ class EncomiendasTable extends Table
             'foreignKey' => 'destinatario',
             'joinType' => 'INNER',
             'propertyName' => 'personaDestinatario'
+        ]);
+        
+        $this->hasMany('EncomiendasTipos', [
+            'foreignKey' => 'encomienda_id'
         ]);
     }
 
