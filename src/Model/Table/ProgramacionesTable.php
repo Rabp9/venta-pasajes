@@ -56,6 +56,10 @@ class ProgramacionesTable extends Table
         $this->hasMany('DetalleConductores', [
             'foreignKey' => 'programacion_id'
         ]);
+        
+        $this->hasMany('Encomiendas', [
+            'foreignKey' => 'programacion_id'
+        ]);
     }
 
     /**

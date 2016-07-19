@@ -36,6 +36,11 @@ class EncomiendasTable extends Table
             'joinType' => 'INNER'
         ]);
         
+        $this->belongsTo('Programaciones', [
+            'foreignKey' => 'programacion_id',
+            'joinType' => 'INNER'
+        ]);
+        
         $this->belongsTo('Estados', [
             'foreignKey' => 'estado_id',
             'joinType' => 'INNER'

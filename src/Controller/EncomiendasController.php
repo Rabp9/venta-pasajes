@@ -146,24 +146,23 @@ class EncomiendasController extends AppController
         require_once(ROOT .DS. 'vendor' . DS . 'rabp9' . DS . 'PDF.php');
         $this->viewBuilder()->layout('pdf'); //this will use the pdf.ctp layout
         
-        $encomienda = $this->Encomiendas->get($id, [    
+        $programacion = $this->Encomiendas->Programaciones->get($id, [    
             'contain' => [
-                'PersonaRemitente', 
-                'PersonaDestinatario',
-                'EncomiendasTipos' => ['TipoProductos'],
-                'Desplazamientos' => [
-                    'AgenciaOrigen' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]],
-                    'AgenciaDestino' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]]
+                'Encomiendas' => [
+                    'PersonaRemitente',
+                    'EncomiendasTipos' => ['TipoProductos'],
+                    'Desplazamientos' => [
+                        'AgenciaDestino' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]]
+                    ]
                 ]
             ]
         ]);
-        
         $this->set("pdf", new PDF("P", "mm", "A4"));
-        $this->set(compact('encomienda'));
+        $this->set(compact('programacion'));
         
         $this->response->type("application/pdf");
         
-        $this->render('view_' . $encomienda->tipodoc);
+        $this->render('lista_encomiendas');
     }
     
     public function cancelarAsignacion() {

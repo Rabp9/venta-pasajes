@@ -21,8 +21,8 @@ $this->assign("title", "Encomiendas");
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
-        <button type="button" class="btn btn-primary" ng-click="asignar()">Asignar</button>
         <div role="tabpanel" class="tab-pane active" id="listpendientes">
+            <button type="button" class="btn btn-primary" ng-click="asignar()">Asignar</button>
             <div id="marco_include">
                 <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
                     <div id="busqueda">

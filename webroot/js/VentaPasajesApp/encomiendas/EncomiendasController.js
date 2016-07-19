@@ -14,7 +14,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.newEncomienda.encomiendas_tipos = [];
     $scope.encomiendas_selected = [];
     $scope.loading_programaciones = false;
-    $scope.tipodoc = "";
+    $scope.newEncomienda.tipodoc = 'boleta';
     
     $scope.listEncomiendas = function() {
         EncomiendasService.getPendientes(function(data) {
@@ -71,8 +71,6 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             $scope.newEncomienda.valor_neto = $scope.getNeto();
             $scope.newEncomienda.igv = $scope.getIgv();
         }
-        alert($scope.newEncomienda.valor_total);
-        alert($scope.getTotal());
         $scope.newEncomienda.valor_total = $scope.getTotal();
     }
     
@@ -106,7 +104,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     }
     
     $scope.saveEncomienda = function() {
-        $("#btnRegistrarEncomienda").addClass("disabled");
+        $("#btnRegistrarEncomienda").attr("disabled");
         $scope.newEncomienda.remitente = $scope.remitente.id;
         $scope.newEncomienda.destinatario = $scope.destinatario.id;
         $scope.newEncomienda.estado_id = 1;
