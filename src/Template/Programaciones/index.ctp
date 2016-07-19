@@ -24,11 +24,13 @@ $this->assign("title", "Lista de Programaciones");
                         <td><strong>Servicio</strong></td>
                         <td><strong>Bus</strong></td>
                         <td><strong>Fecha y Hora</strong></td>
+                        <td><strong>Acciones</strong></td>
                     </tr>
                     <tr>
                         <td>{{programacion.servicio.descripcion}}</td>
                         <td>{{programacion.bus.placa}}</td>
                         <td>{{programacion.fechahora_prog | date: 'yyyy-MM-dd'}}</td>
+                        <td><button ng-click="showList(programacion.id)" class="btn btn-primary" title="Lista de Encomiendas"><span class="glyphicon glyphicon-list"></span></button></td>
                     </tr>
                 </table>
             </div>
