@@ -14,37 +14,28 @@
             <div class="ribbon-tab" id="format-tab6" unselectable="on" style="display: block;">
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
-                        </a>                 
+                        <a class="btn-lg" href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
+                            <span class="glyphicon glyphicon-user"></span>
+                        </a>
                         <span class="button-title" unselectable="on">Usuario</span>
                     </div>
                 </div>
                 <div class="ribbon-section-sep" unselectable="on"></div>         
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
-                        </a>                 
-                        <span class="button-title" unselectable="on">Cerrar Sesión</span>
-                    </div>
-                </div>
-                <div class="ribbon-section-sep" unselectable="on"></div>         
-                <div class="ribbon-section" unselectable="on"> 
-                    <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
-                        </a>                 
-                        <span class="button-title" unselectable="on">Mi Perfil</span>
-                    </div>
-                </div>
-                <div class="ribbon-section-sep" unselectable="on"></div>         
-                <div class="ribbon-section" unselectable="on"> 
-                    <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                        <a class="btn-lg" href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
+                            <span class="glyphicon glyphicon-refresh"></span>
                         </a>                 
                         <span class="button-title" unselectable="on">Actualizar</span>
+                    </div>
+                </div>
+                <div class="ribbon-section-sep" unselectable="on"></div>         
+                <div class="ribbon-section" unselectable="on"> 
+                    <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
+                        <a class="btn-lg" href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                        </a>                 
+                        <span class="button-title" unselectable="on">Cerrar Sesión</span>
                     </div>
                 </div>
                 <div class="ribbon-section-sep" unselectable="on"></div>         
@@ -55,8 +46,8 @@
             <div class="ribbon-tab" id="format-tab6" unselectable="on" style="display: block;">
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="#/agencias">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                        <a class="btn-lg" href="#/agencias">
+                            <span class="glyphicon glyphicon-home"></span>
                         </a>                 
                         <span class="button-title" unselectable="on">Agencias</span>
                     </div>
@@ -65,7 +56,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="#/buses">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                            <span class="glyphicons glyphicons-car"></span>
                         </a>                 
                         <span class="button-title" unselectable="on">Buses</span>
                     </div>
@@ -74,8 +65,8 @@
                 
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="#/personas">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                        <a class="btn-lg" href="#/personas">
+                            <span class="glyphicon glyphicon-user"></span>
                         </a>                  
                         <span class="button-title" unselectable="on">Personas</span>
                     </div>
@@ -94,8 +85,8 @@
                 
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="#/servicios">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                        <a class="btn-lg" href="#/servicios">
+                            <span class="glyphicon glyphicon-menu-hamburger"></span>
                         </a>                 
                         <span class="button-title" unselectable="on">Servicios</span>
                     </div>
@@ -104,8 +95,8 @@
                 
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="#/tarifas">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                        <a class="btn-lg" href="#/tarifas">
+                            <span class="glyphicon glyphicon-usd"></span>
                         </a>                 
                         <span class="button-title" unselectable="on">Tarifas</span>
                     </div>
@@ -114,8 +105,8 @@
                 
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="#/tipoProductos">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                        <a class="btn-lg" href="#/tipoProductos">
+                            <span class="glyphicon glyphicon-briefcase"></span>
                         </a>                 
                         <span class="button-title" unselectable="on">Tipo de Productos</span>
                     </div>
@@ -128,8 +119,8 @@
             <div class="ribbon-tab" id="format-tab6" unselectable="on" style="display: block;">
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="#/rutas">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                        <a class="btn-lg" href="#/rutas">
+                            <span class="glyphicon glyphicon-road"></span>
                         </a>                 
                         <span class="button-title" unselectable="on">Rutas</span>
                     </div>
@@ -137,8 +128,8 @@
                 <div class="ribbon-section-sep" unselectable="on"></div>         
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="#/programaciones">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                        <a class="btn-lg" href="#/programaciones">
+                            <span class="glyphicon glyphicon-tasks"></span>
                         </a>                 
                         <span class="button-title" unselectable="on">Programación</span>
                     </div>
@@ -152,8 +143,8 @@
             <div class="ribbon-tab" id="format-tab6" unselectable="on" style="display: block;">
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="#/pasajes">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                        <a class="btn-lg" href="#/pasajes">
+                            <span class="glyphicon glyphicon-edit"></span>
                         </a>                 
                         <span class="button-title" unselectable="on">Pasajes</span>
                     </div>
@@ -162,8 +153,8 @@
                 
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                        <a class="btn-lg" href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
+                            <span class="glyphicon glyphicon-credit-card"></span>
                         </a>                 
                         <span class="button-title" unselectable="on">Giros</span>
                     </div>
@@ -172,8 +163,8 @@
                 
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a href="#/encomiendas">
-                            <img src="" class="ribbon-icon ribbon-normal ribbon-hot ribbon-disabled ribbon-implicit-disabled" width="30" height="32">
+                        <a class="btn-lg" href="#/encomiendas">
+                            <span class="glyphicon glyphicon-send"></span>
                         </a>                 
                         <span class="button-title" unselectable="on">Encomiendas</span>
                     </div>
