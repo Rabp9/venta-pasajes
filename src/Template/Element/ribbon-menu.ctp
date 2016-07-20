@@ -56,7 +56,7 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a href="#/buses">
-                            <span class="glyphicons glyphicons-car"></span>
+                            <span class="glyphicon glyphicon-car"></span>
                         </a>                 
                         <span class="button-title" unselectable="on">Buses</span>
                     </div>
