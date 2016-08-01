@@ -75,6 +75,10 @@ VentaPasajesApp.config(function($routeProvider) {
             controller: "ListTipoProductosController",
             templateUrl: "tipoProductos"
         })
+        .when("/clientes", {
+            controller: "ListClientesController",
+            templateUrl: "clientes"
+        })
     ;
 });
 
