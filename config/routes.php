@@ -89,6 +89,18 @@ Router::scope('/', function ($routes) {
         ]
     ]);
     $routes->resources('Estados');
+    $routes->resources('Clientes', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'findByRuc/:ruc' => [
+                'action' => 'findByRuc',
+                'method' => 'GET'
+            ]
+        ]
+    ]);
     $routes->resources('Rutas');
     $routes->resources('Agencias');
     $routes->resources('Encomiendas', [

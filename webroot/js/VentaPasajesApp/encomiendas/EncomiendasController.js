@@ -2,6 +2,7 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasService, $filter, 
     EncomiendasService, TipoProductosService, PersonasService, DesplazamientosService, ProgramacionesService,
+    ClientesService,
     $window
 ) {
     $scope.searching = false;
@@ -15,6 +16,22 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.encomiendas_selected = [];
     $scope.loading_programaciones = false;
     $scope.newEncomienda.tipodoc = 'boleta';
+    $scope.newEncomienda.cliente = [];
+    
+    $scope.openModal = function() {
+        $("#mdlClientes").modal("toggle");
+    };
+      
+    $("#mdlClientes").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $("#btnAddCliente").removeClass("disabled");
+            $scope.modalUrl = ""; 
+        });
+    });
+    
+    $scope.actualizarMessage = function(message) {
+        $scope.message = message;
+    };
     
     $scope.listEncomiendas = function() {
         EncomiendasService.getPendientes(function(data) {
@@ -213,6 +230,17 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         $scope.newEncomienda.igv = $scope.getIgv();
         $scope.newEncomienda.valor_total = $scope.getTotal();
     }
+    
+    $scope.searchCliente = function() {
+        ClientesService.findByRuc({ruc: $scope.newEncomienda.ruc}, function(data) {
+            $scope.newEncomienda.cliente = data.cliente;
+        });
+    }
+    
+    $scope.addCliente = function() {
+        $("#btnAddCliente").addClass("disabled");
+        $scope.modalUrl = VentaPasajesApp.path_location + "clientes/add";
+    };
     
     $scope.listEncomiendas();
 });

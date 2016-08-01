@@ -126,13 +126,18 @@ $this->assign("title", "Encomiendas");
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="txtRuc">RUC</label>
-                                        <input id="txtRuc" class="form-control" type="text" ng-model="newEncomienda.ruc" />
+                                        <input id="txtRuc" class="form-control" type="text" ng-model="newEncomienda.ruc" ng-keyup="searchCliente()" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="txtRazonSocial">Razón Social</label>
-                                        <input id="txtRazonSocial" class="form-control" type="text" ng-model="newEncomienda.razonsocial" />
+                                        <input id="txtRazonSocial" class="form-control" type="text" readonly ng-model="newEncomienda.cliente.razonsocial" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button id="btnAddCliente" type="button" class="btn btn-primary" ng-click="addCliente()"><span class="glyphicon glyphicon-plus"></span> Nuevo Cliente</button>
                                     </div>
                                 </div>
                             </div>
@@ -398,5 +403,12 @@ $this->assign("title", "Encomiendas");
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="mdlClientes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" ng-include="modalUrl" onload="openModal()">
+        
     </div>
 </div>

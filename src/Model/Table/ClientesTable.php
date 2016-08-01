@@ -1,19 +1,18 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Agencia;
+use App\Model\Entity\Cliente;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Agencias Model
+ * Clientes Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Ubigeos
  * @property \Cake\ORM\Association\BelongsTo $Estados
  */
-class AgenciasTable extends Table
+class ClientesTable extends Table
 {
 
     /**
@@ -25,14 +24,10 @@ class AgenciasTable extends Table
     public function initialize(array $config) {
         parent::initialize($config);
 
-        $this->table('agencias');
-        $this->displayField('direccion');
+        $this->table('clientes');
+        $this->displayField('ruc');
         $this->primaryKey('id');
-
-        $this->belongsTo('Ubigeos', [
-            'foreignKey' => 'ubigeo_id',
-            'joinType' => 'INNER'
-        ]);
+        
         $this->belongsTo('Estados', [
             'foreignKey' => 'estado_id',
             'joinType' => 'INNER'
@@ -51,16 +46,6 @@ class AgenciasTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        $validator
-            ->allowEmpty('direccion');
-
-        $validator
-            ->allowEmpty('telefono');
-
-        $validator
-            ->integer('celular')
-            ->allowEmpty('celular');
-
         return $validator;
     }
 
@@ -73,8 +58,6 @@ class AgenciasTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['ubigeo_id'], 'Ubigeos'));
-        $rules->add($rules->existsIn(['estado_id'], 'Estados'));
         return $rules;
     }
 }

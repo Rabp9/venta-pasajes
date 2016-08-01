@@ -26,7 +26,8 @@
         "VentaPasajesApp/programaciones/ProgramacionesService.js",
         "VentaPasajesApp/pasajes/PasajesService.js",
         "VentaPasajesApp/encomiendas/EncomiendasService.js",
-        "VentaPasajesApp/tipoProductos/TipoProductosService.js"
+        "VentaPasajesApp/tipoProductos/TipoProductosService.js",
+        "VentaPasajesApp/clientes/ClientesService.js"
     ])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
@@ -74,7 +75,12 @@
         "VentaPasajesApp/tipoProductos/ViewTipoProductosController.js",
         
         "VentaPasajesApp/encomiendas/EncomiendasController.js",
-        "VentaPasajesApp/encomiendas/EncomiendasViewController.js"
+        "VentaPasajesApp/encomiendas/EncomiendasViewController.js",
+        
+        "VentaPasajesApp/clientes/ListClientesController.js",
+        "VentaPasajesApp/clientes/AddClientesController.js",
+        "VentaPasajesApp/clientes/EditClientesController.js",
+        "VentaPasajesApp/clientes/ViewClientesController.js"        
     ]) ?>
     <?= $this->Html->script([
         "jquery-1.12.1.min",
