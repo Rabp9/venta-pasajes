@@ -37,7 +37,8 @@ class EncomiendasController extends AppController
                     "AgenciaDestino" => ["Ubigeos"]
                 ], 
                 "PersonaRemitente", 
-                "PersonaDestinatario"
+                "PersonaDestinatario",
+                "EncomiendasTipos" => ["TipoProductos"]
             ])->where(["Encomiendas.programacion_id IS" => null]);
 
         $this->set(compact('encomiendas'));

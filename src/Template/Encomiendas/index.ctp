@@ -312,6 +312,7 @@ $this->assign("title", "Encomiendas");
                                     ng-model="newTipoProducto.producto">
                                     <option value="">Selecciona un Producto</option>
                                 </select>
+                                {{ newTipoProducto | json }}
                             </div>
                             <div class="form-group">
                                 <label for="txtDetalle">Detalle</label>

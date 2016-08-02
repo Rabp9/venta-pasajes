@@ -195,9 +195,9 @@
     for ($i = 0; $i < $n_detail; $i++) {
         $descripcion = $encomienda->encomiendas_tipos[$i]->tipo_producto->descripcion . ' - '
             . $encomienda->encomiendas_tipos[$i]->detalle . ' (' 
-            . $encomienda->encomiendas_tipos[$i]->tipo_producto->valor . ') x' 
+            . $encomienda->encomiendas_tipos[$i]->valor . ') x' 
             . $encomienda->encomiendas_tipos[$i]->cantidad;
-        $importe = $encomienda->encomiendas_tipos[$i]->cantidad * $encomienda->encomiendas_tipos[$i]->tipo_producto->valor;
+        $importe = $encomienda->encomiendas_tipos[$i]->cantidad * $encomienda->encomiendas_tipos[$i]->valor;
         
         $pdf->SetFont("Arial", "", 8);
         $pdf->Cell(160, $h_celda, utf8_decode($descripcion), $borde_celda, 0, 'L');

@@ -35,7 +35,6 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     
     $scope.listEncomiendas = function() {
         EncomiendasService.getPendientes(function(data) {
-            console.log(data);
             $scope.encomiendas = data.encomiendas; 
         });
         EncomiendasService.getSinEntregar(function(data) {
