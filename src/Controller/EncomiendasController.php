@@ -18,7 +18,8 @@ class EncomiendasController extends AppController
                     "AgenciaDestino" => ["Ubigeos"]
                 ], 
                 "PersonaRemitente", 
-                "PersonaDestinatario"
+                "PersonaDestinatario",
+                "EncomiendasTipos" => ["TipoProductos"]
             ]);
 
         $this->set(compact('encomiendas'));

@@ -35,6 +35,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     
     $scope.listEncomiendas = function() {
         EncomiendasService.getPendientes(function(data) {
+            console.log(data);
             $scope.encomiendas = data.encomiendas; 
         });
         EncomiendasService.getSinEntregar(function(data) {
@@ -102,7 +103,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.getNeto = function() {
         var neto = 0;
         angular.forEach($scope.newEncomienda.encomiendas_tipos, function(v_encomienda_tipo, k_encomienda_tipo) {
-            var subneto = v_encomienda_tipo.cantidad * v_encomienda_tipo.producto.valor;
+            var subneto = v_encomienda_tipo.cantidad * v_encomienda_tipo.valor;
             neto += subneto;
         })
         return neto;
@@ -114,7 +115,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     
     $scope.getSubTotal = function() {
         if ($scope.newTipoProducto.hasOwnProperty("producto") && $scope.newTipoProducto.cantidad != undefined){
-            return $scope.newTipoProducto.cantidad * $scope.newTipoProducto.producto.valor;
+            return $scope.newTipoProducto.cantidad * $scope.newTipoProducto.valor;
         } else {
             return 0;
         }

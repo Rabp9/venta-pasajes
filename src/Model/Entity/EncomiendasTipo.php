@@ -8,6 +8,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\TipoProducto $tipoProducto
  * @property \App\Model\Entity\Encomienda $encomienda
+ * @property float $valor
  * @property int $cantidad
  * @property string $detalle
  * @property \App\Model\Entity\Estado $estado

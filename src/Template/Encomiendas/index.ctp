@@ -196,9 +196,9 @@ $this->assign("title", "Encomiendas");
                                             <tr ng-repeat="encomienda_tipo in newEncomienda.encomiendas_tipos">
                                                 <td>{{encomienda_tipo.producto.descripcion}}</td>
                                                 <td>{{encomienda_tipo.detalle}}</td>
-                                                <td>{{encomienda_tipo.producto.valor}}</td>
+                                                <td>{{encomienda_tipo.valor}}</td>
                                                 <td>{{encomienda_tipo.cantidad}}</td>
-                                                <td>{{encomienda_tipo.cantidad * encomienda_tipo.producto.valor}}</td>
+                                                <td>{{encomienda_tipo.cantidad * encomienda_tipo.valor}}</td>
                                                 <td><button type="button" class="btn btn-primary" ng-click="cancelarPrdoucto($index)"><span class="glyphicon glyphicon-remove"></span></button></td>
                                             </tr>
                                         </tbody>
@@ -213,7 +213,7 @@ $this->assign("title", "Encomiendas");
                                             </tr>
                                             <tr>
                                                 <td colspan="4">Valor Total</td>
-                                                <td><input class="form-control" ng-disabled="newEncomienda.tipodoc === 'factura'" type="text" ng-model="newEncomienda.valor_total"/></td>
+                                                <td><input class="form-control" readonly type="text" ng-model="newEncomienda.valor_total"/></td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -319,7 +319,7 @@ $this->assign("title", "Encomiendas");
                             </div>
                             <div class="form-group">
                                 <label for="txtValor">Valor Unitario</label>
-                                <input id="txtValor" type="text" class="form-control" ng-model="newTipoProducto.producto.valor" readonly>
+                                <input id="txtValor" type="number" class="form-control" ng-model="newTipoProducto.valor" ng-value="newTipoProducto.producto.valor">
                             </div>
                             <div class="form-group">
                                 <label for="nmbCantidad">Cantidad</label>
