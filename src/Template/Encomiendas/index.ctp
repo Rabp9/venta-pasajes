@@ -309,7 +309,7 @@ $this->assign("title", "Encomiendas");
                                 <label for="sltProducto">Producto</label>
                                 <select id="sltProducto" class="form-control"
                                     ng-options="tipo_producto as tipo_producto.descripcion for tipo_producto in tipo_productos"
-                                    ng-model="newTipoProducto.producto">
+                                    ng-model="newTipoProducto.producto" ng-change="console.log('resetear')">
                                     <option value="">Selecciona un Producto</option>
                                 </select>
                                 {{ newTipoProducto | json }}

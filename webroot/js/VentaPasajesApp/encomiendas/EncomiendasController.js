@@ -17,6 +17,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.loading_programaciones = false;
     $scope.newEncomienda.tipodoc = 'boleta';
     $scope.newEncomienda.cliente = [];
+    $scope.newTipoProducto.cantidad = 1;
     
     $scope.openModal = function() {
         $("#mdlClientes").modal("toggle");
@@ -89,6 +90,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             $scope.newEncomienda.igv = $scope.getIgv();
         }
         $scope.newEncomienda.valor_total = $scope.getTotal();
+        $scope.newTipoProducto.cantidad = 1;
     }
     
     $scope.getTotal = function() {
@@ -114,6 +116,9 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     
     $scope.getSubTotal = function() {
         if ($scope.newTipoProducto.hasOwnProperty("producto") && $scope.newTipoProducto.cantidad != undefined){
+            if ($scope.newTipoProducto.valor === undefined) {
+                $scope.newTipoProducto.valor = $scope.newTipoProducto.producto.valor;
+            }
             return $scope.newTipoProducto.cantidad * $scope.newTipoProducto.valor;
         } else {
             return 0;
