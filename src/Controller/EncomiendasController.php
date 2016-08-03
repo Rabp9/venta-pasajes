@@ -127,6 +127,7 @@ class EncomiendasController extends AppController
         $encomienda = $this->Encomiendas->get($id, [    
             'contain' => [
                 'PersonaRemitente', 
+                'Clientes',
                 'PersonaDestinatario',
                 'EncomiendasTipos' => ['TipoProductos'],
                 'Desplazamientos' => [

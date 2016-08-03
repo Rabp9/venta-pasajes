@@ -7,6 +7,7 @@ use Cake\Utility\Text;
  * Encomienda Entity.
  *
  * @property \App\Model\Entity\Programacion $programacion
+ * @property \App\Model\Entity\Cliente $cliente
  * @property \App\Model\Entity\Desplazamiento $desplazamiento
  * @property \App\Model\Entity\Persona $remitente
  * @property \App\Model\Entity\Persona $destinatario

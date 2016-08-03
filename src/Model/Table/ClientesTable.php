@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
  * Clientes Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Estados
+ * @property \Cake\ORM\Association\HasMany $Encomiendas
  */
 class ClientesTable extends Table
 {
@@ -31,6 +32,10 @@ class ClientesTable extends Table
         $this->belongsTo('Estados', [
             'foreignKey' => 'estado_id',
             'joinType' => 'INNER'
+        ]);
+        
+        $this->hasMany('Encomiendas', [
+            'foreignKey' => 'cliente_id'
         ]);
     }
 

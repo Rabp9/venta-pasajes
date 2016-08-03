@@ -11,6 +11,7 @@ use Cake\Validation\Validator;
  * Encomiendas Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Programaciones
+ * @property \Cake\ORM\Association\BelongsTo $Clientes
  * @property \Cake\ORM\Association\BelongsTo $Desplazamientos
  * @property \Cake\ORM\Association\BelongsTo $Estados
  * @property \Cake\ORM\Association\HasMany $EncomiendasTipos
@@ -38,6 +39,11 @@ class EncomiendasTable extends Table
         
         $this->belongsTo('Programaciones', [
             'foreignKey' => 'programacion_id',
+            'joinType' => 'INNER'
+        ]);
+        
+        $this->belongsTo('Clientes', [
+            'foreignKey' => 'cliente_id',
             'joinType' => 'INNER'
         ]);
         
@@ -90,6 +96,7 @@ class EncomiendasTable extends Table
     public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['desplazamiento_id'], 'Desplazamientos'));
         $rules->add($rules->existsIn(['estado_id'], 'Estados'));
+        $rules->add($rules->existsIn(['cliente_id'], 'Clientes'));
         return $rules;
     }
 }

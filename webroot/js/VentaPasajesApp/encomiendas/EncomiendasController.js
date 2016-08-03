@@ -141,6 +141,9 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             destino: $scope.destino_selected
         }, function(data) {
             $scope.newEncomienda.desplazamiento_id = data.desplazamiento.id;
+            if ($scope.newEncomienda.tipodoc === 'factura') {
+                $scope.newEncomienda.cliente_id = $scope.newEncomienda.cliente.id;
+            }
             EncomiendasService.save($scope.newEncomienda, function(data) {
                 $scope.message = data.message;
                 $('#ulTabs li:eq(0) a').tab('show');

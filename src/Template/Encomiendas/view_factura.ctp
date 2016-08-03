@@ -157,10 +157,18 @@
     $pdf->ln();
     
     $pdf->SetFont("Arial", "B", 9);
+    $pdf->Cell(22, $h_celda, utf8_decode('Direcciòn:'), $borde_celda, 0, 'L');
+    
+    $pdf->SetFont("Arial", "", 9);
+    $pdf->Cell(100, $h_celda, utf8_decode($encomienda->cliente->direccion), $borde_celda, 0, 'L');
+    
+    $pdf->ln();
+    
+    $pdf->SetFont("Arial", "B", 9);
     $pdf->Cell(22, $h_celda, utf8_decode('RUC:'), $borde_celda, 0, 'L');
     
     $pdf->SetFont("Arial", "", 9);
-    $pdf->Cell(100, $h_celda, utf8_decode($encomienda->ruc), $borde_celda, 0, 'L');
+    $pdf->Cell(100, $h_celda, utf8_decode($encomienda->cliente->ruc), $borde_celda, 0, 'L');
     
     $pdf->ln();
     
@@ -168,7 +176,7 @@
     $pdf->Cell(22, $h_celda, utf8_decode('Razón Social:'), $borde_celda, 0, 'L');
     
     $pdf->SetFont("Arial", "", 9);
-    $pdf->Cell(100, $h_celda, utf8_decode($encomienda->razonsocial), $borde_celda, 0, 'L');
+    $pdf->Cell(100, $h_celda, utf8_decode($encomienda->cliente->razonsocial), $borde_celda, 0, 'L');
     
     $pdf->ln();
     
@@ -186,17 +194,22 @@
     
     // Detalle
     // Header
-    $pdf->RoundedRect($margen_x + 3, $margen_y + 55 + ($h_celda * 2), 160, 10, 3, '1', 'D');
-    $pdf->RoundedRect($margen_x + 163, $margen_y + 55 + ($h_celda * 2), 37, 10, 3, '2', 'D');
+    $pdf->RoundedRect($margen_x + 3, $margen_y + 55 + ($h_celda * 3), 20, 10, 3, '1', 'D');
+    $pdf->Rect($margen_x + 23, $margen_y + 55 + ($h_celda * 3), 118, 10, 'D');
+    $pdf->Rect($margen_x + 141, $margen_y + 55 + ($h_celda * 3), 27, 10, 'D');
+    $pdf->RoundedRect($margen_x + 168, $margen_y + 55 + ($h_celda * 3), 32, 10, 3, '2', 'D');
     
     $pdf->SetFont("Arial", 'B', 11);
-    $pdf->Text($margen_x + 59, $margen_y + 60 + ($h_celda * 2), utf8_decode('DECLARACIÓN DE ENVÍO'));
-    
-    $pdf->SetFont("Arial", '', 7);
-    $pdf->Text($margen_x + 31, $margen_y + 63 + ($h_celda * 2), utf8_decode('Por medio de este documento, el remitente, bajo su responsabilidad declara enviar los siguiente.'));
+    $pdf->Text($margen_x + 7, $margen_y + 61 + ($h_celda * 3), utf8_decode('CANT.'));
     
     $pdf->SetFont("Arial", 'B', 11);
-    $pdf->Text($margen_x + 172, $margen_y + 61 + ($h_celda * 2), utf8_decode('IMPORTE'));
+    $pdf->Text($margen_x + 69, $margen_y + 61 + ($h_celda * 3), utf8_decode('DESCRIPCIÒN'));
+    
+    $pdf->SetFont("Arial", 'B', 11);
+    $pdf->Text($margen_x + 148, $margen_y + 61 + ($h_celda * 3), utf8_decode('P. UNIT'));
+    
+    $pdf->SetFont("Arial", 'B', 11);
+    $pdf->Text($margen_x + 170, $margen_y + 61 + ($h_celda * 3), utf8_decode('VALOR VENTA'));
     
     $pdf->ln(10);
     
@@ -205,19 +218,19 @@
     $h_celda = 5;
     $borde_celda = 'RL';
     
-    $max_detail= 31;
+    $max_detail= 30;
     $n_detail = sizeof($encomienda->encomiendas_tipos);
     
     for ($i = 0; $i < $n_detail; $i++) {
         $descripcion = $encomienda->encomiendas_tipos[$i]->tipo_producto->descripcion . ' - '
-            . $encomienda->encomiendas_tipos[$i]->detalle . ' (' 
-            . $encomienda->encomiendas_tipos[$i]->tipo_producto->valor . ') x' 
-            . $encomienda->encomiendas_tipos[$i]->cantidad;
+            . $encomienda->encomiendas_tipos[$i]->detalle;
         $importe = $encomienda->encomiendas_tipos[$i]->cantidad * $encomienda->encomiendas_tipos[$i]->tipo_producto->valor;
         
         $pdf->SetFont("Arial", "", 8);
-        $pdf->Cell(160, $h_celda, utf8_decode($descripcion), $borde_celda, 0, 'L');
-        $pdf->Cell(37, $h_celda, utf8_decode(number_format($importe, 2, '.', ',')), $borde_celda, 0, 'L');
+        $pdf->Cell(20, $h_celda, utf8_decode($encomienda->encomiendas_tipos[$i]->cantidad), $borde_celda, 0, 'C');
+        $pdf->Cell(118, $h_celda, utf8_decode($descripcion), $borde_celda, 0, 'L');
+        $pdf->Cell(27, $h_celda, utf8_decode($encomienda->encomiendas_tipos[$i]->valor), $borde_celda, 0, 'C');
+        $pdf->Cell(32, $h_celda, utf8_decode(number_format($importe, 2, '.', ',')), $borde_celda, 0, 'C');
 
         $pdf->ln();
     }
@@ -225,34 +238,36 @@
     for ($i = 0; $i < ($max_detail - $n_detail); $i++) {
         
         $pdf->SetFont("Arial", "", 8);
-        $pdf->Cell(160, $h_celda, '', $borde_celda, 0, 'L');
-        $pdf->Cell(37, $h_celda, '', $borde_celda, 0, 'L');
+        $pdf->Cell(20, $h_celda, '', $borde_celda, 0, 'C');
+        $pdf->Cell(118, $h_celda, '', $borde_celda, 0, 'L');
+        $pdf->Cell(27, $h_celda, '', $borde_celda, 0, 'C');
+        $pdf->Cell(32, $h_celda, '', $borde_celda, 0, 'C');
 
         $pdf->ln();
     }
     
     $pdf->SetFont("Arial", "B", 8);
-    $pdf->Cell(160, $h_celda, utf8_decode('Valor Neto'), 1, 0, 'R');
-    $pdf->Cell(37, $h_celda, utf8_decode(number_format($encomienda->valor_neto, 2, '.', ',')), 1, 0, 'L');
+    $pdf->Cell(165, $h_celda, utf8_decode('SUB-TOTAL'), 1, 0, 'R');
+    $pdf->Cell(32, $h_celda, utf8_decode(number_format($encomienda->valor_neto, 2, '.', ',')), 1, 0, 'L');
 
     $pdf->ln();
     $pdf->SetFont("Arial", "B", 8);
-    $pdf->Cell(160, $h_celda, utf8_decode('IGV'), 1, 0, 'R');
-    $pdf->Cell(37, $h_celda, utf8_decode(number_format($encomienda->igv, 2, '.', ',')), 1, 0, 'L');
+    $pdf->Cell(165, $h_celda, utf8_decode('IGV (18%)'), 1, 0, 'R');
+    $pdf->Cell(32, $h_celda, utf8_decode(number_format($encomienda->igv, 2, '.', ',')), 1, 0, 'L');
 
     $pdf->ln();
     
     // Detalle
     // Footer
     
-    $pdf->RoundedRect($margen_x + 3, $margen_y + 65 + ($h_celda * 35), 160, 10, 3, '4', 'D');
-    $pdf->RoundedRect($margen_x + 163, $margen_y + 65 + ($h_celda * 35), 37, 10, 3, '3', 'D');
+    $pdf->RoundedRect($margen_x + 3, $margen_y + 65 + ($h_celda * 35), 165, 10, 3, '4', 'D');
+    $pdf->RoundedRect($margen_x + 168, $margen_y + 65 + ($h_celda * 35), 32, 10, 3, '3', 'D');
     
     $pdf->SetFont("Arial", 'BI', 10);
-    $pdf->Text($margen_x + 143, $margen_y + 71 + ($h_celda * 35), utf8_decode('Valor Total'));
+    $pdf->Text($margen_x + 149, $margen_y + 71 + ($h_celda * 35), utf8_decode('TOTAL S/.'));
     
     $pdf->SetFont("Arial", 'B', 10);
-    $pdf->Text($margen_x + 164, $margen_y + 71 + ($h_celda * 35), utf8_decode(number_format($encomienda->valor_total, 2, '.', ',')));
+    $pdf->Text($margen_x + 169, $margen_y + 71 + ($h_celda * 35), utf8_decode(number_format($encomienda->valor_total, 2, '.', ',')));
     
     // Datos Finales
     $pdf->RoundedRect($margen_x + 3, $margen_y + 77 + ($h_celda * 35), 123, 15, 3, '1234', 'D');
