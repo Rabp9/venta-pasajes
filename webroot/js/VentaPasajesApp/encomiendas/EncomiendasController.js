@@ -16,6 +16,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.encomiendas_selected = [];
     $scope.loading_programaciones = false;
     $scope.newEncomienda.tipodoc = 'boleta';
+    $scope.newEncomienda.condicion = 'cancelado';
     $scope.newEncomienda.cliente = [];
     $scope.newTipoProducto.cantidad = 1;
     
@@ -126,6 +127,22 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     }
     
     $scope.saveEncomienda = function() {
+        // Validacion
+        if ($scope.origen_selected === $scope.destino_selected) {
+            alert('El origen y el destino no pueden ser los mismos');
+            return;
+        }
+        
+        if ($scope.remitente.id === $scope.destinatario.id) {
+            alert('El remitente y el destinatario no pueden ser los mismos');
+            return;
+        }
+        
+        if($scope.newEncomienda.encomiendas_tipos.length === 0) {
+            alert('Ingreso al menos un producto');
+            return;
+        }
+      
         $("#btnRegistrarEncomienda").attr("disabled");
         $scope.newEncomienda.remitente = $scope.remitente.id;
         $scope.newEncomienda.destinatario = $scope.destinatario.id;

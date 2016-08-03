@@ -55,3 +55,15 @@ body {
     color: #fff; 
     opacity: 1;
 }
+
+ul#ulTabs {
+    background-color: #EAF2FF;
+} 
+
+div.dvPersonaEncontrada {
+    border: solid 1px;
+    background-color: #F1F3F6;
+    border-radius: 5px;
+    text-align: center;
+    height: 50px;
+}

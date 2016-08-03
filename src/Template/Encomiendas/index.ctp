@@ -15,13 +15,181 @@ $this->assign("title", "Encomiendas");
 <div>
     <!-- Nav tabs -->
     <ul id="ulTabs" class="nav nav-tabs" role="tablist" >
-        <li role="presentation" class="active"><a data-target="#listpendientes" aria-controls="listpendientes" role="tab" data-toggle="tab">Encomiendas Pendientes</a></li>
-        <li role="presentation"><a data-target="#new" aria-controls="new" role="tab" data-toggle="tab">Nueva Encomienda</a></li>
+        <li role="presentation" class="active"><a data-target="#new" aria-controls="new" role="tab" data-toggle="tab">Nueva Encomienda</a></li>
+        <li role="presentation"><a data-target="#listpendientes" aria-controls="listpendientes" role="tab" data-toggle="tab">Encomiendas Pendientes</a></li>
         <li role="presentation"><a data-target="#listsinentregar" aria-controls="listsinentregar" role="tab" data-toggle="tab">Encomiendas sin entregar</a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="listpendientes">
+        <div role="tabpanel" class="tab-pane active" id="new">
+            <form ng-submit="saveEncomienda()">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <fieldset>
+                                    <legend>Remitente y Destinatario</legend>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="txtRemitenteDni">Remitente (DNI)</label>
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" ng-model="remitente_dni" type="search" maxlength="8" required>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <button class="btn btn-primary" type="button" ng-click="buscarRemitente()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
+                                                </div>
+                                            </div>
+                                            <span ng-show="searching">Buscando</span>
+                                            <div class="dvPersonaEncontrada" ng-show="remitente != null">{{ remitente.full_name }}</div>
+                                            <span ng-hide="remitente !== null">No existe</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="txtDestinatarioDni">Destinatario (DNi)</label>
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" ng-model="destinatario_dni" type="search" maxlength="8">
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <button class="btn btn-primary" type="button" ng-click="buscarDestinatario()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
+                                                </div>
+                                            </div>
+                                            <span ng-show="searching">Buscando</span>
+                                            <div class="dvPersonaEncontrada" ng-show="destinatario != null">{{ destinatario.full_name }}</div>
+                                            <span ng-hide="destinatario !== null">No existe</span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Agencias</legend>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="sltOrigen">Origen</label>
+                                            <select id="sltOrigen" class="form-control"
+                                                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                                ng-model="origen_selected" required>
+                                                <option value="">Selecciona una Agencia</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="sltDestino">Destino</label>
+                                            <select id="sltDestino" class="form-control"
+                                                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                                ng-model="destino_selected" required>
+                                                <option value="">Selecciona una Agencia</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-sm-4">
+                                <fieldset>
+                                    <legend>Datos Adicionales</legend>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="txtFecha">Fecha de Registro</label>
+                                            <input id="txtFecha" class="form-control" type="text" ng-model="newEncomienda.preFechahora"/>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Tipo de Documento</legend>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label><input type="radio" ng-model="newEncomienda.tipodoc" value="boleta" /> Boleta</label>
+                                            <label><input type="radio" ng-model="newEncomienda.tipodoc" value="factura" /> Factura</label>
+                                        </div>
+                                    </div>
+                                    <div ng-show="newEncomienda.tipodoc === 'factura'">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="txtRuc">RUC</label>
+                                                <input id="txtRuc" class="form-control" type="text" ng-model="newEncomienda.ruc" ng-keyup="searchCliente()" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="txtRazonSocial">Razón Social</label>
+                                                <input id="txtRazonSocial" class="form-control" type="text" readonly ng-model="newEncomienda.cliente.razonsocial" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <button id="btnAddCliente" type="button" class="btn btn-primary" ng-click="addCliente()"><span class="glyphicon glyphicon-plus"></span> Nuevo Cliente</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Condiciòn de Pago</legend>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label><input type="radio" ng-model="newEncomienda.condicion" value="cancelado" /> Cancelado</label>
+                                            <label><input type="radio" ng-model="newEncomienda.condicion" value="debe" /> Debe</label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <fieldset>
+                                    <legend>Productos</legend>
+                                    <button type="button" class="btn btn-primary" ng-click="openFrmEncomiendaTipoAdd()"><span class="glyphicon glyphicon-plus"></span></button>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Producto</th>
+                                                    <th>Detalle</th>
+                                                    <th>Valor Unitario</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Sub Total</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="encomienda_tipo in newEncomienda.encomiendas_tipos">
+                                                    <td>{{encomienda_tipo.producto.descripcion}}</td>
+                                                    <td>{{encomienda_tipo.detalle}}</td>
+                                                    <td>{{encomienda_tipo.valor}}</td>
+                                                    <td>{{encomienda_tipo.cantidad}}</td>
+                                                    <td>{{encomienda_tipo.cantidad * encomienda_tipo.valor}}</td>
+                                                    <td><button type="button" class="btn btn-primary" ng-click="cancelarPrdoucto($index)"><span class="glyphicon glyphicon-remove"></span></button></td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr ng-show="newEncomienda.tipodoc === 'factura'">
+                                                    <td colspan="4">Valor Neto</td>
+                                                    <td><input class="form-control" type="text" ng-model="newEncomienda.valor_neto" ng-change="calcularTotal()"/></td>
+                                                </tr>
+                                                <tr ng-show="newEncomienda.tipodoc === 'factura'">
+                                                    <td colspan="4">IGV</td>
+                                                    <td><input class="form-control" disabled type="text" ng-model="newEncomienda.igv"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4">Valor Total</td>
+                                                    <td><input class="form-control" readonly type="text" ng-model="newEncomienda.valor_total"/></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                            </div> 
+                            
+                        </div>
+                    </div>
+                </div>
+                <button id="btnRegistrarEncomienda" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Registrar</button>
+            </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="listpendientes">
             <button type="button" class="btn btn-primary" ng-click="asignar()">Asignar</button>
             <div id="marco_include">
                 <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
@@ -84,146 +252,6 @@ $this->assign("title", "Encomiendas");
                     </div>
                 </div>
             </div>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="new">
-            <form ng-submit="saveEncomienda()">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="dtFecha">Fecha</label>
-                                    <input id="txtFecha" class="form-control" type="text" ng-model="newEncomienda.preFechahora"/>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="sltOrigen">Origen</label>
-                                    <select id="sltOrigen" class="form-control"
-                                        ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
-                                        ng-model="origen_selected">
-                                        <option value="">Selecciona una Agencia</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="sltDestino">Destino</label>
-                                    <select id="sltDestino" class="form-control"
-                                        ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
-                                        ng-model="destino_selected">
-                                        <option value="">Selecciona una Agencia</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label><input type="radio" ng-model="newEncomienda.tipodoc" value="boleta" /> Boleta</label>
-                                    <label><input type="radio" ng-model="newEncomienda.tipodoc" value="factura" /> Factura</label>
-                                </div>
-                            </div>
-                            <div ng-show="newEncomienda.tipodoc === 'factura'">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="txtRuc">RUC</label>
-                                        <input id="txtRuc" class="form-control" type="text" ng-model="newEncomienda.ruc" ng-keyup="searchCliente()" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="txtRazonSocial">Razón Social</label>
-                                        <input id="txtRazonSocial" class="form-control" type="text" readonly ng-model="newEncomienda.cliente.razonsocial" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <button id="btnAddCliente" type="button" class="btn btn-primary" ng-click="addCliente()"><span class="glyphicon glyphicon-plus"></span> Nuevo Cliente</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="txtRemitenteDni">Remitente</label>
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <input class="form-control" ng-model="remitente_dni" type="search" maxlength="8">
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <button class="btn btn-primary" type="button" ng-click="buscarRemitente()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span ng-show="searching">Buscando</span>
-                                <span ng-show="remitente !== null">{{ remitente.full_name }}</span>
-                                <span ng-hide="remitente !== null">No existe</span>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="txtDestinatarioDni">Destinatario</label>
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <input class="form-control" ng-model="destinatario_dni" type="search" maxlength="8">
-                                        </div>
-                                        <div class="col-sm-2">
-                                            <button class="btn btn-primary" type="button" ng-click="buscarDestinatario()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span ng-show="searching">Buscando</span>
-                                <span ng-show="destinatario !== null">{{ destinatario.full_name }}</span>
-                                <span ng-hide="destinatario !== null">No existe</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h3>Productos</h3>
-                                <button type="button" class="btn btn-primary" ng-click="openFrmEncomiendaTipoAdd()"><span class="glyphicon glyphicon-plus"></span></button>
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Producto</th>
-                                                <th>Detalle</th>
-                                                <th>Valor Unitario</th>
-                                                <th>Cantidad</th>
-                                                <th>Sub Total</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="encomienda_tipo in newEncomienda.encomiendas_tipos">
-                                                <td>{{encomienda_tipo.producto.descripcion}}</td>
-                                                <td>{{encomienda_tipo.detalle}}</td>
-                                                <td>{{encomienda_tipo.valor}}</td>
-                                                <td>{{encomienda_tipo.cantidad}}</td>
-                                                <td>{{encomienda_tipo.cantidad * encomienda_tipo.valor}}</td>
-                                                <td><button type="button" class="btn btn-primary" ng-click="cancelarPrdoucto($index)"><span class="glyphicon glyphicon-remove"></span></button></td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr ng-show="newEncomienda.tipodoc === 'factura'">
-                                                <td colspan="4">Valor Neto</td>
-                                                <td><input class="form-control" type="text" ng-model="newEncomienda.valor_neto" ng-change="calcularTotal()"/></td>
-                                            </tr>
-                                            <tr ng-show="newEncomienda.tipodoc === 'factura'">
-                                                <td colspan="4">IGV</td>
-                                                <td><input class="form-control" disabled type="text" ng-model="newEncomienda.igv"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="4">Valor Total</td>
-                                                <td><input class="form-control" readonly type="text" ng-model="newEncomienda.valor_total"/></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <button id="btnRegistrarEncomienda" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Registrar</button>
-            </form>
         </div>
         <div role="tabpanel" class="tab-pane" id="listsinentregar">
             <div id="marco_include">
@@ -312,7 +340,6 @@ $this->assign("title", "Encomiendas");
                                     ng-model="newTipoProducto.producto" ng-change="console.log('resetear')">
                                     <option value="">Selecciona un Producto</option>
                                 </select>
-                                {{ newTipoProducto | json }}
                             </div>
                             <div class="form-group">
                                 <label for="txtDetalle">Detalle</label>

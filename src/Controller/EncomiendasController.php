@@ -124,17 +124,24 @@ class EncomiendasController extends AppController
         require_once(ROOT .DS. 'vendor' . DS . 'rabp9' . DS . 'PDF.php');
         $this->viewBuilder()->layout('pdf'); //this will use the pdf.ctp layout
         
-        $encomienda = $this->Encomiendas->get($id, [    
-            'contain' => [
-                'PersonaRemitente', 
-                'Clientes',
-                'PersonaDestinatario',
-                'EncomiendasTipos' => ['TipoProductos'],
-                'Desplazamientos' => [
-                    'AgenciaOrigen' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]],
-                    'AgenciaDestino' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]]
-                ]
+        $contain = [
+            'PersonaRemitente', 
+            'PersonaDestinatario',
+            'EncomiendasTipos' => ['TipoProductos'],
+            'Desplazamientos' => [
+                'AgenciaOrigen' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]],
+                'AgenciaDestino' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]]
             ]
+        ];
+        
+        $encomienda = $this->Encomiendas->get($id);
+        
+        if($encomienda->tipodoc == 'factura') {
+            $contain[] = 'Clientes';
+        }
+        
+        $encomienda = $this->Encomiendas->get($id, [
+            'contain' => $contain
         ]);
         
         $this->set("pdf", new PDF("P", "mm", "A4"));
