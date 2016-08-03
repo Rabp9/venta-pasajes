@@ -108,7 +108,7 @@ $this->assign("title", "Encomiendas");
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="txtRuc">RUC</label>
-                                                <input id="txtRuc" class="form-control" type="text" ng-model="newEncomienda.ruc" ng-keyup="searchCliente()" />
+                                                <input id="txtRuc" class="form-control" type="text" ng-model="newEncomienda.ruc" ng-keyup="searchCliente()" maxlength="11" />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -143,7 +143,7 @@ $this->assign("title", "Encomiendas");
                                     <legend>Productos</legend>
                                     <button type="button" class="btn btn-primary" ng-click="openFrmEncomiendaTipoAdd()"><span class="glyphicon glyphicon-plus"></span></button>
                                     <div class="table-responsive">
-                                        <table class="table table-striped">
+                                        <table class="table table-striped tblProductos">
                                             <thead>
                                                 <tr>
                                                     <th>Producto</th>
@@ -167,7 +167,7 @@ $this->assign("title", "Encomiendas");
                                             <tfoot>
                                                 <tr ng-show="newEncomienda.tipodoc === 'factura'">
                                                     <td colspan="4">Valor Neto</td>
-                                                    <td><input class="form-control" type="text" ng-model="newEncomienda.valor_neto" ng-change="calcularTotal()"/></td>
+                                                    <td><input class="form-control" disabled type="text" ng-model="newEncomienda.valor_neto" ng-change="calcularTotal()"/></td>
                                                 </tr>
                                                 <tr ng-show="newEncomienda.tipodoc === 'factura'">
                                                     <td colspan="4">IGV</td>

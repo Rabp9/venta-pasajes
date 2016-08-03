@@ -67,3 +67,12 @@ div.dvPersonaEncontrada {
     text-align: center;
     height: 50px;
 }
+
+hr.divisor {
+    margin: 5px 0px 5px 0px;
+    border: 1px solid #337ab7;
+}
+
+table.tblProductos {
+    border: 1px solid #337ab7;
+}
