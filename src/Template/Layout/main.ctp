@@ -99,11 +99,12 @@
             <?= $this->element("ribbon-menu") ?>
         </div>
     </div>
+    <img src="img/loading.gif" ng-show='layout.loading' class="animated ss-loading"/>
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
                 <?= $this->Flash->render() ?>
-                <div ng-view></div>
+                <div ng-view ng-hide='layout.loading' class="animated"></div>
             </div>
         </div>
     </div>

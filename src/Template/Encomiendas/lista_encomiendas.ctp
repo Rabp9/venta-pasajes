@@ -59,11 +59,12 @@
     $borde_celda = 1;
     $h_celda = 5;
     $pdf->SetFont("Arial", "B", 9);
-    $pdf->Cell(10, $h_celda, utf8_decode('N°'), $borde_celda, 0, 'C');
+    $pdf->Cell(6, $h_celda, utf8_decode('N°'), $borde_celda, 0, 'C');
     $pdf->Cell(62, $h_celda, utf8_decode('NOMBRE'), $borde_celda, 0, 'C');
     $pdf->Cell(62, $h_celda, utf8_decode('DESCRIPCIÓN'), $borde_celda, 0, 'C');
-    $pdf->Cell(24, $h_celda, utf8_decode('IMPORTE'), $borde_celda, 0, 'C');
-    $pdf->Cell(39, $h_celda, utf8_decode('DESTINO'), $borde_celda, 0, 'C');
+    $pdf->Cell(21, $h_celda, utf8_decode('IMPORTE'), $borde_celda, 0, 'C');
+    $pdf->Cell(36, $h_celda, utf8_decode('DESTINO'), $borde_celda, 0, 'C');
+    $pdf->Cell(10, $h_celda, utf8_decode('CND'), $borde_celda, 0, 'C');
     $pdf->ln();
     
     // Tabla
@@ -73,21 +74,23 @@
     $n_encomiendas = sizeof($programacion->encomiendas);
     foreach ($programacion->encomiendas as $encomienda) {
         $pdf->SetFont("Arial", "", 7);
-        $pdf->Cell(10, $h_celda, utf8_decode($i), $borde_celda, 0, 'C');
+        $pdf->Cell(6, $h_celda, utf8_decode($i), $borde_celda, 0, 'C');
         $pdf->Cell(62, $h_celda, utf8_decode($encomienda->personaRemitente->full_name), $borde_celda, 0, 'C');
         $pdf->Cell(62, $h_celda, utf8_decode($encomienda->descripcion), $borde_celda, 0, 'C');
-        $pdf->Cell(24, $h_celda, utf8_decode(number_format($encomienda->valor_total, 2, '.', ',')), $borde_celda, 0, 'C');
-        $pdf->Cell(39, $h_celda, utf8_decode($encomienda->desplazamiento->AgenciaDestino->direccion . ' (' . $encomienda->desplazamiento->AgenciaDestino->ubigeo->descripcion . ')'), $borde_celda, 0, 'C');
+        $pdf->Cell(21, $h_celda, utf8_decode(number_format($encomienda->valor_total, 2, '.', ',')), $borde_celda, 0, 'C');
+        $pdf->Cell(36, $h_celda, utf8_decode($encomienda->desplazamiento->AgenciaDestino->direccion . ' (' . $encomienda->desplazamiento->AgenciaDestino->ubigeo->descripcion . ')'), $borde_celda, 0, 'C');
+        $pdf->Cell(10, $h_celda, utf8_decode(substr($encomienda->condicion, 0, 1)), $borde_celda, 0, 'C');
         $pdf->ln();
         $i++;
     }
     
     for ($i = 0; $i < ($total - $n_encomiendas); $i++) {
+        $pdf->Cell(6, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
+        $pdf->Cell(62, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
+        $pdf->Cell(62, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
+        $pdf->Cell(21, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
+        $pdf->Cell(36, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
         $pdf->Cell(10, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
-        $pdf->Cell(62, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
-        $pdf->Cell(62, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
-        $pdf->Cell(24, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
-        $pdf->Cell(39, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
         $pdf->ln();
     }
     

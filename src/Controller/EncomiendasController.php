@@ -56,7 +56,8 @@ class EncomiendasController extends AppController
                     "AgenciaDestino" => ["Ubigeos"]
                 ], 
                 "PersonaRemitente", 
-                "PersonaDestinatario"
+                "PersonaDestinatario",
+                "EncomiendasTipos" => ["TipoProductos"]
             ])->where(["Encomiendas.estado_id" => 3]);
 
         $this->set(compact('encomiendas'));
@@ -90,13 +91,14 @@ class EncomiendasController extends AppController
     public function asignar() {
         $encomiendas = $this->request->data["encomiendas"];
         $programacion_id = $this->request->data["programacion_id"];
+        $programacion = $this->Encomiendas->Programaciones->get($programacion_id);
         
         $asignados = true;
         foreach ($encomiendas as $encomienda) {
             $encomienda_asignada = $this->Encomiendas->newEntity();
             $encomienda_asignada->id = $encomienda;
             $encomienda_asignada->programacion_id = $programacion_id;
-            // $encomienda_asignada->fecha_envio = $programacion_id;
+            $encomienda_asignada->fecha_envio = $programacion->fechahora_prog;
             $encomienda_asignada->estado_id = 3;
 
             if (!$this->Encomiendas->save($encomienda_asignada)) {
@@ -203,7 +205,8 @@ class EncomiendasController extends AppController
         
         $encomienda = $this->Encomiendas->get($id);
         $encomienda->estado_id = 4;
-        // $encomienda->fecha_recepcion = 4;
+        $encomienda->condicion = 'cancelado';
+        $encomienda->fecha_recepcion = date('Y-m-d');
         
         if ($this->Encomiendas->save($encomienda)) {
             $message = array(

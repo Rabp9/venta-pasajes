@@ -1,6 +1,6 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("ListAgenciasController", function($rootScope, $scope, AgenciasService) {
+VentaPasajesApp.controller("ListAgenciasController", function($scope, AgenciasService) {
     $scope.id = "";
     $scope.loading = true;
     $scope.reverse = false;
@@ -14,7 +14,7 @@ VentaPasajesApp.controller("ListAgenciasController", function($rootScope, $scope
     $("#mdlAgencias").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
             $("#btnAddAgencia").removeClass("disabled");
-            $scope.modalUrl = ""; 
+            $scope.modalUrl = "";
         });
     });
     

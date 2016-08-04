@@ -76,3 +76,34 @@ hr.divisor {
 table.tblProductos {
     border: 1px solid #337ab7;
 }
+
+.glyphicon-car:before {
+    content: url('../fonts/glyphicons-6-car.png');
+}
+
+.glyphicon-user-key:before {
+    content: url('../fonts/glyphicons-526-user-key.png');
+}
+
+.animated {
+    opacity: 1;
+    max-height: auto;
+    overflow: hidden;
+    transition: all 0.8s;
+}
+
+.animated.ng-hide {
+    opacity: 0;
+    max-height: 0px !important;
+    display: block !important;
+}
+
+.ss-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70px;
+    height: 70px;
+    margin-left: -35px; /* mitad en negativo*/
+    margin-top: -35px; /* mitad en negativo*/
+}

@@ -9,16 +9,27 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.reverse = false;
     $scope.predicate = "id";
     var date = new Date();
-    $scope.newEncomienda = {};
-    $scope.newTipoProducto = {};
-    $scope.newEncomienda.preFechahora = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-    $scope.newEncomienda.encomiendas_tipos = [];
-    $scope.encomiendas_selected = [];
-    $scope.loading_programaciones = false;
-    $scope.newEncomienda.tipodoc = 'boleta';
-    $scope.newEncomienda.condicion = 'cancelado';
-    $scope.newEncomienda.cliente = [];
-    $scope.newTipoProducto.cantidad = 1;
+    
+    $scope.construct = function() {
+        $scope.newEncomienda = {};
+        $scope.newTipoProducto = {};
+        $scope.newEncomienda.preFechahora = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+        $scope.newEncomienda.encomiendas_tipos = [];
+        $scope.encomiendas_selected = [];
+        $scope.loading_programaciones = false;
+        $scope.newEncomienda.tipodoc = 'boleta';
+        $scope.newEncomienda.condicion = 'cancelado';
+        $scope.newEncomienda.cliente = [];
+        $scope.newTipoProducto.cantidad = 1;
+        $scope.remitente_dni = '';
+        $scope.destinatario_dni = '';
+        $scope.remitente = undefined;
+        $scope.destinatario = undefined;
+        $scope.origen_selected = null;
+        $scope.destino_selected = null;
+    }
+    
+    $scope.construct();
     
     $scope.openModal = function() {
         $("#mdlClientes").modal("toggle");
@@ -163,9 +174,12 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             }
             EncomiendasService.save($scope.newEncomienda, function(data) {
                 $scope.message = data.message;
-                $('#ulTabs li:eq(0) a').tab('show');
-                $window.open('encomiendas/' + data.message.id, '_blank');
-                $scope.listEncomiendas();
+                if ($scope.message.type = 'success') {                    
+                    $('#ulTabs li:eq(1) a').tab('show');
+                    $window.open('encomiendas/' + data.message.id, '_blank');
+                    $scope.listEncomiendas();
+                    $scope.construct();
+                }
             });
         });
         $("#btnRegistrarEncomienda").removeClass("disabled");
@@ -236,6 +250,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     };
     
     $scope.registrarEntrega = function(id) {
+        if (confirm('¿Està seguro de registrar la entrega de esta encomienda?'))
         EncomiendasService.registrarEntrega({id: id}, function(data) {
             $scope.message = data.message;
             $scope.listEncomiendas();

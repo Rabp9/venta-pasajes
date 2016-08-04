@@ -16,7 +16,7 @@ $this->assign("title", "Encomiendas");
     <!-- Nav tabs -->
     <ul id="ulTabs" class="nav nav-tabs" role="tablist" >
         <li role="presentation" class="active"><a data-target="#new" aria-controls="new" role="tab" data-toggle="tab">Nueva Encomienda</a></li>
-        <li role="presentation"><a data-target="#listpendientes" aria-controls="listpendientes" role="tab" data-toggle="tab">Encomiendas Pendientes</a></li>
+        <li role="presentation"><a data-target="#listpendientes" aria-controls="listpendientes" role="tab" data-toggle="tab">Encomiendas sin asignar</a></li>
         <li role="presentation"><a data-target="#listsinentregar" aria-controls="listsinentregar" role="tab" data-toggle="tab">Encomiendas sin entregar</a></li>
     </ul>
     <!-- Tab panes -->
@@ -166,15 +166,15 @@ $this->assign("title", "Encomiendas");
                                             </tbody>
                                             <tfoot>
                                                 <tr ng-show="newEncomienda.tipodoc === 'factura'">
-                                                    <td colspan="4">Valor Neto</td>
+                                                    <td colspan="4" style='text-align: right;'>Valor Neto</td>
                                                     <td><input class="form-control" disabled type="text" ng-model="newEncomienda.valor_neto" ng-change="calcularTotal()"/></td>
                                                 </tr>
                                                 <tr ng-show="newEncomienda.tipodoc === 'factura'">
-                                                    <td colspan="4">IGV</td>
+                                                    <td colspan="4" style='text-align: right;'>IGV</td>
                                                     <td><input class="form-control" disabled type="text" ng-model="newEncomienda.igv"/></td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="4">Valor Total</td>
+                                                    <td colspan="4" style='text-align: right;'>Valor Total</td>
                                                     <td><input class="form-control" readonly type="text" ng-model="newEncomienda.valor_total"/></td>
                                                 </tr>
                                             </tfoot>
@@ -203,7 +203,7 @@ $this->assign("title", "Encomiendas");
                                     <th width="6%" align="center">
                                         Origen
                                     </th>
-                                    <th width="8%" align="center">
+                                    <th width="6%" align="center">
                                         Destino
                                     </th>
                                     <th width="5%" align="center">
@@ -213,11 +213,14 @@ $this->assign("title", "Encomiendas");
                                         Destinatario
                                     </th>
                                     <th width="5%" align="center">
-                                        Fecha y Hora
+                                        Fecha de Registro
                                     </th>
                                     <th width="5%" align="center">
                                         Valor
                                     </th>
+                                    <td width='2%' align='cemter'>
+                                        Condiciòn
+                                    </td>
                                     <th width="4%" align="center">
                                         Acciones
                                     </th>
@@ -237,12 +240,13 @@ $this->assign("title", "Encomiendas");
 
                                     <td width="1%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
                                     <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control" checklist-model="encomiendas_selected" checklist-value="encomienda.id"/></td>
-                                    <td width="8%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
+                                    <td width="6%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="6%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ encomienda.personaRemitente.full_name }}</td>
                                     <td width="5%">{{ encomienda.personaDestinatario.full_name }}</td>
-                                    <td width="5%">{{ encomienda.fechahora }}</td>
-                                    <td width="5%">{{ encomienda.valor }}</td>
+                                    <td width="5%">{{ encomienda.fechahora | date : 'yyyy-MM-dd' }}</td>
+                                    <td width="5%">{{ encomienda.valor_total | number: 2 }}</td>
+                                    <td width='1%'>{{ encomienda.condicion }}</td>
                                     <td width="4%">
                                         <a style="cursor: pointer;" ng-click="printBoleta(encomienda.id)" title="imprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a> |
                                     </td>
@@ -266,7 +270,7 @@ $this->assign("title", "Encomiendas");
                                     <th width="6%" align="center">
                                         Origen
                                     </th>
-                                    <th width="8%" align="center">
+                                    <th width="6%" align="center">
                                         Destino
                                     </th>
                                     <th width="5%" align="center">
@@ -276,10 +280,13 @@ $this->assign("title", "Encomiendas");
                                         Destinatario
                                     </th>
                                     <th width="5%" align="center">
-                                        Fecha y Hora
+                                        Fecha de Registro
                                     </th>
                                     <th width="5%" align="center">
                                         Valor
+                                    </th>
+                                    <th width="1%" align="center">
+                                        Condiciòn
                                     </th>
                                     <th width="4%" align="center">
                                         Acciones
@@ -299,12 +306,13 @@ $this->assign("title", "Encomiendas");
                                     onmouseout="style.backgroundColor='#fff'">
 
                                     <td width="3%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
-                                    <td width="8%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
+                                    <td width="6%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="6%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ encomienda.personaRemitente.full_name }}</td>
                                     <td width="5%">{{ encomienda.personaDestinatario.full_name }}</td>
-                                    <td width="5%">{{ encomienda.fechahora }}</td>
-                                    <td width="5%">{{ encomienda.valor }}</td>
+                                    <td width="5%">{{ encomienda.fechahora | date: 'yyyy-MM-dd' }}</td>
+                                    <td width="5%">{{ encomienda.valor_total | number: 2 }}</td>
+                                    <td width='1%'>{{ encomienda.condicion }}</td>
                                     <td width="4%">
                                         <a style="cursor: pointer;" ng-click="printBoleta(encomienda.id)" title="imprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a> |
                                         <a style="cursor: pointer;" ng-click="cancelarAsignacion(encomienda.id)" title="cancelar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> |
@@ -351,7 +359,7 @@ $this->assign("title", "Encomiendas");
                             </div>
                             <div class="form-group">
                                 <label for="nmbCantidad">Cantidad</label>
-                                <input id="nmbCantidad" type="number" class="form-control" ng-model="newTipoProducto.cantidad">
+                                <input id="nmbCantidad" type="number" class="form-control" ng-model="newTipoProducto.cantidad" min="1">
                             </div>
                             <div class="form-group">
                                 <label for="txtSubTotal">Sub Total</label>
@@ -379,7 +387,7 @@ $this->assign("title", "Encomiendas");
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-8 col-sm-offset-2">
+                    <div class="col-sm-10 col-sm-offset-1">
                         <div class="row">
                             <div class="col-sm-6">
                                 <select id="sltOrigen" class="form-control"

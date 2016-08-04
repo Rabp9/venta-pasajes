@@ -160,3 +160,30 @@ VentaPasajesApp.directive('dvDraggable', function() {
         }
     };
 })
+
+VentaPasajesApp.run(function($rootScope, $timeout) {
+
+   $rootScope.layout = {};
+   $rootScope.layout.loading = false; 
+
+   $rootScope.$on('$routeChangeStart', function() {
+
+      //show loading gif
+      $rootScope.layout.loading = true;
+
+   });
+
+   $rootScope.$on('$routeChangeSuccess', function() {
+        //hide loading gif
+        $timeout(function(){
+            $rootScope.layout.loading = false;
+        }, 500);
+    });
+
+   $rootScope.$on('$routeChangeError', function() {
+
+       //hide loading gif
+       alert('wtff');
+       $rootScope.layout.loading = false;
+   });
+});
