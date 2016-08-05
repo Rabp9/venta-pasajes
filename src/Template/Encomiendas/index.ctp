@@ -17,7 +17,7 @@ $this->assign("title", "Encomiendas");
     <ul id="ulTabs" class="nav nav-tabs" role="tablist" >
         <li role="presentation" class="active"><a data-target="#new" aria-controls="new" role="tab" data-toggle="tab">Nueva Encomienda</a></li>
         <li role="presentation"><a data-target="#listpendientes" aria-controls="listpendientes" role="tab" data-toggle="tab">Encomiendas sin asignar</a></li>
-        <li role="presentation"><a data-target="#listsinentregar" aria-controls="listsinentregar" role="tab" data-toggle="tab">Encomiendas sin entregar</a></li>
+        <li role="presentation"><a data-target="#list" aria-controls="list" role="tab" data-toggle="tab">Lista de Encomiendas</a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
@@ -102,6 +102,7 @@ $this->assign("title", "Encomiendas");
                                         <div class="form-group">
                                             <label><input type="radio" ng-model="newEncomienda.tipodoc" value="boleta" /> Boleta</label>
                                             <label><input type="radio" ng-model="newEncomienda.tipodoc" value="factura" /> Factura</label>
+                                            <input id="nro_doc" type="text" class="form-control" ng-model="newEncomienda.newEncomienda" required style="display: inline; width: 15%; float: right;" /><label for="nro_doc" style="float: right; vertical-align: middle;">Nro Doc:</label>
                                         </div>
                                     </div>
                                     <div ng-show="newEncomienda.tipodoc === 'factura'">
@@ -257,14 +258,14 @@ $this->assign("title", "Encomiendas");
                 </div>
             </div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="listsinentregar">
+        <div role="tabpanel" class="tab-pane" id="list">
             <div id="marco_include">
                 <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
                     <div id="busqueda">
                         <table class="table" border="0" cellpadding="1" cellspacing="1" id="marco_panel">
                             <thead>
                                 <tr class="e34X" id="panel_status">
-                                    <th width="3%" align="center">
+                                    <th width="2%" align="center">
                                         Código
                                     </th>
                                     <th width="6%" align="center">
@@ -288,35 +289,39 @@ $this->assign("title", "Encomiendas");
                                     <th width="1%" align="center">
                                         Condiciòn
                                     </th>
+                                    <th width="1%" align="center">
+                                        Estado
+                                    </th>
                                     <th width="4%" align="center">
                                         Acciones
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-show="loading_sin_entregar">
+                                <tr ng-show="loading_list">
                                     <td colspan="7">Cargando</td>
                                 </tr>
-                                <tr ng-show="encomiendas_sin_entregar.length == 0 && !loading_sin_entregar">
+                                <tr ng-show="encomiendas_list.length == 0 && !loading_list">
                                     <td colspan="7">No hay registros de Encomiendas</td>
                                 </tr>
-                                <tr ng-show="!loading_sin_entregar" ng-repeat="encomienda in encomiendas_sin_entregar | orderBy:'codigo'"
+                                <tr ng-show="!loading_list" ng-repeat="encomienda in encomiendas_list | orderBy:'codigo'"
                                     class="textnot2 animated" style="background-color: #fff;" 
                                     onmouseover="style.backgroundColor='#cccccc';" 
                                     onmouseout="style.backgroundColor='#fff'">
 
-                                    <td width="3%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
+                                    <td width="2%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
                                     <td width="6%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="6%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ encomienda.personaRemitente.full_name }}</td>
                                     <td width="5%">{{ encomienda.personaDestinatario.full_name }}</td>
                                     <td width="5%">{{ encomienda.fechahora | date: 'yyyy-MM-dd' }}</td>
                                     <td width="5%">{{ encomienda.valor_total | number: 2 }}</td>
-                                    <td width='1%'>{{ encomienda.condicion }}</td>
+                                    <td width='1%' ng-class="encomienda.condicion" >{{ encomienda.condicion }}</td>
+                                    <td width='1%' ng-class="encomienda.estado.descripcion" >{{ encomienda.estado.descripcion }}</td>
                                     <td width="4%">
-                                        <a style="cursor: pointer;" ng-click="printBoleta(encomienda.id)" title="imprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a> |
-                                        <a style="cursor: pointer;" ng-click="cancelarAsignacion(encomienda.id)" title="cancelar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a> |
-                                        <a style="cursor: pointer;" ng-click="registrarEntrega(encomienda.id)" title="entregar"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                        <a style="cursor: pointer;" ng-click="printBoleta(encomienda.id)" title="imprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a>
+                                        <span ng-if='encomienda.estado_id == 3'> | <a style="cursor: pointer;" ng-click="cancelarAsignacion(encomienda.id)" title="eliminar asignaciòn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span>
+                                        <span ng-if='encomienda.estado_id == 3'> | <a style="cursor: pointer;" ng-click="registrarEntrega(encomienda.id)" title="entregar"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -326,7 +331,6 @@ $this->assign("title", "Encomiendas");
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- Modal mdlEncomiendaTipoAdd -->

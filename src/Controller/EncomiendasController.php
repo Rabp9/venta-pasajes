@@ -58,7 +58,7 @@ class EncomiendasController extends AppController
                 "PersonaRemitente", 
                 "PersonaDestinatario",
                 "EncomiendasTipos" => ["TipoProductos"]
-            ])->where(["Encomiendas.estado_id" => 3]);
+            ])->where(["Encomiendas.estado_id IN" => [3, 4]]);
 
         $this->set(compact('encomiendas'));
         $this->set('_serialize', ['encomiendas']);

@@ -107,3 +107,58 @@ table.tblProductos {
     margin-left: -35px; /* mitad en negativo*/
     margin-top: -35px; /* mitad en negativo*/
 }
+
+@keyframes cancelado {
+    from {background-color: #33ff00;}
+    to {background-color: #BBFFAA;}
+}
+
+@keyframes debe {
+    from {background-color: #D90000;}
+    to {background-color: #FF8282;}
+}
+
+@keyframes entregado {
+    from {background-color: #2693FF;}
+    to {background-color: #91C8FF;}
+}
+
+@keyframes programado {
+    from {background-color: #FFFF00;}
+    to {background-color: #FFFFBF;}
+}
+/*
+td.cancelado {
+    text-align: center;
+    background-color: #33ff00;
+    animation-name: cancelado;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+*/
+td.debe {
+    text-align: center;
+    color: #fff;
+    background-color: #D90000;
+    animation-name: debe;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+/*
+td.entregado {
+    text-align: center;
+    color: #000;
+    background-color: #2693FF;
+    animation-name: entregado;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+*/
+td.programado {
+    text-align: center;
+    color: #000;
+    background-color: #2693FF;
+    animation-name: programado;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}

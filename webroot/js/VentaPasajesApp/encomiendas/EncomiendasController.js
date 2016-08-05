@@ -47,11 +47,16 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     };
     
     $scope.listEncomiendas = function() {
+        $scope.loading = true;
         EncomiendasService.getPendientes(function(data) {
-            $scope.encomiendas = data.encomiendas; 
+            $scope.encomiendas = data.encomiendas;
+            $scope.loading = false;
         });
+        
+        $scope.loading_list = true;
         EncomiendasService.getSinEntregar(function(data) {
-            $scope.encomiendas_sin_entregar = data.encomiendas;
+            $scope.encomiendas_list = data.encomiendas;
+            $scope.loading_list = false;
         })
     }
     
@@ -243,10 +248,12 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     };
     
     $scope.cancelarAsignacion = function(id) {
-        EncomiendasService.cancelarAsignacion({id: id}, function(data) {
-            $scope.message = data.message;
-            $scope.listEncomiendas();
-        });
+        if (confirm('¿Està seguro de cancelar la asignaciòn?')) {
+            EncomiendasService.cancelarAsignacion({id: id}, function(data) {
+                $scope.message = data.message;
+                $scope.listEncomiendas();
+            });
+        }
     };
     
     $scope.registrarEntrega = function(id) {
@@ -283,4 +290,10 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     };
     
     $scope.listEncomiendas();
+    
+    $scope.$watch('newEncomienda.tipodoc', function(value) {
+        alert('getNewNroDoc');
+        alert('delete cliente');
+        alert('acomodar subtotal, igv, total');
+    });
 });
