@@ -99,4 +99,18 @@ class EncomiendasTable extends Table
         $rules->add($rules->existsIn(['cliente_id'], 'Clientes'));
         return $rules;
     }
+    
+    public function getNextNroDoc($tipodoc) {
+        $encomienda = $this->find()
+            ->where(['tipodoc' => $tipodoc])
+            ->limit(1)
+            ->orderDesc('nro_doc')
+            ->first();
+        if ($encomienda) {
+            $last_nro_doc = $encomienda->nro_doc + 1;
+        } else {
+            $last_nro_doc = 1;
+        }
+        return $last_nro_doc;
+    }
 }

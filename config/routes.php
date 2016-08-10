@@ -128,6 +128,10 @@ Router::scope('/', function ($routes) {
             'registrarEntrega' => [
                 'action' => 'registrarEntrega',
                 'method' => 'POST'
+            ],
+            'getNextNroDoc/:tipodoc' => [
+                'action' => 'getNextNroDoc',
+                'method' => 'GET'
             ]
         ]
     ]);

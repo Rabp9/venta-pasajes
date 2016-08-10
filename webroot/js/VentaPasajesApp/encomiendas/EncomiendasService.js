@@ -20,6 +20,10 @@ VentaPasajesApp.factory("EncomiendasService", function($resource) {
         registrarEntrega: {
             method: 'POST',
             url: VentaPasajesApp.path_location + "encomiendas/registrarEntrega/.json"
+        },
+        getNextNroDoc: {
+            method: 'GET',
+            url: VentaPasajesApp.path_location + "encomiendas/getNextNroDoc/:tipodoc.json"
         }
     });
 });

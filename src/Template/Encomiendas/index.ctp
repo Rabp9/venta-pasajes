@@ -102,7 +102,7 @@ $this->assign("title", "Encomiendas");
                                         <div class="form-group">
                                             <label><input type="radio" ng-model="newEncomienda.tipodoc" value="boleta" /> Boleta</label>
                                             <label><input type="radio" ng-model="newEncomienda.tipodoc" value="factura" /> Factura</label>
-                                            <input id="nro_doc" type="text" class="form-control" ng-model="newEncomienda.newEncomienda" required style="display: inline; width: 15%; float: right;" /><label for="nro_doc" style="float: right; vertical-align: middle;">Nro Doc:</label>
+                                            <input id="nro_doc" type="text" class="form-control" ng-model="newEncomienda.nro_doc" required style="display: inline; width: 15%; float: right;" /><label for="nro_doc" style="float: right; vertical-align: middle;">Nro Doc:</label>
                                         </div>
                                     </div>
                                     <div ng-show="newEncomienda.tipodoc === 'factura'">
@@ -156,7 +156,7 @@ $this->assign("title", "Encomiendas");
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="encomienda_tipo in newEncomienda.encomiendas_tipos">
+                                                <tr class="trProducto" ng-repeat="encomienda_tipo in newEncomienda.encomiendas_tipos">
                                                     <td>{{encomienda_tipo.producto.descripcion}}</td>
                                                     <td>{{encomienda_tipo.detalle}}</td>
                                                     <td>{{encomienda_tipo.valor}}</td>

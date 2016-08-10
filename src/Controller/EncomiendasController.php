@@ -222,4 +222,13 @@ class EncomiendasController extends AppController
         $this->set(compact('message'));
         $this->set('_serialize', ['message']);
     }
+    
+    public function getNextNroDoc($tipodoc = null) {
+        $tipodoc = $this->request->param('tipodoc');
+
+        $nro_doc = $this->Encomiendas->getNextNroDoc($tipodoc);
+    
+        $this->set(compact('nro_doc'));
+        $this->set('_serialize', ['nro_doc']);
+    }
 }

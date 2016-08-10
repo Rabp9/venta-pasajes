@@ -291,9 +291,28 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     
     $scope.listEncomiendas();
     
-    $scope.$watch('newEncomienda.tipodoc', function(value) {
-        alert('getNewNroDoc');
-        alert('delete cliente');
-        alert('acomodar subtotal, igv, total');
+    $scope.$watch('newEncomienda.tipodoc', function() {
+        var tipodoc = $scope.newEncomienda.tipodoc;
+        
+        // Get Next Nro Doc
+        EncomiendasService.getNextNroDoc({tipodoc: tipodoc}, function(data) {
+            $scope.newEncomienda.nro_doc = data.nro_doc;
+        });
+        
+        // Eliminar cliente si es boleta;
+        if (tipodoc == 'boleta') {
+            $scope.newEncomienda.ruc = '';
+            $scope.newEncomienda.cliente = [];
+        }
+        
+        // Volver a calcular subtotal, igv, total
+        if (tipodoc == 'factura') {
+            $scope.newEncomienda.valor_neto = $scope.newEncomienda.valor_total;
+            $scope.calcularTotal();
+        } else {
+            $scope.newEncomienda.valor_total = $scope.newEncomienda.valor_neto;
+            $scope.newEncomienda.igv = 0;
+            $scope.newEncomienda.valor_neto = 0;
+        }
     });
 });
