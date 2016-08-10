@@ -123,7 +123,7 @@ class EncomiendasController extends AppController
     }
     
     public function view($id) {
-        require_once(ROOT .DS. 'vendor' . DS . 'rabp9' . DS . 'PDF.php');
+        require_once(ROOT . DS . 'vendor' . DS . 'rabp9' . DS . 'PDF.php');
         $this->viewBuilder()->layout('pdf'); //this will use the pdf.ctp layout
         
         $contain = [
@@ -146,7 +146,7 @@ class EncomiendasController extends AppController
             'contain' => $contain
         ]);
         
-        $this->set("pdf", new PDF("P", "mm", "A4"));
+        $this->set("pdf", new PDF("L", "mm", "A5"));
         $this->set(compact('encomienda'));
         
         $this->response->type("application/pdf");
