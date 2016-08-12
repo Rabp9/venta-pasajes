@@ -11,4 +11,8 @@ class PagesController extends AppController
     public function home() {
         $this->viewBuilder()->layout("main");
     }
+    
+    public function importar() {
+        $this->viewBuilder()->layout(false);
+    }
 }

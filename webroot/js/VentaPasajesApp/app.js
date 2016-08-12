@@ -79,6 +79,10 @@ VentaPasajesApp.config(function($routeProvider) {
             controller: "ListClientesController",
             templateUrl: "clientes"
         })
+        .when("/importar", {
+            controller: "ImportarController",
+            templateUrl: "Pages/importar"
+        })
     ;
 });
 

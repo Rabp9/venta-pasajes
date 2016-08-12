@@ -18,7 +18,6 @@ $this->assign("title", "Encomiendas");
         <li role="presentation" class="active"><a data-target="#new" aria-controls="new" role="tab" data-toggle="tab">Nueva Encomienda</a></li>
         <li role="presentation"><a data-target="#listpendientes" aria-controls="listpendientes" role="tab" data-toggle="tab">Encomiendas sin asignar</a></li>
         <li role="presentation"><a data-target="#list" aria-controls="list" role="tab" data-toggle="tab">Lista de Encomiendas</a></li>
-        <li role="presentation"><a data-target="#importar" aria-controls="importar" role="tab" data-toggle="tab">Importar</a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
@@ -328,27 +327,6 @@ $this->assign("title", "Encomiendas");
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="importar">
-            <div class="row">
-                <div class="col-md-6">
-                    <form ng-submit="import()">
-                        <div class="form-group">
-                            <label for="flImportar">Importar datos desde</label>
-                            <input id="flImportar" type="file" class="form-control" />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Cargar datos</button>
-                    </form>
-                </div>
-                <div class="col-md-6 panel">
-                    <dl class="dl-horizontal">
-                        <dt>Número de Encomiendas nuevas / afectadas</dt>
-                        <dd>x</dd>
-                        <dt>Número de Clientes nuevos / afectados</dt>
-                        <dd>x</dd>
-                    </dl>
                 </div>
             </div>
         </div>
