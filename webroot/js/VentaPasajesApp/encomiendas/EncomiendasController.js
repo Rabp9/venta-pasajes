@@ -27,6 +27,10 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         $scope.destinatario = undefined;
         $scope.origen_selected = null;
         $scope.destino_selected = null;
+        
+        EncomiendasService.getNextNroDoc({tipodoc: $scope.newEncomienda.tipodoc}, function(data) {
+            $scope.newEncomienda.nro_doc = data.nro_doc;
+        });
     }
     
     $scope.construct();
@@ -35,10 +39,17 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         $("#mdlClientes").modal("toggle");
     };
       
-    $("#mdlClientes").on("hidden.bs.modal", function(e) {
+    $("#mdlEncomiendaTipoAdd").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
-            $("#btnAddCliente").removeClass("disabled");
-            $scope.modalUrl = ""; 
+            $("#btnAddDetalleProducto").removeClass("disabled");
+            $("#btnAddDetalleProducto").attr("disabled", false);
+        });
+    });
+          
+    $("#mdlAsignarEncomiendas").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $("#btnAsignar").removeClass("disabled");
+            $("#btnAsignar").attr("disabled", false);
         });
     });
     
@@ -79,22 +90,34 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     });
     
     $scope.buscarRemitente = function() {
+        $("#btnBuscarRemitente").addClass("disabled");
+        $("#btnBuscarRemitente").attr("disabled", true);
         PersonasService.findByDni({dni: $scope.remitente_dni}, function(data) {
             $scope.remitente = data.persona;
+            $("#btnBuscarRemitente").removeClass("disabled");
+            $("#btnBuscarRemitente").attr("disabled", false);
         });
     }
     
     $scope.buscarDestinatario = function() {
+        $("#btnBuscarDestinatario").addClass("disabled");
+        $("#btnBuscarDestinatario").attr("disabled", true);
         PersonasService.findByDni({dni: $scope.destinatario_dni}, function(data) {
             $scope.destinatario = data.persona;
+            $("#btnBuscarDestinatario").removeClass("disabled");
+            $("#btnBuscarDestinatario").attr("disabled", false);
         });
     }
     
     $scope.openFrmEncomiendaTipoAdd = function() {
+        $("#btnAddDetalleProducto").addClass("disabled");
+        $("#btnAddDetalleProducto").attr("disabled", true);
         $("#mdlEncomiendaTipoAdd").modal("toggle");
     }
     
     $scope.addTipoProducto = function() {
+        $("#btnRegistrar").addClass("disabled");
+        $("#btnRegistrar").attr("disabled", true);
         $scope.newTipoProducto.estado_id = 1;
         $scope.newTipoProducto.tipo_producto_id = $scope.newTipoProducto.producto.id;
         
@@ -108,6 +131,8 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         }
         $scope.newEncomienda.valor_total = $scope.getTotal();
         $scope.newTipoProducto.cantidad = 1;
+        $("#btnRegistrar").removeClass("disabled");
+        $("#btnRegistrar").attr("disabled", false);
     }
     
     $scope.getTotal = function() {
@@ -159,7 +184,8 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             return;
         }
       
-        $("#btnRegistrarEncomienda").attr("disabled");
+        $("#btnRegistrarEncomienda").addClass("disabled");
+        $("#btnRegistrarEncomienda").attr("disabled", true);
         $scope.newEncomienda.remitente = $scope.remitente.id;
         $scope.newEncomienda.destinatario = $scope.destinatario.id;
         $scope.newEncomienda.estado_id = 1;
@@ -181,16 +207,20 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
                 $scope.message = data.message;
                 if ($scope.message.type = 'success') {                    
                     $('#ulTabs li:eq(1) a').tab('show');
-                    $window.open('encomiendas/' + data.message.id, '_blank');
-                    $scope.listEncomiendas();
                     $scope.construct();
+                    $scope.listEncomiendas();
+                    $window.open('encomiendas/' + data.message.id, '_blank');
                 }
+                $("#btnRegistrarEncomienda").removeClass("disabled");
+                $("#btnRegistrarEncomienda").attr("disabled", false);
             });
         });
-        $("#btnRegistrarEncomienda").removeClass("disabled");
     };
     
     $scope.asignar = function() {
+        $("#btnAsignar").addClass("disabled");
+        $("#btnAsignar").attr("disabled", true);
+        
         if ($scope.encomiendas_selected.length != 0) {
             $("#mdlAsignarEncomiendas").modal("toggle");
             $scope.loading_programaciones = true;
@@ -200,6 +230,9 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             });
         } else {
             alert("Seleccione una o más encomiendas");
+            
+            $("#btnAsignar").removeClass("disabled");
+            $("#btnAsignar").attr("disabled", false);
         }
     }
     
@@ -211,6 +244,9 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             $scope.message = data.message;
             $("#mdlAsignarEncomiendas").modal("toggle");
             $scope.listEncomiendas();
+            
+            $("#btnAsignar").removeClass("disabled");
+            $("#btnAsignar").attr("disabled", false);
         });
     }
     
@@ -315,4 +351,33 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             $scope.newEncomienda.valor_neto = 0;
         }
     });
+    
+    $scope.filter_encomiendas = function (item) { 
+        var origen = item.desplazamiento.AgenciaOrigen.id == $scope.search_origen;
+        var destino = item.desplazamiento.AgenciaDestino.id == $scope.search_destino;
+        var dni = item.personaRemitente.dni.search($scope.search_dni) >= 0 || item.personaDestinatario.dni.search($scope.search_dni) >= 0;
+        
+        if ($scope.search_origen != null && $scope.search_destino != null && $scope.search_dni != null) {
+            return origen && destino && dni;
+        }
+        if ($scope.search_dni != null && $scope.search_origen != null) {
+            return dni && origen;
+        }
+        if ($scope.search_dni != null && $scope.search_origen != null) {
+            return dni && destino;
+        }
+        if ($scope.search_origen != null && $scope.search_destino != null) {
+            return origen && destino;
+        }
+        if ($scope.search_dni != null) {
+            return dni;
+        }
+        if ($scope.search_origen != null) {
+            return origen;
+        }
+        if ($scope.search_destino != null) {
+            return destino;
+        }
+        return true;
+    };
 });

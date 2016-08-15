@@ -37,7 +37,7 @@ $this->assign("title", "Encomiendas");
                                                     <input class="form-control" ng-model="remitente_dni" type="search" maxlength="8" required>
                                                 </div>
                                                 <div class="col-sm-2">
-                                                    <button class="btn btn-primary" type="button" ng-click="buscarRemitente()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
+                                                    <button id="btnBuscarRemitente" class="btn btn-primary" type="button" ng-click="buscarRemitente()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
                                                 </div>
                                             </div>
                                             <span ng-show="searching">Buscando</span>
@@ -53,7 +53,7 @@ $this->assign("title", "Encomiendas");
                                                     <input class="form-control" ng-model="destinatario_dni" type="search" maxlength="8">
                                                 </div>
                                                 <div class="col-sm-2">
-                                                    <button class="btn btn-primary" type="button" ng-click="buscarDestinatario()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
+                                                    <button id="btnBuscarDestinatario" class="btn btn-primary" type="button" ng-click="buscarDestinatario()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
                                                 </div>
                                             </div>
                                             <span ng-show="searching">Buscando</span>
@@ -142,7 +142,7 @@ $this->assign("title", "Encomiendas");
                             <div class="col-md-12">
                                 <fieldset>
                                     <legend>Productos</legend>
-                                    <button type="button" class="btn btn-primary" ng-click="openFrmEncomiendaTipoAdd()"><span class="glyphicon glyphicon-plus"></span></button>
+                                    <button id="btnAddDetalleProducto" type="button" class="btn btn-primary" ng-click="openFrmEncomiendaTipoAdd()"><span class="glyphicon glyphicon-plus"></span></button>
                                     <div class="table-responsive">
                                         <table class="table table-striped tblProductos">
                                             <thead>
@@ -182,8 +182,7 @@ $this->assign("title", "Encomiendas");
                                         </table>
                                     </div>
                                 </fieldset>
-                            </div> 
-                            
+                            </div>            
                         </div>
                     </div>
                 </div>
@@ -191,7 +190,18 @@ $this->assign("title", "Encomiendas");
             </form>
         </div>
         <div role="tabpanel" class="tab-pane" id="listpendientes">
-            <button type="button" class="btn btn-primary" ng-click="asignar()">Asignar</button>
+            <button id="btnAsignar" type="button" class="btn btn-primary" ng-click="asignar()">Asignar</button>
+            Filtros:
+            <select id="sltSearchOrigen" ng-model="search_origen" class="form-control" style="display: inline; width: 15%;" 
+                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias">
+                <option value="">Buscar por Origen</option>
+            </select>
+            <select id="sltSearchDestino" ng-model="search_destino" class="form-control" style="display: inline; width: 15%;"
+                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias">
+                <option value="">Buscar por Destino</option>
+            </select>
+            <input type="search" placeholder="Buscar por DNI" ng-model="search_dni" class="form-control" 
+                style="display: inline; width: 15%;">
             <div id="marco_include">
                 <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
                     <div id="busqueda">
@@ -234,7 +244,7 @@ $this->assign("title", "Encomiendas");
                                 <tr ng-show="encomiendas.length == 0 && !loading">
                                     <td colspan="8">No hay registros de Encomiendas</td>
                                 </tr>
-                                <tr ng-show="!loading" ng-repeat="encomienda in encomiendas | orderBy:'codigo'"
+                                <tr ng-show="!loading" ng-repeat="encomienda in encomiendas | orderBy:'codigo' | filter: filter_encomiendas"
                                     class="textnot2 animated" style="background-color: #fff;" 
                                     onmouseover="style.backgroundColor='#cccccc';" 
                                     onmouseout="style.backgroundColor='#fff'">
@@ -243,13 +253,13 @@ $this->assign("title", "Encomiendas");
                                     <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control" checklist-model="encomiendas_selected" checklist-value="encomienda.id"/></td>
                                     <td width="6%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="6%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
-                                    <td width="5%">{{ encomienda.personaRemitente.full_name }}</td>
-                                    <td width="5%">{{ encomienda.personaDestinatario.full_name }}</td>
+                                    <td width="5%">{{ encomienda.personaRemitente.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaRemitente.dni }}</span></td>
+                                    <td width="5%">{{ encomienda.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaDestinatario.dni }}</span></td>
                                     <td width="5%">{{ encomienda.fechahora | date : 'yyyy-MM-dd' }}</td>
                                     <td width="5%">{{ encomienda.valor_total | number: 2 }}</td>
                                     <td width='1%'>{{ encomienda.condicion }}</td>
                                     <td width="4%">
-                                        <a style="cursor: pointer;" ng-click="printBoleta(encomienda.id)" title="imprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a> |
+                                        <a style="cursor: pointer;" ng-click="printBoleta(encomienda.id)" title="imprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -259,6 +269,17 @@ $this->assign("title", "Encomiendas");
             </div>
         </div>
         <div role="tabpanel" class="tab-pane" id="list">
+            Filtros:
+            <select id="sltSearchOrigen" ng-model="search_origen" class="form-control" style="display: inline; width: 15%;" 
+                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias">
+                <option value="">Buscar por Origen</option>
+            </select>
+            <select id="sltSearchDestino" ng-model="search_destino" class="form-control" style="display: inline; width: 15%;"
+                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias">
+                <option value="">Buscar por Destino</option>
+            </select>
+            <input type="search" placeholder="Buscar por DNI" ng-model="search_dni" class="form-control" 
+                style="display: inline; width: 15%;">
             <div id="marco_include">
                 <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
                     <div id="busqueda">
@@ -304,7 +325,7 @@ $this->assign("title", "Encomiendas");
                                 <tr ng-show="encomiendas_list.length == 0 && !loading_list">
                                     <td colspan="7">No hay registros de Encomiendas</td>
                                 </tr>
-                                <tr ng-show="!loading_list" ng-repeat="encomienda in encomiendas_list | orderBy:'codigo'"
+                                <tr ng-show="!loading_list" ng-repeat="encomienda in encomiendas_list | orderBy:'codigo' | filter: filter_encomiendas"
                                     class="textnot2 animated" style="background-color: #fff;" 
                                     onmouseover="style.backgroundColor='#cccccc';" 
                                     onmouseout="style.backgroundColor='#fff'">
@@ -312,16 +333,16 @@ $this->assign("title", "Encomiendas");
                                     <td width="2%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
                                     <td width="6%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="6%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
-                                    <td width="5%">{{ encomienda.personaRemitente.full_name }}</td>
-                                    <td width="5%">{{ encomienda.personaDestinatario.full_name }}</td>
+                                    <td width="5%">{{ encomienda.personaRemitente.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaRemitente.dni }}</span></td>
+                                    <td width="5%">{{ encomienda.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaRemitente.dni }}</span></td>
                                     <td width="5%">{{ encomienda.fechahora | date: 'yyyy-MM-dd' }}</td>
                                     <td width="5%">{{ encomienda.valor_total | number: 2 }}</td>
                                     <td width='1%' ng-class="encomienda.condicion" >{{ encomienda.condicion }}</td>
                                     <td width='1%' ng-class="encomienda.estado.descripcion" >{{ encomienda.estado.descripcion }}</td>
                                     <td width="4%">
                                         <a style="cursor: pointer;" ng-click="printBoleta(encomienda.id)" title="imprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a>
-                                        <span ng-if='encomienda.estado_id == 3'> | <a style="cursor: pointer;" ng-click="cancelarAsignacion(encomienda.id)" title="eliminar asignaciòn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span>
                                         <span ng-if='encomienda.estado_id == 3'> | <a style="cursor: pointer;" ng-click="registrarEntrega(encomienda.id)" title="entregar"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></span>
+                                        <span ng-if='encomienda.estado_id == 3'> | <a style="cursor: pointer;" ng-click="cancelarAsignacion(encomienda.id)" title="eliminar asignaciòn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span>
                                     </td>
                                 </tr>
                             </tbody>
