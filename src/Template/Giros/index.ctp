@@ -1,8 +1,8 @@
-<!-- src/Template/Encomiendas/index.ctp -->
+<!-- src/Template/Giros/index.ctp -->
 <?php
 $this->extend('/Common/vista');
 $this->assign("module-name", "Ventas");
-$this->assign("title", "Encomiendas");
+$this->assign("title", "Giros");
 ?>
 <div ng-show="message.type == 'success'" class="alert alert-success alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -15,14 +15,14 @@ $this->assign("title", "Encomiendas");
 <div>
     <!-- Nav tabs -->
     <ul id="ulTabs" class="nav nav-tabs" role="tablist" >
-        <li role="presentation" class="active"><a data-target="#new" aria-controls="new" role="tab" data-toggle="tab">Nueva Encomienda</a></li>
-        <li role="presentation"><a data-target="#listpendientes" aria-controls="listpendientes" role="tab" data-toggle="tab">Encomiendas sin asignar</a></li>
-        <li role="presentation"><a data-target="#list" aria-controls="list" role="tab" data-toggle="tab">Lista de Encomiendas</a></li>
+        <li role="presentation" class="active"><a data-target="#new" aria-controls="new" role="tab" data-toggle="tab">Nuevo Giro</a></li>
+        <li role="presentation"><a data-target="#listpendientes" aria-controls="listpendientes" role="tab" data-toggle="tab">Giros sin asignar</a></li>
+        <li role="presentation"><a data-target="#list" aria-controls="list" role="tab" data-toggle="tab">Lista de Giros</a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="new">
-            <form ng-submit="saveEncomienda()">
+            <form ng-submit="saveGiro()">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row">
@@ -89,39 +89,16 @@ $this->assign("title", "Encomiendas");
                             <div class="col-sm-4">
                                 <fieldset>
                                     <legend>Datos Adicionales</legend>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-8">
                                         <div class="form-group">
                                             <label for="txtFecha">Fecha de Registro</label>
-                                            <input id="txtFecha" class="form-control" type="text" ng-model="newEncomienda.preFechahora"/>
+                                            <input id="txtFecha" class="form-control" type="text" ng-model="newGiro.preFecha"/>
                                         </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <legend>Tipo de Documento</legend>
-                                    <div class="col-sm-12">
+                                    </div>                                   
+                                    <div class="col-sm-4">
                                         <div class="form-group">
-                                            <label><input type="radio" ng-model="newEncomienda.tipodoc" value="boleta" /> Boleta</label>
-                                            <label><input type="radio" ng-model="newEncomienda.tipodoc" value="factura" /> Factura</label>
-                                            <input id="nro_doc" type="text" class="form-control" ng-model="newEncomienda.nro_doc" required style="display: inline; width: 15%; float: right;" /><label for="nro_doc" style="float: right; vertical-align: middle;">Nro Doc:</label>
-                                        </div>
-                                    </div>
-                                    <div ng-show="newEncomienda.tipodoc === 'factura'">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="txtRuc">RUC</label>
-                                                <input id="txtRuc" class="form-control" type="text" ng-model="newEncomienda.ruc" ng-keyup="searchCliente()" maxlength="11" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="txtRazonSocial">Razón Social</label>
-                                                <input id="txtRazonSocial" class="form-control" type="text" readonly ng-model="newEncomienda.cliente.razonsocial" />
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <button id="btnAddCliente" type="button" class="btn btn-primary" ng-click="addCliente()"><span class="glyphicon glyphicon-plus"></span> Nuevo Cliente</button>
-                                            </div>
+                                            <label for="txtFecha">Nro. Doc</label>
+                                            <input id="txtFecha" class="form-control" type="text" ng-model="newGiro.nro_doc"/>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -129,64 +106,35 @@ $this->assign("title", "Encomiendas");
                                     <legend>Condiciòn de Pago</legend>
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label><input type="radio" ng-model="newEncomienda.condicion" value="cancelado" /> Cancelado</label>
-                                            <label><input type="radio" ng-model="newEncomienda.condicion" value="debe" /> Debe</label>
+                                            <label><input type="radio" ng-model="newGiro.condicion" value="cancelado" /> Cancelado</label>
+                                            <label><input type="radio" ng-model="newGiro.condicion" value="debe" /> Debe</label>
                                         </div>
                                     </div>
                                 </fieldset>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <fieldset>
-                                    <legend>Productos</legend>
-                                    <button id="btnAddDetalleProducto" type="button" class="btn btn-primary" ng-click="openFrmEncomiendaTipoAdd()"><span class="glyphicon glyphicon-plus"></span></button>
-                                    <div class="table-responsive">
-                                        <table class="table table-striped tblProductos">
-                                            <thead>
-                                                <tr>
-                                                    <th>Producto</th>
-                                                    <th>Detalle</th>
-                                                    <th>Valor Unitario</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Sub Total</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="trProducto" ng-repeat="encomienda_tipo in newEncomienda.encomiendas_tipos">
-                                                    <td>{{encomienda_tipo.producto.descripcion}}</td>
-                                                    <td>{{encomienda_tipo.detalle}}</td>
-                                                    <td>{{encomienda_tipo.valor}}</td>
-                                                    <td>{{encomienda_tipo.cantidad}}</td>
-                                                    <td>{{encomienda_tipo.cantidad * encomienda_tipo.valor}}</td>
-                                                    <td><button type="button" class="btn btn-primary" ng-click="cancelarPrdoucto($index)"><span class="glyphicon glyphicon-remove"></span></button></td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr ng-show="newEncomienda.tipodoc === 'factura'">
-                                                    <td colspan="4" style='text-align: right;'>Valor Neto</td>
-                                                    <td><input class="form-control" disabled type="text" ng-model="newEncomienda.valor_neto" ng-change="calcularTotal()"/></td>
-                                                </tr>
-                                                <tr ng-show="newEncomienda.tipodoc === 'factura'">
-                                                    <td colspan="4" style='text-align: right;'>IGV</td>
-                                                    <td><input class="form-control" disabled type="text" ng-model="newEncomienda.igv"/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="4" style='text-align: right;'>Valor Total</td>
-                                                    <td><input class="form-control" readonly type="text" ng-model="newEncomienda.valor_total"/></td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                </fieldset>
-                            </div>            
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <fieldset>
+                            <legend>Detalles de envío</legend>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="sltOrigen">Valor a emviar</label>
+                                    <input type="number" min="0" step="0.05" class="form-control" ng-model="newGiro.detalle" required />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="sltDestino">Valor del giro</label>
+                                    <input type="number" min="0" step="0.05" class="form-control" ng-model="newGiro.valor_total" required />
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
                 </div>
-                <button id="btnRegistrarEncomienda" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Registrar</button>
+                <button id="btnRegistrarGiro" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span> Registrar</button>
             </form>
         </div>
         <div role="tabpanel" class="tab-pane" id="listpendientes">
@@ -233,7 +181,7 @@ $this->assign("title", "Encomiendas");
                                         Valor
                                     </th>
                                     <td width='2%' align='cemter'>
-                                        Condiciòn
+                                        Condición
                                     </td>
                                     <th width="4%" align="center">
                                         Acciones
@@ -244,26 +192,26 @@ $this->assign("title", "Encomiendas");
                                 <tr ng-show="loading">
                                     <td colspan="8">Cargando</td>
                                 </tr>
-                                <tr ng-show="encomiendas.length == 0 && !loading">
-                                    <td colspan="8">No hay registros de Encomiendas</td>
+                                <tr ng-show="giros.length == 0 && !loading">
+                                    <td colspan="8">No hay registros de Giros</td>
                                 </tr>
-                                <tr ng-show="!loading" ng-repeat="encomienda in encomiendas | orderBy:'codigo' | filter: filter_encomiendas"
+                                <tr ng-show="!loading" ng-repeat="giro in giros | orderBy:'codigo' | filter: filter_giros"
                                     class="textnot2 animated" style="background-color: #fff;" 
                                     onmouseover="style.backgroundColor='#cccccc';" 
                                     onmouseout="style.backgroundColor='#fff'">
 
-                                    <td width="1%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
-                                    <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control" checklist-model="encomiendas_selected" checklist-value="encomienda.id"/></td>
-                                    <td width="3%">{{ encomienda.documento }}</td>
-                                    <td width="5%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
-                                    <td width="5%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
-                                    <td width="5%">{{ encomienda.personaRemitente.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaRemitente.dni }}</span></td>
-                                    <td width="5%">{{ encomienda.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaDestinatario.dni }}</span></td>
-                                    <td width="5%">{{ encomienda.fechahora | date : 'yyyy-MM-dd' }}</td>
-                                    <td width="4%">{{ encomienda.valor_total | number: 2 }}</td>
-                                    <td width='1%'>{{ encomienda.condicion }}</td>
+                                    <td width="1%" bgcolor="#D6E4F2">{{ giro.id }}</td>
+                                    <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control" checklist-model="giros_selected" checklist-value="giro.id"/></td>
+                                    <td width="3%">{{ giro.documento }}</td>
+                                    <td width="5%">{{ giro.desplazamiento.AgenciaOrigen.direccion }} ({{ giro.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
+                                    <td width="5%">{{ giro.desplazamiento.AgenciaDestino.direccion }} ({{ giro.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
+                                    <td width="5%">{{ giro.personaRemitente.full_name }}<br/><span style="font-weight: bold;">{{ giro.personaRemitente.dni }}</span></td>
+                                    <td width="5%">{{ giro.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ giro.personaDestinatario.dni }}</span></td>
+                                    <td width="5%">{{ giro.fecha | date : 'yyyy-MM-dd' }}</td>
+                                    <td width="4%">{{ giro.valor_total | number: 2 }}</td>
+                                    <td width='1%'>{{ giro.condicion }}</td>
                                     <td width="4%">
-                                        <a style="cursor: pointer;" ng-click="printBoleta(encomienda.id)" title="imprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a>
+                                        <a style="cursor: pointer;" ng-click="printBoleta(giro.id)" title="imprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -329,28 +277,28 @@ $this->assign("title", "Encomiendas");
                                 <tr ng-show="loading_list">
                                     <td colspan="7">Cargando</td>
                                 </tr>
-                                <tr ng-show="encomiendas_list.length == 0 && !loading_list">
-                                    <td colspan="7">No hay registros de Encomiendas</td>
+                                <tr ng-show="giros_list.length == 0 && !loading_list">
+                                    <td colspan="7">No hay registros de Giros</td>
                                 </tr>
-                                <tr ng-show="!loading_list" ng-repeat="encomienda in encomiendas_list | orderBy:'codigo' | filter: filter_encomiendas"
+                                <tr ng-show="!loading_list" ng-repeat="giro in giros_list | orderBy:'codigo' | filter: filter_giros"
                                     class="textnot2 animated" style="background-color: #fff;" 
                                     onmouseover="style.backgroundColor='#cccccc';" 
                                     onmouseout="style.backgroundColor='#fff'">
 
-                                    <td width="2%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
-                                    <td width="3%">{{ encomienda.documento }}</td>
-                                    <td width="5%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
-                                    <td width="5%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
-                                    <td width="5%">{{ encomienda.personaRemitente.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaRemitente.dni }}</span></td>
-                                    <td width="5%">{{ encomienda.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaRemitente.dni }}</span></td>
-                                    <td width="5%">{{ encomienda.fechahora | date: 'yyyy-MM-dd' }}</td>
-                                    <td width="4%">{{ encomienda.valor_total | number: 2 }}</td>
-                                    <td width='1%' ng-class="encomienda.condicion" >{{ encomienda.condicion }}</td>
-                                    <td width='1%' ng-class="encomienda.estado.descripcion" >{{ encomienda.estado.descripcion }}</td>
+                                    <td width="2%" bgcolor="#D6E4F2">{{ giro.id }}</td>
+                                    <td width="3%">{{ giro.documento }}</td>
+                                    <td width="5%">{{ giro.desplazamiento.AgenciaOrigen.direccion }} ({{ giro.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
+                                    <td width="5%">{{ giro.desplazamiento.AgenciaDestino.direccion }} ({{ giro.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
+                                    <td width="5%">{{ giro.personaRemitente.full_name }}<br/><span style="font-weight: bold;">{{ giro.personaRemitente.dni }}</span></td>
+                                    <td width="5%">{{ giro.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ giro.personaRemitente.dni }}</span></td>
+                                    <td width="5%">{{ giro.fechahora | date: 'yyyy-MM-dd' }}</td>
+                                    <td width="4%">{{ giro.valor_total | number: 2 }}</td>
+                                    <td width='1%' ng-class="giro.condicion" >{{ giro.condicion }}</td>
+                                    <td width='1%' ng-class="giro.estado.descripcion" >{{ giro.estado.descripcion }}</td>
                                     <td width="4%">
-                                        <a style="cursor: pointer;" ng-click="printBoleta(encomienda.id)" title="imprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a>
-                                        <span ng-if='encomienda.estado_id == 3'> | <a style="cursor: pointer;" ng-click="registrarEntrega(encomienda.id)" title="entregar"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></span>
-                                        <span ng-if='encomienda.estado_id == 3'> | <a style="cursor: pointer;" ng-click="cancelarAsignacion(encomienda.id)" title="eliminar asignaciòn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span>
+                                        <a style="cursor: pointer;" ng-click="printBoleta(giro.id)" title="imprimir"><span class="glyphicon glyphicon-print" aria-hidden="true"></span></a>
+                                        <span ng-if='giro.estado_id == 3'> | <a style="cursor: pointer;" ng-click="registrarEntrega(giro.id)" title="entregar"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></span>
+                                        <span ng-if='giro.estado_id == 3'> | <a style="cursor: pointer;" ng-click="cancelarAsignacion(giro.id)" title="eliminar asignaciòn"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span>
                                     </td>
                                 </tr>
                             </tbody>

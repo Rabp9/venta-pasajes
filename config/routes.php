@@ -135,6 +135,38 @@ Router::scope('/', function ($routes) {
             ]
         ]
     ]);
+    $routes->resources('Giros', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'asignar' => [
+                'action' => 'asignar',
+                'method' => 'POST'
+            ],
+            'getPendientes' => [
+                "action" => "getPendientes",
+                "method" => "GET"
+            ],
+            'getSinEntregar' => [
+                "action" => "getSinEntregar",
+                "method" => "GET"
+            ],
+            'cancelarAsignacion' => [
+                'action' => 'cancelarAsignacion',
+                'method' => 'POST'
+            ],
+            'registrarEntrega' => [
+                'action' => 'registrarEntrega',
+                'method' => 'POST'
+            ],
+            'getNextNroDoc' => [
+                'action' => 'getNextNroDoc',
+                'method' => 'GET'
+            ]
+        ]
+    ]);
     $routes->resources('TipoProductos');
     $routes->resources('Pasajes', [
         'map' => [

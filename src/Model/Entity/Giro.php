@@ -7,22 +7,19 @@ use Cake\Utility\Text;
  * Encomienda Entity.
  *
  * @property \App\Model\Entity\Programacion $programacion
- * @property \App\Model\Entity\Cliente $cliente
  * @property \App\Model\Entity\Desplazamiento $desplazamiento
  * @property \App\Model\Entity\Persona $remitente
  * @property \App\Model\Entity\Persona $destinatario
- * @property \Cake\I18n\Time $fechahora
- * @property float $valor
+ * @property \Cake\I18n\Time $fecha
+ * @property float $valor_total
  * @property string $observaciones
  * @property \Cake\I18n\Time $fecha_envio
  * @property \Cake\I18n\Time $fecha_recepcion
- * @property string $tipodoc
- * @property string $ruc
- * @property string $razonsocial
+ * @property string $nro_doc
+ * @property string $condicion
  * @property \App\Model\Entity\Estado $estado
- * @property \App\Model\Entity\EncomiendasTipo[] $encomiendas_tipos
  */
-class Encomienda extends Entity
+class Giro extends Entity
 {
 
     /**
@@ -39,18 +36,10 @@ class Encomienda extends Entity
         'id' => false
     ];
     
-    protected $_virtual = ['descripcion', 'documento'];
-    
-    protected function _getDescripcion() {
-        $descripcion = [];
-        foreach ($this->_properties["encomiendas_tipos"] as $encomienda_tipo) {
-            $descripcion[] = $encomienda_tipo->cantidad . 'x ' . $encomienda_tipo->tipo_producto->descripcion . ' (' . $encomienda_tipo->detalle . ')';
-        }
-        return substr(Text::toList($descripcion, 'y'), 0, 55);
-    }
+    protected $_virtual = ['documento'];
     
     protected function _getDocumento() {
-        return ucfirst($this->_properties['tipodoc']) . ' 001-' . str_pad($this->_properties['nro_doc'],  6, '0', STR_PAD_LEFT);
+        return 'Boleta ' . ' 001-' . str_pad($this->_properties['nro_doc'],  6, '0', STR_PAD_LEFT);
     }
 }
 

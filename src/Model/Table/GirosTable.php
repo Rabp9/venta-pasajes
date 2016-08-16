@@ -1,7 +1,7 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Encomienda;
+use App\Model\Entity\Giro;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -9,15 +9,13 @@ use Cake\Validation\Validator;
 use Cake\ORM\TableRegistry;
 
 /**
- * Encomiendas Model
+ * Giros Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Programaciones
- * @property \Cake\ORM\Association\BelongsTo $Clientes
  * @property \Cake\ORM\Association\BelongsTo $Desplazamientos
  * @property \Cake\ORM\Association\BelongsTo $Estados
- * @property \Cake\ORM\Association\HasMany $EncomiendasTipos
  */
-class EncomiendasTable extends Table
+class GirosTable extends Table
 {
 
     /**
@@ -29,8 +27,8 @@ class EncomiendasTable extends Table
     public function initialize(array $config) {
         parent::initialize($config);
 
-        $this->table('encomiendas');
-        $this->displayField('valor');
+        $this->table('giros');
+        $this->displayField('valor_total');
         $this->primaryKey('id');
         
         $this->belongsTo('Desplazamientos', [
@@ -40,11 +38,6 @@ class EncomiendasTable extends Table
         
         $this->belongsTo('Programaciones', [
             'foreignKey' => 'programacion_id',
-            'joinType' => 'INNER'
-        ]);
-        
-        $this->belongsTo('Clientes', [
-            'foreignKey' => 'cliente_id',
             'joinType' => 'INNER'
         ]);
         
@@ -65,10 +58,6 @@ class EncomiendasTable extends Table
             'foreignKey' => 'destinatario',
             'joinType' => 'INNER',
             'propertyName' => 'personaDestinatario'
-        ]);
-        
-        $this->hasMany('EncomiendasTipos', [
-            'foreignKey' => 'encomienda_id'
         ]);
     }
 
@@ -97,37 +86,28 @@ class EncomiendasTable extends Table
     public function buildRules(RulesChecker $rules) {
         $rules->add($rules->existsIn(['desplazamiento_id'], 'Desplazamientos'));
         $rules->add($rules->existsIn(['estado_id'], 'Estados'));
-        $rules->add($rules->existsIn(['cliente_id'], 'Clientes'));
         return $rules;
     }
     
-    public function getNextNroDoc($tipodoc) {
-        $giros = TableRegistry::get('Giros');
-        $giro = $giros->find()
+    public function getNextNroDoc() {
+        $encomiendas = TableRegistry::get('Encomiendas');
+        $encomienda = $encomiendas->find()
+            ->where(['tipodoc' => 'boleta'])
             ->limit(1)
             ->orderDesc('nro_doc')
             ->first();
-        $encomienda = $this->find()
-            ->where(['tipodoc' => $tipodoc])
+        $giro = $this->find()
             ->limit(1)
             ->orderDesc('nro_doc')
             ->first();
-        if ($tipodoc == 'boleta') {
-            if ($encomienda && $giro) {
-                $last_nro_doc = max(array($encomienda->nro_doc, $giro->nro_doc)) + 1;
-            } elseif($encomienda) {
-                $last_nro_doc = $encomienda->nro_doc + 1;
-            } elseif($giro) {
-                $last_nro_doc = $giro->nro_doc + 1;
-            } else {
-                $last_nro_doc = 1;
-            }
+        if ($encomienda && $giro) {
+            $last_nro_doc = max(array($encomienda->nro_doc, $giro->nro_doc)) + 1;
+        } elseif($encomienda) {
+            $last_nro_doc = $encomienda->nro_doc + 1;
+        } elseif($giro) {
+            $last_nro_doc = $giro->nro_doc + 1;
         } else {
-            if ($encomienda) {
-                $last_nro_doc = $encomienda->nro_doc + 1;
-            } else {
-                $last_nro_doc = 1;
-            }
+            $last_nro_doc = 1;
         }
         return $last_nro_doc;
     }

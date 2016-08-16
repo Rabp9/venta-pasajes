@@ -26,6 +26,7 @@
         "VentaPasajesApp/programaciones/ProgramacionesService.js",
         "VentaPasajesApp/pasajes/PasajesService.js",
         "VentaPasajesApp/encomiendas/EncomiendasService.js",
+        "VentaPasajesApp/giros/GirosService.js",
         "VentaPasajesApp/tipoProductos/TipoProductosService.js",
         "VentaPasajesApp/clientes/ClientesService.js"
     ])
@@ -75,7 +76,8 @@
         "VentaPasajesApp/tipoProductos/ViewTipoProductosController.js",
         
         "VentaPasajesApp/encomiendas/EncomiendasController.js",
-        "VentaPasajesApp/encomiendas/EncomiendasViewController.js",
+        
+        "VentaPasajesApp/giros/GirosController.js",
         
         "VentaPasajesApp/clientes/ListClientesController.js",
         "VentaPasajesApp/clientes/AddClientesController.js",

@@ -67,6 +67,10 @@ VentaPasajesApp.config(function($routeProvider) {
             controller: "EncomiendasController",
             templateUrl: "encomiendas"
         })
+        .when("/giros", {
+            controller: "GirosController",
+            templateUrl: "giros"
+        })
         .when("/encomiendas/:id", {
             controller: "EncomiendasViewController",
             templateUrl: "Encomiendas/view"

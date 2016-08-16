@@ -52,6 +52,13 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             $("#btnAsignar").attr("disabled", false);
         });
     });
+          
+    $("#mdlClientes").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $("#btnAddCliente").removeClass("disabled");
+            $("#btnAddCliente").attr("disabled", false);
+        });
+    });
     
     $scope.actualizarMessage = function(message) {
         $scope.message = message;
@@ -209,6 +216,8 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
                     $('#ulTabs li:eq(1) a').tab('show');
                     $scope.construct();
                     $scope.listEncomiendas();
+                    $scope.loading = false;
+                    $scope.loading_list = false;
                     $window.open('encomiendas/' + data.message.id, '_blank');
                 }
                 $("#btnRegistrarEncomienda").removeClass("disabled");
@@ -307,21 +316,23 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             $scope.newEncomienda.igv = $scope.getIgv();
         }
         $scope.newEncomienda.valor_total = $scope.getTotal();
-    }
+    };
     
     $scope.calcularTotal = function() {
         $scope.newEncomienda.igv = $scope.getIgv();
         $scope.newEncomienda.valor_total = $scope.getTotal();
-    }
+    };
     
     $scope.searchCliente = function() {
         ClientesService.findByRuc({ruc: $scope.newEncomienda.ruc}, function(data) {
             $scope.newEncomienda.cliente = data.cliente;
         });
-    }
+    };
     
     $scope.addCliente = function() {
+        alert("dsadsa");
         $("#btnAddCliente").addClass("disabled");
+        $("#btnAddCliente").attr("disabled", true);
         $scope.modalUrl = VentaPasajesApp.path_location + "clientes/add";
     };
     
