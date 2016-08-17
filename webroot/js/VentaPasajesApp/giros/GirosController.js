@@ -2,7 +2,6 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, $filter, 
     GirosService, TipoProductosService, PersonasService, DesplazamientosService, ProgramacionesService,
-    ClientesService,
     $window
 ) {
     $scope.searching = false;
@@ -22,6 +21,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
         $scope.destinatario = undefined;
         $scope.origen_selected = null;
         $scope.destino_selected = null;
+        $scope.tipo_asignacion = 'telefonica';
         
         GirosService.getNextNroDoc(function(data) {
             $scope.newGiro.nro_doc = data.nro_doc;
@@ -136,15 +136,15 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
         $("#btnAsignar").addClass("disabled");
         $("#btnAsignar").attr("disabled", true);
         
-        if ($scope.encomiendas_selected.length != 0) {
-            $("#mdlAsignarEncomiendas").modal("toggle");
+        if ($scope.giros_selected.length != 0) {
+            $("#mdlAsignarGiros").modal("toggle");
             $scope.loading_programaciones = true;
             ProgramacionesService.get(function(data) {
                 $scope.programaciones_filtradas = data.programaciones;
                 $scope.loading_programaciones = false;
             });
         } else {
-            alert("Seleccione una o más encomiendas");
+            alert("Seleccione uno o más giros");
             
             $("#btnAsignar").removeClass("disabled");
             $("#btnAsignar").attr("disabled", false);
@@ -152,17 +152,31 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
     }
     
     $scope.registrarAsignacion = function(programacion_id) {
-        GirosService.asignar({
-            encomiendas: $scope.encomiendas_selected,
-            programacion_id: programacion_id
-        }, function(data) {
-            $scope.message = data.message;
-            $("#mdlAsignarEncomiendas").modal("toggle");
-            $scope.listGiros();
-            
-            $("#btnAsignar").removeClass("disabled");
-            $("#btnAsignar").attr("disabled", false);
-        });
+        if ($scope.tipo_asignacion == 'telefonica') {
+            GirosService.llamar({
+               giros: $scope.giros_selected,
+               entrega: $scope.entrega
+            }, function(data) {
+                $scope.message = data.message;
+                $("#mdlAsignarGiros").modal("toggle");
+                $scope.listGiros();
+
+                $("#btnAsignar").removeClass("disabled");
+                $("#btnAsignar").attr("disabled", false);
+            });
+        } else if ($scope.tipo_asignacion == 'programacion') {
+            GirosService.asignar({
+                giros: $scope.giros_selected,
+                programacion_id: programacion_id
+            }, function(data) {
+                $scope.message = data.message;
+                $("#mdlAsignarGiros").modal("toggle");
+                $scope.listGiros();
+
+                $("#btnAsignar").removeClass("disabled");
+                $("#btnAsignar").attr("disabled", false);
+            });
+        }
     }
     
     $scope.onSearchChange = function() {
@@ -199,7 +213,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
     };
     
     $scope.cancelarAsignacion = function(id) {
-        if (confirm('¿Està seguro de cancelar la asignaciòn?')) {
+        if (confirm('¿Está seguro de cancelar la asignación?')) {
             GirosService.cancelarAsignacion({id: id}, function(data) {
                 $scope.message = data.message;
                 $scope.listGiros();
@@ -208,11 +222,12 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
     };
     
     $scope.registrarEntrega = function(id) {
-        if (confirm('¿Està seguro de registrar la entrega de este giro?'))
-        GirosService.registrarEntrega({id: id}, function(data) {
-            $scope.message = data.message;
-            $scope.listGiros();
-        });
+        if (confirm('¿Está seguro de registrar la entrega de este giro?')) {
+            GirosService.registrarEntrega({id: id}, function(data) {
+                $scope.message = data.message;
+                $scope.listGiros();
+            });
+        }
     };
     
     $scope.listGiros();

@@ -120,7 +120,7 @@ $this->assign("title", "Encomiendas");
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <button id="btnAddCliente" type="button" class="btn btn-primary" ng-click="addCliente()"><span class="glyphicon glyphicon-plus"></span> Nuevo Cliente</button>
+                                                <button id="btnAddCliente" type="button" class="btn btn-primary" ng-click="addPreCliente()"><span class="glyphicon glyphicon-plus"></span> Nuevo Cliente</button>
                                             </div>
                                         </div>
                                     </div>

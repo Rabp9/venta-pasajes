@@ -31,7 +31,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         EncomiendasService.getNextNroDoc({tipodoc: $scope.newEncomienda.tipodoc}, function(data) {
             $scope.newEncomienda.nro_doc = data.nro_doc;
         });
-    }
+    };
     
     $scope.construct();
     
@@ -57,6 +57,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         $scope.$apply(function() {
             $("#btnAddCliente").removeClass("disabled");
             $("#btnAddCliente").attr("disabled", false);
+            $scope.modalUrl = "";
         });
     });
     
@@ -293,7 +294,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     };
     
     $scope.cancelarAsignacion = function(id) {
-        if (confirm('¿Està seguro de cancelar la asignaciòn?')) {
+        if (confirm('¿Está seguro de cancelar la asignación?')) {
             EncomiendasService.cancelarAsignacion({id: id}, function(data) {
                 $scope.message = data.message;
                 $scope.listEncomiendas();
@@ -302,11 +303,12 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     };
     
     $scope.registrarEntrega = function(id) {
-        if (confirm('¿Està seguro de registrar la entrega de esta encomienda?'))
-        EncomiendasService.registrarEntrega({id: id}, function(data) {
-            $scope.message = data.message;
-            $scope.listEncomiendas();
-        });
+        if (confirm('¿Está seguro de registrar la entrega de esta encomienda?')) {
+            EncomiendasService.registrarEntrega({id: id}, function(data) {
+                $scope.message = data.message;
+                $scope.listEncomiendas();
+            });
+        }
     };
     
     $scope.cancelarPrdoucto = function(index) {
@@ -329,8 +331,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         });
     };
     
-    $scope.addCliente = function() {
-        alert("dsadsa");
+    $scope.addPreCliente = function() {
         $("#btnAddCliente").addClass("disabled");
         $("#btnAddCliente").attr("disabled", true);
         $scope.modalUrl = VentaPasajesApp.path_location + "clientes/add";

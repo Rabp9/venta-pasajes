@@ -5,6 +5,10 @@ VentaPasajesApp.factory("GirosService", function($resource) {
             method: 'POST',
             url: VentaPasajesApp.path_location + "giros/asignar/.json",
         },
+        llamar: {
+            method: 'POST',
+            url: VentaPasajesApp.path_location + "giros/llamar/.json",
+        },
         getPendientes: {
             method: "GET",
             url: VentaPasajesApp.path_location + "giros/getPendientes/.json"

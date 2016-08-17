@@ -4,12 +4,15 @@ VentaPasajesApp.controller("AddClientesController", function($scope, ClientesSer
     $scope.newCliente = new ClientesService();
         
     $scope.addCliente = function() {
-        $("#btnRegistrar").addClass("disabled");
+        $("#btnRegistrarCliente").addClass("disabled");
+        $("#btnRegistrarCliente").attr("disabled", true);
         ClientesService.save($scope.newCliente, function(data) {
             $("#mdlClientes").modal('toggle');
             $scope.newCliente = new ClientesService();
             $scope.$parent.actualizarMessage(data.message);
             $scope.$parent.list();
+            $("#btnRegistrarCliente").removeClass("disabled");
+            $("#btnRegistrarCliente").attr("disabled", false);
         });
     };
 });

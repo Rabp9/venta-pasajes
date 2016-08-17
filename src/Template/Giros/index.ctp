@@ -263,7 +263,7 @@ $this->assign("title", "Giros");
                                         Valor
                                     </th>
                                     <th width="1%" align="center">
-                                        Condiciòn
+                                        Condición
                                     </th>
                                     <th width="1%" align="center">
                                         Estado
@@ -290,8 +290,8 @@ $this->assign("title", "Giros");
                                     <td width="5%">{{ giro.desplazamiento.AgenciaOrigen.direccion }} ({{ giro.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ giro.desplazamiento.AgenciaDestino.direccion }} ({{ giro.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ giro.personaRemitente.full_name }}<br/><span style="font-weight: bold;">{{ giro.personaRemitente.dni }}</span></td>
-                                    <td width="5%">{{ giro.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ giro.personaRemitente.dni }}</span></td>
-                                    <td width="5%">{{ giro.fechahora | date: 'yyyy-MM-dd' }}</td>
+                                    <td width="5%">{{ giro.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ giro.personaDestinatario.dni }}</span></td>
+                                    <td width="5%">{{ giro.fecha | date : 'yyyy-MM-dd' }}</td>
                                     <td width="4%">{{ giro.valor_total | number: 2 }}</td>
                                     <td width='1%' ng-class="giro.condicion" >{{ giro.condicion }}</td>
                                     <td width='1%' ng-class="giro.estado.descripcion" >{{ giro.estado.descripcion }}</td>
@@ -359,7 +359,7 @@ $this->assign("title", "Giros");
 </div>
 
 <!-- Modal mdlEncomiendaTipoAdd -->
-<div class="modal fade" id="mdlAsignarEncomiendas" tabindex="-1" role="dialog" aria-labelledby="Asignar Encomiendas">
+<div class="modal fade" id="mdlAsignarGiros" tabindex="-1" role="dialog" aria-labelledby="Asignar Giro">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -368,7 +368,24 @@ $this->assign("title", "Giros");
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-10 col-sm-offset-1">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label><input type="radio" ng-model="tipo_asignacion" value="telefonica" /> Vìa Telefònica</label>
+                            <label><input type="radio" ng-model="tipo_asignacion" value="programacion" /> Envìo en Bus</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div ng-show="tipo_asignacion == 'telefonica'" class="col-sm-10 col-sm-offset-1 dv-telefonica">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label for="txtEntrega">Responsable </label>
+                                <input id="txtEntrega" class="form-control" type="text" ng-model="entrega" />
+                                <button class="btn btn-primary" ng-click="registrarAsignacion(null)"><span class="glyphicon glyphicon-ok"></span> Asignar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="tipo_asignacion == 'programacion'" class="col-sm-10 col-sm-offset-1 dv-programacion">
                         <div class="row">
                             <div class="col-sm-6">
                                 <select id="sltOrigen" class="form-control"

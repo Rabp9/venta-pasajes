@@ -145,6 +145,10 @@ Router::scope('/', function ($routes) {
                 'action' => 'asignar',
                 'method' => 'POST'
             ],
+            'llamar' => [
+                'action' => 'llamar',
+                'method' => 'POST'
+            ],
             'getPendientes' => [
                 "action" => "getPendientes",
                 "method" => "GET"
