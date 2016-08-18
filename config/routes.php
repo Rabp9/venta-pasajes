@@ -125,8 +125,16 @@ Router::scope('/', function ($routes) {
                 'action' => 'cancelarAsignacion',
                 'method' => 'POST'
             ],
+            'cancelarAsignacionMany' => [
+                'action' => 'cancelarAsignacionMany',
+                'method' => 'POST'
+            ],
             'registrarEntrega' => [
                 'action' => 'registrarEntrega',
+                'method' => 'POST'
+            ],
+            'registrarEntregaMany' => [
+                'action' => 'registrarEntregaMany',
                 'method' => 'POST'
             ],
             'getNextNroDoc/:tipodoc' => [
@@ -161,8 +169,16 @@ Router::scope('/', function ($routes) {
                 'action' => 'cancelarAsignacion',
                 'method' => 'POST'
             ],
+            'cancelarAsignacionMany' => [
+                'action' => 'cancelarAsignacionMany',
+                'method' => 'POST'
+            ],
             'registrarEntrega' => [
                 'action' => 'registrarEntrega',
+                'method' => 'POST'
+            ],
+            'registrarEntregaMany' => [
+                'action' => 'registrarEntregaMany',
                 'method' => 'POST'
             ],
             'getNextNroDoc' => [

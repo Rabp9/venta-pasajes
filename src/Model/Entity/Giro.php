@@ -36,10 +36,20 @@ class Giro extends Entity
         'id' => false
     ];
     
-    protected $_virtual = ['documento'];
+    protected $_virtual = ['documento', 'asignado'];
     
     protected function _getDocumento() {
         return 'Boleta ' . ' 001-' . str_pad($this->_properties['nro_doc'],  6, '0', STR_PAD_LEFT);
+    }
+    
+    protected function _getAsignado() {
+        if ($this->_properties['programacion_id']) {
+            return "Bus: " . $this->_properties['programacion']->bus->placa;
+        }
+        if ($this->_properties['entrega']) {
+            return $this->_properties['entrega'];
+        }
+        return '';
     }
 }
 

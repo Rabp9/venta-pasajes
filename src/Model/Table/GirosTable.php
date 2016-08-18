@@ -38,7 +38,8 @@ class GirosTable extends Table
         
         $this->belongsTo('Programaciones', [
             'foreignKey' => 'programacion_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT',
+            'propertyName' => 'programacion'
         ]);
         
         $this->belongsTo('Estados', [

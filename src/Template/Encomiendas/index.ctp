@@ -190,7 +190,6 @@ $this->assign("title", "Encomiendas");
             </form>
         </div>
         <div role="tabpanel" class="tab-pane" id="listpendientes">
-            <button id="btnAsignar" type="button" class="btn btn-primary" ng-click="asignar()">Asignar</button>
             Filtros:
             <select id="sltSearchOrigen" ng-model="search_origen" class="form-control" style="display: inline; width: 15%;" 
                 ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias">
@@ -202,6 +201,7 @@ $this->assign("title", "Encomiendas");
             </select>
             <input type="search" placeholder="Buscar por DNI" ng-model="search_dni" class="form-control" 
                 style="display: inline; width: 15%;">
+            <button id="btnAsignar" type="button" class="btn btn-primary pull-right" ng-click="asignar()"><span class="glyphicon glyphicon-paperclip"></span> Asignar</button>
             <div id="marco_include">
                 <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
                     <div id="busqueda">
@@ -284,13 +284,18 @@ $this->assign("title", "Encomiendas");
             </select>
             <input type="search" placeholder="Buscar por DNI" ng-model="search_dni" class="form-control" 
                 style="display: inline; width: 15%;">
+            <input type="search" placeholder="Buscar por Placa" ng-model="search_placa" class="form-control" 
+                style="display: inline; width: 15%;">
+            <button id="btnCancelar" type="button" class="btn btn-primary pull-right" ng-click="cancelarMany()"><span class="glyphicon glyphicon glyphicon-remove"></span> Cancelar</button>
+            <button id="btnRegistrarEntrega" type="button" class="btn btn-primary pull-right" ng-click="registrarEntregaMany()"><span class="glyphicon glyphicon glyphicon-edit"></span> Entregar</button>
+            <button id="btnReasignar" type="button" class="btn btn-primary pull-right" ng-click="reasignar()"><span class="glyphicon glyphicon glyphicon-refresh"></span> Reasignar</button>
             <div id="marco_include">
                 <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
                     <div id="busqueda">
                         <table class="table" border="0" cellpadding="1" cellspacing="1" id="marco_panel">
                             <thead>
                                 <tr class="e34X" id="panel_status">
-                                    <th width="2%" align="center">
+                                    <th width="2%" align="center" colspan="2">
                                         Código
                                     </th>                                   
                                     <th width="3%" align="center">
@@ -311,8 +316,11 @@ $this->assign("title", "Encomiendas");
                                     <th width="5%" align="center">
                                         Fecha de Registro
                                     </th>
-                                    <th width="4%" align="center">
+                                    <th width="2%" align="center">
                                         Valor
+                                    </th>
+                                    <th width="3%" align="center">
+                                        Placa Bus
                                     </th>
                                     <th width="1%" align="center">
                                         Condiciòn
@@ -336,15 +344,17 @@ $this->assign("title", "Encomiendas");
                                     class="textnot2 animated" style="background-color: #fff;" 
                                     onmouseover="style.backgroundColor='#cccccc';" 
                                     onmouseout="style.backgroundColor='#fff'">
-
-                                    <td width="2%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
+                                    
+                                    <td width="1%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
+                                    <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control" checklist-model="encomiendas_asignados_selected" checklist-value="encomienda.id"/></td>
                                     <td width="3%">{{ encomienda.documento }}</td>
                                     <td width="5%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ encomienda.personaRemitente.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaRemitente.dni }}</span></td>
-                                    <td width="5%">{{ encomienda.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaRemitente.dni }}</span></td>
+                                    <td width="5%">{{ encomienda.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaDestinatario.dni }}</span></td>
                                     <td width="5%">{{ encomienda.fechahora | date: 'yyyy-MM-dd' }}</td>
-                                    <td width="4%">{{ encomienda.valor_total | number: 2 }}</td>
+                                    <td width="2%">{{ encomienda.valor_total | number: 2 }}</td>
+                                    <td width="3%">{{ encomienda.programacion.bus.placa }}</td>
                                     <td width='1%' ng-class="encomienda.condicion" >{{ encomienda.condicion }}</td>
                                     <td width='1%' ng-class="encomienda.estado.descripcion" >{{ encomienda.estado.descripcion }}</td>
                                     <td width="4%">
@@ -460,7 +470,7 @@ $this->assign("title", "Encomiendas");
                                         <td>{{ programacion.bus.placa }}</td>
                                         <td>{{ programacion.ruta.descripcion }}</td>
                                         <td>{{ programacion.fechahora_prog | date: 'yyyy-MM-dd' }}</td>
-                                        <td><button class="btn btn-primary" ng-click="registrarAsignacion(programacion.id)"><span class="glyphicon glyphicon-ok"></span></button></td>
+                                        <td><button class="btn btn-primary btn-asignar" ng-click="registrarAsignacion(programacion.id)"><span class="glyphicon glyphicon-ok"></span></button></td>
                                     </tr>
                                 </tbody>
                             </table>

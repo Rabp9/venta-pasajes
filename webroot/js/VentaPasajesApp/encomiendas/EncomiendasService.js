@@ -24,6 +24,14 @@ VentaPasajesApp.factory("EncomiendasService", function($resource) {
         getNextNroDoc: {
             method: 'GET',
             url: VentaPasajesApp.path_location + "encomiendas/getNextNroDoc/:tipodoc.json"
+        },
+        cancelarAsignacionMany: {
+            method: "POST",
+            url: VentaPasajesApp.path_location + "encomiendas/cancelarAsignacionMany/.json"
+        },
+        registrarEntregaMany: {
+            method: 'POST',
+            url: VentaPasajesApp.path_location + "encomiendas/registrarEntregaMany/.json"
         }
     });
 });

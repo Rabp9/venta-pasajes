@@ -127,7 +127,7 @@ $this->assign("title", "Giros");
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="sltDestino">Valor del giro</label>
+                                    <label for="sltDestino">Valor comisión</label>
                                     <input type="number" min="0" step="0.05" class="form-control" ng-model="newGiro.valor_total" required />
                                 </div>
                             </div>
@@ -138,7 +138,6 @@ $this->assign("title", "Giros");
             </form>
         </div>
         <div role="tabpanel" class="tab-pane" id="listpendientes">
-            <button id="btnAsignar" type="button" class="btn btn-primary" ng-click="asignar()">Asignar</button>
             Filtros:
             <select id="sltSearchOrigen" ng-model="search_origen" class="form-control" style="display: inline; width: 15%;" 
                 ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias">
@@ -150,6 +149,7 @@ $this->assign("title", "Giros");
             </select>
             <input type="search" placeholder="Buscar por DNI" ng-model="search_dni" class="form-control" 
                 style="display: inline; width: 15%;">
+            <button id="btnAsignar" type="button" class="btn btn-primary pull-right" ng-click="asignar()"><span class="glyphicon glyphicon-paperclip"></span> Asignar</button>
             <div id="marco_include">
                 <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
                     <div id="busqueda">
@@ -232,13 +232,18 @@ $this->assign("title", "Giros");
             </select>
             <input type="search" placeholder="Buscar por DNI" ng-model="search_dni" class="form-control" 
                 style="display: inline; width: 15%;">
+            <input type="search" placeholder="Buscar por Asignaciòn" ng-model="search_asignado" class="form-control" 
+                style="display: inline; width: 15%;">
+            <button id="btnCancelar" type="button" class="btn btn-primary pull-right" ng-click="cancelarMany()"><span class="glyphicon glyphicon glyphicon-remove"></span> Cancelar</button>
+            <button id="btnRegistrarEntrega" type="button" class="btn btn-primary pull-right" ng-click="registrarEntregaMany()"><span class="glyphicon glyphicon glyphicon-edit"></span> Entregar</button>
+            <button id="btnReasignar" type="button" class="btn btn-primary pull-right" ng-click="reasignar()"><span class="glyphicon glyphicon glyphicon-refresh"></span> Reasignar</button>
             <div id="marco_include">
                 <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
                     <div id="busqueda">
                         <table class="table" border="0" cellpadding="1" cellspacing="1" id="marco_panel">
                             <thead>
                                 <tr class="e34X" id="panel_status">
-                                    <th width="2%" align="center">
+                                    <th width="2%" align="center" colspan="2">
                                         Código
                                     </th>                                   
                                     <th width="3%" align="center">
@@ -259,8 +264,11 @@ $this->assign("title", "Giros");
                                     <th width="5%" align="center">
                                         Fecha de Registro
                                     </th>
-                                    <th width="4%" align="center">
+                                    <th width="2%" align="center">
                                         Valor
+                                    </th>
+                                    <th width="2%" align="center">
+                                        Asignado
                                     </th>
                                     <th width="1%" align="center">
                                         Condición
@@ -285,14 +293,16 @@ $this->assign("title", "Giros");
                                     onmouseover="style.backgroundColor='#cccccc';" 
                                     onmouseout="style.backgroundColor='#fff'">
 
-                                    <td width="2%" bgcolor="#D6E4F2">{{ giro.id }}</td>
+                                    <td width="1%" bgcolor="#D6E4F2">{{ giro.id }}</td>
+                                    <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control" checklist-model="giros_asignados_selected" checklist-value="giro.id"/></td>
                                     <td width="3%">{{ giro.documento }}</td>
                                     <td width="5%">{{ giro.desplazamiento.AgenciaOrigen.direccion }} ({{ giro.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ giro.desplazamiento.AgenciaDestino.direccion }} ({{ giro.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ giro.personaRemitente.full_name }}<br/><span style="font-weight: bold;">{{ giro.personaRemitente.dni }}</span></td>
                                     <td width="5%">{{ giro.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ giro.personaDestinatario.dni }}</span></td>
                                     <td width="5%">{{ giro.fecha | date : 'yyyy-MM-dd' }}</td>
-                                    <td width="4%">{{ giro.valor_total | number: 2 }}</td>
+                                    <td width="2%">{{ giro.valor_total | number: 2 }}</td>
+                                    <td width="2%">{{ giro.asignado }}</td>
                                     <td width='1%' ng-class="giro.condicion" >{{ giro.condicion }}</td>
                                     <td width='1%' ng-class="giro.estado.descripcion" >{{ giro.estado.descripcion }}</td>
                                     <td width="4%">
@@ -381,7 +391,7 @@ $this->assign("title", "Giros");
                             <div class="form-group">
                                 <label for="txtEntrega">Responsable </label>
                                 <input id="txtEntrega" class="form-control" type="text" ng-model="entrega" />
-                                <button class="btn btn-primary" ng-click="registrarAsignacion(null)"><span class="glyphicon glyphicon-ok"></span> Asignar</button>
+                                <button class="btn btn-primary btn-asignar" ng-click="registrarAsignacion(null)"><span class="glyphicon glyphicon-ok"></span> Asignar</button>
                             </div>
                         </div>
                     </div>
@@ -425,7 +435,7 @@ $this->assign("title", "Giros");
                                         <td>{{ programacion.bus.placa }}</td>
                                         <td>{{ programacion.ruta.descripcion }}</td>
                                         <td>{{ programacion.fechahora_prog | date: 'yyyy-MM-dd' }}</td>
-                                        <td><button class="btn btn-primary" ng-click="registrarAsignacion(programacion.id)"><span class="glyphicon glyphicon-ok"></span></button></td>
+                                        <td><button class="btn btn-primary btn-asignar" ng-click="registrarAsignacion(programacion.id)"><span class="glyphicon glyphicon-ok"></span></button></td>
                                     </tr>
                                 </tbody>
                             </table>

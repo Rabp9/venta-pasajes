@@ -28,6 +28,14 @@ VentaPasajesApp.factory("GirosService", function($resource) {
         getNextNroDoc: {
             method: 'GET',
             url: VentaPasajesApp.path_location + "giros/getNextNroDoc/.json"
+        },
+        cancelarAsignacionMany: {
+            method: "POST",
+            url: VentaPasajesApp.path_location + "giros/cancelarAsignacionMany/.json"
+        },
+        registrarEntregaMany: {
+            method: 'POST',
+            url: VentaPasajesApp.path_location + "giros/registrarEntregaMany/.json"
         }
     });
 });

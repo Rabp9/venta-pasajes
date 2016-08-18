@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Datasource\ConnectionManager;
 use Cake\I18n\Time;
 use rabp9\PDF;
 
@@ -89,7 +90,8 @@ class GirosController extends AppController
                     "AgenciaDestino" => ["Ubigeos"]
                 ], 
                 "PersonaRemitente", 
-                "PersonaDestinatario"
+                "PersonaDestinatario",
+                "Programaciones" => ["Buses" => ['joinType' => 'LEFT']],
             ])->where(["Giros.estado_id IN" => [3, 4]]);
 
         $this->set(compact('giros'));
@@ -112,6 +114,7 @@ class GirosController extends AppController
         foreach ($giros as $giro) {
             $giro_asignada = $this->Giros->newEntity();
             $giro_asignada->id = $giro;
+            $giro_asignada->entrega = '';
             $giro_asignada->programacion_id = $programacion_id;
             $giro_asignada->fecha_envio = $programacion->fechahora_prog;
             $giro_asignada->estado_id = 3;
@@ -145,6 +148,7 @@ class GirosController extends AppController
         foreach ($giros as $giro) {
             $giro_asignada = $this->Giros->newEntity();
             $giro_asignada->id = $giro;
+            $giro_asignada->programacion_id = null;
             $giro_asignada->entrega = $entrega;
             $giro_asignada->fecha_envio = date('Y-m-d');
             $giro_asignada->estado_id = 3;
@@ -194,6 +198,41 @@ class GirosController extends AppController
         $this->set('_serialize', ['message']);
     }
     
+    public function cancelarAsignacionMany() {
+        $id = $this->request->data["ids"];
+        
+        $conn = ConnectionManager::get($this->Giros->defaultConnectionName());
+        $r = true;
+        foreach ($ids as $id) {
+            $giro = $this->Giros->get($id);
+            $giro->programacion_id = null;
+            $giro->entrega = null;
+            $giro->estado_id = 1;
+
+            if (!$this->Giros->save($giro)) {
+                $r = false;
+                break;
+            }
+        }
+        
+        if ($r) {
+            $conn->commit();
+            $message = array(
+                'text' => __('Asignaciones canceladas correctamente'),
+                'type' => 'success'
+            );
+        } else {
+            $conn->rollback();
+            $message = array(
+                'text' => __('No fue posible cancelar las asignaciones'),
+                'type' => 'error'
+            );
+        }
+        
+        $this->set(compact('message'));
+        $this->set('_serialize', ['message']);
+    }
+    
     public function registrarEntrega() {
         $id = $this->request->data["id"];
         
@@ -217,4 +256,38 @@ class GirosController extends AppController
         $this->set('_serialize', ['message']);
     }
     
+    public function registrarEntregaMany() {
+        $ids = $this->request->data["ids"];
+        
+        $conn = ConnectionManager::get($this->Giros->defaultConnectionName());
+        $r = true;
+        foreach ($ids as $id) {
+            $giro = $this->Giros->get($id);
+            $giro->estado_id = 4;
+            $giro->condicion = 'cancelado';
+            $giro->fecha_recepcion = date('Y-m-d');
+
+            if (!$this->Giros->save($giro)) {
+                $r = false;
+                break;
+            }
+        }
+        
+        if ($r) {
+            $conn->commit();
+            $message = array(
+                'text' => __('Girso entregados correctamente'),
+                'type' => 'success'
+            );
+        } else {
+            $conn->rollback();
+            $message = array(
+                'text' => __('No fue posible registrar la entrega de los giros'),
+                'type' => 'error'
+            );
+        }
+
+        $this->set(compact('message'));
+        $this->set('_serialize', ['message']);
+    }
 }

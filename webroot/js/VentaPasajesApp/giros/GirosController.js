@@ -13,6 +13,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
         $scope.newGiro = {};
         $scope.newGiro.preFecha = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
         $scope.giros_selected = [];
+        $scope.giros_asignados_selected = [];
         $scope.loading_programaciones = false;
         $scope.newGiro.condicion = 'cancelado';
         $scope.remitente_dni = '';
@@ -34,6 +35,8 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
         $scope.$apply(function() {
             $("#btnAsignar").removeClass("disabled");
             $("#btnAsignar").attr("disabled", false);
+            $("#btnReasignar").removeClass("disabled");
+            $("#btnReasignar").attr("disabled", false);
         });
     });
     
@@ -145,6 +148,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
                 $scope.programaciones_filtradas = data.programaciones;
                 $scope.loading_programaciones = false;
             });
+            $scope.asignando = true;
         } else {
             alert("Seleccione uno o más giros");
             
@@ -153,10 +157,40 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
         }
     }
     
+    $scope.reasignar = function() {
+        $("#btnReasignar").addClass("disabled");
+        $("#btnReasignar").attr("disabled", true);
+        
+        if ($scope.giros_asignados_selected.length != 0) {
+            $("#mdlAsignarGiros").modal("toggle");
+            $scope.loading_programaciones = true;
+            ProgramacionesService.get(function(data) {
+                $scope.programaciones_filtradas = data.programaciones;
+                $scope.loading_programaciones = false;
+            });
+            $scope.asignando = false;
+        } else {
+            alert("Seleccione uno o más giros");
+            
+            $("#btnReasignar").removeClass("disabled");
+            $("#btnReasignar").attr("disabled", false);
+        }
+    }
+    
     $scope.registrarAsignacion = function(programacion_id) {
+        $('.btn-asignar').addClass('disabled');
+        $('.btn-asignar').attr('disabled', true);
+        
+        var giros_por_asignar = [];
+        if ($scope.asignando) {
+            giros_por_asignar = $scope.giros_selected;
+        } else {
+            giros_por_asignar = $scope.giros_asignados_selected;
+        }
+        
         if ($scope.tipo_asignacion == 'telefonica') {
             GirosService.llamar({
-               giros: $scope.giros_selected,
+               giros: giros_por_asignar,
                entrega: $scope.entrega
             }, function(data) {
                 $scope.message = data.message;
@@ -165,10 +199,20 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
 
                 $("#btnAsignar").removeClass("disabled");
                 $("#btnAsignar").attr("disabled", false);
+                
+                $("#btnReasignar").removeClass("disabled");
+                $("#btnReasignar").attr("disabled", false);
+                
+                $('.btn-asignar').removeClass('disabled');
+                $('.btn-asignar').attr('disabled', false);
+
+                $scope.entrega = '';
+                $scope.giros_selected = [];
+                $scope.giros_asignados_selected = [];
             });
         } else if ($scope.tipo_asignacion == 'programacion') {
             GirosService.asignar({
-                giros: $scope.giros_selected,
+                giros: giros_por_asignar,
                 programacion_id: programacion_id
             }, function(data) {
                 $scope.message = data.message;
@@ -177,6 +221,15 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
 
                 $("#btnAsignar").removeClass("disabled");
                 $("#btnAsignar").attr("disabled", false);
+                
+                $("#btnReasignar").removeClass("disabled");
+                $("#btnReasignar").attr("disabled", false);
+                
+                $('.btn-asignar').removeClass('disabled');
+                $('.btn-asignar').attr('disabled', false);
+                
+                $scope.giros_selected = [];
+                $scope.giros_asignados_selected = [];
             });
         }
     }
@@ -233,33 +286,69 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
     };
     
     $scope.listGiros();
-        
-    $scope.filter_giros = function (item) { 
-        var origen = item.desplazamiento.AgenciaOrigen.id == $scope.search_origen;
-        var destino = item.desplazamiento.AgenciaDestino.id == $scope.search_destino;
-        var dni = item.personaRemitente.dni.search($scope.search_dni) >= 0 || item.personaDestinatario.dni.search($scope.search_dni) >= 0;
-        
-        if ($scope.search_origen != null && $scope.search_destino != null && $scope.search_dni != null) {
-            return origen && destino && dni;
-        }
-        if ($scope.search_dni != null && $scope.search_origen != null) {
-            return dni && origen;
-        }
-        if ($scope.search_dni != null && $scope.search_origen != null) {
-            return dni && destino;
-        }
-        if ($scope.search_origen != null && $scope.search_destino != null) {
-            return origen && destino;
-        }
-        if ($scope.search_dni != null) {
-            return dni;
-        }
-        if ($scope.search_origen != null) {
-            return origen;
-        }
-        if ($scope.search_destino != null) {
-            return destino;
-        }
-        return true;
+    
+    $scope.filter_giros = function (item) {
+        var origen = $scope.search_origen ? item.desplazamiento.AgenciaOrigen.id == $scope.search_origen : true;
+        var destino = $scope.search_destino ? item.desplazamiento.AgenciaDestino.id == $scope.search_destino : true;
+        var dni1 = $scope.search_dni ? item.personaRemitente.dni.search($scope.search_dni) >= 0 : true;
+        var dni2 = $scope.search_dni ? item.personaDestinatario.dni.search($scope.search_dni) >= 0 : true;
+        var dni = dni1 || dni2;
+        var asignado = $scope.search_asignado ? item.asignado.toLowerCase().search($scope.search_asignado.toLowerCase()) >= 0 : true;
+
+        return origen && destino && dni && asignado;
     };
+    
+    $scope.registrarEntregaMany = function() {
+        $("#btnRegistrarEntrega").addClass("disabled");
+        $("#btnRegistrarEntrega").attr("disabled", true);
+        
+        if ($scope.giros_asignados_selected.length != 0) {
+            if (confirm('¿Está seguro de registrar la entrega de estos giros?')) {
+                GirosService.registrarEntregaMany({ids: $scope.giros_asignados_selected}, function(data) {
+                    $scope.message = data.message;
+                    $scope.listGiros();
+                    
+                    $scope.giros_asignados_selected = [];
+                    
+                    $("#btnRegistrarEntrega").removeClass("disabled");
+                    $("#btnRegistrarEntrega").attr("disabled", false);
+                });
+            } else {
+                $("#btnRegistrarEntrega").removeClass("disabled");
+                $("#btnRegistrarEntrega").attr("disabled", false);
+            }
+        } else {
+            alert("Seleccione uno o más giros");
+            
+            $("#btnRegistrarEntrega").removeClass("disabled");
+            $("#btnRegistrarEntrega").attr("disabled", false);
+        }
+    }
+    
+    $scope.cancelarMany = function() {
+        $("#btnCancelar").addClass("disabled");
+        $("#btnCancelar").attr("disabled", true);
+        
+        if ($scope.giros_asignados_selected.length != 0) {
+            if (confirm('¿Está seguro de cancelar los giros?')) {
+                GirosService.cancelarAsignacionMany({ids: $scope.giros_asignados_selected}, function(data) {
+                    $scope.message = data.message;
+                    $scope.listGiros();
+                    
+                    $scope.giros_asignados_selected = [];
+                    
+                    $("#btnCancelar").removeClass("disabled");
+                    $("#btnCancelar").attr("disabled", false);
+                });
+            } else {
+                $("#btnCancelar").removeClass("disabled");
+                $("#btnCancelar").attr("disabled", false);
+            }
+        } else {
+            alert("Seleccione uno o más giros");
+            
+            $("#btnCancelar").removeClass("disabled");
+            $("#btnCancelar").attr("disabled", false);
+        }
+    }
 });

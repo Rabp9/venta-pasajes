@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Datasource\ConnectionManager;
 use Cake\I18n\Time;
 use rabp9\PDF;
 
@@ -31,7 +32,7 @@ class EncomiendasController extends AppController
         
         $encomiendas = $this->Encomiendas->find("all")
             ->contain([
-                "Estados", 
+                "Estados",
                 "Desplazamientos" => [
                     "AgenciaOrigen" => ["Ubigeos"],
                     "AgenciaDestino" => ["Ubigeos"]
@@ -51,6 +52,7 @@ class EncomiendasController extends AppController
         $encomiendas = $this->Encomiendas->find("all")
             ->contain([
                 "Estados", 
+                "Programaciones" => ["Buses"],
                 "Desplazamientos" => [
                     "AgenciaOrigen" => ["Ubigeos"],
                     "AgenciaDestino" => ["Ubigeos"]
@@ -200,6 +202,40 @@ class EncomiendasController extends AppController
         $this->set('_serialize', ['message']);
     }
     
+    public function cancelarAsignacionMany() {
+        $id = $this->request->data["ids"];
+        
+        $conn = ConnectionManager::get($this->Encomiendas->defaultConnectionName());
+        $r = true;
+        foreach ($ids as $id) {
+            $encomienda = $this->Encomiendas->get($id);
+            $encomienda->programacion_id = null;
+            $encomienda->estado_id = 1;
+
+            if (!$this->Encomiendas->save($encomienda)) {
+                $r = false;
+                break;
+            }
+        }
+        
+        if ($r) {
+            $conn->commit();
+            $message = array(
+                'text' => __('Asignaciones canceladas correctamente'),
+                'type' => 'success'
+            );
+        } else {
+            $conn->rollback();
+            $message = array(
+                'text' => __('No fue posible cancelar las asignaciones'),
+                'type' => 'error'
+            );
+        }
+            
+        $this->set(compact('message'));
+        $this->set('_serialize', ['message']);
+    }
+    
     public function registrarEntrega() {
         $id = $this->request->data["id"];
         
@@ -219,6 +255,41 @@ class EncomiendasController extends AppController
                 'type' => 'error'
             );
         }
+        $this->set(compact('message'));
+        $this->set('_serialize', ['message']);
+    }
+    
+    public function registrarEntregaMany() {
+        $id = $this->request->data["ids"];
+        
+        $conn = ConnectionManager::get($this->Encomiendas->defaultConnectionName());
+        $r = true;
+        foreach ($ids as $id) {
+            $encomienda = $this->Encomiendas->get($id);
+            $encomienda->estado_id = 4;
+            $encomienda->condicion = 'cancelado';
+            $encomienda->fecha_recepcion = date('Y-m-d');
+
+            if (!$this->Encomiendas->save($encomienda)) {
+                $r = false;
+                break;
+            }
+        }
+        
+        if ($r) {
+            $conn->commit();
+            $message = array(
+                'text' => __('Encomiendas entregadas correctamente'),
+                'type' => 'success'
+            );
+        } else {
+            $conn->rollback();
+            $message = array(
+                'text' => __('No fue posible registrar la entrega de las encomiendas'),
+                'type' => 'error'
+            );
+        }
+        
         $this->set(compact('message'));
         $this->set('_serialize', ['message']);
     }
