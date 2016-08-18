@@ -192,39 +192,41 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             return;
         }
       
-        $("#btnRegistrarEncomienda").addClass("disabled");
-        $("#btnRegistrarEncomienda").attr("disabled", true);
-        $scope.newEncomienda.remitente = $scope.remitente.id;
-        $scope.newEncomienda.destinatario = $scope.destinatario.id;
-        $scope.newEncomienda.estado_id = 1;
-        $scope.newEncomienda.fechahora = $filter("date")($scope.newEncomienda.preFechahora, "yyyy-MM-dd HH:mm:ss");
-        if ($scope.newEncomienda.tipodoc === 'boleta') {
-            if ($scope.newEncomienda.valor_total == null) {
-                $scope.newEncomienda.valor_total = $scope.getTotal();
-            }
-        }
-        DesplazamientosService.getByOrigenAndDestino({
-            origen: $scope.origen_selected,
-            destino: $scope.destino_selected
-        }, function(data) {
-            $scope.newEncomienda.desplazamiento_id = data.desplazamiento.id;
-            if ($scope.newEncomienda.tipodoc === 'factura') {
-                $scope.newEncomienda.cliente_id = $scope.newEncomienda.cliente.id;
-            }
-            EncomiendasService.save($scope.newEncomienda, function(data) {
-                $scope.message = data.message;
-                if ($scope.message.type = 'success') {                    
-                    $('#ulTabs li:eq(1) a').tab('show');
-                    $scope.construct();
-                    $scope.listEncomiendas();
-                    $scope.loading = false;
-                    $scope.loading_list = false;
-                    $window.open('encomiendas/' + data.message.id, '_blank');
+        if (confirm('¿Está seguro de registrar la encomienda?')) {
+            $("#btnRegistrarEncomienda").addClass("disabled");
+            $("#btnRegistrarEncomienda").attr("disabled", true);
+            $scope.newEncomienda.remitente = $scope.remitente.id;
+            $scope.newEncomienda.destinatario = $scope.destinatario.id;
+            $scope.newEncomienda.estado_id = 1;
+            $scope.newEncomienda.fechahora = $filter("date")($scope.newEncomienda.preFechahora, "yyyy-MM-dd HH:mm:ss");
+            if ($scope.newEncomienda.tipodoc === 'boleta') {
+                if ($scope.newEncomienda.valor_total == null) {
+                    $scope.newEncomienda.valor_total = $scope.getTotal();
                 }
-                $("#btnRegistrarEncomienda").removeClass("disabled");
-                $("#btnRegistrarEncomienda").attr("disabled", false);
+            }
+            DesplazamientosService.getByOrigenAndDestino({
+                origen: $scope.origen_selected,
+                destino: $scope.destino_selected
+            }, function(data) {
+                $scope.newEncomienda.desplazamiento_id = data.desplazamiento.id;
+                if ($scope.newEncomienda.tipodoc === 'factura') {
+                    $scope.newEncomienda.cliente_id = $scope.newEncomienda.cliente.id;
+                }
+                EncomiendasService.save($scope.newEncomienda, function(data) {
+                    $scope.message = data.message;
+                    if ($scope.message.type = 'success') {                    
+                        $('#ulTabs li:eq(1) a').tab('show');
+                        $scope.construct();
+                        $scope.listEncomiendas();
+                        $scope.loading = false;
+                        $scope.loading_list = false;
+                        $window.open('encomiendas/' + data.message.id, '_blank');
+                    }
+                    $("#btnRegistrarEncomienda").removeClass("disabled");
+                    $("#btnRegistrarEncomienda").attr("disabled", false);
+                });
             });
-        });
+        }
     };
     
     $scope.asignar = function() {

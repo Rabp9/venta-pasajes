@@ -455,7 +455,7 @@ $this->assign("title", "Encomiendas");
                                     <tr ng-show="programaciones_filtradas.length == 0 && !loading_programaciones">
                                         <td colspan="5">No hay Programaciones disponibles</td>
                                     </tr>
-                                    <tr ng-show="!loading_programaciones" ng-repeat="programacion in programaciones_filtradas">
+                                    <tr class="trProducto" ng-show="!loading_programaciones" ng-repeat="programacion in programaciones_filtradas">
                                         <td>{{ programacion.id }}</td>
                                         <td>{{ programacion.bus.placa }}</td>
                                         <td>{{ programacion.ruta.descripcion }}</td>

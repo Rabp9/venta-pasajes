@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\I18n\Time;
+use rabp9\PDF;
 
 class GirosController extends AppController
 {
@@ -33,6 +34,30 @@ class GirosController extends AppController
         }
         $this->set(compact('message'));
         $this->set('_serialize', ['message']);
+    }
+    
+    public function view($id) {
+        require_once(ROOT . DS . 'vendor' . DS . 'rabp9' . DS . 'PDF.php');
+        $this->viewBuilder()->layout('pdf'); //this will use the pdf.ctp layout
+                
+        $giro = $this->Giros->find()
+            ->contain([
+                'PersonaRemitente', 
+                'PersonaDestinatario',
+                'Desplazamientos' => [
+                    'AgenciaOrigen' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]],
+                    'AgenciaDestino' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]]
+                ]
+            ])
+            ->where(['Giros.id' => $id])
+            ->first();
+        
+        $this->set("pdf", new PDF("L", "mm", "A5"));
+        $this->set(compact('giro'));
+        
+        $this->response->type("application/pdf");
+        
+        $this->render('view_boleta');
     }
     
     public function getPendientes() {

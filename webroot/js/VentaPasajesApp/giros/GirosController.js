@@ -104,32 +104,34 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
             alert('El remitente y el destinatario no pueden ser los mismos');
             return;
         }
-              
-        $("#btnRegistrarGiro").addClass("disabled");
-        $("#btnRegistrarGiro").attr("disabled", true);
-        $scope.newGiro.remitente = $scope.remitente.id;
-        $scope.newGiro.destinatario = $scope.destinatario.id;
-        $scope.newGiro.estado_id = 1;
-        $scope.newGiro.fecha = $filter("date")($scope.newGiro.preFecha, "yyyy-MM-dd HH:mm:ss");
-    
-        DesplazamientosService.getByOrigenAndDestino({
-            origen: $scope.origen_selected,
-            destino: $scope.destino_selected
-        }, function(data) {
-            $scope.newGiro.desplazamiento_id = data.desplazamiento.id;
-            
-            GirosService.save($scope.newGiro, function(data) {
-                $scope.message = data.message;
-                if ($scope.message.type = 'success') {                    
-                    $('#ulTabs li:eq(1) a').tab('show');
-                    $scope.construct();
-                    $scope.listGiros();
-                    $window.open('giros/' + data.message.id, '_blank');
-                }
-                $("#btnRegistrarGiro").removeClass("disabled");
-                $("#btnRegistrarGiro").attr("disabled", false);
+        
+        if (confirm('¿Está seguro de registrar el giro?')) {
+            $("#btnRegistrarGiro").addClass("disabled");
+            $("#btnRegistrarGiro").attr("disabled", true);
+            $scope.newGiro.remitente = $scope.remitente.id;
+            $scope.newGiro.destinatario = $scope.destinatario.id;
+            $scope.newGiro.estado_id = 1;
+            $scope.newGiro.fecha = $filter("date")($scope.newGiro.preFecha, "yyyy-MM-dd HH:mm:ss");
+
+            DesplazamientosService.getByOrigenAndDestino({
+                origen: $scope.origen_selected,
+                destino: $scope.destino_selected
+            }, function(data) {
+                $scope.newGiro.desplazamiento_id = data.desplazamiento.id;
+
+                GirosService.save($scope.newGiro, function(data) {
+                    $scope.message = data.message;
+                    if ($scope.message.type = 'success') {                    
+                        $('#ulTabs li:eq(1) a').tab('show');
+                        $scope.construct();
+                        $scope.listGiros();
+                        $window.open('giros/' + data.message.id, '_blank');
+                    }
+                    $("#btnRegistrarGiro").removeClass("disabled");
+                    $("#btnRegistrarGiro").attr("disabled", false);
+                });
             });
-        });
+        }
     };
     
     $scope.asignar = function() {
