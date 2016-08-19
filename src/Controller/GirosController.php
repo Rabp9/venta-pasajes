@@ -180,6 +180,7 @@ class GirosController extends AppController
         $giro = $this->Giros->get($id);
         $giro->programacion_id = null;
         $giro->entrega = null;
+        $giro->fecha_recepcion = null;
         $giro->estado_id = 1;
         
         if ($this->Giros->save($giro)) {
@@ -199,7 +200,7 @@ class GirosController extends AppController
     }
     
     public function cancelarAsignacionMany() {
-        $id = $this->request->data["ids"];
+        $ids = $this->request->data["ids"];
         
         $conn = ConnectionManager::get($this->Giros->defaultConnectionName());
         $r = true;
@@ -207,6 +208,7 @@ class GirosController extends AppController
             $giro = $this->Giros->get($id);
             $giro->programacion_id = null;
             $giro->entrega = null;
+            $giro->fecha_recepcion = null;
             $giro->estado_id = 1;
 
             if (!$this->Giros->save($giro)) {

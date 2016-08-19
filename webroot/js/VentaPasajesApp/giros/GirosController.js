@@ -351,4 +351,10 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
             $("#btnCancelar").attr("disabled", false);
         }
     }
+    
+    $scope.check_all_list_event = function() {
+        console.log()
+        // scope.user.roles = angular.copy($scope.roles);
+        $('.giros_selected').prop('checked', $scope.check_all_list);
+    }
 });

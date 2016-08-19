@@ -428,6 +428,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         if ($scope.encomiendas_asignados_selected.length != 0) {
             if (confirm('¿Está seguro de registrar la entrega de estas encomiendas?')) {
                 EncomiendasService.registrarEntregaMany({ids: $scope.encomiendas_asignados_selected}, function(data) {
+                    console.log(data);
                     $scope.message = data.message;
                     $scope.listEncomiendas();
                     
@@ -446,7 +447,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             $("#btnRegistrarEntrega").removeClass("disabled");
             $("#btnRegistrarEntrega").attr("disabled", false);
         }
-    }
+    };
     
     $scope.cancelarMany = function() {
         $("#btnCancelar").addClass("disabled");

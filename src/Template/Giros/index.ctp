@@ -157,7 +157,7 @@ $this->assign("title", "Giros");
                             <thead>
                                 <tr class="e34X" id="panel_status">
                                     <th colspan="2" width="2%" align="center">
-                                        Código
+                                        Código <input type="checkbox" class="form-control" ng-model="check_all_list" ng-click="check_all_list_event(this)" />
                                     </th>                                   
                                     <th width="3%" align="center">
                                         Nro. Documento
@@ -201,7 +201,7 @@ $this->assign("title", "Giros");
                                     onmouseout="style.backgroundColor='#fff'">
 
                                     <td width="1%" bgcolor="#D6E4F2">{{ giro.id }}</td>
-                                    <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control" checklist-model="giros_selected" checklist-value="giro.id"/></td>
+                                    <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control giros_selected" checklist-model="giros_selected" checklist-value="giro.id"/></td>
                                     <td width="3%">{{ giro.documento }}</td>
                                     <td width="5%">{{ giro.desplazamiento.AgenciaOrigen.direccion }} ({{ giro.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ giro.desplazamiento.AgenciaDestino.direccion }} ({{ giro.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>

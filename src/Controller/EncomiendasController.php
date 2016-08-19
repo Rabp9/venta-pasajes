@@ -184,6 +184,7 @@ class EncomiendasController extends AppController
         
         $encomienda = $this->Encomiendas->get($id);
         $encomienda->programacion_id = null;
+        $encomienda->fecha_recepcion = null;
         $encomienda->estado_id = 1;
         
         if ($this->Encomiendas->save($encomienda)) {
@@ -203,15 +204,16 @@ class EncomiendasController extends AppController
     }
     
     public function cancelarAsignacionMany() {
-        $id = $this->request->data["ids"];
+        $ids = $this->request->data["ids"];
         
         $conn = ConnectionManager::get($this->Encomiendas->defaultConnectionName());
         $r = true;
         foreach ($ids as $id) {
             $encomienda = $this->Encomiendas->get($id);
             $encomienda->programacion_id = null;
+            $encomienda->fecha_recepcion = null;
             $encomienda->estado_id = 1;
-
+            
             if (!$this->Encomiendas->save($encomienda)) {
                 $r = false;
                 break;
@@ -260,7 +262,7 @@ class EncomiendasController extends AppController
     }
     
     public function registrarEntregaMany() {
-        $id = $this->request->data["ids"];
+        $ids = $this->request->data["ids"];
         
         $conn = ConnectionManager::get($this->Encomiendas->defaultConnectionName());
         $r = true;
