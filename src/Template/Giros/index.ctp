@@ -157,7 +157,7 @@ $this->assign("title", "Giros");
                             <thead>
                                 <tr class="e34X" id="panel_status">
                                     <th colspan="2" width="2%" align="center">
-                                        Código <input type="checkbox" class="form-control" ng-model="check_all_list" ng-click="check_all_list_event(this)" />
+                                        Código <input type="checkbox" class="form-control" ng-model="check_all_list" ng-click="check_all_list_event()" />
                                     </th>                                   
                                     <th width="3%" align="center">
                                         Nro. Documento
@@ -195,7 +195,7 @@ $this->assign("title", "Giros");
                                 <tr ng-show="giros.length == 0 && !loading">
                                     <td colspan="8">No hay registros de Giros</td>
                                 </tr>
-                                <tr ng-show="!loading" ng-repeat="giro in giros | orderBy:'codigo' | filter: filter_giros"
+                                <tr ng-show="!loading" ng-repeat="giro in (filteredGiros = (giros | orderBy:'codigo' | filter: filter_giros)) "
                                     class="textnot2 animated" style="background-color: #fff;" 
                                     onmouseover="style.backgroundColor='#cccccc';" 
                                     onmouseout="style.backgroundColor='#fff'">

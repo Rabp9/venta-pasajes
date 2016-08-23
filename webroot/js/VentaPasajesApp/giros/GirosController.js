@@ -353,8 +353,16 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
     }
     
     $scope.check_all_list_event = function() {
-        console.log()
-        // scope.user.roles = angular.copy($scope.roles);
-        $('.giros_selected').prop('checked', $scope.check_all_list);
+        if ($scope.check_all_list) {
+            var ids = [];
+            angular.forEach($scope.filteredGiros, function(value, key) {
+                ids.push(value.id);
+            });
+            $scope.giros_selected = ids;
+            $(".giros_selected").prop("checked", true);
+        } else {
+            $scope.giros_selected = [];
+            $(".giros_selected").prop("checked", false);
+        }
     }
 });
