@@ -26,4 +26,20 @@ VentaPasajesApp.controller("ImportarController", function($scope, ImportarServic
             console.log(data);
         });
     }
+    
+    ImportarService.getExportCountClientes(function() {
+        $scope.nro_clientes = 12;
+    });
+    
+    ImportarService.getExportCountPasajes(function() {
+        $scope.nro_pasajes = 12;
+    });
+    
+    ImportarService.getExportCountGiros(function() {
+        $scope.nro_giros = 7;
+    });
+    
+    ImportarService.getExportCountEncomiendas(function() {
+        $scope.nro_encomiendas = 9;
+    });
 });

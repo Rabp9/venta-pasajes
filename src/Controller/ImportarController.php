@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\I18n\Time;
 use Cake\Datasource\ConnectionManager;
 
 class ImportarController extends AppController
@@ -31,10 +32,8 @@ class ImportarController extends AppController
         $girosTable = TableRegistry::get('Giros');
         $encomiendasTable = TableRegistry::get('Encomiendas');
         
-        //$file = $this->request->data["file"];
-        //$file = file_get_contents($file['tmp_name']);
-        $file = "js/giros.json";
-        $file = file_get_contents($file);
+        $file = $this->request->data["file"];
+        $file = file_get_contents($file['tmp_name']);
         $backup = json_decode($file);
         
         $conn = ConnectionManager::get($clientesTable->defaultConnectionName());
@@ -50,16 +49,22 @@ class ImportarController extends AppController
             if (!$pasajesTable->save($backup->pasajes)) {
                 $r = false;
             }
+            
         }
         
         if (!empty($backup->giros)) {
             foreach ($backup->giros as $giro) {
-                $giro = $girosTable->newEntity((array)$giro);
-                
-                $giro->fecha = Time::createFromFormat("Y-m-d H:i:s", $this->request->data["fechahora"]);
-                $giro->fecha_envio = Time::createFromFormat("Y-m-d H:i:s", $this->request->data["fechahora"]);
-                $giro->fecha_recepcion = Time::createFromFormat("Y-m-d H:i:s", $this->request->data["fechahora"]);
-                if (!$girosTable->save($giro)) {
+                $giro_aux = $girosTable->newEntity((array)$giro);
+                if ($giro->fecha) {
+                    $giro_aux->fecha = Time::createFromFormat("Y-m-d", $giro->fecha);
+                }
+                if ($giro->fecha_envio) {
+                    $giro_aux->fecha_envio = Time::createFromFormat("Y-m-d", $giro->fecha_envio);
+                }
+                if ($giro->fecha_recepcion) {
+                    $giro_aux->fecha_recepcion = Time::createFromFormat("Y-m-d", $giro->fecha_recepcion);
+                }
+                if (!$girosTable->save($giro_aux)) {
                     $r = false;
                     break;
                 }
@@ -74,10 +79,10 @@ class ImportarController extends AppController
         
         if ($r) {
             $conn->commit();
-            /*$message = [
+            $message = [
                 "type" => "success",
                 "text" => "El Backup fue restaurado exitosamente"
-            ];*/
+            ];
         } else {
             $conn->rollback();
             $message = [
@@ -85,8 +90,24 @@ class ImportarController extends AppController
                 "text" => "El Backup no fue restaurado exitosamente"
             ];
         }
-        die();
+        
         $this->set(compact("message"));
         $this->set("_serialize", ["message"]);
+    }
+    
+    public function getExportCountClientes() {
+        
+    }
+    
+    public function getExportCountPasajes() {
+        
+    }
+    
+    public function getExportCountGiros() {
+        
+    }
+    
+    public function getExportCountEncomiendas() {
+        
     }
 }
