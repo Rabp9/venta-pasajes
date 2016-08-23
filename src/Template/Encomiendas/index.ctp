@@ -208,34 +208,34 @@ $this->assign("title", "Encomiendas");
                         <table class="table" border="0" cellpadding="1" cellspacing="1" id="marco_panel">
                             <thead>
                                 <tr class="e34X" id="panel_status">
-                                    <th colspan="2" width="2%" align="center">
-                                        Código
+                                    <th colspan="2" width="2%" align="center" style="text-align: center;">
+                                        Código <input type="checkbox" class="form-control" ng-model="check_all_list" ng-click="check_all_list_event()" />
                                     </th>                                   
-                                    <th width="3%" align="center">
+                                    <th width="3%" align="center" style="text-align: center;">
                                         Nro. Documento
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Origen
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Destino
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Remitente
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Destinatario
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Fecha de Registro
                                     </th>
-                                    <th width="4%" align="center">
+                                    <th width="4%" align="center" style="text-align: center;">
                                         Valor
                                     </th>
-                                    <td width='2%' align='cemter'>
+                                    <td width='2%' align='cemter' style="text-align: center;">
                                         Condiciòn
                                     </td>
-                                    <th width="4%" align="center">
+                                    <th width="4%" align="center" style="text-align: center;">
                                         Acciones
                                     </th>
                                 </tr>
@@ -247,13 +247,13 @@ $this->assign("title", "Encomiendas");
                                 <tr ng-show="encomiendas.length == 0 && !loading">
                                     <td colspan="8">No hay registros de Encomiendas</td>
                                 </tr>
-                                <tr ng-show="!loading" ng-repeat="encomienda in encomiendas | orderBy:'codigo' | filter: filter_encomiendas"
+                                <tr ng-show="!loading" ng-repeat="encomienda in (filteredEncomiendas = (encomiendas | orderBy:'codigo' | filter: filter_encomiendas))"
                                     class="textnot2 animated" style="background-color: #fff;" 
                                     onmouseover="style.backgroundColor='#cccccc';" 
                                     onmouseout="style.backgroundColor='#fff'">
 
                                     <td width="1%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
-                                    <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control" checklist-model="encomiendas_selected" checklist-value="encomienda.id"/></td>
+                                    <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control encomiendas_selected" checklist-model="encomiendas_selected" checklist-value="encomienda.id"/></td>
                                     <td width="3%">{{ encomienda.documento }}</td>
                                     <td width="5%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
@@ -295,40 +295,40 @@ $this->assign("title", "Encomiendas");
                         <table class="table" border="0" cellpadding="1" cellspacing="1" id="marco_panel">
                             <thead>
                                 <tr class="e34X" id="panel_status">
-                                    <th width="2%" align="center" colspan="2">
-                                        Código
-                                    </th>                                   
-                                    <th width="3%" align="center">
+                                    <th width="2%" align="center" colspan="2" style="text-align: center;">
+                                        Código <input type="checkbox" class="form-control" ng-model="check_all_asignados_list" ng-click="check_all_asignados_list_event()" />
+                                    </th>
+                                    <th width="3%" align="center" style="text-align: center;">
                                         Nro. Documento
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Origen
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Destino
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Remitente
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Destinatario
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Fecha de Registro
                                     </th>
-                                    <th width="2%" align="center">
+                                    <th width="2%" align="center" style="text-align: center;">
                                         Valor
                                     </th>
-                                    <th width="3%" align="center">
+                                    <th width="3%" align="center" style="text-align: center;">
                                         Placa Bus
                                     </th>
-                                    <th width="1%" align="center">
+                                    <th width="1%" align="center" style="text-align: center;">
                                         Condiciòn
                                     </th>
-                                    <th width="1%" align="center">
+                                    <th width="1%" align="center" style="text-align: center;">
                                         Estado
                                     </th>
-                                    <th width="4%" align="center">
+                                    <th width="4%" align="center" style="text-align: center;">
                                         Acciones
                                     </th>
                                 </tr>
@@ -340,13 +340,13 @@ $this->assign("title", "Encomiendas");
                                 <tr ng-show="encomiendas_list.length == 0 && !loading_list">
                                     <td colspan="7">No hay registros de Encomiendas</td>
                                 </tr>
-                                <tr ng-show="!loading_list" ng-repeat="encomienda in encomiendas_list | orderBy:'codigo' | filter: filter_encomiendas"
+                                <tr ng-show="!loading_list" ng-repeat="encomienda in (filteredEncomiendasList = (encomiendas_list | orderBy:'codigo' | filter: filter_encomiendas))"
                                     class="textnot2 animated" style="background-color: #fff;" 
                                     onmouseover="style.backgroundColor='#cccccc';" 
                                     onmouseout="style.backgroundColor='#fff'">
                                     
                                     <td width="1%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
-                                    <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control" checklist-model="encomiendas_asignados_selected" checklist-value="encomienda.id"/></td>
+                                    <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control encomiendas_asignados_selected" checklist-model="encomiendas_asignados_selected" checklist-value="encomienda.id"/></td>
                                     <td width="3%">{{ encomienda.documento }}</td>
                                     <td width="5%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>

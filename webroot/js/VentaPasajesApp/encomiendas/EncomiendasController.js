@@ -101,6 +101,10 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     });
     
     $scope.buscarRemitente = function() {
+        if (!$scope.remitente_dni) {
+            alert("Ingrese un dni en el remitente");
+            return;
+        }
         $("#btnBuscarRemitente").addClass("disabled");
         $("#btnBuscarRemitente").attr("disabled", true);
         PersonasService.findByDni({dni: $scope.remitente_dni}, function(data) {
@@ -111,6 +115,10 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     }
     
     $scope.buscarDestinatario = function() {
+        if (!$scope.destinatario_dni) {
+            alert("Ingrese un dni en el destinatario");
+            return;
+        }
         $("#btnBuscarDestinatario").addClass("disabled");
         $("#btnBuscarDestinatario").attr("disabled", true);
         PersonasService.findByDni({dni: $scope.destinatario_dni}, function(data) {
@@ -303,6 +311,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             $scope.entrega = '';
             $scope.encomiendas_selected = [];
             $scope.encomiendas_asignados_selected = [];
+            $scope.check_all_list = false;
         });
     }
     
@@ -433,6 +442,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
                     $scope.listEncomiendas();
                     
                     $scope.encomiendas_asignados_selected = [];
+                    $scope.check_all_asignados_list = false;
                     
                     $("#btnRegistrarEntrega").removeClass("disabled");
                     $("#btnRegistrarEntrega").attr("disabled", false);
@@ -460,6 +470,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
                     $scope.listEncomiendas();
                     
                     $scope.encomiendas_asignados_selected = [];
+                    $scope.check_all_asignados_list = false;
                     
                     $("#btnCancelar").removeClass("disabled");
                     $("#btnCancelar").attr("disabled", false);
@@ -473,6 +484,34 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             
             $("#btnCancelar").removeClass("disabled");
             $("#btnCancelar").attr("disabled", false);
+        }
+    }
+        
+    $scope.check_all_list_event = function() {
+        if ($scope.check_all_list) {
+            var ids = [];
+            angular.forEach($scope.filteredEncomiendas, function(value, key) {
+                ids.push(value.id);
+            });
+            $scope.encomiendas_selected = ids;
+            $(".encomiendas_selected").prop("checked", true);
+        } else {
+            $scope.encomiendas_selected = [];
+            $(".encomiendas_selected").prop("checked", false);
+        }
+    }
+   
+    $scope.check_all_asignados_list_event = function() {
+        if ($scope.check_all_asignados_list) {
+            var ids = [];
+            angular.forEach($scope.filteredEncomiendasList, function(value, key) {
+                ids.push(value.id);
+            });
+            $scope.giros_asignados_selected = ids;
+            $(".encomiendas_asignados_selected").prop("checked", true);
+        } else {
+            $scope.giros_selected = [];
+            $(".encomiendas_asignados_selected").prop("checked", false);
         }
     }
 });

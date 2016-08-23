@@ -7,7 +7,7 @@
     <?= $this->Html->css(["jquery-ui.min.css", "jquery-ui.structure.css", "jquery-ui.theme.min.css"]) ?>
     <?= $this->Html->script(["angular.min.js", "angular-route.min.js", 
         "angular-resource.min.js", "angular-animate.min.js", "ng-file-upload.min.js",
-        "angular-input-date", "VentaPasajesApp/app.js", "VentaPasajesApp/utils/ImportarController.js"])
+        "angular-input-date", "VentaPasajesApp/app.js", "VentaPasajesApp/utils/ImportarController.js", "VentaPasajesApp/utils/ImportarService.js"])
     ?> 
     <?= $this->Html->script(["VentaPasajesApp/buses/BusesService.js",
         "VentaPasajesApp/estados/EstadosService.js",

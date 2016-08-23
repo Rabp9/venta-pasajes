@@ -156,34 +156,34 @@ $this->assign("title", "Giros");
                         <table class="table" border="0" cellpadding="1" cellspacing="1" id="marco_panel">
                             <thead>
                                 <tr class="e34X" id="panel_status">
-                                    <th colspan="2" width="2%" align="center">
+                                    <th colspan="2" width="2%" align="center" style="text-align: center;">
                                         Código <input type="checkbox" class="form-control" ng-model="check_all_list" ng-click="check_all_list_event()" />
                                     </th>                                   
-                                    <th width="3%" align="center">
+                                    <th width="3%" align="center" style="text-align: center;">
                                         Nro. Documento
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Origen
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Destino
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Remitente
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Destinatario
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Fecha de Registro
                                     </th>
-                                    <th width="4%" align="center">
+                                    <th width="4%" align="center" style="text-align: center;">
                                         Valor
                                     </th>
-                                    <td width='2%' align='cemter'>
+                                    <td width='2%' align='cemter' style="text-align: center;">
                                         Condición
                                     </td>
-                                    <th width="4%" align="center">
+                                    <th width="4%" align="center" style="text-align: center;">
                                         Acciones
                                     </th>
                                 </tr>
@@ -195,7 +195,7 @@ $this->assign("title", "Giros");
                                 <tr ng-show="giros.length == 0 && !loading">
                                     <td colspan="8">No hay registros de Giros</td>
                                 </tr>
-                                <tr ng-show="!loading" ng-repeat="giro in (filteredGiros = (giros | orderBy:'codigo' | filter: filter_giros)) "
+                                <tr ng-show="!loading" ng-repeat="giro in (filteredGiros = (giros | orderBy:'codigo' | filter: filter_giros))"
                                     class="textnot2 animated" style="background-color: #fff;" 
                                     onmouseover="style.backgroundColor='#cccccc';" 
                                     onmouseout="style.backgroundColor='#fff'">
@@ -243,40 +243,40 @@ $this->assign("title", "Giros");
                         <table class="table" border="0" cellpadding="1" cellspacing="1" id="marco_panel">
                             <thead>
                                 <tr class="e34X" id="panel_status">
-                                    <th width="2%" align="center" colspan="2">
-                                        Código
+                                    <th width="2%" align="center" colspan="2" style="text-align: center;">
+                                        Código <input type="checkbox" class="form-control" ng-model="check_all_asignados_list" ng-click="check_all_asignados_list_event()" />
                                     </th>                                   
-                                    <th width="3%" align="center">
+                                    <th width="3%" align="center" style="text-align: center;">
                                         Nro. Documento
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Origen
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Destino
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Remitente
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Destinatario
                                     </th>
-                                    <th width="5%" align="center">
+                                    <th width="5%" align="center" style="text-align: center;">
                                         Fecha de Registro
                                     </th>
-                                    <th width="2%" align="center">
+                                    <th width="2%" align="center" style="text-align: center;">
                                         Valor
                                     </th>
-                                    <th width="2%" align="center">
+                                    <th width="2%" align="center" style="text-align: center;">
                                         Asignado
                                     </th>
-                                    <th width="1%" align="center">
+                                    <th width="1%" align="center" style="text-align: center;">
                                         Condición
                                     </th>
-                                    <th width="1%" align="center">
+                                    <th width="1%" align="center" style="text-align: center;">
                                         Estado
                                     </th>
-                                    <th width="4%" align="center">
+                                    <th width="4%" align="center" style="text-align: center;">
                                         Acciones
                                     </th>
                                 </tr>
@@ -288,13 +288,13 @@ $this->assign("title", "Giros");
                                 <tr ng-show="giros_list.length == 0 && !loading_list">
                                     <td colspan="7">No hay registros de Giros</td>
                                 </tr>
-                                <tr ng-show="!loading_list" ng-repeat="giro in giros_list | orderBy:'codigo' | filter: filter_giros"
+                                <tr ng-show="!loading_list" ng-repeat="giro in (filteredGirosList = (giros_list | orderBy:'codigo' | filter: filter_giros))"
                                     class="textnot2 animated" style="background-color: #fff;" 
                                     onmouseover="style.backgroundColor='#cccccc';" 
                                     onmouseout="style.backgroundColor='#fff'">
 
                                     <td width="1%" bgcolor="#D6E4F2">{{ giro.id }}</td>
-                                    <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control" checklist-model="giros_asignados_selected" checklist-value="giro.id"/></td>
+                                    <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control giros_asignados_selected" checklist-model="giros_asignados_selected" checklist-value="giro.id"/></td>
                                     <td width="3%">{{ giro.documento }}</td>
                                     <td width="5%">{{ giro.desplazamiento.AgenciaOrigen.direccion }} ({{ giro.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="5%">{{ giro.desplazamiento.AgenciaDestino.direccion }} ({{ giro.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>

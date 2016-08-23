@@ -94,10 +94,26 @@ Router::scope('/', function ($routes) {
             '/' => [
                 'action' => 'index',
                 'method' => 'GET'
-            ],
+            ],       
             'findByRuc/:ruc' => [
                 'action' => 'findByRuc',
                 'method' => 'GET'
+            ]
+        ]
+    ]);
+    $routes->resources('Importar', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'preLoad/' => [
+                'action' => 'preLoad',
+                'method' => 'POST'
+            ],
+            'import/' => [
+                'action' => 'import',
+                'method' => 'POST'
             ]
         ]
     ]);

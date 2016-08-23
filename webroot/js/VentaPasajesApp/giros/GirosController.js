@@ -77,6 +77,10 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
     });
     
     $scope.buscarRemitente = function() {
+        if (!$scope.remitente_dni) {
+            alert("Ingrese un dni en el remitente");
+            return;
+        }
         $("#btnBuscarRemitente").addClass("disabled");
         $("#btnBuscarRemitente").attr("disabled", true);
         PersonasService.findByDni({dni: $scope.remitente_dni}, function(data) {
@@ -87,6 +91,10 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
     }
     
     $scope.buscarDestinatario = function() {
+        if (!$scope.destinatario_dni) {
+            alert("Ingrese un dni en el destinatario");
+            return;
+        }
         $("#btnBuscarDestinatario").addClass("disabled");
         $("#btnBuscarDestinatario").attr("disabled", true);
         PersonasService.findByDni({dni: $scope.destinatario_dni}, function(data) {
@@ -209,6 +217,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
                 $scope.entrega = '';
                 $scope.giros_selected = [];
                 $scope.giros_asignados_selected = [];
+                $scope.check_all_list = false;
             });
         } else if ($scope.tipo_asignacion == 'programacion') {
             GirosService.asignar({
@@ -230,6 +239,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
                 
                 $scope.giros_selected = [];
                 $scope.giros_asignados_selected = [];
+                $scope.check_all_list = false;
             });
         }
     }
@@ -309,6 +319,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
                     $scope.listGiros();
                     
                     $scope.giros_asignados_selected = [];
+                    $scope.check_all_asignados_list = false;
                     
                     $("#btnRegistrarEntrega").removeClass("disabled");
                     $("#btnRegistrarEntrega").attr("disabled", false);
@@ -336,6 +347,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
                     $scope.listGiros();
                     
                     $scope.giros_asignados_selected = [];
+                    $scope.check_all_asignados_list = false;
                     
                     $("#btnCancelar").removeClass("disabled");
                     $("#btnCancelar").attr("disabled", false);
@@ -363,6 +375,20 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
         } else {
             $scope.giros_selected = [];
             $(".giros_selected").prop("checked", false);
+        }
+    }
+   
+    $scope.check_all_asignados_list_event = function() {
+        if ($scope.check_all_asignados_list) {
+            var ids = [];
+            angular.forEach($scope.filteredGirosList, function(value, key) {
+                ids.push(value.id);
+            });
+            $scope.giros_asignados_selected = ids;
+            $(".giros_asignados_selected").prop("checked", true);
+        } else {
+            $scope.giros_selected = [];
+            $(".giros_asignados_selected").prop("checked", false);
         }
     }
 });
