@@ -96,18 +96,90 @@ class ImportarController extends AppController
     }
     
     public function getExportCountClientes() {
+        $this->viewBuilder()->layout(false);
+        $clientesTable = TableRegistry::get('Clientes');
         
+        $nro_clientes = $clientesTable->find()
+            ->where(['flag_export' => 0])
+            ->count();
+        
+        $this->set(compact('nro_clientes'));
+        $this->set('_serialize', ['nro_clientes']);
     }
     
     public function getExportCountPasajes() {
+        $this->viewBuilder()->layout(false);
+        $pasajesTable = TableRegistry::get('Pasajes');
         
+        $nro_pasajes = $pasajesTable->find()
+            ->where(['flag_export' => 0])
+            ->count();
+        
+        $this->set(compact('nro_pasajes'));
+        $this->set('_serialize', ['nro_pasajes']);
     }
     
     public function getExportCountGiros() {
+        $this->viewBuilder()->layout(false);
+        $girosTable = TableRegistry::get('Giros');
         
+        $nro_giros = $girosTable->find()
+            ->where(['flag_export' => 0])
+            ->count();
+        
+        $this->set(compact('nro_giros'));
+        $this->set('_serialize', ['nro_giros']);        
     }
     
     public function getExportCountEncomiendas() {
+        $this->viewBuilder()->layout(false);
+        $encomiendasTable = TableRegistry::get('Encomiendas');
         
+        $nro_encomiendas = $encomiendasTable->find()
+            ->where(['flag_export' => 0])
+            ->count();
+        
+        $this->set(compact('nro_encomiendas'));
+        $this->set('_serialize', ['nro_encomiendas']);
+    }
+    
+    public function export() {
+        $this->viewBuilder()->layout(false);
+        $clientesTable = TableRegistry::get('Clientes');
+        $pasajesTable = TableRegistry::get('Pasajes');
+        $girosTable = TableRegistry::get('Giros');
+        $encomiendasTable = TableRegistry::get('Encomiendas');
+        
+        $ch_clientes = @$this->request->data['clientes'];
+        $ch_pasajes = @$this->request->data['pasajes'];
+        $ch_giros = @$this->request->data['giros'];
+        $ch_encomiendas = @$this->request->data['encomiendas'];
+        
+        if ($ch_clientes) {
+            $clientes = $clientesTable->find()
+                ->where(['flag_export' => false]);
+        }
+        
+        if ($ch_pasajes) {
+            $pasajes = $pasajesTable->find()
+                ->where(['flag_export' => false]);
+        }
+        
+        if ($ch_giros) {
+            debug($girosTable->entityClass);
+            // unset($girosTable->virtualFields['documento']);
+            $giros = $girosTable->find()
+                ->where(['flag_export' => false]);
+        }
+        
+        if ($ch_encomiendas) {
+            $encomiendas = $encomiendasTable->find()
+                ->where(['flag_export' => false]);
+        }
+        
+        $export = array(@$clientes, @$pasajes, @$giros, @$encomiendas);
+        
+        $this->set(compact('export'));
+        $this->set('_serialize', ['export']);
     }
 }

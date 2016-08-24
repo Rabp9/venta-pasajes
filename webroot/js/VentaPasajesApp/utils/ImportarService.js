@@ -13,21 +13,25 @@ VentaPasajesApp.factory("ImportarService", function($resource) {
             transformRequest: angular.identity,
             headers: { 'Content-Type': undefined }
         },
+        export: {
+            method: 'POST',
+            url: VentaPasajesApp.path_location + 'importar/export/.json'
+        },
         getExportCountClientes: {
             method: 'GET',
             url: VentaPasajesApp.path_location + "importar/getExportCountClientes/.json"
         },
         getExportCountPasajes: {
             method: 'GET',
-            url: VentaPasajesApp.path_location + "conductores/getExportCountPasajes/.json"
+            url: VentaPasajesApp.path_location + "importar/getExportCountPasajes/.json"
         },
         getExportCountGiros: {
             method: 'GET',
-            url: VentaPasajesApp.path_location + "conductores/getExportCountGiros/.json"
+            url: VentaPasajesApp.path_location + "importar/getExportCountGiros/.json"
         },
         getExportCountEncomiendas: {
             method: 'GET',
-            url: VentaPasajesApp.path_location + "conductores/getExportCountEncomiendas/.json"
+            url: VentaPasajesApp.path_location + "importar/getExportCountEncomiendas/.json"
         }
     });
 });

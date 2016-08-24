@@ -1,6 +1,6 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("ImportarController", function($scope, ImportarService) {
+VentaPasajesApp.controller("ImportarController", function($scope, ImportarService, $window) {
     
     $scope.uploadFile = function() {
         var file = $scope.backup;
@@ -27,19 +27,37 @@ VentaPasajesApp.controller("ImportarController", function($scope, ImportarServic
         });
     }
     
-    ImportarService.getExportCountClientes(function() {
-        $scope.nro_clientes = 12;
+    ImportarService.getExportCountClientes(function(data) {
+        $scope.nro_clientes = data.nro_clientes;
     });
     
-    ImportarService.getExportCountPasajes(function() {
-        $scope.nro_pasajes = 12;
+    ImportarService.getExportCountPasajes(function(data) {
+        $scope.nro_pasajes = data.nro_pasajes;
     });
     
-    ImportarService.getExportCountGiros(function() {
-        $scope.nro_giros = 7;
+    ImportarService.getExportCountGiros(function(data) {
+        $scope.nro_giros = data.nro_giros;
     });
     
-    ImportarService.getExportCountEncomiendas(function() {
-        $scope.nro_encomiendas = 9;
+    ImportarService.getExportCountEncomiendas(function(data) {
+        $scope.nro_encomiendas = data.nro_encomiendas;
     });
+    
+    $scope.export = function() {
+        console.log($scope.chk_clientes);
+        console.log($scope.chk_pasajes);
+        console.log($scope.chk_giros);
+        console.log($scope.chk_encomiendas);
+        ImportarService.export({
+            clientes: $scope.chk_clientes,
+            pasajes: $scope.chk_pasajes,
+            giros: $scope.chk_giros,
+            encomiendas: $scope.chk_encomiendas
+        }, function(data) {
+            data = JSON.stringify(data, undefined, 2);
+            var blob = new Blob([data], {type: "application/json"});
+            var objectUrl = $window.URL.createObjectURL(blob);
+            $window.open(objectUrl);
+        })
+    }
 });

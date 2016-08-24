@@ -48,25 +48,25 @@ $this->assign("title", "Importar Datos");
                         <label style="display: block">
                             <li class="list-group-item">
                                 <span class="badge">{{ nro_clientes }}</span>
-                                <input type="checkbox"> Clientes
+                                <input type="checkbox" ng-model="chk_clientes"> Clientes
                             </li>
                         </label>
                         <label style="display: block">
                             <li class="list-group-item">
                                 <span class="badge">{{ nro_pasajes }}</span>
-                                <label><input type="checkbox"> Pasajes</label>
+                                <label><input type="checkbox" ng-model="chk_pasajes"> Pasajes</label>
                             </li>
                         </label>
                         <label style="display: block">
                             <li class="list-group-item">
                                 <span class="badge">{{ nro_giros }}</span>
-                                <label><input type="checkbox"> Giros</label>
+                                <label><input type="checkbox" ng-model="chk_giros"> Giros</label>
                             </li>
                         </label>
                         <label style="display: block">
                             <li class="list-group-item">
                                 <span class="badge">{{ nro_encomiendas }}</span>
-                                <label><input type="checkbox"> Encomiendas</label>
+                                <label><input type="checkbox" ng-model="chk_encomiendas"> Encomiendas</label>
                             </li>
                         </label>
                     </ul>

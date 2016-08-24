@@ -114,6 +114,26 @@ Router::scope('/', function ($routes) {
             'import/' => [
                 'action' => 'import',
                 'method' => 'POST'
+            ],
+            'export/' => [
+                'action' => 'export',
+                'method' => 'POST'
+            ],
+            'getExportCountClientes/' => [
+                'action' => 'getExportCountClientes',
+                'method' => 'GET'
+            ],
+            'getExportCountPasajes/' => [
+                'action' => 'getExportCountPasajes',
+                'method' => 'GET'
+            ],
+            'getExportCountGiros/' => [
+                'action' => 'getExportCountGiros',
+                'method' => 'GET'
+            ],
+            'getExportCountEncomiendas/' => [
+                'action' => 'getExportCountEncomiendas',
+                'method' => 'GET'
             ]
         ]
     ]);
