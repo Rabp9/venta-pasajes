@@ -185,9 +185,9 @@
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a class="btn-lg" href="#/importar">
-                            <span class="glyphicon glyphicon glyphicon-import"></span>
+                            <span class="glyphicon glyphicon-sort"></span>
                         </a>                 
-                        <span class="button-title" unselectable="on">Importar</span>
+                        <span class="button-title" unselectable="on">Importar / Exportar</span>
                     </div>
                 </div>
                 <div class="ribbon-section-sep" unselectable="on"></div>

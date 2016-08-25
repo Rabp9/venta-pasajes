@@ -43,7 +43,7 @@ class Giro extends Entity
     }
     
     protected function _getAsignado() {
-        if ($this->_properties['programacion_id']) {
+        if (isset($this->_properties['programacion'])) {
             return "Bus: " . $this->_properties['programacion']->bus->placa;
         }
         if ($this->_properties['entrega']) {

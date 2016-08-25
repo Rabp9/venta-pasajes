@@ -43,10 +43,13 @@ class Encomienda extends Entity
     
     protected function _getDescripcion() {
         $descripcion = [];
-        foreach ($this->_properties["encomiendas_tipos"] as $encomienda_tipo) {
-            $descripcion[] = $encomienda_tipo->cantidad . 'x ' . $encomienda_tipo->tipo_producto->descripcion . ' (' . $encomienda_tipo->detalle . ')';
+        if (isset($this->_properties["encomiendsa_tipos"])) {
+            foreach ($this->_properties["encomiendas_tipos"] as $encomienda_tipo) {
+                $descripcion[] = $encomienda_tipo->cantidad . 'x ' . $encomienda_tipo->tipo_producto->descripcion . ' (' . $encomienda_tipo->detalle . ')';
+            }
+            return substr(Text::toList($descripcion, 'y'), 0, 55);
         }
-        return substr(Text::toList($descripcion, 'y'), 0, 55);
+        return '';
     }
     
     protected function _getDocumento() {

@@ -9,6 +9,11 @@ var VentaPasajesApp = angular.module("VentaPasajesApp", [
 
 VentaPasajesApp.path_location = "http://172.20.11.60:8000/venta-pasajes/";
 
+VentaPasajesApp.config(['$compileProvider',
+    function ($compileProvider) {
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
+}]);
+
 VentaPasajesApp.config(function($routeProvider) {
     $routeProvider
         .when("/", {

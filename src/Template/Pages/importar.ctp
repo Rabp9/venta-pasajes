@@ -70,7 +70,7 @@ $this->assign("title", "Importar Datos");
                             </li>
                         </label>
                     </ul>
-                    <button type="submit" class="btn btn-primary">Exportar</button>
+                    <a id="aExport" class="btn btn-primary" ng-click="export()">Exportar</a>
                 </div>
             </div>
         </form>

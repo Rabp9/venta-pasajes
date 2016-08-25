@@ -157,7 +157,11 @@ class ImportarController extends AppController
         
         if ($ch_clientes) {
             $clientes = $clientesTable->find()
-                ->where(['flag_export' => false]);
+                ->where(['flag_export' => false])
+                ->toArray();
+            $clientesTable->updateAll(
+                ['flag_export' => true], 
+                ['flag_export' => false]);
         }
         
         if ($ch_pasajes) {
@@ -166,20 +170,25 @@ class ImportarController extends AppController
         }
         
         if ($ch_giros) {
-            debug($girosTable->entityClass);
-            // unset($girosTable->virtualFields['documento']);
             $giros = $girosTable->find()
-                ->where(['flag_export' => false]);
+                ->select(['programacion_id', 'desplazamiento_id', 'remitente', 'destinatario', 'fecha', 'detalle', 'valor_total', 'observaciones', 'fecha_envio', 'fecha_recepcion', 'nro_doc', 'condicion', 'entrega', 'estado_id', 'flag_export'])
+                ->where(['flag_export' => false])
+                ->toArray();
+            $girosTable->updateAll(
+                ['flag_export' => true], 
+                ['flag_export' => false]);
         }
         
         if ($ch_encomiendas) {
             $encomiendas = $encomiendasTable->find()
-                ->where(['flag_export' => false]);
+                ->where(['flag_export' => false])
+                ->toArray();
+            $encomiendasTable->updateAll(
+                ['flag_export' => true], 
+                ['flag_export' => false]);
         }
         
-        $export = array(@$clientes, @$pasajes, @$giros, @$encomiendas);
-        
-        $this->set(compact('export'));
-        $this->set('_serialize', ['export']);
+        $this->set(compact('clientes', 'pasajes', 'giros', 'encomiendas'));
+        $this->set('_serialize', ['clientes', 'pasajes', 'giros', 'encomiendas']);
     }
 }

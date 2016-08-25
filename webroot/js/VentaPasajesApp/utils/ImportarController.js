@@ -27,27 +27,29 @@ VentaPasajesApp.controller("ImportarController", function($scope, ImportarServic
         });
     }
     
-    ImportarService.getExportCountClientes(function(data) {
-        $scope.nro_clientes = data.nro_clientes;
-    });
+    $scope.constructor = function() {
+        ImportarService.getExportCountClientes(function(data) {
+            $scope.nro_clientes = data.nro_clientes;
+        });
+
+        ImportarService.getExportCountPasajes(function(data) {
+            $scope.nro_pasajes = data.nro_pasajes;
+        });
+
+        ImportarService.getExportCountGiros(function(data) {
+            $scope.nro_giros = data.nro_giros;
+        });
+
+        ImportarService.getExportCountEncomiendas(function(data) {
+            $scope.nro_encomiendas = data.nro_encomiendas;
+        });
+    }
     
-    ImportarService.getExportCountPasajes(function(data) {
-        $scope.nro_pasajes = data.nro_pasajes;
-    });
-    
-    ImportarService.getExportCountGiros(function(data) {
-        $scope.nro_giros = data.nro_giros;
-    });
-    
-    ImportarService.getExportCountEncomiendas(function(data) {
-        $scope.nro_encomiendas = data.nro_encomiendas;
-    });
+    $scope.constructor();
     
     $scope.export = function() {
-        console.log($scope.chk_clientes);
-        console.log($scope.chk_pasajes);
-        console.log($scope.chk_giros);
-        console.log($scope.chk_encomiendas);
+        $('#aExport').addClass('disabled');
+        $('#aExport').attr('disabled', true);
         ImportarService.export({
             clientes: $scope.chk_clientes,
             pasajes: $scope.chk_pasajes,
@@ -56,8 +58,16 @@ VentaPasajesApp.controller("ImportarController", function($scope, ImportarServic
         }, function(data) {
             data = JSON.stringify(data, undefined, 2);
             var blob = new Blob([data], {type: "application/json"});
-            var objectUrl = $window.URL.createObjectURL(blob);
-            $window.open(objectUrl);
+            
+            var downloadLink = angular.element('<a></a>');
+            downloadLink.attr('href',window.URL.createObjectURL(blob));
+            downloadLink.attr('download', 'backup.json');
+            downloadLink[0].click();
+            
+            $scope.constructor();
+            
+            $('#aExport').removeClass('disabled');
+            $('#aExport').attr('disabled', false);
         })
     }
 });
