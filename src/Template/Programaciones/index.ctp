@@ -29,7 +29,7 @@ $this->assign("title", "Lista de Programaciones");
                     <tr>
                         <td>{{programacion.servicio.descripcion}}</td>
                         <td>{{programacion.bus.placa}}</td>
-                        <td>{{programacion.fechahora_prog | date: 'yyyy-MM-dd'}}</td>
+                        <td>{{programacion.fechahora_prog }}</td>
                         <td><button ng-click="showList(programacion.id)" class="btn btn-primary" title="Lista de Encomiendas"><span class="glyphicon glyphicon-list"></span></button></td>
                     </tr>
                 </table>

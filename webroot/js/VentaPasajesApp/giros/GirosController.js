@@ -58,7 +58,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
         })
     };
     
-    $("#txtFecha").datepicker({
+    $("#txtFechaGiros").datepicker({
         changeMonth: true,
         changeYear: true,
         dateFormat: "yy-mm-dd"

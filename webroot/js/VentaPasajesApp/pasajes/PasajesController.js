@@ -4,12 +4,16 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     ProgramacionesService, BusAsientosService, DetalleDesplazamientosService, 
     PersonasService, DesplazamientosService, PasajesService, $filter, $window
 ) {
+    var date = new Date();
+    
     $scope.searching = false;
     $scope.reverse = false;
     $scope.predicate = "id";
     $scope.pasajes = [];
     $scope.dnis = [];
     $scope.personas = [];
+    $scope.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+        
     
     $("#txtFecha").datepicker({
         changeMonth: true,
@@ -17,6 +21,10 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         dateFormat: "yy-mm-dd"
     });
         
+    $('#dvImagen').resize(function() {
+        alert('dsada');
+    });
+    
     $scope.agencias = AgenciasService.get(function() {
         $scope.agencias = $scope.agencias.agencias;
     });

@@ -91,14 +91,14 @@ $this->assign("title", "Giros");
                                     <legend>Datos Adicionales</legend>
                                     <div class="col-sm-8">
                                         <div class="form-group">
-                                            <label for="txtFecha">Fecha de Registro</label>
-                                            <input id="txtFecha" class="form-control" type="text" ng-model="newGiro.preFecha"/>
+                                            <label for="txtFechaGiros">Fecha de Registro</label>
+                                            <input id="txtFechaGiros" class="form-control" type="text" ng-model="newGiro.preFecha"/>
                                         </div>
                                     </div>                                   
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <label for="txtFecha">Nro. Doc</label>
-                                            <input id="txtFecha" class="form-control" type="text" ng-model="newGiro.nro_doc"/>
+                                            <label for="txtNroDoc">Nro. Doc</label>
+                                            <input id="txtNroDoc" class="form-control" type="text" ng-model="newGiro.nro_doc"/>
                                         </div>
                                     </div>
                                 </fieldset>

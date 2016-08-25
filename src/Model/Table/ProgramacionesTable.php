@@ -30,6 +30,7 @@ class ProgramacionesTable extends Table
         parent::initialize($config);
 
         $this->table('programaciones');
+        $this->entityClass('Programacion');
         $this->displayField('id');
         $this->primaryKey('id');
 

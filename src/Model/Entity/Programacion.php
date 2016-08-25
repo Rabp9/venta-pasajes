@@ -2,6 +2,7 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\I18n\Time;
 
 /**
  * Programacion Entity.
@@ -35,4 +36,8 @@ class Programacion extends Entity
         '*' => true,
         'id' => false
     ];
+    
+    protected function _getFechahora_prog($fechahora_prog) {
+         return $fechahora_prog->format('Y-m-d H:i:s');
+    }
 }

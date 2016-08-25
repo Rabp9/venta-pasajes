@@ -82,7 +82,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         })
     }
     
-    $("#txtFecha").datepicker({
+    $("#txtFechaEncomiendas").datepicker({
         changeMonth: true,
         changeYear: true,
         dateFormat: "yy-mm-dd"

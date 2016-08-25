@@ -91,8 +91,8 @@ $this->assign("title", "Encomiendas");
                                     <legend>Datos Adicionales</legend>
                                     <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="txtFecha">Fecha de Registro</label>
-                                            <input id="txtFecha" class="form-control" type="text" ng-model="newEncomienda.preFechahora"/>
+                                            <label for="txtFechaEncomiendas">Fecha de Registro</label>
+                                            <input id="txtFechaEncomiendas" class="form-control" type="text" ng-model="newEncomienda.preFechahora"/>
                                         </div>
                                     </div>
                                 </fieldset>

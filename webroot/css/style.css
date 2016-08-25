@@ -164,17 +164,23 @@ td.programado {
 }
 
 .trProducto.ng-animate {
-  transition: 0.4s linear all;
+    transition: 0.4s linear all;
 }
 .trProducto.ng-enter {
-  opacity:0;
+    opacity:0;
 }
 .trProducto.ng-enter.ng-enter-active {
-  opacity:1;
+    opacity:1;
 }
 .trProducto.ng-leave {
-  opacity:1;
+    opacity:1;
 }
 .trProducto.ng-leave.ng-leave-active {
-  opacity:0;
+    opacity:0;
+}
+
+.pnl-pasajes {
+    background-color: white;
+    height: 100%;
+    padding-right: 30px;
 }
