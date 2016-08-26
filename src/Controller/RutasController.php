@@ -33,7 +33,7 @@ class RutasController extends AppController
                 ]
             ]
         ]);
-
+        debug($ruta->detalle);
         $this->set('ruta', $ruta);
         $this->set('_serialize', ['ruta']);
     }
