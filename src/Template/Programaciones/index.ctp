@@ -12,19 +12,25 @@ $this->assign("title", "Lista de Programaciones");
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
-<a class="btn btn-primary" href="#/programacionesAdd"><span class="glyphicon glyphicon-plus"></span> Nueva Programación</a>
-
+Filtros:
+<select id="sltSearchServicio" ng-model="search_servicio" class="form-control" style="display: inline; width: 15%;" 
+    ng-options="servicio.id as servicio.descripcion for servicio in servicios">
+    <option value="">Buscar por Servicio</option>
+</select>
+<input type="search" placeholder="Buscar por Placa de Bus" ng-model="search_placa" class="form-control" style="display: inline; width: 15%;" />
+<input id="txtBuscarFecha" type="text" placeholder="Buscar por fecha" ng-model="search_fecha" class="form-control" style="display: inline; width: 15%" />
+<a class="btn btn-primary pull-right" href="#/programacionesAdd"><span class="glyphicon glyphicon-plus"></span> Nueva Programación</a>
 <div class="list-group">
-    <a ng-repeat="programacion in programaciones" class="list-group-item">
-        <h4 class="list-group-item-heading">{{programacion.ruta.descripcion}}: Trujillo - Chao</h4>
+    <a ng-repeat="programacion in programaciones | filter: filter_programaciones" class="list-group-item">
+        <h4 class="list-group-item-heading"><strong>{{programacion.ruta.descripcion}}</strong>: {{ programacion.ruta.detalle }}</h4>
         <p class="list-group-item-text">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <tr>
-                        <td><strong>Servicio</strong></td>
-                        <td><strong>Bus</strong></td>
-                        <td><strong>Fecha y Hora</strong></td>
-                        <td><strong>Acciones</strong></td>
+                        <td style="width: 10%"><strong>Servicio</strong></td>
+                        <td style="width: 25%"><strong>Bus</strong></td>
+                        <td style="width: 25%"><strong>Fecha y Hora</strong></td>
+                        <td style="width: 40%"><strong>Acciones</strong></td>
                     </tr>
                     <tr>
                         <td>{{programacion.servicio.descripcion}}</td>

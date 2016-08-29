@@ -10,7 +10,18 @@ class ProgramacionesController extends AppController
         $this->viewBuilder()->layout(false);
         
         $programaciones = $this->Programaciones->find("all")
-            ->contain(["Rutas", "Servicios", "Buses"]);
+            ->contain([
+                "Rutas" => [
+                    "DetalleDesplazamientos" => [
+                        "Desplazamientos" => [
+                            "AgenciaOrigen" => ["Ubigeos"],
+                            "AgenciaDestino" => ["Ubigeos"]
+                        ]
+                    ]
+                ], 
+                "Servicios", 
+                "Buses"
+            ]);
 
         $this->set(compact('programaciones'));
         $this->set('_serialize', ['programaciones']);

@@ -40,7 +40,6 @@ class Ruta extends Entity
             foreach ($this->_properties['detalle_desplazamientos'] as $detalle_desplazamiento) {
                 $des = $detalle_desplazamiento->desplazamiento;
                 $desplazamientos[$i] = array(0 => $des->AgenciaOrigen->ubigeo->descripcion, 1 => $des->AgenciaDestino->ubigeo->descripcion);
-                $detalle .= $detalle_desplazamiento->desplazamiento->AgenciaOrigen->ubigeo->descripcion;
                 $i++;
             }
             $desplazamientos[] = array('Balsas', 'Junin');
@@ -65,11 +64,10 @@ class Ruta extends Entity
                                 if ($desplazamientos[$m][$n]) {
                                     if ($desplazamientos[0][$j] == $desplazamientos[$m][$n]) {
                                         if ($n < $j) {
-                                            $desplazamientos[$m] = $this->avanzar_antes($desplazamientos[$m], $j, $desplazamientos[$desplazamientos[0][$j]]);
+                                            $desplazamientos[$m] = $this->avanzar($desplazamientos[$m], $j, $desplazamientos[0][$j]);
                                         }
                                         if ($n > $j) {
-                                            $desplazamientos[0][$n] = $desplazamientos[0][$j];
-                                            $desplazamientos[0][$j] = 0;
+                                            $desplazamientos[0] = $this->avanzar($desplazamientos[0], $n, $desplazamientos[0][$j]);
                                             $j = $n;
                                         }
                                     }
@@ -78,58 +76,46 @@ class Ruta extends Entity
                         }
                     }
                 }
-                debug('antes: ');
-                debug($desplazamientos);
                 $desplazamientos = $this->reordenar($desplazamientos);
-                debug('despues: ');
-                debug($desplazamientos);
             }
-            
-            return $detalle;
+            $detalles = array();
+            for ($i = 0; $i < $size; $i++) {
+                foreach ($desplazamientos as $desplazamiento) {
+                    if ($desplazamiento[$i] != "0") {
+                        $detalles[$i] = $desplazamiento[$i];
+                        break;
+                    }
+                }
+            }
+            return implode(' - ', $detalles);
         }
         return '';
     }
     
     private function avanzar($desplazamiento, $indice, $des) {
-        $origen = 'vacio';
-        $destino = 'vacio';
+        $origen = null;
+        $destino = null;
         for ($i = 0; $i < sizeof($desplazamiento); $i++) {
-            if ($desplazamiento[$i]) {
-                if ($origen == 'vacio') {
-                    $origen = $i;
-                } else {
-                    $destino = $i;
-                }
-            } 
+            if (is_null($origen) && $desplazamiento[$i] != "0") {
+                $origen = $i;
+            } elseif ($desplazamiento[$i] != "0") {
+                $destino = $i;
+            }
         }
         if ($desplazamiento[$origen] == $des) {
-            // correr todo
-            $desplazamiento[$indice + 1] = $desplazamiento[$destino];
-            $desplazamiento[$indice] = $desplazamiento[$origen];
-            $desplazamiento[$origen] = 0;
-            $desplazamiento[$destino] = 0;
+            if ($destino > $indice) {
+                $desplazamiento[$indice] = $desplazamiento[$origen];
+                $desplazamiento[$origen] = 0;
+            } else {
+                $desplazamiento[$indice + 1] = $desplazamiento[$destino];
+                $desplazamiento[$destino] = 0;
+                $desplazamiento[$indice] = $desplazamiento[$origen];
+                $desplazamiento[$origen] = 0;
+            }
         } else {
-            // mover unico elemento
             $desplazamiento[$indice] = $desplazamiento[$destino];
+            $desplazamiento[$destino] = 0;
         }
-        /*
-        if ($desplazamiento[$inicio] == $des) {
-            $new_desplazamiento = array();
-            for ($i = 0; $i < sizeof($desplazamiento); $i++) {
-                $new_desplazamiento[$i] = 0;
-            }
-            $new_desplazamiento[$indice] = $desplazamiento[$inicio];
-            $new_desplazamiento[$indice + 1] = $desplazamiento[$inicio + 1];
-        } else {
-            $desplazamiento[$indice] = $des;
-            for ($i = 0; $i < sizeof($desplazamiento); $i++) {
-                if ($i != $inicio && $i != $indice) {
-                    $desplazamiento[$i] = 0;
-                }
-            }
-            $new_desplazamiento = $desplazamiento;
-        }
-        return $new_desplazamiento;*/
         return $desplazamiento;
     }
     
