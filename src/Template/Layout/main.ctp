@@ -39,6 +39,7 @@
         
         "VentaPasajesApp/rutas/ListRutasController.js",
         "VentaPasajesApp/rutas/AddRutasController.js",
+        "VentaPasajesApp/rutas/EditRutasController.js",
         
         "VentaPasajesApp/agencias/ListAgenciasController.js",
         "VentaPasajesApp/agencias/AddAgenciasController.js",

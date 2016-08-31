@@ -15,6 +15,10 @@ VentaPasajesApp.config(function($routeProvider) {
             controller: "HomeController",
             templateUrl: "templates/home.html"
         })
+        .when("/agencias", {
+            controller: "ListAgenciasController",
+            templateUrl: "agencias"
+        })
         .when("/buses/:type?/:text?", {
             controller: "ListBusesController",
             templateUrl: "buses"
@@ -23,37 +27,29 @@ VentaPasajesApp.config(function($routeProvider) {
             controller: "AdministrarBusesController",
             templateUrl: "buses/administrar"
         })
-        .when("/agencias", {
-            controller: "ListAgenciasController",
-            templateUrl: "agencias"
-        })
-        .when("/rutas", {
-            controller: "ListRutasController",
-            templateUrl: "rutas"
-        })
-        .when("/tarifas", {
-            controller: "ListTarifasController",
-            templateUrl: "tarifas"
-        })
-        .when("/personas", {
-            controller: "ListPersonasController",
-            templateUrl: "personas"
+        .when("/clientes", {
+            controller: "ListClientesController",
+            templateUrl: "clientes"
         })
         .when("/conductores", {
             controller: "ListConductoresController",
             templateUrl: "conductores"
         })
-        .when("/programaciones/:type?/:text?", {
-            controller: "ListProgramacionesController",
-            templateUrl: "programaciones"
+        .when("/encomiendas", {
+            controller: "EncomiendasController",
+            templateUrl: "encomiendas"
         })
-        .when("/programacionesAdd", {
-            controller: "AddProgramacionesController",
-            templateUrl: "programaciones/add"
+        .when("/encomiendas/:id", {
+            controller: "EncomiendasViewController",
+            templateUrl: "Encomiendas/view"
         })
-        .when("/servicios", {
-            controller: "ListServiciosController",
-            templateUrl: "servicios"
+        .when("/giros", {
+            controller: "GirosController",
+            templateUrl: "giros"
+        })
+        .when("/importar", {
+            controller: "ImportarController",
+            templateUrl: "Pages/importar"
         })
         .when("/pasajes", {
             controller: "PasajesController",
@@ -63,29 +59,33 @@ VentaPasajesApp.config(function($routeProvider) {
             controller: "PasajesViewController",
             templateUrl: "pasajes/view"
         })
-        .when("/encomiendas", {
-            controller: "EncomiendasController",
-            templateUrl: "encomiendas"
+        .when("/personas", {
+            controller: "ListPersonasController",
+            templateUrl: "personas"
         })
-        .when("/giros", {
-            controller: "GirosController",
-            templateUrl: "giros"
+        .when("/programaciones/:type?/:text?", {
+            controller: "ListProgramacionesController",
+            templateUrl: "programaciones"
         })
-        .when("/encomiendas/:id", {
-            controller: "EncomiendasViewController",
-            templateUrl: "Encomiendas/view"
+        .when("/programacionesAdd", {
+            controller: "AddProgramacionesController",
+            templateUrl: "programaciones/add"
+        })
+        .when("/rutas", {
+            controller: "ListRutasController",
+            templateUrl: "rutas"
+        })
+        .when("/servicios", {
+            controller: "ListServiciosController",
+            templateUrl: "servicios"
+        })
+        .when("/tarifas", {
+            controller: "ListTarifasController",
+            templateUrl: "tarifas"
         })
         .when("/tipoProductos", {
             controller: "ListTipoProductosController",
             templateUrl: "tipoProductos"
-        })
-        .when("/clientes", {
-            controller: "ListClientesController",
-            templateUrl: "clientes"
-        })
-        .when("/importar", {
-            controller: "ImportarController",
-            templateUrl: "Pages/importar"
         })
     ;
 });

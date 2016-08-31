@@ -36,55 +36,51 @@ class DetalleDesplazamientosController extends AppController
         $detalleDesplazamiento = $this->DetalleDesplazamientos->newEntity();
         if ($this->request->is('post')) {
             $detalleDesplazamiento = $this->DetalleDesplazamientos->patchEntity($detalleDesplazamiento, $this->request->data);
-            if ($this->DetalleDesplazamientos->save($detalleDesplazamiento)) {
+            $count = $this->DetalleDesplazamientos->find()
+                    ->where($this->request->data)
+                    ->count();
+            if ($count) {
                 $message = array(
-                    'text' => __('Saved'),
-                    'type' => 'success'
-                );
-            } else {
-                $message = array(
-                    'text' => __('Error'),
+                    'text' => __('No se pudo registrar. Ya existe un desplazamiento registrado.'),
                     'type' => 'error'
                 );
+            } else {
+                if ($this->DetalleDesplazamientos->save($detalleDesplazamiento)) {
+                    $message = array(
+                        'text' => __('Desplazamiento agregado correctamente.'),
+                        'type' => 'success'
+                    );
+                } else {
+                    $message = array(
+                        'text' => __('No se pudo agregar correctamente el desplazamiento.'),
+                        'type' => 'error'
+                    );
+                }
             }
         }
-        $rutas = $this->DetalleDesplazamientos->Rutas->find("list");
-        $desplazamientos = $this->DetalleDesplazamientos->Desplazamientos->find("list");
-        $this->set(compact("detalleDesplazamiento", "rutas", "desplazamientos"));
+        
+        $this->set(compact("message"));
         $this->set('_serialize', ["message"]);
     }
 
-    public function edit($id = null)
-    {
-        $detalleDesplazamiento = $this->DetalleDesplazamientos->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $detalleDesplazamiento = $this->DetalleDesplazamientos->patchEntity($detalleDesplazamiento, $this->request->data);
-            if ($this->DetalleDesplazamientos->save($detalleDesplazamiento)) {
-                $this->Flash->success(__('The detalle desplazamiento has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The detalle desplazamiento could not be saved. Please, try again.'));
-            }
-        }
-        $rutas = $this->DetalleDesplazamientos->Rutas->find('list', ['limit' => 200]);
-        $programacionViajes = $this->DetalleDesplazamientos->ProgramacionViajes->find('list', ['limit' => 200]);
-        $agencias = $this->DetalleDesplazamientos->Agencias->find('list', ['limit' => 200]);
-        $this->set(compact('detalleDesplazamiento', 'rutas', 'programacionViajes', 'agencias'));
-        $this->set('_serialize', ['detalleDesplazamiento']);
+    public function edit($id = null) {
+        $this->viewBuilder()->layout(false);
     }
 
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
+    public function delete($id = null) {
+        /*
+         $this->request->allowMethod(['post', 'delete']);
+         
         $detalleDesplazamiento = $this->DetalleDesplazamientos->get($id);
         if ($this->DetalleDesplazamientos->delete($detalleDesplazamiento)) {
             $this->Flash->success(__('The detalle desplazamiento has been deleted.'));
         } else {
             $this->Flash->error(__('The detalle desplazamiento could not be deleted. Please, try again.'));
         }
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'index']);*/
+        $message = "dsadadasda";
+        $this->set(compact("message"));
+        $this->set('_serialize', ["message"]);
     }
     
     public function setRestricciones($id = null) {

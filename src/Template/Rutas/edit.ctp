@@ -1,25 +1,25 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $ruta->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $ruta->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Rutas'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Estados'), ['controller' => 'Estados', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Estado'), ['controller' => 'Estados', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="rutas form large-9 medium-8 columns content">
-    <?= $this->Form->create($ruta) ?>
-    <fieldset>
-        <legend><?= __('Edit Ruta') ?></legend>
-        <?php
-            echo $this->Form->input('descripcion');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+<!-- src/Template/Rutas/edit.ctp -->
+<div ng-controller="EditRutasController">
+    <form ng-submit="updateRuta()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Editar Ruta</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <div class="form-group">
+                            <label id='txtDescripcion'>Descripción</label>
+                            <input id="txtDescripcion" type="text" class="form-control" ng-model="editRuta.descripcion" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button id="btnEditRegistrarRuta" type="submit" class="btn btn-primary">Registrar</button>
+            </div>
+        </div>
+    </form>
 </div>

@@ -1,6 +1,6 @@
 <!-- src/Template/DetalleDesplazamientos/add.ctp -->
 <div ng-controller="AddDetalleDesplazamientosController">
-    <?= $this->Form->create($detalleDesplazamiento, ["url" => false, "ng-submit" => "addDetalleDesplazamiento()"]); ?>
+    <form ng-submit="addDetalleDesplazamiento()">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -54,8 +54,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Registrar</button>
+                <button id="btnRegistrarDesplazamiento" ng-show="desplazamiento != null && !loading" type="submit" class="btn btn-primary">Registrar</button>
             </div>
         </div>
-    <?= $this->Form->end() ?>
+    </form>
 </div>

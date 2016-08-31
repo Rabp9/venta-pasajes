@@ -13,7 +13,9 @@ class RutasController extends AppController
     public function index() {
         $this->viewBuilder()->layout(false);
         
-        $rutas = $this->Rutas->find("all")->contain(["Estados"]);
+        $rutas = $this->Rutas->find("all")
+            ->contain(["Estados"])
+            ->where(['estado_id' => 1]);
         
         $this->set(compact('rutas'));
         $this->set('_serialize', ['rutas']);
@@ -60,23 +62,28 @@ class RutasController extends AppController
         $this->set('_serialize', ['message']);
     }
 
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
+        $this->viewBuilder()->layout(false);
+        
         $ruta = $this->Rutas->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $ruta = $this->Rutas->patchEntity($ruta, $this->request->data);
             if ($this->Rutas->save($ruta)) {
-                $this->Flash->success(__('The ruta has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                $message = array(
+                    'text' => __('Ruta modificada correctamente'),
+                    'type' => 'success'
+                );
             } else {
-                $this->Flash->error(__('The ruta could not be saved. Please, try again.'));
+                $message = array(
+                    'text' => __('No fue posible modificar la ruta'),
+                    'type' => 'error'
+                );
             }
         }
-        $estados = $this->Rutas->Estados->find('list', ['limit' => 200]);
-        $this->set(compact('ruta', 'estados'));
-        $this->set('_serialize', ['ruta']);
+        $this->set(compact('message', 'ruta'));
+        $this->set('_serialize', ['message']);
     }
 
     public function delete($id = null)

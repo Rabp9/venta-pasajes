@@ -25,14 +25,19 @@ VentaPasajesApp.controller("AddDetalleDesplazamientosController", function($scop
     }
     
     $scope.addDetalleDesplazamiento = function() {
+        $('#btnRegistrarDesplazamiento').addClass('disabled');
+        $('#btnRegistrarDesplazamiento').prop('disabled', true);
         
         $scope.newDetalleDesplazamiento.ruta_id = $scope.$parent.ruta_selected.id;
         $scope.newDetalleDesplazamiento.desplazamiento_id = $scope.desplazamiento.id;
         DetalleDesplazamientosService.save($scope.newDetalleDesplazamiento, function(data) {
-            $("#mdlRutas").modal('toggle');
+            $("#mdlDesplazamientos").modal('toggle');
             $scope.newDetalleDesplazamiento = new DetalleDesplazamientosService();
-            //$scope.$parent.actualizarMessage(data.message);
+            $scope.$parent.actualizarMessage(data.message);
             $scope.$parent.fetchDesplazamientos($scope.$parent.ruta_selected.id);
+            
+            $('#btnAddDesplazamientos').removeClass("disabled");
+            $("#btnAddDesplazamientos").attr("disabled", false);
         });
     }
 });
