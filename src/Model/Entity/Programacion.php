@@ -38,6 +38,9 @@ class Programacion extends Entity
     ];
     
     protected function _getFechahora_prog($fechahora_prog) {
-         return $fechahora_prog->format('Y-m-d H:i:s');
+        if (isset($fechahora_prog)) {
+            return $fechahora_prog->format('Y-m-d H:i:s');
+        }
+        return '';
     }
 }

@@ -184,3 +184,12 @@ td.programado {
     height: 100%;
     padding-right: 30px;
 }
+
+.pnl-programaciones-add  {
+    height: 330px;
+}
+
+.tag-overflow {
+    overflow: auto;
+    height: 120px;
+}

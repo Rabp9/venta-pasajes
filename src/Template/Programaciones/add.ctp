@@ -16,7 +16,7 @@ $this->assign("title", "Nueva Programación");
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary pnl-programaciones-add">
                 <div class="panel-heading">SELECCIÓN DE BUS</div>
                 <div class="panel-body">
                     <div class="form-group">
@@ -43,18 +43,18 @@ $this->assign("title", "Nueva Programación");
                             <dt>Pisos</dt>
                             <dd>{{busSelected.nro_pisos}}</dd>
 
-                            <dt>Asientos</dt>
-                            <dd>{{busSelected.nro_asientos}}</dd>
+                            <dt class="hidden-xs">Asientos</dt>
+                            <dd class="hidden-xs">{{busSelected.nro_asientos}}</dd>
 
-                            <dt>Estado</dt>
-                            <dd>{{busSelected.estado.descripcion}}</dd>
+                            <dt class="hidden-xs">Estado</dt>
+                            <dd class="hidden-xs">{{busSelected.estado.descripcion}}</dd>
                         </dl>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary pnl-programaciones-add">
                 <div class="panel-heading">SELECCIÓN DE RUTA</div>
                 <div class="panel-body">
                     <div class="form-group">
@@ -75,7 +75,7 @@ $this->assign("title", "Nueva Programación");
                             <dt>Desplazamientos</dt>
                             <dd></dd>
 
-                            <ul>
+                            <ul class="tag-overflow">
                                 <li ng-repeat="detalle in rutaSelected.detalle_desplazamientos">
                                     {{detalle.desplazamiento.AgenciaOrigen.direccion}} 
                                     ({{detalle.desplazamiento.AgenciaOrigen.ubigeo.descripcion}}) - 
@@ -89,7 +89,7 @@ $this->assign("title", "Nueva Programación");
             </div>
         </div>
         <div class="col-sm-3">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary pnl-programaciones-add">
                 <div class="panel-heading">SELECCIÓN DE SERVICIO</div>
                 <div class="panel-body">
                     <div class="form-group">
@@ -112,7 +112,7 @@ $this->assign("title", "Nueva Programación");
             </div>
         </div>
         <div class="col-sm-3">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary pnl-programaciones-add">
                 <div class="panel-heading">SELECCIÓN DE CONDUCTORES</div>
                 <div class="panel-body">
                     <div class="form-group">
@@ -124,7 +124,7 @@ $this->assign("title", "Nueva Programación");
                         </select>
                     </div>
                     <div ng-show="conductores_ids != null">
-                        <div class="table-responsive">
+                        <div class="table-responsive tag-overflow">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -153,5 +153,6 @@ $this->assign("title", "Nueva Programación");
             </div>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary">Registrar</button>
+    <button id="btnRegistrarProgramacion" type="submit" class="btn btn-primary">Registrar</button>
+    <a href="#/programaciones" class="btn btn-primary">Regresar</a>
 </form>

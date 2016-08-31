@@ -45,6 +45,8 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
     };
     
     $scope.saveProgramacion = function() {
+        $("#btnRegistrarProgramacion").addClass("disabled");
+        $("#btnRegistrarProgramacion").attr("disabled", true);
         angular.forEach($scope.conductoresSelected, function(value, key) {
             var conductor = value;
             $scope.programacion.detalle_conductores[key].conductor_id = conductor.id;
@@ -55,6 +57,9 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
             var type = data.message.type;
             var text = data.message.text;
             window.location = VentaPasajesApp.path_location + "#/programaciones/" + type + "/" + text;
+            
+            $("#btnRegistrarProgramacion").removeClass("disabled");
+            $("#btnRegistrarProgramacion").attr("disabled", false);
         })
     }
 });
