@@ -72,10 +72,13 @@ VentaPasajesApp.controller("ListRutasController", function($scope, RutasService,
         $event.stopPropagation();
     }
     
-    $scope.removeDetalleDesplazamiento = function(detalleDesplazamiento_id) {
+    $scope.removeDetalleDesplazamiento = function(detalleDesplazamiento_id, $event) {
         if (confirm('¿Estás seguro de eliminar este desplazamiento?')) {
             DetalleDesplazamientosService.delete({id: detalleDesplazamiento_id}, function(data) {
-                console.log(data);
+                $scope.message = data.message;
+                if ($scope.message.type == 'success') {
+                    angular.element($event.target).parent().parent().parent().remove();
+                }
             });
         }
     }
@@ -104,21 +107,34 @@ VentaPasajesApp.controller("ListRutasController", function($scope, RutasService,
         });
     });
     
+    $("#mdlRestricciones").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $('#btnSetRestricciones').removeClass("disabled");
+            $("#btnSetRestricciones").attr("disabled", false);
+            $scope.modalRestriccionesUrl = "";
+        });
+    });
+    
     $scope.openModalRutas = function() {
         $("#mdlRutas").modal("toggle");
-    }
-    
-    $scope.openModalDesplazamientos = function() {
-        $("#mdlDesplazamientos").modal("toggle");
-    }
+    };
     
     $scope.openModalEditRuta = function() {
         $('#mdlEditRuta').modal('toggle');
-    }
+    };
+    
+    $scope.openModalDesplazamientos = function() {
+        $("#mdlDesplazamientos").modal("toggle");
+    };
+    
+    $scope.openModalRestricciones = function() {
+        $("#mdlRestricciones").modal("toggle");
+    };
     
     $scope.setRestricciones = function() {
-        $scope.modalUrl = VentaPasajesApp.path_location + "detalleDesplazamientos/setRestricciones";
-        $scope.modal_grande = true;
+        $('#btnSetRestricciones').addClass("disabled");
+        $("#btnSetRestricciones").attr("disabled", true);
+        $scope.modalRestriccionesUrl = VentaPasajesApp.path_location + "detalleDesplazamientos/setRestricciones";
     }
     
     $scope.actualizarMessage = function(message) {

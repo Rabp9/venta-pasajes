@@ -51,7 +51,7 @@ $this->assign("title", "Rutas");
                                     <td width="35%" align="center">{{ detalle_desplazamiento.desplazamiento.AgenciaOrigen.direccion }} ({{ detalle_desplazamiento.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
                                     <td width="35%" align="center">{{ detalle_desplazamiento.desplazamiento.AgenciaDestino.direccion }} ({{ detalle_desplazamiento.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
                                     <td width='2%'>
-                                        <a style="cursor: pointer;" ng-click="removeDetalleDesplazamiento(detalle_desplazamiento.id)" title="Eliminar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                        <a style="cursor: pointer;" ng-click="removeDetalleDesplazamiento(detalle_desplazamiento.id, $event)" title="Eliminar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -60,7 +60,7 @@ $this->assign("title", "Rutas");
                 </div>
             </div>
             <button id="btnAddDesplazamientos" type="button" class="btn btn-primary" ng-click="addDesplazamiento()">Nuevo Desplazamiento</button>
-            <button type="button" class="btn btn-primary" ng-click="setRestricciones()">Restricciones</button>
+            <button id="btnSetRestricciones" type="button" class="btn btn-primary" ng-click="setRestricciones()">Restricciones</button>
         </div>
     </div>
 </div>

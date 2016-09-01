@@ -68,17 +68,22 @@ class DetalleDesplazamientosController extends AppController
     }
 
     public function delete($id = null) {
-        /*
-         $this->request->allowMethod(['post', 'delete']);
+        $this->viewBuilder()->layout(false);
+        $this->request->allowMethod(['post', 'delete']);
          
         $detalleDesplazamiento = $this->DetalleDesplazamientos->get($id);
         if ($this->DetalleDesplazamientos->delete($detalleDesplazamiento)) {
-            $this->Flash->success(__('The detalle desplazamiento has been deleted.'));
+            $message = array(
+                'text' => __('Desplazamiento eliminado correctamente.'),
+                'type' => 'success'
+            );
         } else {
-            $this->Flash->error(__('The detalle desplazamiento could not be deleted. Please, try again.'));
+            $message = array(
+                'text' => __('No se pudo eliminar el desplazamiento.'),
+                'type' => 'error'
+            );
         }
-        return $this->redirect(['action' => 'index']);*/
-        $message = "dsadadasda";
+        
         $this->set(compact("message"));
         $this->set('_serialize', ["message"]);
     }
