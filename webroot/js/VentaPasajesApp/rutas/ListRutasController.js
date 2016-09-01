@@ -132,16 +132,20 @@ VentaPasajesApp.controller("ListRutasController", function($scope, RutasService,
     };
     
     $scope.setRestricciones = function() {
-        $('#btnSetRestricciones').addClass("disabled");
-        $("#btnSetRestricciones").attr("disabled", true);
-        $scope.modalRestriccionesUrl = VentaPasajesApp.path_location + "detalleDesplazamientos/setRestricciones";
-    }
+        if ($scope.ruta_selected.detalle_desplazamientos.length) {
+            $('#btnSetRestricciones').addClass("disabled");
+            $("#btnSetRestricciones").attr("disabled", true);
+            $scope.modalRestriccionesUrl = VentaPasajesApp.path_location + "detalleDesplazamientos/setRestricciones";
+        } else {
+            alert('No ha agregado desplazamientos aún');
+        }
+    };
     
     $scope.actualizarMessage = function(message) {
         $scope.message = message;
-    }
+    };
     
     $scope.acutalizarRutaSelected = function(rutaSelected) {
         $scope.ruta_selected = rutaSelected;
-    }
+    };
 });

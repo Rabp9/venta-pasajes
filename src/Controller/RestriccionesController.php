@@ -26,8 +26,7 @@ class RestriccionesController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $restriccione = $this->Restricciones->get($id, [
             'contain' => []
         ]);
@@ -41,8 +40,7 @@ class RestriccionesController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
         $restriccione = $this->Restricciones->newEntity();
         if ($this->request->is('post')) {
             $restriccione = $this->Restricciones->patchEntity($restriccione, $this->request->data);
@@ -64,8 +62,7 @@ class RestriccionesController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
         $restriccione = $this->Restricciones->get($id, [
             'contain' => []
         ]);
@@ -89,8 +86,7 @@ class RestriccionesController extends AppController
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $restriccione = $this->Restricciones->get($id);
         if ($this->Restricciones->delete($restriccione)) {
@@ -128,4 +124,24 @@ class RestriccionesController extends AppController
             $this->set('_serialize', ['message']);
         }
     }
+    
+    public function getValues() {
+        $this->viewBuilder()->layout(false);
+        
+        $restricciones = $this->request->data['restricciones'];
+        
+        $restricciones_new = array();
+        foreach ($restricciones as $k_restriccion => $restriccion) {
+            $restricciones_new[$k_restriccion] = $this->Restricciones->find()
+                ->where(['desplazamiento_x' => $restriccion['desplazamiento_x'], 'desplazamiento_y' => $restriccion['desplazamiento_y']])
+                ->first();
+        }
+        
+        if ($restricciones_new[0]) {
+            $restricciones = $restricciones_new;
+        }
+        $this->set(compact('restricciones'));
+        $this->set('_serialize', ['restricciones']);
+    }
+    
 }

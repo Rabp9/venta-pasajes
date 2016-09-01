@@ -7,6 +7,10 @@ VentaPasajesApp.factory("RestriccionesService", function($resource) {
         saveMany: {
             method: 'POST',
             url: VentaPasajesApp.path_location + "restricciones/saveMany/.json"
+        },
+        getValues: {
+            method: 'POST',
+            url: VentaPasajesApp.path_location + 'restricciones/getValues/.json'
         }
     });
 });

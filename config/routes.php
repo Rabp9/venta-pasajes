@@ -283,6 +283,10 @@ Router::scope('/', function ($routes) {
             'saveMany/' => [
                 'action' => 'saveMany',
                 'method' => 'POST'
+            ],
+            'getValues/' => [
+                'action' => 'getValues',
+                'method' => 'POST'
             ]
         ]
     ]);

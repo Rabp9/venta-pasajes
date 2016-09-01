@@ -13,7 +13,7 @@
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
-                                    <td> </td>
+                                    <td></td>
                                     <td ng-repeat="desplazamiento_x in desplazamientos_x">
                                         Cod. Des. {{desplazamiento_x.id}}
                                     </td>
@@ -23,7 +23,11 @@
                                         Cod. Des. {{desplazamiento_y.id}}
                                     </td>
                                     <td ng-repeat="desplazamiento_x in desplazamientos_x">
-                                        <input ng-checked="$index == $parent.$index" ng-disabled="$index == $parent.$index" type="checkbox" ng-model="restricciones[($index + $parent.$index + $index * 2).toString()].valor">
+                                        <input class="chk-desplazamiento" ng-checked="$index == $parent.$index || restricciones[($index + $parent.$index + $index * 2).toString()].valor == 1" 
+                                            ng-disabled="$index == $parent.$index" 
+                                            type="checkbox" 
+                                            ng-model="restricciones[($index + $parent.$index + $index * 2).toString()].valor">
+                                        {{ restricciones[($index + $parent.$index + $index * 2).toString()].valor }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -54,7 +58,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Registrar</button>
+                <button id="btnRegistrarRestricciones" type="submit" class="btn btn-primary">Registrar</button>
             </div>
         </div>
     </form>
