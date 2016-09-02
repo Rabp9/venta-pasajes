@@ -182,7 +182,8 @@ td.programado {
 .pnl-pasajes {
     background-color: white;
     height: 100%;
-    padding-right: 30px;
+/*    padding-right: 30px;*/
+    overflow: auto;
 }
 
 .pnl-programaciones-add  {

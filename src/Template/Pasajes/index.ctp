@@ -16,14 +16,12 @@ $this->assign("title", "Pasajes");
 <div class="row">
     <div class="col-md-9">
         <div id="dvFiltros" class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="form-group">
                     <label for="dtFecha">Fecha</label>
                     <input id="txtFecha" class="form-control" type="text" ng-model="fecha"
                         ng-keyup="onSearchChange()"/> 
-                </div>    
-            </div>
-            <div class="col-sm-4">
+                </div>
                 <div class="form-group">
                     <label for="sltOrigen">Origen</label>
                     <select id="sltOrigen" class="form-control"
@@ -32,8 +30,6 @@ $this->assign("title", "Pasajes");
                         <option value="">Selecciona una Agencia</option>
                     </select>
                 </div>
-            </div>
-            <div class="col-sm-4">
                 <div class="form-group">
                     <label for="sltDestino">Destino</label>
                     <select id="sltDestino" class="form-control"
@@ -43,11 +39,9 @@ $this->assign("title", "Pasajes");
                     </select>
                 </div>
             </div>
-        </div>
-        <div id="dvresultados" class="row">
-            <div class="col-sm-12">
+            <div id="dvresultados" class="col-sm-9">
                 <div id="marco_include">
-                    <div style="height: 25%; overflow:auto" class="justificado_not" id="busqueda">
+                    <div style="height: 40%; overflow: auto" class="justificado_not" id="busqueda">
                         <div id="busqueda">
                             <table class="table" border="0" cellpadding="1" cellspacing="1" id="marco_panel">
                                 <thead>
@@ -171,7 +165,7 @@ $this->assign("title", "Pasajes");
                     </div>
                     <div class="form-group">
                         <label for="txtPersonaDni">Persona</label>
-                        <input id="txtPersonaDni" type="text" ng-model="dnis[$index]" ng-keyup="onKupDni($index)" class="form-control" />
+                        <input id="txtPersonaDni" type="text" ng-model="dnis[$index]" ng-keyup="onKupDni($index)" class="form-control" maxlength="8"/>
                         <input type="text" ng-model="pasaje.persona.full_name" class="form-control" readonly />
                     </div>
                     <div class="form-group">
@@ -187,34 +181,7 @@ $this->assign("title", "Pasajes");
 
 <!-- Modal -->
 <div class="modal fade" id="mdlPasaje" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Nuevo Bus</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-8 col-sm-offset-2">
-                        <?php
-                            echo $this->Form->input('placa', ["ng-model" => "newBus.placa"]);
-                            echo $this->Form->input('chasis', ["ng-model" => "newBus.chasis"]);
-                            echo $this->Form->input('anio', ['label' => "Año", "ng-model" => "newBus.anio"]);
-                            echo $this->Form->input('motor', ["ng-model" => "newBus.motor"]);
-                            echo $this->Form->input("estado_id", [
-                                "label" => "Estado",
-                                "empty" => "Selecciona uno",
-                                "ng-model" => "newBus.estado_id"
-                            ]);
-
-                        ?>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button id="btnRegistrar" type="submit" class="btn btn-primary">Registrar</button>
-            </div>
-        </div>
+    <div class="modal-dialog" role="document" ng-include="modalPersonaUrl" onload="openPersonaModal()">
+        
     </div>
 </div>

@@ -18,13 +18,14 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     $("#txtFecha").datepicker({
         changeMonth: true,
         changeYear: true,
-        dateFormat: "yy-mm-dd"
+        dateFormat: "yy-mm-dd",
+        onSelect: function(dateText) {
+            $scope.fecha = dateText;
+            $scope.$apply();
+            $scope.onSearchChange();
+        }
     });
         
-    $('#dvImagen').resize(function() {
-        alert('dsada');
-    });
-    
     $scope.agencias = AgenciasService.get(function() {
         $scope.agencias = $scope.agencias.agencias;
     });
@@ -35,7 +36,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         }
         if ($scope.destino_selected == null) {
             return;
-        }
+        }       
         $scope.searching = true;
         var fecha = $filter("date")($scope.fecha, "yyyy-MM-dd");
         

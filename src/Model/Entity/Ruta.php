@@ -42,9 +42,6 @@ class Ruta extends Entity
                 $desplazamientos[$i] = array(0 => $des->AgenciaOrigen->ubigeo->descripcion, 1 => $des->AgenciaDestino->ubigeo->descripcion);
                 $i++;
             }
-            $desplazamientos[] = array('Balsas', 'Junin');
-            $desplazamientos[] = array('Colcamar', 'Junin');
-            $desplazamientos[] = array('Bagua', 'Junin');
             
             $elements = array();
             foreach ($desplazamientos as $desplazamiento) {
