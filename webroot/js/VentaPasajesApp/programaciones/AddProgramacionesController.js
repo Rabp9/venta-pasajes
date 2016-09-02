@@ -1,6 +1,8 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("AddProgramacionesController", function($scope, ProgramacionesService, BusesService, RutasService, ServiciosService, ConductoresService, EstadosService, $filter) {  
+    $scope.step = 1;
+    
     BusesService.get(function(data) {
         $scope.buses = data.buses;
     });

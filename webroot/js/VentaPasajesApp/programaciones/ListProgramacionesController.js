@@ -4,6 +4,7 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
     $scope.reverse = false;
     $scope.predicate = "id";
     $scope.message = {};
+    $scope.modalProgramacionesAddUrl = '';
     
     $("#txtBuscarFecha").datepicker({
         changeMonth: true,
@@ -14,6 +15,17 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
             $scope.$apply();
         }
     });
+    
+    $scope.openProgramacionesAddModal = function() {
+        $("#mdlProgramacionesAdd").modal("toggle");
+    }
+    
+    $("#mdlProgramacionesAdd").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $scope.modalProgramacionesAddUrl = "";
+        });
+    });
+    
     
     $scope.list = function() {
         $scope.loading = true;
@@ -35,6 +47,12 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
     $scope.showList = function(programacion_id) {
         $window.open('encomiendas/getByProgramacion/' + programacion_id, '_blank');
     }
+    
+    $scope.addProgramacion= function() {
+        $('#aProgramacionesAdd').addClass('disabled');
+        $('#aProgramacionesAdd').prop('disabled', true);
+        $scope.modalProgramacionesAddUrl = VentaPasajesApp.path_location + "programaciones/add";
+    };
     
     $scope.filter_programaciones = function (item) {
         var servicio = $scope.search_servicio ? item.servicio.id == $scope.search_servicio : true;

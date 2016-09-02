@@ -19,7 +19,7 @@ Filtros:
 </select>
 <input type="search" placeholder="Buscar por Placa de Bus" ng-model="search_placa" class="form-control" style="display: inline; width: 15%;" />
 <input id="txtBuscarFecha" type="text" placeholder="Buscar por fecha" ng-model="search_fecha" class="form-control" style="display: inline; width: 15%" />
-<a class="btn btn-primary pull-right" href="#/programacionesAdd"><span class="glyphicon glyphicon-plus"></span> Nueva Programación</a>
+<a id="aProgramacionesAdd" class="btn btn-primary pull-right" ng-click="addProgramacion()"><span class="glyphicon glyphicon-plus"></span> Nueva Programación</a>
 <div class="list-group">
     <a ng-repeat="programacion in programaciones | filter: filter_programaciones" class="list-group-item">
         <h4 class="list-group-item-heading"><strong>{{programacion.ruta.descripcion}}</strong>: {{ programacion.ruta.detalle }}</h4>
@@ -44,8 +44,8 @@ Filtros:
     </a>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="mdlBuses" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" ng-include="modalUrl" onload="openModal()">
+<div class="modal fade" id="mdlProgramacionesAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" ng-include="modalProgramacionesAddUrl" onload="openProgramacionesAddModal()">
         
     </div>
 </div>
