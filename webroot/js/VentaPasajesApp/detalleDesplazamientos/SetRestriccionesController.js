@@ -18,13 +18,20 @@ VentaPasajesApp.controller("SetRestriccionesController", function($scope, Restri
         
         RestriccionesService.getValues({restricciones: $scope.restricciones}, function(data) {
             $scope.restricciones = data.restricciones;
+            
+            if ($scope.restricciones[0].id) {
+                angular.forEach($scope.restricciones, function(restriccion, k_restriccion) {
+                    if (restriccion.valor == '1') {
+                        $scope.restricciones[k_restriccion].valor = true;
+                    } else {
+                        $scope.restricciones[k_restriccion].valor = false;
+                    }
+                });
+            }
         });
+        
     };
-    
-    $('.chk-desplazamiento').change(function() {
-        console.log('dsadsa');
-    });
-    
+       
     $scope.list();
     
     $scope.setRestricciones = function() {
