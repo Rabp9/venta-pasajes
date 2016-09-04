@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Nueva Programación | <small>Pso {{ step }} de 5</small> </h4>
+                <h4 class="modal-title" id="myModalLabel">Nueva Programación | <small>Pso {{ step }} de 6</small> </h4>
             </div>
             <div class="modal-body" style="height: 400px;">
                 <div class="row">
@@ -130,6 +130,29 @@
                                 </div>
                             </div>
                         </div>
+                        <div ng-show="step == 6">
+                            <h3>Resumen</h3>
+                            
+                            <div><strong>Fecha y Hora</strong></div>
+                            <div>{{ prefechahora_prog | date: 'yyyy-MM-dd HH:mm:ss' }}</div>
+                            
+                            <div><strong>Bus</strong></div>
+                            <div>{{ busSelected.placa }}</div>
+                            
+                            <div><strong>Ruta</strong></div>
+                            <div>{{ rutaSelected.descripcion }}</div>
+                            
+                            <div><strong>Servicio</strong></div>
+                            <div>{{ servicioSelected.descripcion }}</div>
+                            
+                            <div><strong>Conductores</strong></div>
+                            <div>
+                                <dl>
+                                    <dt ng-repeat-start="detalle_condutor in programacion.detalle_conductores">{{ detalle_condutor.condicion }}</dt>
+                                    <dd ng-repeat-end>{{ conductoresSelected[$index].persona.full_name }}</dd>
+                                </dl>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -140,13 +163,15 @@
                 <button type="button" class="btn btn-primary" ng-show="step == 3" ng-click="step = 2"><span class="glyphicon glyphicon-menu-left"></span> Atrás</button>
                 <button type="button" class="btn btn-primary" ng-show="step == 4" ng-click="step = 3"><span class="glyphicon glyphicon-menu-left"></span> Atrás</button>
                 <button type="button" class="btn btn-primary" ng-show="step == 5" ng-click="step = 4"><span class="glyphicon glyphicon-menu-left"></span> Atrás</button>
+                <button type="button" class="btn btn-primary" ng-show="step == 6" ng-click="step = 5"><span class="glyphicon glyphicon-menu-left"></span> Atrás</button>
                 
                 <button type="button" class="btn btn-primary" ng-show="step == 1" ng-click="step = 2" ng-disabled="prefechahora_prog == undefined">Siguiente <span class="glyphicon glyphicon-menu-right"></span></button>
                 <button type="button" class="btn btn-primary" ng-show="step == 2" ng-click="step = 3" ng-disabled="busSelected == undefined">Siguiente <span class="glyphicon glyphicon-menu-right"></span></button>
                 <button type="button" class="btn btn-primary" ng-show="step == 3" ng-click="step = 4" ng-disabled="rutaSelected == undefined">Siguiente <span class="glyphicon glyphicon-menu-right"></span></button>
                 <button type="button" class="btn btn-primary" ng-show="step == 4" ng-click="step = 5" ng-disabled="servicioSelected == undefined">Siguiente <span class="glyphicon glyphicon-menu-right"></span></button>
-                {{ programacion.detalle_conductores | json }}
-                <button id="btnRegistrarProgramacion" type="submit" ng-show="step == 5" class="btn btn-primary">Registrar</button>
+                <button type="button" class="btn btn-primary" ng-show="step == 5" ng-click="step = 6" ng-disabled="!seleccionadoChofer(programacion.detalle_conductores)">Siguiente <span class="glyphicon glyphicon-menu-right"></span></button>
+
+                <button id="btnRegistrarProgramacion" type="submit" ng-show="step == 6" class="btn btn-primary">Registrar</button>
             </div>
         </div>
     </form>

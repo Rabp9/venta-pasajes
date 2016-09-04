@@ -65,35 +65,15 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
         })
     };
     
-    $scope.forwardStep2 = function() {
-        if ($scope.prefechahora_prog == undefined) {
-            alert('Selecciona una fecha y hora');
-            return;
-        }
-        $scope.step = 2;
-    };
-    
-    $scope.forwardStep3 = function() {
-        if ($scope.busSelected == undefined) {
-            alert('Selecciona un bus');
-            return;
-        }
-        $scope.step = 3;
-    };
-    
-    $scope.forwardStep4 = function() {
-        if ($scope.rutaSelected == undefined) {
-            alert('Selecciona una ruta');
-            return;
-        }
-        $scope.step = 4;
-    }
-    
-    $scope.forwardStep5 = function() {
-        if ($scope.servicioSelected == undefined) {
-            alert('Selecciona un servicio');
-            return;
-        }
-        $scope.step = 5;
+    $scope.seleccionadoChofer = function(conductores) {
+        var res = false;
+        angular.forEach(conductores, function(value, key) {
+            if (!res) {
+                if (value.condicion == 'chofer') {
+                    res = true;
+                }
+            }
+        });
+        return res;
     }
 });
