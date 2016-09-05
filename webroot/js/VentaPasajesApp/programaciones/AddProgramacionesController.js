@@ -58,10 +58,14 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
         ProgramacionesService.save($scope.programacion, function(data) {
             var type = data.message.type;
             var text = data.message.text;
-            window.location = VentaPasajesApp.path_location + "#/programaciones/" + type + "/" + text;
+            $('#aProgramacionesAdd').removeClass('disabled');
+            $('#aProgramacionesAdd').prop('disabled', false);
             
+            $("#mdlProgramacionesAdd").modal('toggle');
+            $scope.$parent.actualizarMessage(data.message);
             $("#btnRegistrarProgramacion").removeClass("disabled");
             $("#btnRegistrarProgramacion").attr("disabled", false);
+            $scope.list();
         })
     };
     

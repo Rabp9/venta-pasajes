@@ -22,6 +22,8 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
     
     $("#mdlProgramacionesAdd").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
+            $('#aProgramacionesAdd').removeClass('disabled');
+            $('#aProgramacionesAdd').prop('disabled', false);
             $scope.modalProgramacionesAddUrl = "";
         });
     });
@@ -60,6 +62,10 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
         var fecha = $scope.search_fecha ? item.fechahora_prog.search($scope.search_fecha) >= 0 : true;
 
         return servicio && placa && fecha;
+    };
+    
+    $scope.actualizarMessage = function(message) {
+        $scope.message = message;
     };
     
     $scope.list();
