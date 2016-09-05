@@ -1,6 +1,6 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("ListProgramacionesController", function($scope, ProgramacionesService, $routeParams, $window, ServiciosService) {
+VentaPasajesApp.controller("ListProgramacionesController", function($scope, ProgramacionesService, $window, ServiciosService) {
     $scope.reverse = false;
     $scope.predicate = "id";
     $scope.message = {};
@@ -35,11 +35,6 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
             $scope.programaciones = data.programaciones;
             $scope.loading = false;
         });
-        
-        if ($routeParams.type !== null) {
-            $scope.message.type = $routeParams.type;
-            $scope.message.text = $routeParams.text;
-        }
         
         ServiciosService.get(function(data) {
             $scope.servicios = data.servicios;

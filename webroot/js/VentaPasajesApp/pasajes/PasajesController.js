@@ -2,7 +2,7 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService, 
     ProgramacionesService, BusAsientosService, DetalleDesplazamientosService, 
-    PersonasService, DesplazamientosService, PasajesService, $filter, $window
+    PersonasService, DesplazamientosService, PasajesService, $filter, $window, TarifasService
 ) {
     var date = new Date();
     
@@ -13,7 +13,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     $scope.dnis = [];
     $scope.personas = [];
     $scope.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-        
+    
     
     $("#txtFecha").datepicker({
         changeMonth: true,
@@ -71,19 +71,22 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                         // 1. Saber si esta comprado
                         // 2. Si la restricción me permite comprar el mismo
                         
-                        console.log(v_asiento.id);
-                        console.log($scope.programacion_selected.id);
-                        console.log($scope.detalle_desplazamiento.id);
+                        console.log($scope);
                         
                         PasajesService.getEstado({
                             bus_asiento_id: v_asiento.id,
                             programacion_id: $scope.programacion_selected.id,
                             detalle_desplazamiento_id: $scope.detalle_desplazamiento.id
                         }, function(data) {
-                            console.log(data);
                             $scope.programacion_selected.bus.bus_pisos[k_piso].bus_asientos[k_asiento].estado = data.estado;
                         });
                     });
+                });
+                TarifasService.getTarifas({
+                    desplazamiento_id: $scope.desplazamiento.id, 
+                    servicio_id: $scope.programacion_selected.servicio_id
+                }, function(data) {
+                    console.log(data);
                 });
             });
         });
@@ -92,29 +95,25 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     $scope.showBusAsiento = function(bus_asiento_id, estado) {
         // comprobar si el asiento no ha sido seleccionado anteriormente
         if (estado == "disponible") {
-            BusAsientosService.get({id: bus_asiento_id}, function(data) {
-                var pasaje = {
-                    busAsiento: data.busAsiento,
-                    bus_asiento_id: data.busAsiento.id,
-                    programacion: $scope.programacion_selected,
-                    programacion_id: $scope.programacion_selected.id,
-                    detalleDesplazamiento: $scope.detalle_desplazamiento,
-                    detalle_desplazamiento_id: $scope.detalle_desplazamiento.id
-                }
-                $scope.pasajes.push(pasaje);
-            });
+            if ($scope.pasajes.map(function(pasaje) { return pasaje.bus_asiento_id; }).indexOf(bus_asiento_id) < 0) {
+                BusAsientosService.get({id: bus_asiento_id}, function(data) {
+                    var pasaje = {
+                        busAsiento: data.busAsiento,
+                        bus_asiento_id: data.busAsiento.id,
+                        programacion: $scope.programacion_selected,
+                        programacion_id: $scope.programacion_selected.id,
+                        detalleDesplazamiento: $scope.detalle_desplazamiento,
+                        detalle_desplazamiento_id: $scope.detalle_desplazamiento.id
+                    }
+                    $scope.pasajes.push(pasaje);
+                    $('#asiento' + data.busAsiento.bus_piso.nro_piso + data.busAsiento.nro_asiento).addClass('asientoSelected');
+                });
+            } else {
+                alert('Este asiento ya esta seleccionado');
+            }
         } else {
             alert("Este asiento ya está reservado");
         }
-    }
-    
-    $scope.onKupDni = function(index) {
-        PersonasService.findByDni({dni: $scope.dnis[index]}, function(data) {
-            if (data.persona !== null) {
-                $scope.pasajes[index].persona = data.persona;
-                $scope.pasajes[index].persona_id = data.persona.id;
-            }
-        });
     }
     
     $scope.buy = function(pasaje, index) {
@@ -127,4 +126,20 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
             $window.open('#/pasajes/' + data.pasaje.id, '_blank');
         });
     }
+    
+    $scope.cerrarPasaje = function($index) {
+        var nro_piso = $scope.pasajes[$index].busAsiento.bus_piso.nro_piso;
+        var nro_asiento = $scope.pasajes[$index].busAsiento.nro_asiento;
+        $('#asiento' + nro_piso + nro_asiento ).removeClass('asientoSelected');;
+        $scope.pasajes.splice($index, 1);
+    };
+    
+    $scope.searchCliente = function(index) {
+        PersonasService.findByDni({dni: $scope.dnis[index]}, function(data) {
+            if (data.persona !== null) {
+                $scope.pasajes[index].persona = data.persona;
+                $scope.pasajes[index].persona_id = data.persona.id;
+            }
+        });
+    };
 });

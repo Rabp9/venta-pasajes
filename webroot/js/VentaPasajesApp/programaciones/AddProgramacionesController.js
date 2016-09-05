@@ -41,9 +41,11 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
     };
     
     $scope.onConductoresSelected = function() {
-        ConductoresService.getMany($scope.conductores_ids, function(data) {
-            $scope.conductoresSelected = data.conductores;
-        })
+        if ($scope.conductores_ids.length) {
+            ConductoresService.getMany($scope.conductores_ids, function(data) {
+                $scope.conductoresSelected = data.conductores;
+            });
+        }
     };
     
     $scope.saveProgramacion = function() {

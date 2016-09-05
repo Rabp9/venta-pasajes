@@ -51,6 +51,10 @@ body {
     color: white;
 }
 
+.asientoSelected {
+    border: 5px solid blue;
+}
+
 .close-white {
     color: #fff; 
     opacity: 1;
@@ -182,7 +186,7 @@ td.programado {
 .pnl-pasajes {
     background-color: white;
     height: 100%;
-/*    padding-right: 30px;*/
+    padding-right: 30px;
     overflow: auto;
 }
 

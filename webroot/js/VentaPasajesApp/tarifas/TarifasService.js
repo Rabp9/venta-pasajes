@@ -7,6 +7,10 @@ VentaPasajesApp.factory("TarifasService", function($resource) {
         findByOrigenDestino: {
             method: 'GET',
             url: VentaPasajesApp.path_location + "tarifas/index/:servicio/:origen/:destino.json"
+        },
+        getTarifas: {
+            method: 'GET',
+            url: VentaPasajesApp.path_location + "tarifas/getTarifas/.json"
         }
     });
 });

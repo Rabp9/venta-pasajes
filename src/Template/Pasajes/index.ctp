@@ -96,7 +96,7 @@ $this->assign("title", "Pasajes");
                                         onmouseout="style.backgroundColor='#fff'">
 
                                         <td width="1%" bgcolor="#D6E4F2">
-                                            <input type="radio" ng-click="onProgramacionSelect(programacion.id)"/>
+                                            <input type="radio" name="programacion_selected" ng-click="onProgramacionSelect(programacion.id)" />
                                         </td>
                                         <td width="3%" bgcolor="#D6E4F2">{{ programacion.id }}</td>
                                         <td width="6%">{{ programacion.ruta.descripcion }}</td>
@@ -145,10 +145,10 @@ $this->assign("title", "Pasajes");
     <div class="col-md-3 pnl-pasajes">
         <h4>Pasajes</h4>
         <hr/>
-        <div class="panel panel-primary" ng-repeat="pasaje in pasajes">
+        <div class="panel panel-primary animated" ng-repeat="pasaje in pasajes">
             <div class="panel-heading">
-                Pasaje
-                <button type="button" class="close close-white" ng-click="pasajes.splice($index, 1)">
+                Asiento N° {{ pasaje.busAsiento.nro_asiento }}
+                <button type="button" class="close close-white" ng-click="cerrarPasaje($index)">
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Close</span>
                 </button>
@@ -160,12 +160,11 @@ $this->assign("title", "Pasajes");
                         <input id="txtProgramacionId" type="text" ng-value="pasaje.programacion.id" class="form-control" readonly />
                     </div>
                     <div class="form-group">
-                        <label for="txtNumAsiento">Nùmero de Asiento</label>
-                        <input id="txtNumAsiento" type="text" ng-value="pasaje.busAsiento.nro_asiento" class="form-control" readonly />
-                    </div>
-                    <div class="form-group">
-                        <label for="txtPersonaDni">Persona</label>
-                        <input id="txtPersonaDni" type="text" ng-model="dnis[$index]" ng-keyup="onKupDni($index)" class="form-control" maxlength="8"/>
+                        <label for="txtPersonaDni" style="display: block;">Persona</label>
+                        <input id="txtPersonaDni" type="text" ng-model="dnis[$index]" 
+                            class="form-control" maxlength="8"
+                            style="width: 80%; display: inline;" />
+                        <button type="button" style="width: 18%; display: inline;" class="btn btn-primary" ng-click="searchCliente($index)"><span class="glyphicon glyphicon-search"></span></button>
                         <input type="text" ng-model="pasaje.persona.full_name" class="form-control" readonly />
                     </div>
                     <div class="form-group">
