@@ -135,6 +135,9 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
             alert('Ingrese un valor al pasaje');
             return;
         }
+        $('#btnComprar' + index).addClass('disabled');
+        $('#btnComprar' + index).prop('disabled', true);
+        
         var programacion_id = pasaje.programacion.id;
         delete pasaje.persona;
         delete pasaje.busAsiento;
@@ -143,8 +146,11 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         PasajesService.save(pasaje, function(data) {
             $("#frmPasaje" + index).parent().parent().fadeOut(500);
             $scope.onProgramacionSelect(programacion_id);
-            //$window.open('#/pasajes/' + data.pasaje.id, '_blank');
+            $window.open('#/pasajes/' + data.pasaje.id, '_blank');
             $scope.pasajes.splice(index, 1);
+            
+            $('#btnComprar' + index).removeClass('disabled');
+            $('#btnComprar' + index).prop('disabled', false);
         });
     }
     

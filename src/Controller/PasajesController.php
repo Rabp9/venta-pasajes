@@ -16,8 +16,7 @@ class PasajesController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $pasaje = $this->Pasajes->get($id, [
             'contain' => ['Personas', 'BusAsientos', 'Programaciones']
         ]);
