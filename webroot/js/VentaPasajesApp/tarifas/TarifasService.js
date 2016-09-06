@@ -10,7 +10,7 @@ VentaPasajesApp.factory("TarifasService", function($resource) {
         },
         getTarifas: {
             method: 'GET',
-            url: VentaPasajesApp.path_location + "tarifas/getTarifas/.json"
+            url: VentaPasajesApp.path_location + "tarifas/getTarifas/:desplazamiento_id/:servicio_id.json"
         }
     });
 });

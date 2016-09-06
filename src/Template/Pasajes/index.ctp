@@ -169,7 +169,8 @@ $this->assign("title", "Pasajes");
                     </div>
                     <div class="form-group">
                         <label for="txtValor">Valor</label>
-                        <input id="txtValor" type="text" ng-model="pasaje.valor" class="form-control" />
+                        <input id="txtValor" type="number" min="{{ precio_min }}" 
+                            max="{{ precio_max }}" ng-model="pasaje.valor" class="form-control" />
                     </div>
                     <button class="btn btn-primary" type="submit">Comprar</button>
                 </form>

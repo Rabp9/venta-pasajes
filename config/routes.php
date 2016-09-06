@@ -355,6 +355,10 @@ Router::scope('/', function ($routes) {
             'index/:servicio_id/:origen/:destino' => [
                 'action' => 'index',
                 'method' => 'GET'
+            ],
+            'getTarifas/:desplazamiento_id/:servicio_id' => [
+                'action' => 'getTarifas',
+                'method' => 'GET'
             ]
         ]
     ]);

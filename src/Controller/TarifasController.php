@@ -151,4 +151,16 @@ class TarifasController extends AppController
             return false;
         }
     }
+    
+    public function getTarifas() {
+        $desplazamiento_id = $this->request->params['desplazamiento_id'];
+        $servicio_id = $this->request->params['servicio_id'];
+        
+        $tarifa = $this->Tarifas->find()
+            ->where(['desplazamiento_id' => $desplazamiento_id, 'servicio_id' => $servicio_id])
+            ->first();
+        
+        $this->set(compact('tarifa'));
+        $this->set('_serialize', ['tarifa']);
+    }
 }

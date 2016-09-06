@@ -71,8 +71,6 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                         // 1. Saber si esta comprado
                         // 2. Si la restricción me permite comprar el mismo
                         
-                        console.log($scope);
-                        
                         PasajesService.getEstado({
                             bus_asiento_id: v_asiento.id,
                             programacion_id: $scope.programacion_selected.id,
@@ -86,7 +84,19 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                     desplazamiento_id: $scope.desplazamiento.id, 
                     servicio_id: $scope.programacion_selected.servicio_id
                 }, function(data) {
-                    console.log(data);
+                    $scope.precio_min = data.tarifa.precio_min;
+                    $scope.precio_max = data.tarifa.precio_max
+                });
+                
+                var asientosPreSelected = $scope.pasajes.map(function(pasaje) { 
+                    var pasaje = {
+                        nro_piso: pasaje.busAsiento.bus_piso.nro_piso,
+                        nro_asiento: pasaje.busAsiento.nro_asiento
+                    }
+                    return pasaje; 
+                });
+                angular.forEach(asientosPreSelected, function(value, key) {
+                    $('#asiento' + value.nro_piso + value.nro_asiento ).addClass('asientoSelected');;
                 });
             });
         });
@@ -117,20 +127,31 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     }
     
     $scope.buy = function(pasaje, index) {
+        if (pasaje.persona == undefined) {
+            alert('Seleccione una persona');
+            return;
+        }
+        if (pasaje.valor == undefined) {
+            alert('Ingrese un valor al pasaje');
+            return;
+        }
+        var programacion_id = pasaje.programacion.id;
         delete pasaje.persona;
         delete pasaje.busAsiento;
         delete pasaje.programacion;
         delete pasaje.detalleDesplazamiento;
         PasajesService.save(pasaje, function(data) {
             $("#frmPasaje" + index).parent().parent().fadeOut(500);
-            $window.open('#/pasajes/' + data.pasaje.id, '_blank');
+            $scope.onProgramacionSelect(programacion_id);
+            //$window.open('#/pasajes/' + data.pasaje.id, '_blank');
+            $scope.pasajes.splice(index, 1);
         });
     }
     
     $scope.cerrarPasaje = function($index) {
         var nro_piso = $scope.pasajes[$index].busAsiento.bus_piso.nro_piso;
         var nro_asiento = $scope.pasajes[$index].busAsiento.nro_asiento;
-        $('#asiento' + nro_piso + nro_asiento ).removeClass('asientoSelected');;
+        $('#asiento' + nro_piso + nro_asiento ).removeClass('asientoSelected');
         $scope.pasajes.splice($index, 1);
     };
     
