@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use rabp9\PDF;
 
 class PasajesController extends AppController
 {
@@ -9,22 +10,27 @@ class PasajesController extends AppController
         $this->viewBuilder()->layout(false);
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id Pasaje id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null) {
-        $pasaje = $this->Pasajes->get($id, [
-            'contain' => ['Personas', 'BusAsientos', 'Programaciones']
-        ]);
-
-        $this->set('pasaje', $pasaje);
-        $this->set('_serialize', ['pasaje']);
+    public function view($id) {
+        require_once(ROOT . DS . 'vendor' . DS . 'rabp9' . DS . 'PDF.php');
+        $this->viewBuilder()->layout('pdf'); //this will use the pdf.ctp layout
+                
+        /*$giro = $this->Giros->find()
+            ->contain([
+                'PersonaRemitente', 
+                'PersonaDestinatario',
+                'Desplazamientos' => [
+                    'AgenciaOrigen' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]],
+                    'AgenciaDestino' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]]
+                ]
+            ])
+            ->where(['Giros.id' => $id])
+            ->first();
+        */
+        $this->set("pdf", new PDF("L", "mm", "A5"));
+        // $this->set(compact('giro'));
+        
+        $this->response->type("application/pdf");
     }
-
     /**
      * Add method
      *
@@ -114,14 +120,14 @@ class PasajesController extends AppController
             ->toArray();
         
         if (!empty($pasajes)) {
+            $estado = "disponible";
             foreach ($pasajes as $pasaje) {
                 $restriccion = $this->Restricciones->find()
                     ->where(["desplazamiento_x" => $pasaje->detalle_desplazamiento_id, "desplazamiento_y" => $detalle_desplazamiento_id])
                     ->first();
                 if ($restriccion->valor == 1) {
                     $estado = "restringido";
-                } elseif ($restriccion->valor == 2) {
-                    $estado = "disponible";
+                    break;
                 }
             }
         } else {

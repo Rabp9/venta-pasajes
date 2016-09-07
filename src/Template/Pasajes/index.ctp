@@ -155,6 +155,32 @@ $this->assign("title", "Pasajes");
             </div>
             <div class="panel-body">
                 <form id="frmPasaje{{$index}}" ng-submit="buy(pasaje, $index)">
+                    <fieldset style="background-color: white;">
+                        <legend>Tipo de Documento</legend>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label><input type="radio" ng-model="pasaje.tipodoc" value="boleta" /> Boleta</label>
+                                <label class="pull-right"><input type="radio" ng-model="pasaje.tipodoc" value="factura" /> Factura</label>
+                            </div>
+                        </div>
+                        <div ng-show="pasaje.tipodoc === 'factura'">
+                            <div class="form-group">
+                                <label for="txtRuc{{$index}}">RUC</label>
+                                <input id="txtRuc{{$index}}" class="form-control" type="text" ng-model="pasaje.ruc" ng-keyup="searchCliente($index)" maxlength="11" />
+                            </div>
+                            <div class="form-group">
+                                <label for="txtRazonSocial{{$index}}">Razón Social</label>
+                                <input id="txtRazonSocial{{$index}}" class="form-control" type="text" readonly ng-model="pasaje.cliente.razonsocial" />
+                            </div>
+                            <div class="form-group">
+                                <button id="btnAddCliente{{$index}}" type="button" class="btn btn-primary btn-add-cliente" ng-click="addPreCliente($index)"><span class="glyphicon glyphicon-plus"></span> Nuevo Cliente</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pasaje{{$index}}">Nro Doc:</label>
+                            <input id="pasaje{{$index}}" type="text" class="form-control" ng-model="pasaje.nro_doc" required/>
+                        </div>
+                    </fieldset>
                     <div class="form-group">
                         <label for="txtProgramacionId">Código de Programación</label>
                         <input id="txtProgramacionId" type="text" ng-value="pasaje.programacion.id" class="form-control" readonly />
@@ -164,7 +190,7 @@ $this->assign("title", "Pasajes");
                         <input id="txtPersonaDni" type="text" ng-model="dnis[$index]" 
                             class="form-control" maxlength="8"
                             style="width: 80%; display: inline;" />
-                        <button type="button" style="width: 18%; display: inline;" class="btn btn-primary" ng-click="searchCliente($index)"><span class="glyphicon glyphicon-search"></span></button>
+                        <button type="button" style="width: 18%; display: inline;" class="btn btn-primary" ng-click="searchPersona($index)"><span class="glyphicon glyphicon-search"></span></button>
                         <input type="text" ng-model="pasaje.persona.full_name" class="form-control" readonly />
                     </div>
                     <div class="form-group">
@@ -180,8 +206,8 @@ $this->assign("title", "Pasajes");
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="mdlPasaje" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" ng-include="modalPersonaUrl" onload="openPersonaModal()">
+<div class="modal fade" id="mdlClientes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" ng-include="modalClientesUrl" onload="openClientesModal()">
         
     </div>
 </div>

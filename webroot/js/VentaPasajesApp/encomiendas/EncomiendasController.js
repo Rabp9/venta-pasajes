@@ -80,7 +80,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             $scope.encomiendas_list = data.encomiendas;
             $scope.loading_list = false;
         })
-    }
+    };
     
     $("#txtFechaEncomiendas").datepicker({
         changeMonth: true,

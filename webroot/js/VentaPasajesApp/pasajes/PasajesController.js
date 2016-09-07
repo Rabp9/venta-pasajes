@@ -2,7 +2,8 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService, 
     ProgramacionesService, BusAsientosService, DetalleDesplazamientosService, 
-    PersonasService, DesplazamientosService, PasajesService, $filter, $window, TarifasService
+    PersonasService, DesplazamientosService, PasajesService, $filter, $window, TarifasService,
+    ClientesService
 ) {
     var date = new Date();
     
@@ -14,7 +15,6 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     $scope.personas = [];
     $scope.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
     
-    
     $("#txtFecha").datepicker({
         changeMonth: true,
         changeYear: true,
@@ -25,7 +25,19 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
             $scope.onSearchChange();
         }
     });
-        
+    
+    $scope.openClientesModal = function() {
+        $("#mdlClientes").modal("toggle");
+    };
+      
+    $("#mdlClientes").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $(".btn-add-cliente").removeClass("disabled");
+            $(".btn-add-cliente").attr("disabled", false);
+            $scope.modalClientesUrl = "";
+        });
+    });
+    
     $scope.agencias = AgenciasService.get(function() {
         $scope.agencias = $scope.agencias.agencias;
     });
@@ -113,7 +125,8 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                         programacion: $scope.programacion_selected,
                         programacion_id: $scope.programacion_selected.id,
                         detalleDesplazamiento: $scope.detalle_desplazamiento,
-                        detalle_desplazamiento_id: $scope.detalle_desplazamiento.id
+                        detalle_desplazamiento_id: $scope.detalle_desplazamiento.id,
+                        tipodoc: 'boleta'
                     }
                     $scope.pasajes.push(pasaje);
                     $('#asiento' + data.busAsiento.bus_piso.nro_piso + data.busAsiento.nro_asiento).addClass('asientoSelected');
@@ -146,7 +159,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         PasajesService.save(pasaje, function(data) {
             $("#frmPasaje" + index).parent().parent().fadeOut(500);
             $scope.onProgramacionSelect(programacion_id);
-            $window.open('#/pasajes/' + data.pasaje.id, '_blank');
+            $window.open('pasajes/' + data.pasaje.id, '_blank');
             $scope.pasajes.splice(index, 1);
             
             $('#btnComprar' + index).removeClass('disabled');
@@ -161,12 +174,24 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         $scope.pasajes.splice($index, 1);
     };
     
-    $scope.searchCliente = function(index) {
+    $scope.searchPersona = function(index) {
         PersonasService.findByDni({dni: $scope.dnis[index]}, function(data) {
             if (data.persona !== null) {
                 $scope.pasajes[index].persona = data.persona;
                 $scope.pasajes[index].persona_id = data.persona.id;
             }
         });
+    };
+    
+    $scope.searchCliente = function(index) {
+        ClientesService.findByRuc({ruc: $scope.pasajes[index].ruc}, function(data) {
+            $scope.pasajes[index].cliente = data.cliente;
+        });
+    };
+    
+    $scope.addPreCliente = function(index) {
+        $("#btnAddCliente" + index).addClass("disabled");
+        $("#btnAddCliente" + index).attr("disabled", true);
+        $scope.modalClientesUrl = VentaPasajesApp.path_location + "clientes/add";
     };
 });
