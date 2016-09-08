@@ -233,7 +233,11 @@ Router::scope('/', function ($routes) {
             'getEstado/:bus_asiento_id/:programacion_id/:detalle_desplazamiento_id' => [
                 'action' => 'getEstado',
                 'method' => 'GET'
-            ] 
+            ],
+            'getNextNroDoc/' => [
+                'action' => 'getNextNroDoc',
+                'method' => 'GET'
+            ]
         ]
     ]);
     $routes->resources('Ubigeos', [

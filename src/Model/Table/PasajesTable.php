@@ -44,6 +44,10 @@ class PasajesTable extends Table
             'foreignKey' => 'programacion_id',
             'joinType' => 'INNER'
         ]);
+        $this->belongsTo('Clientes', [
+            'foreignKey' => 'cliente_id',
+            'joinType' => 'INNER'
+        ]);
         $this->belongsTo('DetalleDesplazamientos', [
             'foreignKey' => 'detalle_desplazamiento_id',
             'joinType' => 'INNER'
@@ -86,5 +90,18 @@ class PasajesTable extends Table
         $rules->add($rules->existsIn(['bus_asiento_id'], 'BusAsientos'));
         $rules->add($rules->existsIn(['programacion_id'], 'Programaciones'));
         return $rules;
+    }
+     
+    public function getNextNroDoc() {
+        $pasaje = $this->find()
+            ->limit(1)
+            ->orderDesc('nro_doc')
+            ->first();
+        if($pasaje) {
+            $last_nro_doc = $pasaje->nro_doc + 1;
+        } else {
+            $last_nro_doc = 1;
+        }
+        return $last_nro_doc;
     }
 }

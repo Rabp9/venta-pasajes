@@ -14,28 +14,17 @@ class PasajesController extends AppController
         require_once(ROOT . DS . 'vendor' . DS . 'rabp9' . DS . 'PDF.php');
         $this->viewBuilder()->layout('pdf'); //this will use the pdf.ctp layout
                 
-        /*$giro = $this->Giros->find()
-            ->contain([
-                'PersonaRemitente', 
-                'PersonaDestinatario',
-                'Desplazamientos' => [
-                    'AgenciaOrigen' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]],
-                    'AgenciaDestino' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]]
-                ]
-            ])
-            ->where(['Giros.id' => $id])
+        $pasaje = $this->Pasajes->find()
+            ->contain(['Clientes', 'Personas'])
+            ->where(['Pasajes.id' => $id])
             ->first();
-        */
+        
         $this->set("pdf", new PDF("L", "mm", "A5"));
-        // $this->set(compact('giro'));
+        $this->set(compact('pasaje'));
         
         $this->response->type("application/pdf");
     }
-    /**
-     * Add method
-     *
-     * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
-     */
+    
     public function add() {
         $this->viewBuilder()->layout(false);
         
@@ -136,5 +125,12 @@ class PasajesController extends AppController
         
         $this->set(compact('estado'));
         $this->set('_serialize', ['estado']);
+    }
+    
+    public function getNextNroDoc() {
+        $nro_doc = $this->Pasajes->getNextNroDoc();
+    
+        $this->set(compact('nro_doc'));
+        $this->set('_serialize', ['nro_doc']);
     }
 }

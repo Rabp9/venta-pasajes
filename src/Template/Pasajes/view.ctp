@@ -3,25 +3,25 @@
     $margen_y = 11;
     $borde_celda = 0;
     $h_celda = 3;
-    $meses = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SET', 'OCT', 'NOV', 'DIC'];
     
     $pdf->SetLeftMargin(6);
     $pdf->SetAutoPageBreak(true, 5);  
     
     $pdf->AddPage();
     
-    $pdf->SetFont("Arial", '', 18);
-    $pdf->Text($margen_x + 165, $margen_y + 22, utf8_decode(str_pad($encomienda->nro_doc,  6, '0', STR_PAD_LEFT)));
+    $pdf->SetFont("Arial", '', 14);
+    $pdf->Text($margen_x + 15, $margen_y + 20, utf8_decode(str_pad($pasaje->nro_doc, 6, '0', STR_PAD_LEFT)));
+    $pdf->Text($margen_x + 165, $margen_y + 20, utf8_decode(str_pad($pasaje->nro_doc, 6, '0', STR_PAD_LEFT)));
+  
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + 40, $margen_y + 30, utf8_decode(@$pasaje->cliente->razonsocial));
     
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 22, $margen_y + 29, utf8_decode($encomienda->personaRemitente->full_name));
+    $pdf->Text($margen_x + 130, $margen_y + 30, utf8_decode(@$pasaje->cliente->ruc));
     
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 22, $margen_y + 36, utf8_decode($encomienda->personaDestinatario->full_name));
-    
-    $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 16, $margen_y + 43, utf8_decode($encomienda->desplazamiento->AgenciaOrigen->direccion . ' (' . $encomienda->desplazamiento->AgenciaOrigen->ubigeo->descripcion . ')'));
-    
+    $pdf->Text($margen_x + 30, $margen_y + 40, utf8_decode($pasaje->persona->full_name));
+    /*
     $pdf->SetFont("Arial", '', 8);
     $pdf->Text($margen_x + 95, $margen_y + 43, utf8_decode($encomienda->desplazamiento->AgenciaDestino->direccion . ' (' . $encomienda->desplazamiento->AgenciaDestino->ubigeo->descripcion . ')'));
     
@@ -51,6 +51,6 @@
     
     $pdf->SetFont("Arial", 'B', 17);
     $pdf->Text($margen_x + 178, $margen_y + 103, utf8_decode(number_format($encomienda->valor_total, 2, '.', ',')));
-    
-    $pdf->Output("Boleta_de_Venta.pdf", "I");
+    */
+    $pdf->Output("Boleta_de_Viaje.pdf", "I");
 ?>

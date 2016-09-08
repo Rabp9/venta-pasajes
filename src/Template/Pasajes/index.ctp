@@ -156,14 +156,8 @@ $this->assign("title", "Pasajes");
             <div class="panel-body">
                 <form id="frmPasaje{{$index}}" ng-submit="buy(pasaje, $index)">
                     <fieldset style="background-color: white;">
-                        <legend>Tipo de Documento</legend>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label><input type="radio" ng-model="pasaje.tipodoc" value="boleta" /> Boleta</label>
-                                <label class="pull-right"><input type="radio" ng-model="pasaje.tipodoc" value="factura" /> Factura</label>
-                            </div>
-                        </div>
-                        <div ng-show="pasaje.tipodoc === 'factura'">
+                        <legend>Cliente <input id="chCliente" type="checkbox" ng-model="pasaje.cliente_opcion" /></legend>
+                        <div ng-show="pasaje.cliente_opcion">
                             <div class="form-group">
                                 <label for="txtRuc{{$index}}">RUC</label>
                                 <input id="txtRuc{{$index}}" class="form-control" type="text" ng-model="pasaje.ruc" ng-keyup="searchCliente($index)" maxlength="11" />
@@ -176,14 +170,10 @@ $this->assign("title", "Pasajes");
                                 <button id="btnAddCliente{{$index}}" type="button" class="btn btn-primary btn-add-cliente" ng-click="addPreCliente($index)"><span class="glyphicon glyphicon-plus"></span> Nuevo Cliente</button>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="pasaje{{$index}}">Nro Doc:</label>
-                            <input id="pasaje{{$index}}" type="text" class="form-control" ng-model="pasaje.nro_doc" required/>
-                        </div>
                     </fieldset>
                     <div class="form-group">
-                        <label for="txtProgramacionId">Código de Programación</label>
-                        <input id="txtProgramacionId" type="text" ng-value="pasaje.programacion.id" class="form-control" readonly />
+                        <label for="pasaje{{$index}}">Nro Doc:</label>
+                        <input id="pasaje{{$index}}" type="text" class="form-control" ng-model="pasaje.nro_doc" required/>
                     </div>
                     <div class="form-group">
                         <label for="txtPersonaDni" style="display: block;">Persona</label>
