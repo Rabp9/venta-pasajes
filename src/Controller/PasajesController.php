@@ -9,7 +9,7 @@ class PasajesController extends AppController
     public function index() {
         $this->viewBuilder()->layout(false);
     }
-
+    
     public function view($id) {
         require_once(ROOT . DS . 'vendor' . DS . 'rabp9' . DS . 'PDF.php');
         $this->viewBuilder()->layout('pdf'); //this will use the pdf.ctp layout
@@ -46,7 +46,7 @@ class PasajesController extends AppController
         $this->set(compact('message', 'pasaje'));
         $this->set('_serialize', ['message', 'pasaje']);
     }
-
+    
     /**
      * Edit method
      *

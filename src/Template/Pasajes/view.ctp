@@ -9,18 +9,25 @@
     
     $pdf->AddPage();
     
-    $pdf->SetFont("Arial", '', 14);
+    $pdf->SetFont("Arial", '', 16);
     $pdf->Text($margen_x + 15, $margen_y + 20, utf8_decode(str_pad($pasaje->nro_doc, 6, '0', STR_PAD_LEFT)));
-    $pdf->Text($margen_x + 165, $margen_y + 20, utf8_decode(str_pad($pasaje->nro_doc, 6, '0', STR_PAD_LEFT)));
-  
-    $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 40, $margen_y + 30, utf8_decode(@$pasaje->cliente->razonsocial));
+    $pdf->SetFont("Arial", '', 14);
+    $pdf->Text($margen_x + 166, $margen_y + 23, utf8_decode(str_pad($pasaje->nro_doc, 6, '0', STR_PAD_LEFT)));
     
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 130, $margen_y + 30, utf8_decode(@$pasaje->cliente->ruc));
+    $pdf->Text($margen_x + 17, $margen_y + 27, utf8_decode(@$pasaje->cliente->razonsocial));
     
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 30, $margen_y + 40, utf8_decode($pasaje->persona->full_name));
+    $pdf->Text($margen_x + 100, $margen_y + 27, utf8_decode(@$pasaje->cliente->ruc));
+    
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + 10, $margen_y + 34, utf8_decode($pasaje->persona->full_name));
+    
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + 110, $margen_y + 34, utf8_decode($pasaje->persona->dni));
+    /*
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + 30, $margen_y + 40, utf8_decode($pasaje->persona->dni));
     /*
     $pdf->SetFont("Arial", '', 8);
     $pdf->Text($margen_x + 95, $margen_y + 43, utf8_decode($encomienda->desplazamiento->AgenciaDestino->direccion . ' (' . $encomienda->desplazamiento->AgenciaDestino->ubigeo->descripcion . ')'));
