@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\I18n\Time;
 use rabp9\PDF;
 
 class PasajesController extends AppController
@@ -15,7 +16,14 @@ class PasajesController extends AppController
         $this->viewBuilder()->layout('pdf'); //this will use the pdf.ctp layout
                 
         $pasaje = $this->Pasajes->find()
-            ->contain(['Clientes', 'Personas'])
+            ->contain(['Clientes', 'Personas', 'BusAsientos', 
+                'Programaciones',
+                'DetalleDesplazamientos' => [
+                    'Desplazamientos' => [
+                        'AgenciaOrigen' => ['Ubigeos'],
+                        'AgenciaDestino' => ['Ubigeos']
+                    ]
+                ]])
             ->where(['Pasajes.id' => $id])
             ->first();
         
@@ -31,6 +39,7 @@ class PasajesController extends AppController
         $pasaje = $this->Pasajes->newEntity();
         if ($this->request->is('post')) {
             $pasaje = $this->Pasajes->patchEntity($pasaje, $this->request->data);
+            $pasaje->fechahora = date("Y-m-d H:i:s");
             if ($this->Pasajes->save($pasaje)) {
                 $message = array(
                     'text' => __('Pasaje registrado correctamente'),

@@ -42,7 +42,8 @@ class PasajesTable extends Table
         ]);
         $this->belongsTo('Programaciones', [
             'foreignKey' => 'programacion_id',
-            'joinType' => 'INNER'
+            'joinType' => 'INNER',
+            'propertyName' => 'programacion'
         ]);
         $this->belongsTo('Clientes', [
             'foreignKey' => 'cliente_id',

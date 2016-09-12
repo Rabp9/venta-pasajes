@@ -41,6 +41,16 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         });
     });
     
+    $("body").on("contextmenu", ".draggable.restringido", function(e) {
+        console.log(e);
+        $("#cmnPasajes").css({
+            display: "block",
+            left: e.pageX,
+            top: e.pageY
+       });
+       return false;
+    });
+    
     $scope.agencias = AgenciasService.get(function() {
         $scope.agencias = $scope.agencias.agencias;
     });

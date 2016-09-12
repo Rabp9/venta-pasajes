@@ -193,3 +193,8 @@ td.programado {
 .pnl-programaciones-add  {
     height: 330px;
 }
+
+#cmnPasajes {
+    position: absolute;
+    display: none;
+}

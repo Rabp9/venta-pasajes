@@ -3,6 +3,7 @@
     $margen_y = 11;
     $borde_celda = 0;
     $h_celda = 3;
+    $meses = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SET', 'OCT', 'NOV', 'DIC'];
     
     $pdf->SetLeftMargin(6);
     $pdf->SetAutoPageBreak(true, 5);  
@@ -11,53 +12,83 @@
     
     $pdf->SetFont("Arial", '', 16);
     $pdf->Text($margen_x + 15, $margen_y + 20, utf8_decode(str_pad($pasaje->nro_doc, 6, '0', STR_PAD_LEFT)));
-    $pdf->SetFont("Arial", '', 14);
-    $pdf->Text($margen_x + 166, $margen_y + 23, utf8_decode(str_pad($pasaje->nro_doc, 6, '0', STR_PAD_LEFT)));
-    
+
+    // Razon Social
     $pdf->SetFont("Arial", '', 8);
     $pdf->Text($margen_x + 17, $margen_y + 27, utf8_decode(@$pasaje->cliente->razonsocial));
     
+    // RUC
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 100, $margen_y + 27, utf8_decode(@$pasaje->cliente->ruc));
+    $pdf->Text($margen_x + 99, $margen_y + 27, utf8_decode(@$pasaje->cliente->ruc));
     
+    // Pasajero
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 10, $margen_y + 34, utf8_decode($pasaje->persona->full_name));
+    $pdf->Text($margen_x + 10, $margen_y + 35, utf8_decode($pasaje->persona->full_name));
     
+    // DNI
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 110, $margen_y + 34, utf8_decode($pasaje->persona->dni));
-    /*
+    $pdf->Text($margen_x + 106, $margen_y + 35, utf8_decode($pasaje->persona->dni));
+    
+    // Fecha de Viaje
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 30, $margen_y + 40, utf8_decode($pasaje->persona->dni));
-    /*
+    $pdf->Text($margen_x + 17, $margen_y + 42, utf8_decode((new \Cake\I18n\Time($pasaje->programacion->fechahora_prog))->format('Y-m-d')));
+    
+    // Hora de Viaje
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 95, $margen_y + 43, utf8_decode($encomienda->desplazamiento->AgenciaDestino->direccion . ' (' . $encomienda->desplazamiento->AgenciaDestino->ubigeo->descripcion . ')'));
+    $pdf->Text($margen_x + 69, $margen_y + 42, utf8_decode((new \Cake\I18n\Time($pasaje->programacion->fechahora_prog))->format('H:i:s')));
     
-    $pdf->SetFont("Arial", '', 13);
-    $pdf->Text($margen_x + 162, $margen_y + 38, utf8_decode(str_pad($encomienda->fechahora->day,  2, '0', STR_PAD_LEFT)));
+    // Asientos
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + 104, $margen_y + 42, utf8_decode($pasaje->bus_asiento->nro_asiento));
     
-    $pdf->SetFont("Arial", '', 13);
-    $pdf->Text($margen_x + 172, $margen_y + 38, utf8_decode($meses[$encomienda->fechahora->month - 1]));
+    // Valor
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + -2, $margen_y + 54, utf8_decode(number_format($pasaje->valor, 2, '.', ',')));
     
-    $pdf->SetFont("Arial", '', 13);
-    $pdf->Text($margen_x + 187, $margen_y + 38, utf8_decode($encomienda->fechahora->year));
+    // Origen
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + 8, $margen_y + 57, utf8_decode($pasaje->detalle_desplazamiento->desplazamiento->AgenciaOrigen->ubigeo->descripcion));
     
-    $pdf->SetFont("Arial", "", 10);
-    $i = 0;
-    foreach ($encomienda->encomiendas_tipos as $encomienda_tipo) {
-        $descripcion = $encomienda_tipo->tipo_producto->descripcion . ' - '
-            . $encomienda_tipo->detalle;
-        $importe = $encomienda_tipo->cantidad * $encomienda_tipo->valor;
-        
-        $pdf->Text($margen_x + 5, $margen_y + 59 + ($i * 4), utf8_decode($encomienda_tipo->cantidad));
-        $pdf->Text($margen_x + 13, $margen_y + 59 + ($i * 4), utf8_decode($descripcion));
-        $pdf->Text($margen_x + 177, $margen_y + 59 + ($i * 4), utf8_decode(number_format($importe, 2, '.', ',')));
+    // Destino
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + 55, $margen_y + 57, utf8_decode($pasaje->detalle_desplazamiento->desplazamiento->AgenciaDestino->ubigeo->descripcion));
 
-        $pdf->ln();
-        $i++;
-    }
+    // Lugar de emisión
+//    $pdf->SetFont("Arial", '', 8);
+//    $pdf->Text($margen_x + 55, $margen_y + 58, utf8_decode('dsadsa'/*$pasaje->detalle_desplazamiento->desplazamiento->AgenciaDestino->id*/));
+
+    // Fecha de Emisión
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + 114, $margen_y + 62, utf8_decode($pasaje->fechahora->year));
+    $pdf->Text($margen_x + 124, $margen_y + 62, utf8_decode($meses[$pasaje->fechahora->month - 1]));
+    $pdf->Text($margen_x + 134, $margen_y + 62, utf8_decode(str_pad($pasaje->fechahora->day, 2, '0')));
+
+    // Control
+    // Número de Boleto
+    $pdf->SetFont("Arial", '', 14);
+    $pdf->Text($margen_x + 164, $margen_y + 24, utf8_decode(str_pad($pasaje->nro_doc, 6, '0', STR_PAD_LEFT)));
     
-    $pdf->SetFont("Arial", 'B', 17);
-    $pdf->Text($margen_x + 178, $margen_y + 103, utf8_decode(number_format($encomienda->valor_total, 2, '.', ',')));
-    */
-    $pdf->Output("Boleta_de_Viaje.pdf", "I");
+    // Fecha de Viaje
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + 149, $margen_y + 37, utf8_decode((new \Cake\I18n\Time($pasaje->programacion->fechahora_prog))->year));
+    $pdf->Text($margen_x + 163, $margen_y + 37, utf8_decode($meses[(new \Cake\I18n\Time($pasaje->programacion->fechahora_prog))->month - 1]));
+    $pdf->Text($margen_x + 175, $margen_y + 37, utf8_decode(str_pad((new \Cake\I18n\Time($pasaje->programacion->fechahora_prog))->day, 2, 0)));
+    
+    // Asiento
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + 154, $margen_y + 49, utf8_decode($pasaje->bus_asiento->nro_asiento));
+   
+    // Hora
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + 169, $margen_y + 49, utf8_decode((new \Cake\I18n\Time($pasaje->programacion->fechahora_prog))->format('H:i:s')));
+    
+    // Destino
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + 152, $margen_y + 57, utf8_decode($pasaje->detalle_desplazamiento->desplazamiento->AgenciaDestino->ubigeo->descripcion));
+    
+    // Valor
+    $pdf->SetFont("Arial", '', 8);
+    $pdf->Text($margen_x + 152, $margen_y + 64, utf8_decode(number_format($pasaje->valor, 2, '.', ',')));
+    
+    $pdf->Output("Boleto_de_Viaje.pdf", "I");
 ?>
