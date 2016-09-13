@@ -237,4 +237,8 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
             $window.open('pasajes/' + data.pasaje.id, '_blank');
         });
     }
+    
+    $scope.cancel = function() {
+        
+    }
 });

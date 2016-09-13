@@ -1,4 +1,4 @@
-<html>
+<html ng-app="VentaPasajesApp">
 <head>
     <title><?= $this->fetch("title"); ?></title>
     <meta charset="UTF-8">
@@ -93,7 +93,7 @@
         "checklist-model"
     ]) ?>
 </head>
-<body ng-app="VentaPasajesApp">
+<body>
     <div class="row">
         <div id="ribbon" class="col-sm-12 navbar-fixed-top">
             <p>    

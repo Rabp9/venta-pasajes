@@ -370,6 +370,18 @@ Router::scope('/', function ($routes) {
             ]
         ]
     ]);
+    $routes->resources('users', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],
+            'login' => [
+                'action' => 'login',
+                'method' => 'POST'
+            ]
+        ]
+    ]);
 });
 /**
  * Load all plugin routes.  See the Plugin documentation on
