@@ -131,7 +131,8 @@ $this->assign("title", "Pasajes");
                                     <div id="asiento{{bus_piso.nro_piso}}{{bus_asiento.nro_asiento}}" 
                                         class="draggable {{bus_asiento.estado}}" ng-class="" ng-repeat="bus_asiento in bus_piso.bus_asientos"
                                         style="position: absolute; left: {{bus_asiento.x}}; top: {{bus_asiento.y}}"
-                                        ng-click="showBusAsiento(bus_asiento.id, bus_asiento.estado)">
+                                        ng-click="showBusAsiento(bus_asiento.id, bus_asiento.estado)"
+                                        ng-right-click="contextMenu(bus_asiento.id, bus_asiento.estado, $event)">
                                         <span>{{bus_asiento.nro_asiento}}</span>
                                     </div>
                                 </div>
@@ -204,10 +205,8 @@ $this->assign("title", "Pasajes");
 
 <div id="cmnPasajes" class="dropdown open">
     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-        <li><a href="#">Action</a></li>
-        <li><a href="#">Another action</a></li>
-        <li><a href="#">Something else here</a></li>
+        <li><a ng-click="print()">Imprimir</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="#">Separated link</a></li>
+        <li><a href="#">Opción 2</a></li>
     </ul>
 </div>

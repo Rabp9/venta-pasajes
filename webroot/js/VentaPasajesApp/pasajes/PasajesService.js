@@ -8,6 +8,10 @@ VentaPasajesApp.factory("PasajesService", function($resource) {
         getNextNroDoc: {
             method: 'GET',
             url: VentaPasajesApp.path_location + "pasajes/getNextNroDoc/.json"
+        },
+        getForPrint: {
+            method: 'GET',
+            url: VentaPasajesApp.path_location + "pasajes/getForPrint/:programacion_id/:detalle_desplazamiento_id/:bus_asiento_id/.json"
         }
     });
 });

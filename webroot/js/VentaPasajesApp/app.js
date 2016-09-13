@@ -167,7 +167,19 @@ VentaPasajesApp.directive('dvDraggable', function() {
             element.css("position", "absolute");
         }
     };
-})
+});
+
+VentaPasajesApp.directive('ngRightClick', function($parse) {
+    return function(scope, element, attrs) {
+        var fn = $parse(attrs.ngRightClick);
+        element.bind('contextmenu', function(event) {
+            scope.$apply(function() {
+                event.preventDefault();
+                fn(scope, {$event:event});
+            });
+        });
+    };
+});
 
 VentaPasajesApp.run(function($rootScope, $timeout) {
 

@@ -237,6 +237,10 @@ Router::scope('/', function ($routes) {
             'getNextNroDoc/' => [
                 'action' => 'getNextNroDoc',
                 'method' => 'GET'
+            ],
+            'getForPrint/:programacion_id/:detalle_desplazamiento_id/:bus_asiento_id' => [
+                'action' => 'getForPrint',
+                'method' => 'GET'
             ]
         ]
     ]);

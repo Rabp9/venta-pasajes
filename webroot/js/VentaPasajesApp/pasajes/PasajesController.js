@@ -41,15 +41,22 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         });
     });
     
-    $("body").on("contextmenu", ".draggable.restringido", function(e) {
-        console.log(e);
+    $scope.contextMenu = function(bus_asiento_id, bus_asiento_estado, $event) {
+        if (bus_asiento_estado == 'restringido') {
+            $("#cmnPasajes").css({
+                display: "block",
+                left: $event.pageX,
+                top: $event.pageY - 122
+            });
+            $scope.busPrintSelected = bus_asiento_id;
+        }
+    }
+   
+    $("body").click(function() {
         $("#cmnPasajes").css({
-            display: "block",
-            left: e.pageX,
-            top: e.pageY
-       });
-       return false;
-    });
+            display: 'none'
+        });
+    })
     
     $scope.agencias = AgenciasService.get(function() {
         $scope.agencias = $scope.agencias.agencias;
@@ -216,4 +223,18 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         $("#btnAddCliente" + index).attr("disabled", true);
         $scope.modalClientesUrl = VentaPasajesApp.path_location + "clientes/add";
     };
+    
+    $scope.print = function() {
+        var programacion_id = $scope.programacion_selected.id;
+        var detalle_desplazamiento_id = $scope.detalle_desplazamiento.id;
+        var bus_asiento_id = $scope.busPrintSelected;
+        
+        PasajesService.getForPrint({
+            programacion_id: programacion_id,
+            detalle_desplazamiento_id: detalle_desplazamiento_id,
+            bus_asiento_id: bus_asiento_id
+        }, function(data) {
+            $window.open('pasajes/' + data.pasaje.id, '_blank');
+        });
+    }
 });

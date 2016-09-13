@@ -142,4 +142,20 @@ class PasajesController extends AppController
         $this->set(compact('nro_doc'));
         $this->set('_serialize', ['nro_doc']);
     }
+    
+    public function getForPrint() {
+        $programacion_id = $this->request->param('programacion_id');
+        $detalle_desplazamiento_id = $this->request->param('detalle_desplazamiento_id');
+        $bus_asiento_id = $this->request->param('bus_asiento_id');
+        
+        $pasaje = $this->Pasajes->find()
+            ->where([
+                'programacion_id' => $programacion_id,
+                'detalle_desplazamiento_id' => $detalle_desplazamiento_id,
+                'bus_asiento_id' => $bus_asiento_id
+            ])->first();
+        
+        $this->set(compact('pasaje'));
+        $this->set('_serialize', ['pasaje']);
+    }
 }
