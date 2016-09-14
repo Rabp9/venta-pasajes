@@ -198,3 +198,13 @@ td.programado {
     position: absolute;
     display: none;
 }
+
+#dvFormLogin {
+    width: 30%;
+    margin: 0 auto;
+}
+
+#pnlManageUser {
+    width: 50%;
+    margin: 0 auto;
+}

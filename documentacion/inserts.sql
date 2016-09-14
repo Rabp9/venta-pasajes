@@ -56,3 +56,15 @@ INSERT INTO tarifas(servicio_id, desplazamiento_id, precio_min, precio_max, tiem
 INSERT INTO tipo_productos(descripcion, valor, estado_id) values
 	('sobre', 15, 1),
     ('caja', 20, 1);
+    
+-- Groups
+
+INSERT INTO groups(descripcion, estado_id) values
+	('Administrador', 1),
+    ('Vendedor', 1);
+    
+-- Users
+
+INSERT INTO users(group_id, agencia_id, username, password, estado_id) values
+	(1, null, 'admin', '123456', 1),
+    (2, 2, 'acruzado', '123456', 1);

@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <p ng-show="loading">Cargando...</p>
-                        <p ng-show="desplazamiento == null && !loading">Desplazamiento no registrado</p>
+                        <p ng-show="desplazamiento == null && !loading">Tarifas no registradas</p>
                         <div ng-show="desplazamiento != null && !loading">
                             <div class="form-group">
                                 <label for="txtDesplazamientoId">Código de Desplazamiento</label>

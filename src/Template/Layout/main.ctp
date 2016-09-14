@@ -1,13 +1,14 @@
 <html ng-app="VentaPasajesApp">
 <head>
-    <title><?= $this->fetch("title"); ?></title>
+    <title ng-bind="$root.title + ' - Venta de Pasajes'">Venta de Pasajes</title>
     <meta charset="UTF-8">
     <?= $this->Html->css(["ribbon.css", "bootstrap.min.css", "style.css", 
         "fonts25.css", "panels.css", "angular-animations.css"]) ?>
     <?= $this->Html->css(["jquery-ui.min.css", "jquery-ui.structure.css", "jquery-ui.theme.min.css"]) ?>
     <?= $this->Html->script(["angular.min.js", "angular-route.min.js", 
         "angular-resource.min.js", "angular-animate.min.js", "ng-file-upload.min.js",
-        "angular-input-date", "VentaPasajesApp/app.js", "VentaPasajesApp/utils/ImportarController.js", "VentaPasajesApp/utils/ImportarService.js"])
+        "angular-input-date", "checklist-model", "angular-local-storage.min.js",
+        "VentaPasajesApp/app.js", "VentaPasajesApp/utils/ImportarController.js", "VentaPasajesApp/utils/ImportarService.js"])
     ?> 
     <?= $this->Html->script(["VentaPasajesApp/buses/BusesService.js",
         "VentaPasajesApp/estados/EstadosService.js",
@@ -28,7 +29,8 @@
         "VentaPasajesApp/encomiendas/EncomiendasService.js",
         "VentaPasajesApp/giros/GirosService.js",
         "VentaPasajesApp/tipoProductos/TipoProductosService.js",
-        "VentaPasajesApp/clientes/ClientesService.js"
+        "VentaPasajesApp/clientes/ClientesService.js",
+        "VentaPasajesApp/users/UsersService.js"
     ])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
@@ -83,21 +85,21 @@
         "VentaPasajesApp/clientes/ListClientesController.js",
         "VentaPasajesApp/clientes/AddClientesController.js",
         "VentaPasajesApp/clientes/EditClientesController.js",
-        "VentaPasajesApp/clientes/ViewClientesController.js"        
+        "VentaPasajesApp/clientes/ViewClientesController.js",
+        "VentaPasajesApp/users/UsersController.js"
     ]) ?>
     <?= $this->Html->script([
         "jquery-1.12.1.min",
         "bootstrap.min",
         "jquery-ui.min",
-        "datepicker-es",
-        "checklist-model"
+        "datepicker-es"
     ]) ?>
 </head>
 <body>
     <div class="row">
         <div id="ribbon" class="col-sm-12 navbar-fixed-top">
             <p>    
-                <marquee>.:: Sistema de Tramite Documentario ::. Transportes Metropolitanos de Trujillo - TMT</marquee>
+                <marquee>Venta de Pasajes - Jhany Tours S.A.C. | Usuario:  {{ user.username }}  </marquee>
             </p>
             <?= $this->element("ribbon-menu") ?>
         </div>

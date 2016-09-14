@@ -12,34 +12,33 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="perfil">
             <div class="ribbon-tab" id="format-tab6" unselectable="on" style="display: block;">
-                <div class="ribbon-section" unselectable="on"> 
+                <div class="ribbon-section" unselectable="on">
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a class="btn-lg" href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
+                        <a class="btn-lg" ng-href="#/users/manage">
                             <span class="glyphicon glyphicon-user"></span>
                         </a>
-                        <span class="button-title" unselectable="on">Usuario</span>
+                        <span class="button-title" unselectable="on">Usuario: {{ user.username }}</span>
                     </div>
                 </div>
-                <div class="ribbon-section-sep" unselectable="on"></div>         
-                <div class="ribbon-section" unselectable="on"> 
+                <div class="ribbon-section-sep" unselectable="on"></div>
+                <div class="ribbon-section" unselectable="on">
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a class="btn-lg" href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
+                        <a class="btn-lg" ng-click="refresh()">
                             <span class="glyphicon glyphicon-refresh"></span>
-                        </a>                 
+                        </a>
                         <span class="button-title" unselectable="on">Actualizar</span>
                     </div>
                 </div>
-                <div class="ribbon-section-sep" unselectable="on"></div>         
+                <div class="ribbon-section-sep" unselectable="on"></div>
                 <div class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
-                        <a class="btn-lg" href="pagitem.php?pags=21&amp;itm=136&amp;cod_area=1" target="contenedora">
+                        <a class="btn-lg" ng-click="logout()">
                             <span class="glyphicon glyphicon-log-out"></span>
-                        </a>                 
+                        </a>
                         <span class="button-title" unselectable="on">Cerrar Sesión</span>
                     </div>
                 </div>
-                <div class="ribbon-section-sep" unselectable="on"></div>         
-
+                <div class="ribbon-section-sep" unselectable="on"></div>
             </div>
         </div>
         <div role="tabpanel" class="tab-pane active" id="mantenedores">

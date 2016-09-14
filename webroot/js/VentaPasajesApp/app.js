@@ -4,88 +4,108 @@ var VentaPasajesApp = angular.module("VentaPasajesApp", [
     "ngAnimate", 
     "ngFileUpload", 
     "ngInputDate",
-    "checklist-model"
+    "checklist-model",
+    "LocalStorageModule"
 ]);
 
-VentaPasajesApp.path_location = "http://localhost:8000/venta-pasajes/";
+VentaPasajesApp.path_location = "http://172.20.11.60:8000/venta-pasajes/";
 
 VentaPasajesApp.config(function($routeProvider) {
     $routeProvider
         .when("/", {
             controller: "HomeController",
-            templateUrl: "templates/home.html"
+            templateUrl: "templates/home.html",
+            title: 'Home'
         })
         .when("/agencias", {
             controller: "ListAgenciasController",
-            templateUrl: "agencias"
+            templateUrl: "agencias",
+            title: 'Agencias'
         })
         .when("/buses/:type?/:text?", {
             controller: "ListBusesController",
-            templateUrl: "buses"
+            templateUrl: "buses",
+            title: 'Buses'
         })
         .when("/busesAdministrar/:id", {
             controller: "AdministrarBusesController",
-            templateUrl: "buses/administrar"
+            templateUrl: "buses/administrar",
+            title: 'Administrar Bus'
         })
         .when("/clientes", {
             controller: "ListClientesController",
-            templateUrl: "clientes"
+            templateUrl: "clientes",
+            title: 'Clientes'
         })
         .when("/conductores", {
             controller: "ListConductoresController",
-            templateUrl: "conductores"
+            templateUrl: "conductores",
+            title: 'Conductores'
         })
         .when("/encomiendas", {
             controller: "EncomiendasController",
-            templateUrl: "encomiendas"
+            templateUrl: "encomiendas",
+            title: 'Encomiendas'
         })
         .when("/encomiendas/:id", {
             controller: "EncomiendasViewController",
-            templateUrl: "Encomiendas/view"
+            templateUrl: "Encomiendas/view",
+            title: 'Ver Encomienda'
         })
         .when("/giros", {
             controller: "GirosController",
-            templateUrl: "giros"
+            templateUrl: "giros",
+            title: 'Giros'
         })
         .when("/importar", {
             controller: "ImportarController",
-            templateUrl: "Pages/importar"
+            templateUrl: "Pages/importar",
+            title: 'Importar y Exportar'
         })
         .when("/pasajes", {
             controller: "PasajesController",
-            templateUrl: "pasajes"
+            templateUrl: "pasajes",
+            title: 'Pasajes'
         })
         .when("/pasajes/:id", {
             controller: "PasajesViewController",
-            templateUrl: "pasajes/view"
+            templateUrl: "pasajes/view",
+            title: 'Ver Pasaje'
         })
         .when("/personas", {
             controller: "ListPersonasController",
-            templateUrl: "personas"
+            templateUrl: "personas",
+            title: 'Personas'
         })
         .when("/programaciones/:type?/:text?", {
             controller: "ListProgramacionesController",
-            templateUrl: "programaciones"
-        })
-        .when("/programacionesAdd", {
-            controller: "AddProgramacionesController",
-            templateUrl: "programaciones/add"
+            templateUrl: "programaciones",
+            title: 'Programaciones'
         })
         .when("/rutas", {
             controller: "ListRutasController",
-            templateUrl: "rutas"
+            templateUrl: "rutas",
+            title: 'Rutas'
         })
         .when("/servicios", {
             controller: "ListServiciosController",
-            templateUrl: "servicios"
+            templateUrl: "servicios",
+            title: 'Servicios'
         })
         .when("/tarifas", {
             controller: "ListTarifasController",
-            templateUrl: "tarifas"
+            templateUrl: "tarifas",
+            title: 'Tarifas'
         })
         .when("/tipoProductos", {
             controller: "ListTipoProductosController",
-            templateUrl: "tipoProductos"
+            templateUrl: "tipoProductos",
+            title: 'Tipo de Productos'
+        })
+        .when('/users/manage', {
+            controller: 'UsersController',
+            templateUrl: 'users/manage',
+            title: 'Usuarios'
         })
     ;
 });
@@ -181,28 +201,44 @@ VentaPasajesApp.directive('ngRightClick', function($parse) {
     };
 });
 
-VentaPasajesApp.run(function($rootScope, $timeout) {
+VentaPasajesApp.run(function($rootScope, $timeout, $route, localStorageService, $window) {
 
-   $rootScope.layout = {};
-   $rootScope.layout.loading = false; 
+    $rootScope.layout = {};
+    $rootScope.layout.loading = false; 
 
-   $rootScope.$on('$routeChangeStart', function() {
+    $rootScope.$on('$routeChangeStart', function() {
 
-      //show loading gif
-      $rootScope.layout.loading = true;
+        //show loading gif
+        $rootScope.layout.loading = true;
 
-   });
+    });
 
-   $rootScope.$on('$routeChangeSuccess', function() {
-        //hide loading gif
+    $rootScope.$on('$routeChangeSuccess', function(currentRoute, previousRoute) {
+        // hide loading gif
         $timeout(function(){
             $rootScope.layout.loading = false;
         }, 500);
+        // setting title
+        $rootScope.title = $route.current.title;
+        // loading user info
+        $rootScope.user = localStorageService.get('user-authenticated');
     });
 
-   $rootScope.$on('$routeChangeError', function() {
+    $rootScope.$on('$routeChangeError', function() {
 
-       //hide loading gif
-       $rootScope.layout.loading = false;
-   });
+        //hide loading gif
+        $rootScope.layout.loading = false;
+    });
+   
+    $rootScope.logout = function() {
+        if (confirm('¿Está seguro de cerrar sesión?')) {
+            localStorageService.remove('user-authenticated');
+            $window.open('/venta-pasajes/users/login', '_self');
+        }
+    };
+    
+    $rootScope.refresh = function() {
+        $route.reload();
+    }
+    
 });
