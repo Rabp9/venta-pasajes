@@ -16,6 +16,7 @@ VentaPasajesApp.controller("UsersController", function($scope, UsersService, Age
     
     $scope.login = function (user) {
         UsersService.login(user, function(data) {
+            console.log(data);
             if (data.user) {
                 // Guardar usuario
                 localStorageService.set('user-authenticated', data.user);

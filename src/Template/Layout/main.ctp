@@ -96,7 +96,7 @@
     ]) ?>
 </head>
 <body>
-    <div class="row">
+    <div id="dvRibbonMenu" class="row ng-hide">
         <div id="ribbon" class="col-sm-12 navbar-fixed-top">
             <p>    
                 <marquee>Venta de Pasajes - Jhany Tours S.A.C. | Usuario:  {{ user.username }}  </marquee>

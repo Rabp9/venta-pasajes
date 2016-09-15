@@ -8,13 +8,13 @@ var VentaPasajesApp = angular.module("VentaPasajesApp", [
     "LocalStorageModule"
 ]);
 
-VentaPasajesApp.path_location = "http://172.20.11.60:8000/venta-pasajes/";
+VentaPasajesApp.path_location = "http://localhost:8000/venta-pasajes/";
 
 VentaPasajesApp.config(function($routeProvider) {
     $routeProvider
         .when("/", {
             controller: "HomeController",
-            templateUrl: "templates/home.html",
+            templateUrl: "Pages/home",
             title: 'Home'
         })
         .when("/agencias", {
@@ -106,6 +106,11 @@ VentaPasajesApp.config(function($routeProvider) {
             controller: 'UsersController',
             templateUrl: 'users/manage',
             title: 'Usuarios'
+        })
+        .when('/users/login', {
+            controller: 'UsersController',
+            templateUrl: 'users/login',
+            title: 'Login'
         })
     ;
 });
@@ -201,7 +206,7 @@ VentaPasajesApp.directive('ngRightClick', function($parse) {
     };
 });
 
-VentaPasajesApp.run(function($rootScope, $timeout, $route, localStorageService, $window) {
+VentaPasajesApp.run(function($rootScope, $timeout, $route, localStorageService, $window, $location) {
 
     $rootScope.layout = {};
     $rootScope.layout.loading = false; 
@@ -218,10 +223,33 @@ VentaPasajesApp.run(function($rootScope, $timeout, $route, localStorageService, 
         $timeout(function(){
             $rootScope.layout.loading = false;
         }, 500);
+        
         // setting title
         $rootScope.title = $route.current.title;
+
+        if ($route.current.title == 'Login') {
+            $rootScope.isLogin = true;
+        }
+        
         // loading user info
-        $rootScope.user = localStorageService.get('user-authenticated');
+        if (localStorageService.get('user-authenticated')) {
+            $rootScope.user = localStorageService.get('user-authenticated');
+        }
+        
+        if ($route.current.title == 'Home') {
+            if ($rootScope.user != undefined) {
+                $('#dvRibbonMenu').removeClass('ng-hide');
+            } else {
+                $window.open('#/users/login', '_self');
+            }
+        }
+        
+        /*if (localStorageService.get('user-authenticated')) {
+            $rootScope.user = localStorageService.get('user-authenticated');
+        } else {
+            console.log($location.absUrl());
+            //$window.open('Users/login', '_self')
+        }*/
     });
 
     $rootScope.$on('$routeChangeError', function() {
