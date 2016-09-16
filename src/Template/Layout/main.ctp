@@ -8,7 +8,8 @@
     <?= $this->Html->script(["angular.min.js", "angular-route.min.js", 
         "angular-resource.min.js", "angular-animate.min.js", "ng-file-upload.min.js",
         "angular-input-date", "checklist-model", "angular-local-storage.min.js",
-        "VentaPasajesApp/app.js", "VentaPasajesApp/utils/ImportarController.js", "VentaPasajesApp/utils/ImportarService.js"])
+        "VentaPasajesApp/app.js", "VentaPasajesApp/utils/ImportarController.js",
+        "VentaPasajesApp/utils/HomeController.js", "VentaPasajesApp/utils/ImportarService.js"])
     ?> 
     <?= $this->Html->script(["VentaPasajesApp/buses/BusesService.js",
         "VentaPasajesApp/estados/EstadosService.js",
@@ -86,7 +87,8 @@
         "VentaPasajesApp/clientes/AddClientesController.js",
         "VentaPasajesApp/clientes/EditClientesController.js",
         "VentaPasajesApp/clientes/ViewClientesController.js",
-        "VentaPasajesApp/users/UsersController.js"
+        "VentaPasajesApp/users/UsersLoginController.js",
+        "VentaPasajesApp/users/UsersManageController.js"
     ]) ?>
     <?= $this->Html->script([
         "jquery-1.12.1.min",

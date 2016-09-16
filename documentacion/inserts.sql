@@ -65,6 +65,12 @@ INSERT INTO groups(descripcion, estado_id) values
     
 -- Users
 
-INSERT INTO users(group_id, agencia_id, username, password, estado_id) values
-	(1, null, 'admin', '123456', 1),
-    (2, 2, 'acruzado', '123456', 1);
+INSERT INTO users(username, password, estado_id) values
+	('admin', '123456', 1),
+    ('acruzado', '123456', 1);
+    
+-- User_detalles
+
+INSERT INTO user_detalles(user_id, group_id, agencia_id, estado_id) values
+	(1, 1, null, 1),
+    (2, 2, 2, 1);

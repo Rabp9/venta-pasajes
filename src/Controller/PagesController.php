@@ -9,7 +9,11 @@ use Cake\View\Exception\MissingTemplateException;
 class PagesController extends AppController
 {
     public function home() {
-        $this->viewBuilder()->layout("main");
+        $this->viewBuilder()->layout('main');
+    }
+    
+    public function home2() {
+        $this->viewBuilder()->layout(false);
     }
     
     public function importar() {

@@ -4,7 +4,7 @@ $this->extend('/Common/vista');
 $this->assign("module-name", "Usuarios");
 $this->assign("title", "Administrar");
 ?>
-<form>
+<form ng-submit="save(user)">
     <div id="pnlManageUser" class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">Usuario</h3>
@@ -27,7 +27,7 @@ $this->assign("title", "Administrar");
 
                 <div class="col-sm-12">
                     <label for="sltAgencia">Agencia</label>
-                    <select id="sltAgencia" ng-model="user.agencia_id" ng-value="4" class="form-control"
+                    <select id="sltAgencia" ng-model="user.user_detalle.agencia_id" ng-value="4" class="form-control"
                         ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias">
                         <option value="">Seleecionar Agencia</option>
                     </select>
@@ -35,7 +35,9 @@ $this->assign("title", "Administrar");
             </div>
         </div>
         <div class="panel-footer">
-            <button type="submit" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-floppy-disk"> Guardar</span></button>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
         </div>
     </div>
 </form>

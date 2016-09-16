@@ -8,13 +8,13 @@ var VentaPasajesApp = angular.module("VentaPasajesApp", [
     "LocalStorageModule"
 ]);
 
-VentaPasajesApp.path_location = "http://localhost:8000/venta-pasajes/";
+VentaPasajesApp.path_location = "http://172.20.11.60:8000/venta-pasajes/";
 
 VentaPasajesApp.config(function($routeProvider) {
     $routeProvider
         .when("/", {
             controller: "HomeController",
-            templateUrl: "Pages/home",
+            templateUrl: "Pages/home2",
             title: 'Home'
         })
         .when("/agencias", {
@@ -103,12 +103,12 @@ VentaPasajesApp.config(function($routeProvider) {
             title: 'Tipo de Productos'
         })
         .when('/users/manage', {
-            controller: 'UsersController',
+            controller: 'UsersManageController',
             templateUrl: 'users/manage',
             title: 'Usuarios'
         })
         .when('/users/login', {
-            controller: 'UsersController',
+            controller: 'UsersLoginController',
             templateUrl: 'users/login',
             title: 'Login'
         })
@@ -210,46 +210,34 @@ VentaPasajesApp.run(function($rootScope, $timeout, $route, localStorageService, 
 
     $rootScope.layout = {};
     $rootScope.layout.loading = false; 
-
-    $rootScope.$on('$routeChangeStart', function() {
+    
+    // loading user info
+    if (localStorageService.get('user-authenticated')) {
+        $rootScope.user = localStorageService.get('user-authenticated');
+    }
+        
+    $rootScope.$on('$routeChangeStart', function(event, next, current) {
 
         //show loading gif
         $rootScope.layout.loading = true;
-
+        if (next.$$route.title != 'Login') {
+            if ($rootScope.user == undefined) {
+                $location.path('users/login');
+            } else {
+                $('#dvRibbonMenu').removeClass('ng-hide');
+            }
+        }
     });
 
     $rootScope.$on('$routeChangeSuccess', function(currentRoute, previousRoute) {
         // hide loading gif
         $timeout(function(){
             $rootScope.layout.loading = false;
-        }, 500);
         
+        }, 500);
+
         // setting title
         $rootScope.title = $route.current.title;
-
-        if ($route.current.title == 'Login') {
-            $rootScope.isLogin = true;
-        }
-        
-        // loading user info
-        if (localStorageService.get('user-authenticated')) {
-            $rootScope.user = localStorageService.get('user-authenticated');
-        }
-        
-        if ($route.current.title == 'Home') {
-            if ($rootScope.user != undefined) {
-                $('#dvRibbonMenu').removeClass('ng-hide');
-            } else {
-                $window.open('#/users/login', '_self');
-            }
-        }
-        
-        /*if (localStorageService.get('user-authenticated')) {
-            $rootScope.user = localStorageService.get('user-authenticated');
-        } else {
-            console.log($location.absUrl());
-            //$window.open('Users/login', '_self')
-        }*/
     });
 
     $rootScope.$on('$routeChangeError', function() {
@@ -260,8 +248,10 @@ VentaPasajesApp.run(function($rootScope, $timeout, $route, localStorageService, 
    
     $rootScope.logout = function() {
         if (confirm('¿Está seguro de cerrar sesión?')) {
+            $('#dvRibbonMenu').addClass('ng-hide');
             localStorageService.remove('user-authenticated');
-            $window.open('/venta-pasajes/users/login', '_self');
+            $rootScope.user = undefined;
+            $window.open('/venta-pasajes/#/users/login', '_self');
         }
     };
     
