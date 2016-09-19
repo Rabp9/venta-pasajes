@@ -5,27 +5,17 @@ $this->assign("module-name", "Mantenedores");
 $this->assign("title", "Lista de Personas");
 ?>
 <div ng-show="message.type == 'success'" class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="close" ng-click="message.type = ''"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
 <div ng-show="message.type == 'error'" class="alert alert-warning alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="close" ng-click="message.type = ''"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
-<div class="row">
-    <div class= "col-sm-2"> 
-        <a id="btnAddPersona" class="btn btn-primary" ng-click="addPersona()"><span class="glyphicon glyphicon-plus"></span> Nueva Persona</a>
-    </div>
-    
-    <div class= "col-md-3">
-        <form class="form-inline">
-            <div class="form-group">
-                <input id="txtDni" class="form-control" ng-model="dni" type="search" maxlength="8" placeholder="Buscar por DNI">
-            </div>
-            <button class="btn btn-primary" type="button" ng-click="buscarpersona()"><samp class="glyphicon glyphicon-search"></samp></button>
-        </form>
-    </div>
-</div>
+
+<a id="btnAddPersona" class="btn btn-primary" ng-click="addPersona()"><span class="glyphicon glyphicon-plus"></span> Nueva Persona</a>
+<input id="txtDni" class="form-control" ng-model="search.dni" type="search" maxlength="8" placeholder="Buscar por DNI" style="display: inline; width: 15%;">
+<input id="txtNombre" class="form-control" ng-model="search.full_name" type="search" placeholder="Buscar por Nombre" style="display: inline; width: 15%;">
 
 <div id="marco_include">
     <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
@@ -94,10 +84,10 @@ $this->assign("title", "Lista de Personas");
                     <tr ng-show="loading">
                         <td colspan="7">Cargando</td>
                     </tr>
-                    <tr ng-show="pesonas.length == 0 && !loading">
+                    <tr ng-show="personas.length == 0 && !loading">
                         <td colspan="7">No hay registros de Personas</td>
                     </tr>
-                    <tr ng-show="!loading" ng-repeat="persona in personas | orderBy:predicate:reverse"
+                    <tr ng-show="!loading" ng-repeat="persona in personas | orderBy:predicate:reverse | filter: search"
                         class="textnot2 animated" style="background-color: #fff;" 
                         onmouseover="style.backgroundColor='#cccccc';" 
                         onmouseout="style.backgroundColor='#fff'">

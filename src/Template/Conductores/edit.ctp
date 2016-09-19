@@ -10,25 +10,23 @@
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <div><span style="color: black; "><h3><?= $conductor->persona-> apellidos  ?> <?= $conductor->persona-> nombres  ?></h3></span></div>
-                                         
                         <?php
                             echo $this->Form->input('licencia', ["ng-model" => "editConductor.licencia"]);
                             echo $this->Form->input('categoria', ["ng-model" => "editConductor.categoria"]);
-                            
-                            echo $this->Form->input("estado_id", [
-                                "label" => "Estado",
-                                "empty" => "Selecciona uno",
-                                "ng-model" => "editConductor.estado_id",
-                                "options" => [],
-                                "ng-options" => "estado.id as estado.descripcion for estado in estados"
-                            ]);
                         ?>
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <div>
+                                <label><input type="radio" ng-model="editConductor.estado_id" ng-value="1"> Activo</label>
+                                <label><input type="radio" ng-model="editConductor.estado_id" ng-value="2"> Inactivo</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Modificar</button>
+                <button id="btnRegistrarConductor" type="submit" class="btn btn-primary">Modificar</button>
             </div>
         </div>
     <?= $this->Form->end() ?>

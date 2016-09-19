@@ -14,6 +14,7 @@ VentaPasajesApp.controller("ListConductoresController", function($scope, Conduct
     $("#mdlConductores").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
             $("#btnAddConductor").removeClass("disabled");
+            $("#btnAddConductor").prop("disabled", false);
             $scope.modalUrl = "";
         });
     });
@@ -33,6 +34,7 @@ VentaPasajesApp.controller("ListConductoresController", function($scope, Conduct
     
     $scope.addConductor = function() {
         $("#btnAddConductor").addClass("disabled");
+        $("#btnAddConductor").prop("disabled", true);
         $scope.modalUrl = VentaPasajesApp.path_location + "conductores/add";
     };
     

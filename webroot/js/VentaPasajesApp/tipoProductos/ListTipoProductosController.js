@@ -13,6 +13,8 @@ VentaPasajesApp.controller("ListTipoProductosController", function($scope, TipoP
     
     $("#mdlTipoProductos").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
+            $("#btnAddTipoProducto").removeClass("disabled");
+            $("#btnAddTipoProducto").prop("disabled", false);
             $scope.modalUrl = "";
         });
     });
@@ -31,6 +33,8 @@ VentaPasajesApp.controller("ListTipoProductosController", function($scope, TipoP
     };
     
     $scope.addTipoProducto = function() {
+        $("#btnAddTipoProducto").addClass("disabled");
+        $("#btnAddTipoProducto").prop("disabled", true);
         $scope.modalUrl = VentaPasajesApp.path_location + "tipoProductos/add";
     };
     

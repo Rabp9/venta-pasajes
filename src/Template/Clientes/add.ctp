@@ -14,12 +14,14 @@
                             echo $this->Form->input('razonsocial', ['label' => 'Razón Social', "ng-model" => "newCliente.razonsocial"]);
                             echo $this->Form->input('direccion', ['label' => 'Dirección', "ng-model" => "newCliente.direccion"]);
                             echo $this->Form->input('telefono', ['label' => 'Teléfono', "ng-model" => "newCliente.telefono"]);
-                            echo $this->Form->input("estado_id", [
-                                "label" => "Estado",
-                                "empty" => "Selecciona uno",
-                                "ng-model" => "newCliente.estado_id"
-                            ]);
                         ?>
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <div>
+                                <label><input type="radio" ng-model="newCliente.estado_id" ng-value="1"> Activo</label>
+                                <label><input type="radio" ng-model="newCliente.estado_id" ng-value="2"> Inactivo</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

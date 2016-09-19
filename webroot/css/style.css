@@ -25,6 +25,8 @@ body {
 
 .draggable-container {
     overflow: hidden;
+    overflow-y: auto;
+    height: 65%;
 }
 
 .draggable { 

@@ -5,27 +5,29 @@ $this->assign("module-name", "Mantenedores");
 $this->assign("title", "Administrar Bus");
 ?>
 <div class="row">
-    <div class="col-sm-8 col-sm-offset-2">
-        <dl class="dl-horizontal">
-            <dt>Código</dt>
-            <dd>{{bus.id}}</dd>
-
-            <dt>Placa</dt>
-            <dd>{{bus.placa}}</dd>
-
-            <dt>Chasis</dt>
-            <dd>{{bus.chasis}}</dd>
-
-            <dt>Año</dt>
-            <dd>{{bus.anio}}</dd>
-
-            <dt>Estado</dt>
-            <dd>{{bus.estado.descripcion}}</dd>
-        </dl>
+    <div class="col-md-2 col-sm-offset-1">
+        <strong>Código:</strong>
+        <span>{{bus.id}}</span>
+    </div>
+    <div class="col-md-2">
+        <strong>Placa:</strong>
+        <span>{{bus.placa}}</span>
+    </div>
+    <div class="col-md-2">
+        <strong>Chasis:</strong>
+        <span>{{bus.chasis}}</span>
+    </div>
+    <div class="col-md-2">
+        <strong>Año:</strong>
+        <span>{{bus.anio}}</span>
+    </div>
+    <div class="col-md-2">
+        <strong>Estado:</strong>
+        <span>{{bus.estado.descripcion}}</span>
     </div>
 </div>
 <form ng-submit="saveBus()">
-    <div class="row">
+    <div class="row" style="margin-bottom: 5px;">
         <div class="col-sm-12">
             <div class="form-group">
                 <label for="sltPisos">Pisos</label>
@@ -86,6 +88,6 @@ $this->assign("title", "Administrar Bus");
                 </div>
             </div>
         </div>
-    </div> 
-    <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+    <button id="btnGuardarBus" type="submit" class="btn btn-primary" ng-disabled="terminado()">Guardar</button>
 </form>

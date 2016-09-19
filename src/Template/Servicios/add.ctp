@@ -14,13 +14,14 @@
                                 "label" => "Descripción", 
                                 "ng-model" => "newServicio.descripcion"
                             ]);
-                            echo $this->Form->input("estado_id", [
-                                "label" => "Estado",
-                                "empty" => "Selecciona uno",
-                                "ng-model" => "newServicio.estado_id"
-                            ]);
-
                         ?>
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <div>
+                                <label><input type="radio" ng-model="newServicio.estado_id" ng-value="1"> Activo</label>
+                                <label><input type="radio" ng-model="newServicio.estado_id" ng-value="2"> Inactivo</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

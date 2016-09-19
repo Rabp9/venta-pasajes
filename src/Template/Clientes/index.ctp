@@ -5,11 +5,11 @@ $this->assign("module-name", "Mantenedores");
 $this->assign("title", "Lista de Clientes");
 ?>
 <div ng-show="message.type == 'success'" class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="close" ng-click="message.type = ''"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
 <div ng-show="message.type == 'error'" class="alert alert-warning alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="close" ng-click="message.type = ''"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
 <a id="btnAddCliente" class="btn btn-primary" ng-click="addCliente()"><span class="glyphicon glyphicon-plus"></span> Nuevo Cliente</a>

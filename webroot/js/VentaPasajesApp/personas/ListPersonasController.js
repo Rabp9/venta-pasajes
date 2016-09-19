@@ -14,6 +14,7 @@ VentaPasajesApp.controller("ListPersonasController", function($rootScope, $scope
     $("#mdlPersonas").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
             $("#btnAddPersona").removeClass("disabled");
+            $("#btnAddPersona").prop("disabled", false);
             $scope.modalUrl = ""; 
         });
     });
@@ -33,6 +34,7 @@ VentaPasajesApp.controller("ListPersonasController", function($rootScope, $scope
     
     $scope.addPersona = function() {
         $("#btnAddPersona").addClass("disabled");
+        $("#btnAddPersona").prop("disabled", true);
         $scope.modalUrl = VentaPasajesApp.path_location + "personas/add";
     };
     
@@ -63,14 +65,17 @@ VentaPasajesApp.controller("ListPersonasController", function($rootScope, $scope
         }
     }
     
+    /* 
     $scope.buscarpersona = function() {
         $scope.loading = true;
         PersonasService.findByDni({dni: $scope.dni}, function(data) {
             $scope.personas = [];
-            if(data.persona !== null)
+            if(data.persona !== null) {
                 $scope.personas.push(data.persona);
+            }
             $scope.loading = false;
         });
-    }
+    }*/
+    
     $scope.list();
 });

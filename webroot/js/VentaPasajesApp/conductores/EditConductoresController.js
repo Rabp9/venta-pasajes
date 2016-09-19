@@ -12,16 +12,14 @@ VentaPasajesApp.controller("EditConductoresController", function($scope, Conduct
         $scope.estados = $scope.estados.estados;
     });  
     $scope.updateConductor = function() {
+        $("#btnRegistrarConductor").addClass("disabled");
+        $("#btnRegistrarConductor").prop("disabled", true);
         var conductor = ConductoresService.get({id: $scope.$parent.id}, function() {
             conductor = angular.extend(conductor, $scope.editConductor);
             delete conductor.estado;
             conductor.$update({id: $scope.$parent.id}, function(data) {
                 $("#mdlConductores").modal('toggle');
-                var message = {
-                    type: "success",
-                    text: "Conductor modificado correctamente"
-                };
-                $scope.$parent.actualizarMessage(message);
+                $scope.$parent.actualizarMessage(data.message);
                 $scope.$parent.list();
             });
         });

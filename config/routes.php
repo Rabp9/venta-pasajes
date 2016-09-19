@@ -379,6 +379,10 @@ Router::scope('/', function ($routes) {
             'login' => [
                 'action' => 'login',
                 'method' => 'POST'
+            ],
+            'manage' => [
+                'action' => 'manage',
+                'method' => 'POST'
             ]
         ]
     ]);

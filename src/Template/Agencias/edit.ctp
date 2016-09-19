@@ -27,28 +27,26 @@
                                 <div class="col-sm-4">
                                     <select id="sltProvincia" class="form-control" ng-model="provinciaSelected"
                                         ng-options="provincia.id as provincia.descripcion for provincia in provincias"
-                                        ng-change="onProvinciaSelect()">
+                                        ng-change="onProvinciaSelect()" ng-show="provincias.length > 0">
                                         <option value="">Selecciona una Provincia</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-4">
                                     <select id="sltDistrito" class="form-control" ng-model="editAgencia.ubigeo_id"
                                         ng-options="distrito.id as distrito.descripcion for distrito in distritos"
-                                        ng-change="onDistritoSelect()">
+                                        ng-change="onDistritoSelect()" ng-show="distritos.length > 0">
                                         <option value="">Selecciona un Distrito</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <?php
-                            echo $this->Form->input("estado_id", [
-                                "label" => "Estado",
-                                "empty" => "Selecciona uno",
-                                "ng-model" => "editAgencia.estado_id",
-                                "options" => [],
-                                "ng-options" => "estado.id as estado.descripcion for estado in estados"
-                            ]);
-                        ?>
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <div>
+                                <label><input type="radio" ng-model="editAgencia.estado_id" ng-value="1"> Activo</label>
+                                <label><input type="radio" ng-model="editAgencia.estado_id" ng-value="2"> Inactivo</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

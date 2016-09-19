@@ -12,14 +12,14 @@
                         <?php
                             echo $this->Form->input('descripcion', ["ng-model" => "editTipoProducto.descripcion"]);
                             echo $this->Form->input('valor', ["ng-model" => "editTipoProducto.valor"]);
-                            echo $this->Form->input("estado_id", [
-                                "label" => "Estado",
-                                "empty" => "Selecciona uno",
-                                "ng-model" => "editTipoProducto.estado_id",
-                                "options" => [],
-                                "ng-options" => "estado.id as estado.descripcion for estado in estados"
-                            ]);
                         ?>
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <div>
+                                <label><input type="radio" ng-model="editTipoProducto.estado_id" ng-value="1"> Activo</label>
+                                <label><input type="radio" ng-model="editTipoProducto.estado_id" ng-value="2"> Inactivo</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

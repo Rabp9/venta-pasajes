@@ -4,6 +4,7 @@ VentaPasajesApp.controller("AddPersonasController", function($scope, PersonasSer
     
     $scope.addPersona = function() {
         $("#btnRegistrar").addClass("disabled");
+        $("#btnRegistrar").prop("disabled", true);
         $scope.newPersona.fecha_nac = $filter("date")($scope.prefecha_nac, "yyyy-MM-dd");
         PersonasService.save($scope.newPersona, function(data) {
             $("#mdlPersonas").modal('toggle');

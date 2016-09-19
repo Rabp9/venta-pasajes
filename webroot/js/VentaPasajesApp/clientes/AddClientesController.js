@@ -2,6 +2,7 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("AddClientesController", function($scope, ClientesService) {
     $scope.newCliente = new ClientesService();
+    $scope.newCliente.estado_id = 1;
         
     $scope.addCliente = function() {
         $("#btnRegistrarCliente").addClass("disabled");

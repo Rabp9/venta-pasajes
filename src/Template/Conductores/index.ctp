@@ -4,28 +4,17 @@ $this->assign("module-name", "Mantenedores");
 $this->assign("title", "Lista de Conductores");
 ?>
 <div ng-show="message.type == 'success'" class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="close" ng-click="message.type = ''"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
 <div ng-show="message.type == 'error'" class="alert alert-warning alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="close" ng-click="message.type = ''"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
 
-<div class="row"> 
-    <div class= "col-sm-2"> 
-        <a id="btnAddConductor" class="btn btn-primary" ng-click="addConductor()"><span class="glyphicon glyphicon-plus"></span> Registrar Conductor</a>
-    </div>
-    
-    <div class= "col-md-3">
-        <form class="form-inline">
-            <div class="form-group">
-                <input id="txtDni" class="form-control" ng-model="dni" type="search" maxlength="8" placeholder="Buscar por DNI">
-            </div>
-            <button class="btn btn-primary" type="button" ng-click="buscarconductor()"><samp class="glyphicon glyphicon-search"></samp></button>
-        </form>
-    </div>
-</div>
+<a id="btnAddConductor" class="btn btn-primary" ng-click="addConductor()"><span class="glyphicon glyphicon-plus"></span> Registrar Conductor</a>
+<input id="txtDni" class="form-control" ng-model="search.persona.dni" type="search" maxlength="8" placeholder="Buscar por DNI" style="display: inline; width: 15%;">
+<input id="txtNombre" class="form-control" ng-model="search.persona.full_name" type="search" placeholder="Buscar por Nombre" style="display: inline; width: 15%;">
 
 <div id="marco_include">
     <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
@@ -79,14 +68,14 @@ $this->assign("title", "Lista de Conductores");
                     <tr ng-show="conductores.length == 0 && !loading">
                         <td colspan="7">No hay registros de Conductores</td>
                     </tr>
-                    <tr ng-show="!loading" ng-repeat="conductor in conductores | orderBy:predicate:reverse"
+                    <tr ng-show="!loading" ng-repeat="conductor in conductores | orderBy:predicate:reverse | filter: search"
                         class="textnot2 animated" style="background-color: #fff;" 
                         onmouseover="style.backgroundColor='#cccccc';" 
                         onmouseout="style.backgroundColor='#fff'">
                       
                         <td width="3%" bgcolor="#D6E4F2">{{ conductor.id }}</td>
-                        <td width="6%">{{ conductor.persona.dni}}</td>
-                        <td width="6%">{{ conductor.persona.nombres + ' '+conductor.persona.apellidos }}</td>
+                        <td width="6%">{{ conductor.persona.dni }}</td>
+                        <td width="6%">{{ conductor.persona.full_name }}</td>
                         
                         <td width="8%">{{ conductor.licencia }}</td>
                         <td width="5%">{{ conductor.categoria }}</td>

@@ -4,6 +4,14 @@ $this->extend('/Common/vista');
 $this->assign("module-name", "Usuarios");
 $this->assign("title", "Administrar");
 ?>
+<div ng-show="message.type == 'success'" class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" ng-click="message.type = ''"><span aria-hidden="true">&times;</span></button>
+    {{ message.text }}
+</div>
+<div ng-show="message.type == 'error'" class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" ng-click="message.type = ''"><span aria-hidden="true">&times;</span></button>
+    {{ message.text }}
+</div>
 <form ng-submit="save(user)">
     <div id="pnlManageUser" class="panel panel-primary">
         <div class="panel-heading">
@@ -36,7 +44,7 @@ $this->assign("title", "Administrar");
         </div>
         <div class="panel-footer">
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button id="btnGuardar" type="submit" class="btn btn-primary">Guardar</button>
             </div>
         </div>
     </div>

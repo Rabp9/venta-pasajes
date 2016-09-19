@@ -2,6 +2,7 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("AddConductoresController", function($scope, ConductoresService, PersonasService) {
     $scope.newConductor = new ConductoresService();
+    $scope.newConductor.estado_id = 1;
     $scope.dni = "";
     $scope.persona = new PersonasService();
     
@@ -14,6 +15,7 @@ VentaPasajesApp.controller("AddConductoresController", function($scope, Conducto
     $scope.addConductor = function() {
         $scope.newConductor.persona_id = $scope.persona.id;
         $("#btnRegistrar").addClass("disabled");
+        $("#btnRegistrar").prop("disabled", true);
         ConductoresService.save($scope.newConductor, function(data) {
             $("#mdlConductores").modal('toggle');
             $scope.newConductor = new ConductoresService();

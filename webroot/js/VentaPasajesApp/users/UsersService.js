@@ -7,6 +7,10 @@ VentaPasajesApp.factory("UsersService", function($resource) {
         login: {
             method: 'POST',
             url: VentaPasajesApp.path_location + "users/login/.json"
+        },
+        manage: {
+            method: 'POST',
+            url: VentaPasajesApp.path_location + "users/manage/.json"
         }
     });
 });

@@ -13,19 +13,23 @@ VentaPasajesApp.controller("UsersManageController", function($scope, UsersServic
     };
     
     $scope.save = function(user) {
-        var user_wm = AgenciasService.get({id: user.id}, function() {
-            user_sm = angular.extend(user_sm, user);
-            delete agencia.estado; 
-            delete agencia.ubigeo; 
-            agencia.$update({id: $scope.$parent.id}, function(data) {
-                $("#mdlAgencias").modal('toggle');
-                $scope.$parent.actualizarMessage(data.message);
-                $scope.$parent.list();
+        $('#btnGuardar').addClass('disabled');
+        $('btnGuardar').prop('disabled', true);
+        if (user.newPassword == user.newRePassword) {
+            user.password = user.newPassword;
+            delete user.newPassword;
+            delete user.newRePassword;
+            delete user.agencia_id;
+            UsersService.manage({user: user}, function(data) {
+                $scope.message = data.message;
+                $rootScope.user.user_detalle = user.user_detalle;
+                $scope.user = $rootScope.user;
+                $('#btnGuardar').removeClass('disabled');
+                $('btnGuardar').prop('disabled', false);
             });
-        });
-        UsersService.save(user, function() {
-            
-        })
+        } else {
+            alert('Los passwords no coinciden');
+        }
     };
     
     $scope.construct();

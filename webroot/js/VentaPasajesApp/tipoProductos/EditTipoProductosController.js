@@ -14,6 +14,7 @@ VentaPasajesApp.controller("EditTipoProductosController", function($scope, TipoP
     
     $scope.updateTipoProducto = function() {
         $("#btnRegistrar").addClass("disabled");
+        $("#btnRegistrar").prop("disabled", true);
         var tipoProducto = TipoProductosService.get({id: $scope.$parent.id}, function() {
             tipoProducto = angular.extend(tipoProducto, $scope.editTipoProducto);
             delete tipoProducto.estado;

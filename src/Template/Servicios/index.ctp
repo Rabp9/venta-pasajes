@@ -5,14 +5,14 @@ $this->assign("module-name", "Mantenedores");
 $this->assign("title", "Lista de Servicios");
 ?>
 <div ng-show="message.type == 'success'" class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="close" ng-click="message.type = ''"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
 <div ng-show="message.type == 'error'" class="alert alert-warning alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="close" ng-click="message.type = ''"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
-<a class="btn btn-primary" ng-click="addServicio()"><span class="glyphicon glyphicon-plus"></span> Nuevo Servicio</a>
+<a id="btnAddServicio" class="btn btn-primary" ng-click="addServicio()"><span class="glyphicon glyphicon-plus"></span> Nuevo Servicio</a>
 
 <div id="marco_include">
     <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">

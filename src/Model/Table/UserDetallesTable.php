@@ -44,6 +44,11 @@ class UserDetallesTable extends Table
             'foreignKey' => 'agencia_id',
             'joinType' => 'INNER'
         ]);
+        
+        $this->belongsTo('Estados', [
+            'foreignKey' => 'estado_id',
+            'joinType' => 'INNER'
+        ]);
     }
     
     /**
