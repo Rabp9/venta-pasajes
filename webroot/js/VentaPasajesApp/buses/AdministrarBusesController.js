@@ -3,10 +3,11 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesService, $routeParams, BusPisosService, $location) {
     $scope.imagen = [];
     $scope.imgUrl = [];
+    $scope.tmp = [];
     $scope.asientos = [];
-    $scope.imgUrl = [];
     $scope.pisosLoaded = false;
-    
+    $scope.folder = 'cache';
+
     BusesService.get({id: $routeParams.id}, function(data) {
         $scope.bus = data.bus;
         if ($scope.bus.bus_pisos.length > 0) {
@@ -15,6 +16,7 @@ VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesS
                 $scope.imgUrl[i] = $scope.bus.bus_pisos[i].imagen;
             }
             $scope.pisosLoaded = true;
+            $scope.folder = 'buses';
         }
     });
        
@@ -82,9 +84,8 @@ VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesS
             bus_pisos.push(bus_piso);
         }
         BusPisosService.save({bus_pisos: bus_pisos, modified: $scope.pisosLoaded, bus_id: $scope.bus.id}, function(data) {
-/*            var type = data.message.type;
-            var text = data.message.text;*/
-            console.log(data);
+            var type = data.message.type;
+            var text = data.message.text;
             $location.path("/buses/" + type + "/" + text);
             $('#btnGuardarBus').removeClass('disabled');
             $('#btnGuardarBus').prop('disabled', false);
