@@ -82,8 +82,9 @@ VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesS
             bus_pisos.push(bus_piso);
         }
         BusPisosService.save({bus_pisos: bus_pisos, modified: $scope.pisosLoaded, bus_id: $scope.bus.id}, function(data) {
-            var type = data.message.type;
-            var text = data.message.text;
+/*            var type = data.message.type;
+            var text = data.message.text;*/
+            console.log(data);
             $location.path("/buses/" + type + "/" + text);
             $('#btnGuardarBus').removeClass('disabled');
             $('#btnGuardarBus').prop('disabled', false);

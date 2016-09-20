@@ -55,10 +55,16 @@ class BusPisosController extends AppController
                 $bus->nro_pisos = sizeof($bus_pisos);
                 $bus->nro_asientos = $nro_asientos;
                 if($this->BusPisos->Buses->save($bus)) {
+                    foreach ($bus_pisos as $bus_piso) {
+                        move_uploaded_file(WWW_ROOT . 'img' . DS . 'cache' . DS . $bus_piso->imagen, WWW_ROOT . 'img' . DS . 'buses' . DS);
+                        unlink(WWW_ROOT . 'img' . DS . 'cache' . DS . $bus_piso->imagen);
+                    }
                     $conn->commit();
                     $message = [
                         "type" => "success",
-                        "text" => "La información del Bus fue guardada exitosamente"
+                        "text" => "La información del Bus fue guardada exitosamente",
+                        'algo' => is_writable(WWW_ROOT . 'img' . DS . 'cache' . DS),
+                        'mas' => is_writable(WWW_ROOT . 'img' . DS . 'buses' . DS)
                     ];
                 } else {
                     $conn->rollback();
@@ -116,5 +122,17 @@ class BusPisosController extends AppController
             $this->Flash->error(__('The bus piso could not be deleted. Please, try again.'));
         }
         return $this->redirect(['action' => 'index']);
+    }
+    public function prueba() {
+        echo WWW_ROOT . 'img' . DS . 'cache' . DS . 'bb.jpg';
+        echo '<br>';
+        echo WWW_ROOT . 'img' . DS . 'buses' . DS . 'bb.jpg';
+        echo '<br>';
+        if (move_uploaded_file('C:\\wamp\\www\\venta-pasajes\\webroot\\img\\cache\\bb.jpg', 'C:\\wamp\\www\\venta-pasajes\\webroot\\img\\buses\\bb.jpg')) {
+            echo 'bien';
+        } else {
+            echo 'mal';
+        }
+        die();
     }
 }

@@ -88,7 +88,7 @@ class BusesController extends AppController
                 $message = [
                     "type" => "success",
                     "text" => "Imagen subida con éxito",
-                    "fileUrl" => "cache/" . $imagen["name"]
+                    "fileUrl" => $imagen["name"]
                 ];
             } else {
                 $message = [

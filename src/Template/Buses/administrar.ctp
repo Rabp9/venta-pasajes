@@ -77,7 +77,7 @@ $this->assign("title", "Administrar Bus");
                         <div class="col-md-10 col-sm-12">
                             <div class="droppable-container">
                                 <img id="img-bus{{n}}" ondragover="allowDrop(event)" class="img-bus" 
-                                     ng-src="img/{{imgUrl[n]}}" ondrop="drop(event)"/>
+                                     ng-src="img/cache/{{imgUrl[n]}}" ondrop="drop(event)"/>
                                 <div ng-if="pisosLoaded" id="asiento{{n}}{{$index}}" class="draggable" ng-repeat="m in [asientos[n]] | makeRange"
                                      draggable="true" ondragstart="drag(event)" dv-draggable data-nro-asiento="{{m}}" data-nro-piso="{{n}}">
                                     <span>{{m + 1}}</span>
