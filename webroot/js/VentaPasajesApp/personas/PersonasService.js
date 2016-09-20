@@ -7,6 +7,10 @@ VentaPasajesApp.factory("PersonasService", function($resource) {
         findByDni: {
             method: 'GET',
             url: VentaPasajesApp.path_location + "personas/findByDni/:dni.json"
+        },
+        findByNombre: {
+            method: 'GET',
+            url: VentaPasajesApp.path_location + "personas/findByNombre/:nombre.json"
         }
     });
 });

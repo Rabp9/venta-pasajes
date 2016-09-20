@@ -14,8 +14,10 @@ $this->assign("title", "Lista de Personas");
 </div>
 
 <a id="btnAddPersona" class="btn btn-primary" ng-click="addPersona()"><span class="glyphicon glyphicon-plus"></span> Nueva Persona</a>
-<input id="txtDni" class="form-control" ng-model="search.dni" type="search" maxlength="8" placeholder="Buscar por DNI" style="display: inline; width: 15%;">
-<input id="txtNombre" class="form-control" ng-model="search.full_name" type="search" placeholder="Buscar por Nombre" style="display: inline; width: 15%;">
+<input id="txtDni" class="form-control" ng-model="search_dni" type="search" maxlength="8" placeholder="Buscar por DNI" style="display: inline; width: 15%;">
+<button type="button" class="btn btn-primary" ng-click="buscarpersonadni(search_dni)"><span class="glyphicon glyphicon-search"></span></button>
+<input id="txtNombre" class="form-control" ng-model="search_full_name" type="search" placeholder="Buscar por Nombre" style="display: inline; width: 15%;">
+<button type="button" class="btn btn-primary" ng-click="buscarpersonanombre(search_full_name)"><span class="glyphicon glyphicon-search"></span></button>
 
 <div id="marco_include">
     <div style="height: 70%; overflow:auto" class="justificado_not" id="busqueda">
@@ -87,7 +89,7 @@ $this->assign("title", "Lista de Personas");
                     <tr ng-show="personas.length == 0 && !loading">
                         <td colspan="7">No hay registros de Personas</td>
                     </tr>
-                    <tr ng-show="!loading" ng-repeat="persona in personas | orderBy:predicate:reverse | filter: search"
+                    <tr ng-show="!loading" ng-repeat="persona in personas | orderBy:predicate:reverse"
                         class="textnot2 animated" style="background-color: #fff;" 
                         onmouseover="style.backgroundColor='#cccccc';" 
                         onmouseout="style.backgroundColor='#fff'">

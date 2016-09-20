@@ -55,6 +55,9 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
     }
     
     $scope.registerTarifa = function() {
+        $('#btnRegistrarTarifa').addClass('disabled');
+        $('#btnRegistrarTarifa').prop('disabled', true);
+        
         $scope.modalUrl = VentaPasajesApp.path_location + "tarifas/add";
         $scope.AgenciaOrigen = $filter('filter')($scope.agencias, function (a) {
             return a.id === $scope.origen_selected;
@@ -68,6 +71,8 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
     };
     
     $scope.addTarifa = function() {
+        $('#btnAddRegistrarTarifa').addClass('disabled');
+        $('#btnAddRegistrarTarifa').prop('disabled', true);
         $scope.newTarifa.servicio_id = $scope.servicio_selected;
         
         TarifasService.save({tarifa: $scope.newTarifa, origen: $scope.origen_selected, destino: $scope.destino_selected}, function(data) {
@@ -75,6 +80,8 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
             $scope.newTarifa = new TarifasService();
             $scope.actualizarMessage(data.message);
             $scope.list();
+            $('#btnAddRegistrarTarifa').removeClass('disabled');
+            $('#btnAddRegistrarTarifa').prop('disabled', false);
         });
     }
     
@@ -88,6 +95,8 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
     }
     
     $scope.updatePostTarifa = function() {
+        $('#btnEditRegistrarTarifa').addClass('disabled');
+        $('#btnEditRegistrarTarifa').prop('disabled', true);
         var tarifa = TarifasService.get({id: $scope.editTarifa.id}, function() {
             tarifa = angular.extend(tarifa, $scope.editTarifa);
             delete tarifa.servicio;
@@ -96,6 +105,8 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
                 $("#mdlTarifas").modal('toggle');
                 $scope.actualizarMessage(data.message);
                 $scope.list();
+                $('#btnEditRegistrarTarifa').removeClass('disabled');
+                $('#btnEditRegistrarTarifa').prop('disabled', false);
             });
         });
     }
@@ -103,6 +114,8 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
     $("#mdlTarifas").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
             $scope.modalUrl = ""; 
+            $('#btnRegistrarTarifa').removeClass('disabled');
+            $('#btnRegistrarTarifa').prop('disabled', false);
         });
     });
     

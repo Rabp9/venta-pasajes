@@ -41,6 +41,23 @@ class PersonasController extends AppController
         $this->set(compact('persona'));
         $this->set('_serialize', ['persona']);
     }
+    
+    public function findByNombre($nombre = null) { 
+        $this->viewBuilder()->layout(false);
+        
+        $nombre = $this->request->param("nombre");
+        
+        $personas = $this->Personas->find()
+            ->where([
+                'OR' => [
+                    'apellidos LIKE' => '%' . $nombre . '%',
+                    "nombres LIKE" => '%' . $nombre . '%' 
+                ]
+            ]);
+
+        $this->set(compact('personas'));
+        $this->set('_serialize', ['personas']);
+    }
 
     public function add() {
         $this->viewBuilder()->layout(false);
@@ -80,6 +97,7 @@ class PersonasController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            $this->request->data["fecha_nac"] = Time::createFromFormat("Y-m-d", $this->request->data["fecha_nac"]);
             $persona = $this->Personas->patchEntity($persona, $this->request->data);
             if ($this->Personas->save($persona)) {
                 $message = array(

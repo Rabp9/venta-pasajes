@@ -335,6 +335,10 @@ Router::scope('/', function ($routes) {
             'findByDni/:dni' => [
                 'action' => 'findByDni',
                 'method' => 'GET'
+            ],
+            'findByNombre/:nombre' => [
+                'action' => 'findByNombre',
+                'method' => 'GET'
             ]
         ]
     ]);

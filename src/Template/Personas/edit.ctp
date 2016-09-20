@@ -17,7 +17,7 @@
                         ?>
                         <div class="form-group">
                             <label for="fecha_nac">Fecha de Nacimiento</label>
-                            <input id="fecha_nac" type="date" ng-model="editPersona.fecha_nac" class="form-control">
+                            <input id="fecha_nac" type="text" ng-model="editPersona.fecha_nac" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="sexo">Sexo</label>

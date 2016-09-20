@@ -16,7 +16,7 @@
                                     <input class="form-control" ng-model="dni" type="search" maxlength="8">
                                 </div>
                                 <div class="col-sm-2">
-                                    <button class="btn btn-primary" type="button" ng-click="buscarPersona()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
+                                    <button id="btnBuscarPersona" class="btn btn-primary" type="button" ng-click="buscarPersona()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
                                 </div>
                             </div>
                         </div>

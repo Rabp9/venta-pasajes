@@ -17,7 +17,7 @@
                         ?>
                         <div class="form-group">
                             <label for="fecha_nac">Fecha de Nacimiento</label>
-                            <input id="fecha_nac" type="date" ng-model="prefecha_nac" class="form-control">
+                            <input id="fecha_nac" type="text" ng-model="prefecha_nac" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="sexo">Sexo</label>
@@ -39,14 +39,5 @@
                 <button id="btnRegistrar" type="submit" class="btn btn-primary">Registrar</button>
             </div>
         </div>
-    <?= $this->Form->end() ?>
-    <?php echo $this->Html->scriptStart(["block" => "script"]); ?>
-    $(document).ready(function() {
-        $("#fecha-nac").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: "yy-mm-dd"
-        });
-    });
-<?php echo $this->Html->scriptEnd(); ?>
+    <?php echo $this->Form->end(); ?>
 </div>

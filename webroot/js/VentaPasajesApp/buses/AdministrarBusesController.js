@@ -3,10 +3,10 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesService, $routeParams, BusPisosService, $location) {
     $scope.imagen = [];
     $scope.imgUrl = [];
-    $scope.tmp = [];
+    $scope.img_changed = [];
     $scope.asientos = [];
     $scope.pisosLoaded = false;
-    $scope.folder = 'cache';
+    $scope.folder = [];
 
     BusesService.get({id: $routeParams.id}, function(data) {
         $scope.bus = data.bus;
@@ -14,19 +14,21 @@ VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesS
             for (var i = 0; i < $scope.bus.bus_pisos.length; i++) {
                 $scope.asientos[i] = $scope.bus.bus_pisos[i].nro_asientos;
                 $scope.imgUrl[i] = $scope.bus.bus_pisos[i].imagen;
+                $scope.folder[i] = 'buses';
             }
             $scope.pisosLoaded = true;
-            $scope.folder = 'buses';
         }
     });
        
-    $scope.uploadFile = function(index){
+    $scope.uploadFile = function(index) {
         var file = $scope.imagen[index];
         var fd = new FormData();
         fd.append('file', file);
         
         BusesService.subir(fd, function(data) {
             $scope.imgUrl[index] = data.message.fileUrl;
+            $scope.img_changed[index] = true;
+            $scope.folder[index] = 'cache';
         });
     };
     
@@ -69,6 +71,7 @@ VentaPasajesApp.controller("AdministrarBusesController", function($scope, BusesS
                 bus_id: $scope.bus.id,
                 nro_piso: i + 1,
                 imagen: $scope.imgUrl[i],
+                img_changed: $scope.img_changed[i],
                 nro_asientos: nro_asientos,
                 bus_asientos: []
             };

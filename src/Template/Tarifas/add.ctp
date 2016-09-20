@@ -46,7 +46,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Registrar</button>
+            <button id="btnAddRegistrarTarifa" type="submit" class="btn btn-primary">Registrar</button>
         </div>
     </div>
 <?= $this->Form->end() ?>

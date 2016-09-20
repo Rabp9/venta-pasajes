@@ -65,17 +65,37 @@ VentaPasajesApp.controller("ListPersonasController", function($rootScope, $scope
         }
     }
     
-    /* 
-    $scope.buscarpersona = function() {
+    $scope.buscarpersonadni = function(dni) {
         $scope.loading = true;
-        PersonasService.findByDni({dni: $scope.dni}, function(data) {
+        PersonasService.findByDni({dni: dni}, function(data) {
             $scope.personas = [];
             if(data.persona !== null) {
                 $scope.personas.push(data.persona);
             }
             $scope.loading = false;
         });
-    }*/
+    }
+    
+    $scope.buscarpersonadni = function(dni) {
+        $scope.loading = true;
+        PersonasService.findByDni({dni: dni}, function(data) {
+            $scope.personas = [];
+            if(data.persona !== null) {
+                $scope.personas.push(data.persona);
+            }
+            $scope.loading = false;
+        });
+    }
+    
+    $scope.buscarpersonanombre = function(nombre) {
+        $scope.loading = true;
+        PersonasService.findByNombre({nombre: nombre}, function(data) {
+            if(data.personas !== null) {
+                $scope.personas = data.personas;
+            }
+            $scope.loading = false;
+        });
+    }
     
     $scope.list();
 });

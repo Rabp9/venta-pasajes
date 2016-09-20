@@ -40,7 +40,9 @@ class BusPisosController extends AppController
             foreach ($bus_pisos as $k_bus_piso => $bus_piso) {
                 $nro_asientos += $bus_piso["nro_asientos"];
                 $bus_piso->aux_imagen = $bus_piso->imagen;
-                $bus_piso->imagen = $bus_pisos[0]["bus_id"] . '-' . $bus_piso->nro_piso . '-' . $bus_piso->imagen;
+                if ($bus_piso->img_changed) {
+                    $bus_piso->imagen = $bus_pisos[0]["bus_id"] . '-' . $bus_piso->nro_piso . '-' . $bus_piso->imagen;
+                }
                 $r = $this->BusPisos->save($bus_piso);
                 if (!$r) {
                     $conn->rollback();
@@ -58,8 +60,10 @@ class BusPisosController extends AppController
                 $bus->nro_asientos = $nro_asientos;
                 if($this->BusPisos->Buses->save($bus)) {
                     foreach ($bus_pisos as $bus_piso) {
-                        copy(WWW_ROOT . 'img' . DS . 'cache' . DS . $bus_piso->aux_imagen, WWW_ROOT . 'img' . DS . 'buses' . DS . $bus_piso->imagen);
-                        unlink(WWW_ROOT . 'img' . DS . 'cache' . DS . $bus_piso->aux_imagen);
+                        if ($bus_piso->img_changed) {
+                            copy(WWW_ROOT . 'img' . DS . 'cache' . DS . $bus_piso->aux_imagen, WWW_ROOT . 'img' . DS . 'buses' . DS . $bus_piso->imagen);
+                            unlink(WWW_ROOT . 'img' . DS . 'cache' . DS . $bus_piso->aux_imagen);
+                        }
                     }
                     $conn->commit();
                     $message = [

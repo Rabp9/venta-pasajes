@@ -1,5 +1,3 @@
-var VentaPasajesApp = angular.module("VentaPasajesApp");
-
 VentaPasajesApp.controller("AddConductoresController", function($scope, ConductoresService, PersonasService) {
     $scope.newConductor = new ConductoresService();
     $scope.newConductor.estado_id = 1;
@@ -7,8 +5,12 @@ VentaPasajesApp.controller("AddConductoresController", function($scope, Conducto
     $scope.persona = new PersonasService();
     
     $scope.buscarPersona = function() {
+        $('#btnBuscarPersona').addClass('disabled');
+        $('#btnBuscarPersona').prop('disabled', true);
         PersonasService.findByDni({dni: $scope.dni}, function(data) {
             $scope.persona = data.persona;
+            $('#btnBuscarPersona').removeClass('disabled');
+            $('#btnBuscarPersona').prop('disabled', false);
         });
     }
     
