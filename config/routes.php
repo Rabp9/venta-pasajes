@@ -265,6 +265,14 @@ Router::scope('/', function ($routes) {
             'getByFechaByOrigenByDestino' => [
                 'action' => 'getByFechaByOrigenByDestino',
                 'method' => 'POST'
+            ],
+            'getDisponibles' => [
+                'action' => 'getDisponibles',
+                'method' => 'GET'
+            ],
+            'getAnteriores' => [
+                'action' => 'getAnteriores',
+                'method' => 'GET'
             ]
         ]
     ]);

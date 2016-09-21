@@ -19,27 +19,33 @@ Filtros:
 </select>
 <input type="search" placeholder="Buscar por Placa de Bus" ng-model="search_placa" class="form-control" style="display: inline; width: 15%;" />
 <input id="txtBuscarFecha" type="text" placeholder="Buscar por fecha" ng-model="search_fecha" class="form-control" style="display: inline; width: 15%" />
+<label><input type="radio" ng-model="tipo" ng-value="1" ng-change="cambiar(tipo)"> Disponibles</label> |
+<label><input type="radio" ng-model="tipo" ng-value="2" ng-change="cambiar(tipo)"> Anteriores</label>
+
 <a id="aProgramacionesAdd" class="btn btn-primary pull-right" ng-click="addProgramacion()"><span class="glyphicon glyphicon-plus"></span> Nueva Programación</a>
 <div class="list-group">
+    <p ng-show="loading">Cargando...</p>
+    <p ng-show="!loading && programaciones.length == 0">No se encontraron programaciones.</p>
     <a ng-repeat="programacion in programaciones | filter: filter_programaciones" class="list-group-item">
         <h4 class="list-group-item-heading"><strong>{{programacion.ruta.descripcion}}</strong>: {{ programacion.ruta.detalle }}</h4>
-        <p class="list-group-item-text">
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <tr>
-                        <td style="width: 10%"><strong>Servicio</strong></td>
-                        <td style="width: 25%"><strong>Bus</strong></td>
-                        <td style="width: 25%"><strong>Fecha y Hora</strong></td>
-                        <td style="width: 40%"><strong>Acciones</strong></td>
-                    </tr>
-                    <tr>
-                        <td>{{programacion.servicio.descripcion}}</td>
-                        <td>{{programacion.bus.placa}}</td>
-                        <td>{{programacion.fechahora_prog }}</td>
-                        <td><button ng-click="showList(programacion.id)" class="btn btn-primary" title="Lista de Encomiendas"><span class="glyphicon glyphicon-list"></span></button></td>
-                    </tr>
-                </table>
-            </div>
+        <p class="list-group-item-text table-responsive">
+            <table class="table table-bordered">
+                <tr>
+                    <td style="width: 10%"><strong>Servicio</strong></td>
+                    <td style="width: 25%"><strong>Bus</strong></td>
+                    <td style="width: 25%"><strong>Fecha y Hora</strong></td>
+                    <td style="width: 40%"><strong>Acciones</strong></td>
+                </tr>
+                <tr>
+                    <td>{{programacion.servicio.descripcion}}</td>
+                    <td>{{programacion.bus.placa}}</td>
+                    <td>{{programacion.fechahora_prog }}</td>
+                    <td>
+                        <button ng-click="showListPasajeros(programacion.id)" class="btn btn-primary" title="Lista de Pasajeros"><span class="glyphicon glyphicon-object-align-left"></span></button>
+                        <button ng-click="showListEncomiendas(programacion.id)" class="btn btn-primary" title="Lista de Encomiendas"><span class="glyphicon glyphicon-list"></span></button>
+                    </td>
+                </tr>
+            </table>
         </p>
     </a>
 </div>

@@ -12,14 +12,17 @@
                         <?php
                             echo $this->Form->input('descripcion', [
                                 "ng-model" => "newRuta.descripcion",
-                                "type" => "text"
-                            ]);
-                            echo $this->Form->input("estado_id", [
-                                "label" => "Estado",
-                                "empty" => "Selecciona uno",
-                                "ng-model" => "newRuta.estado_id"
+                                "type" => "text",
+                                "required" => true
                             ]);
                         ?>
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <div>
+                                <label><input type="radio" ng-model="newRuta.estado_id" ng-value="1"> Activo</label>
+                                <label><input type="radio" ng-model="newRuta.estado_id" ng-value="2"> Inactivo</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

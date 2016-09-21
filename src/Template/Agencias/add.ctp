@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <?php
-                            echo $this->Form->input('direccion', ["ng-model" => "newAgencia.direccion"]);
+                            echo $this->Form->input('direccion', ["ng-model" => "newAgencia.direccion", "required" => true]);
                             echo $this->Form->input('telefono', ["ng-model" => "newAgencia.telefono"]);
                             echo $this->Form->input('celular', ["ng-model" => "newAgencia.celular"]);
                         ?>
@@ -20,21 +20,21 @@
                                 <div class="col-sm-4">
                                     <select id="sltDepartamento" class="form-control" ng-model="departamentoSelected"
                                         ng-options="departamento.id as departamento.descripcion for departamento in departamentos"
-                                        ng-change="onDepartamentoSelect()">
+                                        ng-change="onDepartamentoSelect()" required>
                                         <option value="">Selecciona un Departamento</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-4">
                                     <select id="sltProvincia" class="form-control" ng-model="provinciaSelected"
                                         ng-options="provincia.id as provincia.descripcion for provincia in provincias"
-                                        ng-change="onProvinciaSelect()" ng-show="provincias.length > 0">
+                                        ng-change="onProvinciaSelect()" ng-show="provincias.length > 0" required>
                                         <option value="">Selecciona una Provincia</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-4">
                                     <select id="sltDistrito" class="form-control" ng-model="newAgencia.ubigeo_id"
                                         ng-options="distrito.id as distrito.descripcion for distrito in distritos"
-                                        ng-change="onDistritoSelect()" ng-show="distritos.length > 0">
+                                        ng-change="onDistritoSelect()" ng-show="distritos.length > 0" required>
                                         <option value="">Selecciona un Distrito</option>
                                     </select>
                                 </div>

@@ -16,7 +16,8 @@
                             ]);
                             echo $this->Form->input('valor', [
                                 "label" => "Valor", 
-                                "ng-model" => "newTipoProducto.valor"
+                                "ng-model" => "newTipoProducto.valor",
+                                'required' => true
                             ]);
                         ?>
                         <div class="form-group">

@@ -2,6 +2,7 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("AddRutasController", function($scope, RutasService) {
     $scope.newRuta = new RutasService();
+    $scope.newRuta.estado_id = 1;
     
     $scope.addRuta = function() {
         $('#btnAddRegistrarRuta').addClass("disabled");

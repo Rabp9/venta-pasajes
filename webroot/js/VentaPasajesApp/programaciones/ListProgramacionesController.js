@@ -5,6 +5,7 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
     $scope.predicate = "id";
     $scope.message = {};
     $scope.modalProgramacionesAddUrl = '';
+    $scope.tipo = 1;
     
     $("#txtBuscarFecha").datepicker({
         changeMonth: true,
@@ -30,8 +31,9 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
     
     
     $scope.list = function() {
+        $scope.programaciones = [];
         $scope.loading = true;
-        ProgramacionesService.get(function(data) {
+        ProgramacionesService.getDisponibles(function(data) {
             $scope.programaciones = data.programaciones;
             $scope.loading = false;
         });
@@ -41,7 +43,32 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
         });
     };
     
-    $scope.showList = function(programacion_id) {
+    $scope.listAnteriores = function() {
+        $scope.programaciones = [];
+        $scope.loading = true;
+        ProgramacionesService.getAnteriores(function(data) {
+            $scope.programaciones = data.programaciones;
+            $scope.loading = false;
+        });
+        
+        ServiciosService.get(function(data) {
+            $scope.servicios = data.servicios;
+        });
+    };
+    
+    $scope.cambiar = function(tipo) {
+        if (tipo == 1) {
+            $scope.list();
+        } else {
+            $scope.listAnteriores();
+        }
+    }
+    
+    $scope.showListPasajeros = function(programacion_id) {
+        $window.open('pasajes/getByProgramacion/' + programacion_id, '_blank');
+    }
+    
+    $scope.showListEncomiendas = function(programacion_id) {
         $window.open('encomiendas/getByProgramacion/' + programacion_id, '_blank');
     }
     

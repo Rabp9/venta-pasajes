@@ -173,7 +173,6 @@ class EncomiendasController extends AppController
         ]);
         $this->set("pdf", new PDF("P", "mm", "A4"));
         $this->set(compact('programacion'));
-        
         $this->response->type("application/pdf");
         
         $this->render('lista_encomiendas');

@@ -11,7 +11,7 @@
                     <div class="col-sm-8 col-sm-offset-2">
                         <?php
                             echo $this->Form->input('descripcion', ["ng-model" => "editTipoProducto.descripcion"]);
-                            echo $this->Form->input('valor', ["ng-model" => "editTipoProducto.valor"]);
+                            echo $this->Form->input('valor', ["ng-model" => "editTipoProducto.valor", 'required' => true]);
                         ?>
                         <div class="form-group">
                             <label>Estado</label>

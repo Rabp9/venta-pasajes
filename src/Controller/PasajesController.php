@@ -158,4 +158,17 @@ class PasajesController extends AppController
         $this->set(compact('pasaje'));
         $this->set('_serialize', ['pasaje']);
     }
+    
+    public function getByProgramacion($id) {
+        require_once(ROOT .DS. 'vendor' . DS . 'rabp9' . DS . 'PDF.php');
+        $this->viewBuilder()->layout('pdf'); //this will use the pdf.ctp layout
+        
+        $programacion = $this->Pasajes->Programaciones->get($id);
+        
+        $this->set("pdf", new PDF("P", "mm", "A4"));
+        $this->set(compact('programacion'));
+        $this->response->type("application/pdf");
+        
+        $this->render('lista_pasajeros');
+    }
 }

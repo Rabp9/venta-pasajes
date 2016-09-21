@@ -31,14 +31,17 @@
                     <?php
                     echo $this->Form->input("precio_min", [
                         "label" => "Precio Mínimo",
-                        "ng-model" => "editTarifa.precio_min"
+                        "ng-model" => "editTarifa.precio_min",
+                        'required' => true
                     ]);
                     echo $this->Form->input("precio_max", [
                         "label" => "Precio Máximo",
-                        "ng-model" => "editTarifa.precio_max"
+                        "ng-model" => "editTarifa.precio_max",
+                        'required' => true
                     ]);
                     echo $this->Form->input("tiempo", [
-                        "ng-model" => "editTarifa.tiempo"
+                        "ng-model" => "editTarifa.tiempo",
+                        'required' => true
                     ]);
                     ?>
                 </div>

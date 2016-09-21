@@ -26,6 +26,48 @@ class ProgramacionesController extends AppController
         $this->set(compact('programaciones'));
         $this->set('_serialize', ['programaciones']);
     }
+    
+    public function getDisponibles() {
+        $this->viewBuilder()->layout(false);
+        
+        $programaciones = $this->Programaciones->find("all")
+            ->contain([
+                "Rutas" => [
+                    "DetalleDesplazamientos" => [
+                        "Desplazamientos" => [
+                            "AgenciaOrigen" => ["Ubigeos"],
+                            "AgenciaDestino" => ["Ubigeos"]
+                        ]
+                    ]
+                ], 
+                "Servicios", 
+                "Buses"
+            ])
+            ->where(["fechahora_prog >=" => '2016-09-21']);
+        $this->set(compact('programaciones'));
+        $this->set('_serialize', ['programaciones']);
+    }
+
+    public function getAnteriores() {
+        $this->viewBuilder()->layout(false);
+        
+        $programaciones = $this->Programaciones->find("all")
+            ->contain([
+                "Rutas" => [
+                    "DetalleDesplazamientos" => [
+                        "Desplazamientos" => [
+                            "AgenciaOrigen" => ["Ubigeos"],
+                            "AgenciaDestino" => ["Ubigeos"]
+                        ]
+                    ]
+                ], 
+                "Servicios", 
+                "Buses"
+            ])
+            ->where(["fechahora_prog <" => '2016-09-21']);
+        $this->set(compact('programaciones'));
+        $this->set('_serialize', ['programaciones']);
+    }
 
     public function view($id = null) {
         $programacion = $this->Programaciones->get($id, [

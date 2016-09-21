@@ -10,14 +10,14 @@
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <?php
-                            echo $this->Form->input('dni', ["ng-model" => "newPersona.dni", "label" => "DNI"]);
-                            echo $this->Form->input('nombres', ["ng-model" => "newPersona.nombres"]);
-                            echo $this->Form->input('apellidos', ["ng-model" => "newPersona.apellidos"]);
+                            echo $this->Form->input('dni', ["ng-model" => "newPersona.dni", "label" => "DNI", 'required' => true]);
+                            echo $this->Form->input('nombres', ["ng-model" => "newPersona.nombres", 'required' => true]);
+                            echo $this->Form->input('apellidos', ["ng-model" => "newPersona.apellidos", 'required' => true]);
                             echo $this->Form->input('domicilio', ["ng-model" => "newPersona.domicilio"]);
                         ?>
                         <div class="form-group">
                             <label for="fecha_nac">Fecha de Nacimiento</label>
-                            <input id="fecha_nac" type="text" ng-model="prefecha_nac" class="form-control">
+                            <input id="fecha_nac" type="text" ng-model="prefecha_nac" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="sexo">Sexo</label>

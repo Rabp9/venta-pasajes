@@ -71,6 +71,10 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
     };
     
     $scope.addTarifa = function() {
+        if ($scope.newTarifa.precio_max < $scope.newTarifa.precio_min) {
+            alert('El precio máximo tiene que ser mayor al precio mínimo');
+            return;
+        }
         $('#btnAddRegistrarTarifa').addClass('disabled');
         $('#btnAddRegistrarTarifa').prop('disabled', true);
         $scope.newTarifa.servicio_id = $scope.servicio_selected;
@@ -95,6 +99,10 @@ VentaPasajesApp.controller("ListTarifasController", function($filter, $scope, Ta
     }
     
     $scope.updatePostTarifa = function() {
+        if ($scope.editTarifa.precio_max < $scope.editTarifa.precio_min) {
+            alert('El precio máximo tiene que ser mayor al precio mínimo');
+            return;
+        }
         $('#btnEditRegistrarTarifa').addClass('disabled');
         $('#btnEditRegistrarTarifa').prop('disabled', true);
         var tarifa = TarifasService.get({id: $scope.editTarifa.id}, function() {

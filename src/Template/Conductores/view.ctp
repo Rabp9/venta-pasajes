@@ -7,7 +7,7 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2">
-                    <h2 style="color: blue"><?= $conductor->persona-> apellidos  ?> <?= $conductor->persona-> nombres  ?></h2>
+                    <h2 style="color: blue; text-align: center;"><?= $conductor->persona-> apellidos  ?> <?= $conductor->persona-> nombres  ?></h2>
                     
                     <dl class="dl-horizontal">
                         <dt>Código</dt>

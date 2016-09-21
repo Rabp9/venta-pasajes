@@ -7,6 +7,14 @@ VentaPasajesApp.factory("ProgramacionesService", function($resource) {
         getByFechaByOrigenByDestino: {
             method: 'POST',
             url: VentaPasajesApp.path_location + "programaciones/getByFechaByOrigenByDestino/.json"
+        },
+        getDisponibles: {
+            method: 'GET',
+            url: VentaPasajesApp.path_location + "programaciones/getDisponibles/.json"
+        },
+        getAnteriores: {
+            method: 'GET',
+            url: VentaPasajesApp.path_location + "programaciones/getAnteriores/.json"
         }
     });
 });

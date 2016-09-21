@@ -10,14 +10,14 @@
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <?php
-                            echo $this->Form->input('dni', ["ng-model" => "editPersona.dni"]);
-                            echo $this->Form->input('nombres', ["ng-model" => "editPersona.nombres"]);
-                            echo $this->Form->input('apellidos', ["ng-model" => "editPersona.apellidos"]);
-                            echo $this->Form->input('domicilio', ['ng-model' => "editPersona.domicilio"]);
+                            echo $this->Form->input('dni', ["ng-model" => "editPersona.dni", 'required' => true, 'minlength' => 8]);
+                            echo $this->Form->input('nombres', ["ng-model" => "editPersona.nombres", 'required' => true]);
+                            echo $this->Form->input('apellidos', ["ng-model" => "editPersona.apellidos", 'required' => true]);
+                            echo $this->Form->input('domicilio', ['ng-model' => "editPersona.domicilio", 'required' => true]);
                         ?>
                         <div class="form-group">
                             <label for="fecha_nac">Fecha de Nacimiento</label>
-                            <input id="fecha_nac" type="text" ng-model="editPersona.fecha_nac" class="form-control">
+                            <input id="fecha_nac" type="text" ng-model="editPersona.fecha_nac" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="sexo">Sexo</label>

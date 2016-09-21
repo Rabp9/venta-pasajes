@@ -10,9 +10,9 @@
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <?php
-                            echo $this->Form->input('placa', ["ng-model" => "editBus.placa"]);
-                            echo $this->Form->input('chasis', ["ng-model" => "editBus.chasis"]);
-                            echo $this->Form->input('anio', ['label' => "Año", "ng-model" => "editBus.anio"]);
+                            echo $this->Form->input('placa', ["ng-model" => "editBus.placa", 'required' => true]);
+                            echo $this->Form->input('chasis', ["ng-model" => "editBus.chasis", 'required' => true]);
+                            echo $this->Form->input('anio', ['label' => "Año", "ng-model" => "editBus.anio", 'required' => true]);
                             echo $this->Form->input('motor', ["ng-model" => "editBus.motor"]);
                         ?>
                         <div class="form-group">

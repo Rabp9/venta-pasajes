@@ -13,7 +13,7 @@
                             <label for="txtDni">DNI</label>
                             <div class="row">
                                 <div class="col-sm-8">
-                                    <input class="form-control" ng-model="dni" type="search" maxlength="8">
+                                    <input id="txtDni" class="form-control" ng-model="dni" type="search" maxlength="8">
                                 </div>
                                 <div class="col-sm-2">
                                     <button id="btnBuscarPersona" class="btn btn-primary" type="button" ng-click="buscarPersona()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>

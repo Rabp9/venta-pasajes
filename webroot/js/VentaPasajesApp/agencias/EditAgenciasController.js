@@ -25,16 +25,20 @@ VentaPasajesApp.controller("EditAgenciasController", function($scope, AgenciasSe
     });
     
     $scope.onDepartamentoSelect = function() {
-        UbigeosService.findByParent({parent_id: $scope.departamentoSelected}, function(data) {
-            $scope.provincias = data.ubigeos;
-        });
-        $scope.distritos = [];
+        if ($scope.departamentoSelected) {
+            UbigeosService.findByParent({parent_id: $scope.departamentoSelected}, function(data) {
+                $scope.provincias = data.ubigeos;
+            });
+            $scope.distritos = [];
+        }
     };
     
     $scope.onProvinciaSelect = function() {
-        UbigeosService.findByParent({parent_id: $scope.provinciaSelected}, function(data) {
-            $scope.distritos = data.ubigeos;
-        });
+        if ($scope.provinciaSelected) {
+            UbigeosService.findByParent({parent_id: $scope.provinciaSelected}, function(data) {
+                $scope.distritos = data.ubigeos;
+            });
+        }
     };
     
     $scope.updateAgencia = function() {

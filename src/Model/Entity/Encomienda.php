@@ -43,7 +43,7 @@ class Encomienda extends Entity
     
     protected function _getDescripcion() {
         $descripcion = [];
-        if (isset($this->_properties["encomiendsa_tipos"])) {
+        if (isset($this->_properties["encomiendas_tipos"])) {
             foreach ($this->_properties["encomiendas_tipos"] as $encomienda_tipo) {
                 $descripcion[] = $encomienda_tipo->cantidad . 'x ' . $encomienda_tipo->tipo_producto->descripcion . ' (' . $encomienda_tipo->detalle . ')';
             }
