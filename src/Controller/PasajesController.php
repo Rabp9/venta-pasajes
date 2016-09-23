@@ -26,32 +26,6 @@ class PasajesController extends AppController
                 ]])
             ->where(['Pasajes.id' => $id])
             ->first();
-        
-        $this->set("pdf", new PDF("L", "mm", "A5"));
-        $this->set(compact('pasaje'));
-        
-        $this->response->type("application/pdf");
-    }
-    
-    public function add() {
-        $this->viewBuilder()->layout(false);
-        
-        $pasaje = $this->Pasajes->newEntity();
-        if ($this->request->is('post')) {
-            $pasaje = $this->Pasajes->patchEntity($pasaje, $this->request->data);
-            $pasaje->fechahora = date("Y-m-d H:i:s");
-            if ($this->Pasajes->save($pasaje)) {
-                $message = array(
-                    'text' => __('Pasaje registrado correctamente'),
-                    'type' => 'success'
-                );
-            } else {
-                $message = array(
-                    'text' => __('No fue posible registrar el pasaje'),
-                    'type' => 'error'
-                );
-            }
-        }
         $this->set(compact('message', 'pasaje'));
         $this->set('_serialize', ['message', 'pasaje']);
     }

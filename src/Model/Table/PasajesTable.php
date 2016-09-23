@@ -13,6 +13,7 @@ use Cake\Validation\Validator;
  * @property \Cake\ORM\Association\BelongsTo $Personas
  * @property \Cake\ORM\Association\BelongsTo $BusAsientos
  * @property \Cake\ORM\Association\BelongsTo $Programaciones
+ * @property \Cake\ORM\Association\BelongsTo $Agencias
  * @property \Cake\ORM\Association\BelongsTo $DetalleDesplazamientos
  */
 class PasajesTable extends Table
@@ -40,11 +41,13 @@ class PasajesTable extends Table
             'foreignKey' => 'bus_asiento_id',
             'joinType' => 'INNER'
         ]);
+        
         $this->belongsTo('Programaciones', [
             'foreignKey' => 'programacion_id',
             'joinType' => 'INNER',
             'propertyName' => 'programacion'
         ]);
+        
         $this->belongsTo('Clientes', [
             'foreignKey' => 'cliente_id',
             'joinType' => 'INNER'
@@ -53,6 +56,12 @@ class PasajesTable extends Table
             'foreignKey' => 'detalle_desplazamiento_id',
             'joinType' => 'INNER'
         ]);
+        
+        $this->belongsTo('Agencias', [
+            'foreignKey' => 'agencia_id',
+            'joinType' => 'INNER'
+        ]);
+        
     }
 
     /**

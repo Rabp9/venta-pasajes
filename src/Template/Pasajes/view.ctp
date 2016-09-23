@@ -12,14 +12,16 @@
     
     $pdf->SetFont("Arial", '', 16);
     $pdf->Text($margen_x + 15, $margen_y + 20, utf8_decode(str_pad($pasaje->nro_doc, 6, '0', STR_PAD_LEFT)));
+/*
+    if ($pasaje->cliente) {
+        // Razon Social
+        $pdf->SetFont("Arial", '', 8);
+        $pdf->Text($margen_x + 17, $margen_y + 27, utf8_decode($pasaje->cliente->razonsocial));
 
-    // Razon Social
-    $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 17, $margen_y + 27, utf8_decode(@$pasaje->cliente->razonsocial));
-    
-    // RUC
-    $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 99, $margen_y + 27, utf8_decode(@$pasaje->cliente->ruc));
+        // RUC
+        $pdf->SetFont("Arial", '', 8);
+        $pdf->Text($margen_x + 99, $margen_y + 27, utf8_decode($pasaje->cliente->ruc));
+    }
     
     // Pasajero
     $pdf->SetFont("Arial", '', 8);
@@ -55,7 +57,7 @@
 
     // Lugar de emisión
 //    $pdf->SetFont("Arial", '', 8);
-//    $pdf->Text($margen_x + 55, $margen_y + 58, utf8_decode('dsadsa'/*$pasaje->detalle_desplazamiento->desplazamiento->AgenciaDestino->id*/));
+//    $pdf->Text($margen_x + 55, $margen_y + 58, utf8_decode('dsadsa'/*$pasaje->detalle_desplazamiento->desplazamiento->AgenciaDestino->id));
 
     // Fecha de Emisión
     $pdf->SetFont("Arial", '', 8);
@@ -89,6 +91,6 @@
     // Valor
     $pdf->SetFont("Arial", '', 8);
     $pdf->Text($margen_x + 152, $margen_y + 64, utf8_decode(number_format($pasaje->valor, 2, '.', ',')));
-    
+    */
     $pdf->Output("Boleto_de_Viaje.pdf", "I");
 ?>

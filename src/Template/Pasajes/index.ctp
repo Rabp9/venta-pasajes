@@ -127,7 +127,7 @@ $this->assign("title", "Pasajes");
                             <div class="col-md-12">
                                 <div class="droppable-container">
                                     <img id="img-bus{{bus_piso.nro_piso}}" class="img-bus" 
-                                         ng-src="img/{{bus_piso.imagen}}"/>
+                                         ng-src="img/buses/{{bus_piso.imagen}}"/>
                                     <div id="asiento{{bus_piso.nro_piso}}{{bus_asiento.nro_asiento}}" 
                                         class="draggable {{bus_asiento.estado}}" ng-class="" ng-repeat="bus_asiento in bus_piso.bus_asientos"
                                         style="position: absolute; left: {{bus_asiento.x}}; top: {{bus_asiento.y}}"
@@ -157,7 +157,7 @@ $this->assign("title", "Pasajes");
             <div class="panel-body">
                 <form id="frmPasaje{{$index}}" ng-submit="buy(pasaje, $index)">
                     <fieldset style="background-color: white;">
-                        <legend>Cliente <input id="chCliente" type="checkbox" ng-model="pasaje.cliente_opcion" /></legend>
+                        <legend>Cliente <input id="chCliente" class="pull-right" type="checkbox" ng-model="pasaje.cliente_opcion" /></legend>
                         <div ng-show="pasaje.cliente_opcion">
                             <div class="form-group">
                                 <label for="txtRuc{{$index}}">RUC</label>
@@ -185,9 +185,9 @@ $this->assign("title", "Pasajes");
                         <input type="text" ng-model="pasaje.persona.full_name" class="form-control" readonly />
                     </div>
                     <div class="form-group">
-                        <label for="txtValor">Valor <small>{{ precio_min }} - {{ precio_max }}</small></label>
+                        <label for="txtValor">Valor <small>({{ precio_min }} - {{ precio_max }})</small></label>
                         <input id="txtValor" type="number" min="{{ precio_min }}" 
-                            max="{{ precio_max }}" ng-model="pasaje.valor" class="form-control" />
+                            max="{{ precio_max }}" ng-model="pasaje.valor" class="form-control" required />
                     </div>
                     <button id="btnComprar{{$index}}" class="btn btn-primary" type="submit">Comprar</button>
                 </form>

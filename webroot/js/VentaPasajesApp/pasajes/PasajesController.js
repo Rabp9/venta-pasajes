@@ -3,7 +3,7 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService, 
     ProgramacionesService, BusAsientosService, DetalleDesplazamientosService, 
     PersonasService, DesplazamientosService, PasajesService, $filter, $window, TarifasService,
-    ClientesService
+    ClientesService, $rootScope
 ) {
     var date = new Date();
     $scope.construct = function() {
@@ -181,6 +181,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         delete pasaje.busAsiento;
         delete pasaje.programacion;
         delete pasaje.detalleDesplazamiento;
+        pasaje.agencia_id = $rootScope.user.user_detalle.agencia.id;
         PasajesService.save(pasaje, function(data) {
             $("#frmPasaje" + index).parent().parent().fadeOut(500);
             $scope.onProgramacionSelect(programacion_id);
