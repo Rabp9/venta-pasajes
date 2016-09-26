@@ -36,7 +36,8 @@ class DetalleConductoresTable extends Table
         ]);
         $this->belongsTo('Conductores', [
             'foreignKey' => 'conductor_id',
-            'joinType' => 'INNER'
+            'joinType' => 'INNER',
+            'propertyName' => 'conductor'
         ]);
     }
 

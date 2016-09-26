@@ -16,18 +16,37 @@ class PasajesController extends AppController
         $this->viewBuilder()->layout('pdf'); //this will use the pdf.ctp layout
                 
         $pasaje = $this->Pasajes->find()
-            ->contain(['Clientes', 'Personas', 'BusAsientos', 
-                'Programaciones',
-                'DetalleDesplazamientos' => [
-                    'Desplazamientos' => [
-                        'AgenciaOrigen' => ['Ubigeos'],
-                        'AgenciaDestino' => ['Ubigeos']
-                    ]
-                ]])
             ->where(['Pasajes.id' => $id])
             ->first();
-        $this->set(compact('message', 'pasaje'));
-        $this->set('_serialize', ['message', 'pasaje']);
+        if ($pasaje->cliente_id) {
+            $pasaje = $this->Pasajes->find()
+                ->where(['Pasajes.id' => $id])
+                ->contain(['Clientes', 'Personas', 'BusAsientos', 
+                    'Programaciones',
+                    'DetalleDesplazamientos' => [
+                        'Desplazamientos' => [
+                            'AgenciaOrigen' => ['Ubigeos'],
+                            'AgenciaDestino' => ['Ubigeos']
+                        ]
+                    ]])
+                ->first();
+        } else {
+            $pasaje = $this->Pasajes->find()
+                ->where(['Pasajes.id' => $id])
+                ->contain(['Personas', 'BusAsientos', 
+                    'Programaciones',
+                    'DetalleDesplazamientos' => [
+                        'Desplazamientos' => [
+                            'AgenciaOrigen' => ['Ubigeos'],
+                            'AgenciaDestino' => ['Ubigeos']
+                        ]
+                    ]])
+                ->first();
+        }
+        $this->set("pdf", new PDF("L", "mm", "A5"));
+        $this->set(compact('pasaje'));
+        
+        $this->response->type("application/pdf");
     }
     
     /**
@@ -137,7 +156,19 @@ class PasajesController extends AppController
         require_once(ROOT .DS. 'vendor' . DS . 'rabp9' . DS . 'PDF.php');
         $this->viewBuilder()->layout('pdf'); //this will use the pdf.ctp layout
         
-        $programacion = $this->Pasajes->Programaciones->get($id);
+        $programacion = $this->Pasajes->Programaciones->find()
+            ->contain([
+                "Rutas" => [
+                    "DetalleDesplazamientos" => [
+                        "Desplazamientos" => [
+                            "AgenciaOrigen" => ["Ubigeos"],
+                            "AgenciaDestino" => ["Ubigeos"]
+                        ]
+                    ]
+                ], 'Buses', 'DetalleConductores' => ['Conductores' => ['Personas']]
+            ])
+            ->where(['Programaciones.id' => $id])
+            ->first();
         
         $this->set("pdf", new PDF("P", "mm", "A4"));
         $this->set(compact('programacion'));

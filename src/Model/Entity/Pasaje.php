@@ -36,15 +36,4 @@ class Pasaje extends Entity
         '*' => true,
         'id' => false
     ];
-    
-    protected function _getCliente() {
-        if (isset($this->_properties["cliente"])) {
-            foreach ($this->_properties["encomiendas_tipos"] as $encomienda_tipo) {
-                $descripcion[] = $encomienda_tipo->cantidad . 'x ' . $encomienda_tipo->tipo_producto->descripcion . ' (' . $encomienda_tipo->detalle . ')';
-            }
-            return substr(Text::toList($descripcion, 'y'), 0, 55);
-        }
-        return '';
-    }
-    
 }

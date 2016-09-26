@@ -37,9 +37,35 @@ class Programacion extends Entity
         'id' => false
     ];
     
+    protected $_virtual = ['piloto', 'copiloto'];
+    
     protected function _getFechahora_prog($fechahora_prog) {
         if (isset($fechahora_prog)) {
             return $fechahora_prog->format('Y-m-d H:i:s');
+        }
+        return '';
+    }
+    
+    protected function _getPiloto() {
+        if ($this->_properties['detalle_conductores']) {
+            $detalleConductores = $this->_properties["detalle_conductores"];
+            foreach ($detalleConductores as $detalleConductor) {
+                if ($detalleConductor->condicion == 'piloto') {
+                    return $detalleConductor;
+                }
+            }
+        }
+        return '';
+    }
+    
+    protected function _getCopiloto() {
+        if ($this->_properties['detalle_conductores']) {
+            $detalleConductores = $this->_properties["detalle_conductores"];
+            foreach ($detalleConductores as $detalleConductor) {
+                if ($detalleConductor->condicion == 'copiloto') {
+                    return $detalleConductor;
+                }
+            }
         }
         return '';
     }

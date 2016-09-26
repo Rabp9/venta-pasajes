@@ -119,7 +119,7 @@
                                                 </td>
                                                 <td>
                                                     <select class="form-control" 
-                                                        ng-options="condicion for condicion in ['chofer', 'copiloto']"
+                                                        ng-options="condicion for condicion in ['piloto', 'copiloto']"
                                                         ng-model="programacion.detalle_conductores[$index].condicion">
                                                         <option value="">Selecciona una condición</option>
                                                     </select>

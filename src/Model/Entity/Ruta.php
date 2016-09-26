@@ -30,7 +30,7 @@ class Ruta extends Entity
         'id' => false
     ];
     
-    protected $_virtual = ['detalle'];
+    protected $_virtual = ['detalle', 'detalleArray'];
     
     protected function _getDetalle() {
         if (isset($this->_properties['detalle_desplazamientos'])) {
@@ -85,6 +85,63 @@ class Ruta extends Entity
                 }
             }
             return implode(' - ', $detalles);
+        }
+        return '';
+    }
+    
+    protected function _getDetalleArray() {
+        if (isset($this->_properties['detalle_desplazamientos'])) {
+            $detalle = '';
+            $desplazamientos = array();
+            $i = 0;
+            foreach ($this->_properties['detalle_desplazamientos'] as $detalle_desplazamiento) {
+                $des = $detalle_desplazamiento->desplazamiento;
+                $desplazamientos[$i] = array(0 => $des->AgenciaOrigen->ubigeo->descripcion, 1 => $des->AgenciaDestino->ubigeo->descripcion);
+                $i++;
+            }
+            
+            $elements = array();
+            foreach ($desplazamientos as $desplazamiento) {
+                $elements[] = $desplazamiento[0];
+                $elements[] = $desplazamiento[1];
+            }
+            $size = sizeof(array_unique($elements));
+            foreach ($desplazamientos as $k_desplazamiento => $desplazamiento) {
+                $desplazamientos[$k_desplazamiento] = array_pad($desplazamiento, $size, 0);
+            }
+            
+            for ($i = 0; $i < sizeof($desplazamientos); $i++) {
+                for ($j = 0; $j < $size; $j++) {
+                    if ($desplazamientos[0][$j]) {
+                        for ($m = 1; $m <sizeof($desplazamientos); $m++) {
+                            for ($n = 0; $n < $size; $n++) {
+                                if ($desplazamientos[$m][$n]) {
+                                    if ($desplazamientos[0][$j] == $desplazamientos[$m][$n]) {
+                                        if ($n < $j) {
+                                            $desplazamientos[$m] = $this->avanzar($desplazamientos[$m], $j, $desplazamientos[0][$j]);
+                                        }
+                                        if ($n > $j) {
+                                            $desplazamientos[0] = $this->avanzar($desplazamientos[0], $n, $desplazamientos[0][$j]);
+                                            $j = $n;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                $desplazamientos = $this->reordenar($desplazamientos);
+            }
+            $detalles = array();
+            for ($i = 0; $i < $size; $i++) {
+                foreach ($desplazamientos as $desplazamiento) {
+                    if ($desplazamiento[$i] != "0") {
+                        $detalles[$i] = $desplazamiento[$i];
+                        break;
+                    }
+                }
+            }
+            return $detalles;
         }
         return '';
     }

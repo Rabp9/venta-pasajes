@@ -12,7 +12,7 @@
     
     $pdf->SetFont("Arial", '', 16);
     $pdf->Text($margen_x + 15, $margen_y + 20, utf8_decode(str_pad($pasaje->nro_doc, 6, '0', STR_PAD_LEFT)));
-/*
+
     if ($pasaje->cliente) {
         // Razon Social
         $pdf->SetFont("Arial", '', 8);
@@ -91,6 +91,6 @@
     // Valor
     $pdf->SetFont("Arial", '', 8);
     $pdf->Text($margen_x + 152, $margen_y + 64, utf8_decode(number_format($pasaje->valor, 2, '.', ',')));
-    */
+    
     $pdf->Output("Boleto_de_Viaje.pdf", "I");
 ?>
