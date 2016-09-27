@@ -34,6 +34,7 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
         $scope.programaciones = [];
         $scope.loading = true;
         ProgramacionesService.getDisponibles(function(data) {
+            console.log(data);
             $scope.programaciones = data.programaciones;
             $scope.loading = false;
         });

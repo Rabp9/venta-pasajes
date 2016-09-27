@@ -47,7 +47,7 @@ class Programacion extends Entity
     }
     
     protected function _getPiloto() {
-        if ($this->_properties['detalle_conductores']) {
+        if (isset($this->_properties['detalle_conductores'])) {
             $detalleConductores = $this->_properties["detalle_conductores"];
             foreach ($detalleConductores as $detalleConductor) {
                 if ($detalleConductor->condicion == 'piloto') {
@@ -59,7 +59,7 @@ class Programacion extends Entity
     }
     
     protected function _getCopiloto() {
-        if ($this->_properties['detalle_conductores']) {
+        if (isset($this->_properties['detalle_conductores'])) {
             $detalleConductores = $this->_properties["detalle_conductores"];
             foreach ($detalleConductores as $detalleConductor) {
                 if ($detalleConductor->condicion == 'copiloto') {

@@ -15,6 +15,8 @@ use Cake\Validation\Validator;
  * @property \Cake\ORM\Association\BelongsTo $Servicios
  * @property \Cake\ORM\Association\BelongsTo $Estados
  * @property \Cake\ORM\Association\HasMany $DetalleConductores
+ * @property \Cake\ORM\Association\HasMany $Encomiendas
+ * @property \Cake\ORM\Association\HasMany $Pasajes
  */
 class ProgramacionesTable extends Table
 {
@@ -61,6 +63,11 @@ class ProgramacionesTable extends Table
         $this->hasMany('Encomiendas', [
             'foreignKey' => 'programacion_id'
         ]);
+        
+        $this->hasMany('Pasajes', [
+            'foreignKey' => 'programacion_id'
+        ]);
+        
     }
 
     /**

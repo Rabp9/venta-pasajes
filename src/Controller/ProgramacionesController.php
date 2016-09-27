@@ -43,7 +43,7 @@ class ProgramacionesController extends AppController
                 "Servicios", 
                 "Buses"
             ])
-            ->where(["fechahora_prog >=" => '2016-09-21']);
+            ->where(["fechahora_prog >=" => date('Y-m-d')]);
         $this->set(compact('programaciones'));
         $this->set('_serialize', ['programaciones']);
     }
@@ -64,7 +64,7 @@ class ProgramacionesController extends AppController
                 "Servicios", 
                 "Buses"
             ])
-            ->where(["fechahora_prog <" => '2016-09-21']);
+            ->where(["fechahora_prog <" =>  date('Y-m-d')]);
         $this->set(compact('programaciones'));
         $this->set('_serialize', ['programaciones']);
     }

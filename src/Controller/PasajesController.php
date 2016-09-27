@@ -49,6 +49,29 @@ class PasajesController extends AppController
         $this->response->type("application/pdf");
     }
     
+    public function add() {
+        $this->viewBuilder()->layout(false);
+        
+        $pasaje = $this->Pasajes->newEntity();
+        if ($this->request->is('post')) {
+            $pasaje = $this->Pasajes->patchEntity($pasaje, $this->request->data);
+            $pasaje->fechahora = date("Y-m-d H:i:s");
+            if ($this->Pasajes->save($pasaje)) {
+                $message = array(
+                    'text' => __('Pasaje registrado correctamente'),
+                    'type' => 'success'
+                );
+            } else {
+                $message = array(
+                    'text' => __('No fue posible registrar el pasaje'),
+                    'type' => 'error'
+                );
+            }
+        }
+        $this->set(compact('message', 'pasaje'));
+        $this->set('_serialize', ['message', 'pasaje']);
+    }
+    
     /**
      * Edit method
      *
@@ -158,6 +181,7 @@ class PasajesController extends AppController
         
         $programacion = $this->Pasajes->Programaciones->find()
             ->contain([
+                'Buses' => ['BusPisos'],
                 "Rutas" => [
                     "DetalleDesplazamientos" => [
                         "Desplazamientos" => [
@@ -165,7 +189,18 @@ class PasajesController extends AppController
                             "AgenciaDestino" => ["Ubigeos"]
                         ]
                     ]
-                ], 'Buses', 'DetalleConductores' => ['Conductores' => ['Personas']]
+                ], 
+                'Pasajes' => [
+                    'BusAsientos' => ['BusPisos'], 
+                    'Personas',
+                    'DetalleDesplazamientos' => [
+                        'Desplazamientos' => [
+                            'AgenciaOrigen' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]],
+                            'AgenciaDestino' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]]
+                        ]
+                    ]
+                ],
+                'DetalleConductores' => ['Conductores' => ['Personas']]
             ])
             ->where(['Programaciones.id' => $id])
             ->first();
@@ -173,7 +208,7 @@ class PasajesController extends AppController
         $this->set("pdf", new PDF("P", "mm", "A4"));
         $this->set(compact('programacion'));
         $this->response->type("application/pdf");
-        
+       
         $this->render('lista_pasajeros');
     }
 }
