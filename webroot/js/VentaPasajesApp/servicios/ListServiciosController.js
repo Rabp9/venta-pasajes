@@ -33,7 +33,6 @@ VentaPasajesApp.controller("ListServiciosController", function($scope, Servicios
     };
     
     $scope.addServicio = function() {
-        console.log($('#btnAddServicio').text());
         $("#btnAddServicio").addClass("disabled");
         $("#btnAddServicio").prop("disabled", true);
         $scope.modalUrl = VentaPasajesApp.path_location + "servicios/add";

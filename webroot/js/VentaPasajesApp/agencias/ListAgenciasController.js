@@ -1,6 +1,6 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("ListAgenciasController", function($scope, AgenciasService) {
+VentaPasajesApp.controller("ListAgenciasController", function($scope, AgenciasService, $rootScope) {
     $scope.id = "";
     $scope.loading = true;
     $scope.reverse = false;
@@ -24,6 +24,8 @@ VentaPasajesApp.controller("ListAgenciasController", function($scope, AgenciasSe
         AgenciasService.get(function(data) {
             $scope.agencias = data.agencias;
             $scope.loading = false;
+            $scope.user = $rootScope.user; 
+            
         });
     };
     

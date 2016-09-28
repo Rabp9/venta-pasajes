@@ -19,7 +19,7 @@ VentaPasajesApp.controller("AddConductoresController", function($scope, Conducto
     }
     
     $scope.addConductor = function() {
-        if ($scope.persona.dni == '') {
+        if ($scope.persona == undefined) {
             alert('Seleccione una persona');
             return;
         }
