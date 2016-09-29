@@ -60,6 +60,9 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     
     $scope.agencias = AgenciasService.get(function() {
         $scope.agencias = $scope.agencias.agencias;
+        if ($rootScope.user.user_detalle != undefined) {
+            $scope.origen_selected = $rootScope.user.user_detalle.agencia_id;
+        }
     });
     
     $scope.onSearchChange = function() {

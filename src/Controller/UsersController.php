@@ -11,8 +11,9 @@ class UsersController extends AppController
         
         $user = $this->Users->find()
             ->where(['username' => $user->username, 'password' => $user->password])
-            ->contain(['UserDetalles' => ['Groups', 'Agencias']])
+            ->contain(['UserDetalles' => ['Groups']])
             ->first();
+        
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }

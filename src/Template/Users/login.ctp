@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="panel-footer">
-            <button class="btn btn-primary" type="submit" style="width: 100%">Acceder</button>
+            <button id="btnAcceder" class="btn btn-primary" type="submit" style="width: 100%">Acceder</button>
         </div>
     </form>
 </div>

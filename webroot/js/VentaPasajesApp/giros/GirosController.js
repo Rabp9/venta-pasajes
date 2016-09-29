@@ -2,7 +2,7 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, $filter, 
     GirosService, TipoProductosService, PersonasService, DesplazamientosService, ProgramacionesService,
-    $window
+    $window, $rootScope
 ) {
     $scope.searching = false;
     $scope.reverse = false;
@@ -66,6 +66,9 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
     
     AgenciasService.get(function(data) {
         $scope.agencias = data.agencias;
+        if ($rootScope.user.user_detalle != undefined) {
+            $scope.origen_selected = $rootScope.user.user_detalle.agencia_id;
+        }
     });
     
     PersonasService.get(function(data) {

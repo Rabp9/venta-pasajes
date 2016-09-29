@@ -22,6 +22,7 @@ VentaPasajesApp.controller("UsersManageController", function($scope, UsersServic
             delete user.agencia_id;
             UsersService.manage({user: user}, function(data) {
                 $scope.message = data.message;
+                localStorageService.set('user-authenticated', user);
                 $rootScope.user.user_detalle = user.user_detalle;
                 $scope.user = $rootScope.user;
                 $('#btnGuardar').removeClass('disabled');
@@ -29,6 +30,8 @@ VentaPasajesApp.controller("UsersManageController", function($scope, UsersServic
             });
         } else {
             alert('Los passwords no coinciden');
+            $('#btnGuardar').removeClass('disabled');
+            $('btnGuardar').prop('disabled', false);
         }
     };
     

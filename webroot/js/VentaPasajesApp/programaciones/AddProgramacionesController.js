@@ -75,7 +75,7 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
         var res = false;
         angular.forEach(conductores, function(value, key) {
             if (!res) {
-                if (value.condicion == 'chofer') {
+                if (value.condicion == 'piloto') {
                     res = true;
                 }
             }

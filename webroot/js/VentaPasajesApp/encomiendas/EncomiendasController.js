@@ -2,8 +2,7 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasService, $filter, 
     EncomiendasService, TipoProductosService, PersonasService, DesplazamientosService, ProgramacionesService,
-    ClientesService,
-    $window
+    ClientesService, $window, $rootScope
 ) {
     $scope.searching = false;
     $scope.reverse = false;
@@ -90,6 +89,9 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     
     AgenciasService.get(function(data) {
         $scope.agencias = data.agencias;
+        if ($rootScope.user.user_detalle != undefined) {
+            $scope.origen_selected = $rootScope.user.user_detalle.agencia_id;
+        }
     });
     
     PersonasService.get(function(data) {
@@ -512,6 +514,12 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         } else {
             $scope.giros_selected = [];
             $(".encomiendas_asignados_selected").prop("checked", false);
+        }
+    };
+    
+    $scope.cambiarTipoProducto = function() {
+        if ($scope.newTipoProducto.producto != undefined) {
+            $scope.newTipoProducto.valor = $scope.newTipoProducto.producto.valor;
         }
     }
 });

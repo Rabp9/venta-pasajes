@@ -384,11 +384,12 @@ $this->assign("title", "Encomiendas");
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2">
+                            {{ newTipoProducto | json }}
                             <div class="form-group">
                                 <label for="sltProducto">Producto</label>
                                 <select id="sltProducto" class="form-control"
                                     ng-options="tipo_producto as tipo_producto.descripcion for tipo_producto in tipo_productos"
-                                    ng-model="newTipoProducto.producto" ng-change="console.log('resetear')">
+                                    ng-model="newTipoProducto.producto" ng-change="cambiarTipoProducto()">
                                     <option value="">Selecciona un Producto</option>
                                 </select>
                             </div>
