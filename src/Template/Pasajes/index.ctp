@@ -180,8 +180,9 @@ $this->assign("title", "Pasajes");
                         <label for="txtPersonaDni" style="display: block;">Persona</label>
                         <input id="txtPersonaDni" type="text" ng-model="dnis[$index]" 
                             class="form-control" maxlength="8"
-                            style="width: 80%; display: inline;" />
-                        <button type="button" style="width: 18%; display: inline;" class="btn btn-primary" ng-click="searchPersona($index)"><span class="glyphicon glyphicon-search"></span></button>
+                            style="width: 68%; display: inline;" />
+                        <button type="button" style="width: 14%; display: inline;" class="btn btn-primary" ng-click="searchPersona($index)" title="Buscar"><span class="glyphicon glyphicon-search"></span></button>
+                        <button id="btnAddPersona" type="button" style="width: 14%; display: inline;" class="btn btn-primary" ng-click="addPersona()" title="Agregar"><span class="glyphicon glyphicon-plus"></span></button>
                         <input type="text" ng-model="pasaje.persona.full_name" class="form-control" readonly />
                     </div>
                     <div class="form-group">
@@ -209,4 +210,11 @@ $this->assign("title", "Pasajes");
         <li role="separator" class="divider"></li>
         <li><a ng-click="cancel()">Cancelar</a></li>
     </ul>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="mdlPersonas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" ng-include="modalUrl" onload="openPersonasModal()">
+        
+    </div>
 </div>

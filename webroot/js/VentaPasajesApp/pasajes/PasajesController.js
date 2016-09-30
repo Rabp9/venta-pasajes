@@ -244,5 +244,11 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     
     $scope.cancel = function() {
         
-    }
+    };
+    
+    $scope.addPersona = function() {
+        $("#btnAddPersona").addClass("disabled");
+        $("#btnAddPersona").prop("disabled", true);
+        $scope.modalUrl = VentaPasajesApp.path_location + "personas/add";
+    };
 });
