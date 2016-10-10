@@ -33,11 +33,10 @@ $this->assign("title", "Encomiendas");
                                         <div class="form-group">
                                             <label for="txtRemitenteDni">Remitente (DNI)</label>
                                             <div class="row">
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" ng-model="remitente_dni" type="search" maxlength="8" required>
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    <button id="btnBuscarRemitente" class="btn btn-primary" type="button" ng-click="buscarRemitente()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
+                                                <div class="col-md-12">
+                                                    <input class="form-control" ng-model="remitente_dni" type="search" maxlength="8" required style="width: 75%; display: inline;">
+                                                    <button id="btnBuscarRemitente" style="width: 10%; display: inline;" class="btn btn-primary" type="button" ng-click="buscarRemitente()"><samp class="glyphicon glyphicon-search"></samp></button>
+                                                    <button id="btnNuevoRemitente" style="width: 10%; display: inline;" class="btn btn-primary" type="button" ng-click="addPersonaR()"><samp class="glyphicon glyphicon-plus"></samp></button>
                                                 </div>
                                             </div>
                                             <span ng-show="searching">Buscando</span>
@@ -49,11 +48,10 @@ $this->assign("title", "Encomiendas");
                                         <div class="form-group">
                                             <label for="txtDestinatarioDni">Destinatario (DNi)</label>
                                             <div class="row">
-                                                <div class="col-sm-8">
-                                                    <input class="form-control" ng-model="destinatario_dni" type="search" maxlength="8">
-                                                </div>
-                                                <div class="col-sm-2">
-                                                    <button id="btnBuscarDestinatario" class="btn btn-primary" type="button" ng-click="buscarDestinatario()"><samp class="glyphicon glyphicon-search"></samp> Buscar</button>
+                                                <div class="col-sm-12">
+                                                    <input class="form-control" ng-model="destinatario_dni" type="search" maxlength="8" style="width: 75%; display: inline;">
+                                                    <button id="btnBuscarDestinatario" style="width: 10%; display: inline;" class="btn btn-primary" type="button" ng-click="buscarDestinatario()"><samp class="glyphicon glyphicon-search"></samp></button>
+                                                    <button id="btnNuevoDestinatario" style="width: 10%; display: inline;" class="btn btn-primary" type="button" ng-click="addPersonaD()"><samp class="glyphicon glyphicon-plus"></samp></button>
                                                 </div>
                                             </div>
                                             <span ng-show="searching">Buscando</span>
@@ -489,6 +487,20 @@ $this->assign("title", "Encomiendas");
 <!-- Modal -->
 <div class="modal fade" id="mdlClientes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" ng-include="modalUrl" onload="openModal()">
+        
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="mdlPersonasER" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" ng-include="modalUrlPersonaR" onload="openPersonasRModal()">
+        
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="mdlPersonasED" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" ng-include="modalUrlPersonaD" onload="openPersonasDModal()">
         
     </div>
 </div>

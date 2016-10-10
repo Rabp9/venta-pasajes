@@ -393,5 +393,46 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
             $scope.giros_selected = [];
             $(".giros_asignados_selected").prop("checked", false);
         }
+    };
+    
+    $scope.addPersonaR = function() {
+        $("#btnNuevoRemitente").addClass("disabled");
+        $("#btnNuevoRemitente").prop("disabled", true);
+        
+        $scope.modalUrlPersonaR = VentaPasajesApp.path_location + "personas/add";
+    };
+    
+    $scope.addPersonaD = function() {
+        $("#btnNuevoDestinatario").addClass("disabled");
+        $("#btnNuevoDestinatario").prop("disabled", true);
+        
+        $scope.modalUrlPersonaD = VentaPasajesApp.path_location + "personas/add";
+    };
+    
+    $scope.openPersonasRModal = function() {
+        $("#mdlPersonasGR").modal("toggle");
     }
+    
+    $scope.openPersonasDModal = function() {
+        $("#mdlPersonasGD").modal("toggle");
+    }
+    
+    $("#mdlPersonasGR").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $("#btnNuevoRemitente").removeClass("disabled");
+            $("#btnNuevoRemitente").attr("disabled", false);
+
+            $scope.modalUrlPersonaR = "";
+        });
+    });
+    
+    $("#mdlPersonasGD").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $("#btnNuevoDestinatario").removeClass("disabled");
+            $("#btnNuevoDestinatario").attr("disabled", false);
+
+            $scope.modalUrlPersonaD = "";
+        });
+    });
+    
 });

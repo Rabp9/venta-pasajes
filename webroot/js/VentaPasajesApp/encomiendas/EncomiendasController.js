@@ -521,5 +521,46 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         if ($scope.newTipoProducto.producto != undefined) {
             $scope.newTipoProducto.valor = $scope.newTipoProducto.producto.valor;
         }
+    };
+    
+    $scope.addPersonaR = function() {
+        $("#btnNuevoRemitente").addClass("disabled");
+        $("#btnNuevoRemitente").prop("disabled", true);
+        
+        $scope.modalUrlPersonaR = VentaPasajesApp.path_location + "personas/add";
+    };
+    
+    $scope.addPersonaD = function() {
+        $("#btnNuevoDestinatario").addClass("disabled");
+        $("#btnNuevoDestinatario").prop("disabled", true);
+        
+        $scope.modalUrlPersonaD = VentaPasajesApp.path_location + "personas/add";
+    };
+    
+    $scope.openPersonasRModal = function() {
+        $("#mdlPersonasER").modal("toggle");
     }
+    
+    $scope.openPersonasDModal = function() {
+        $("#mdlPersonasED").modal("toggle");
+    }
+    
+    $("#mdlPersonasER").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $("#btnNuevoRemitente").removeClass("disabled");
+            $("#btnNuevoRemitente").attr("disabled", false);
+
+            $scope.modalUrlPersonaR = "";
+        });
+    });
+    
+    $("#mdlPersonasED").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $("#btnNuevoDestinatario").removeClass("disabled");
+            $("#btnNuevoDestinatario").attr("disabled", false);
+
+            $scope.modalUrlPersonaD = "";
+        });
+    });
+    
 });

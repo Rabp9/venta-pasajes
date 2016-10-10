@@ -123,6 +123,16 @@
                 </div>
                 <div class="ribbon-section-sep" unselectable="on"></div>
                 
+                <div class="ribbon-section" unselectable="on"> 
+                    <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
+                        <a class="btn-lg" href="#/users">
+                            <span class="glyphicon glyphicon-user"></span>
+                        </a>                 
+                        <span class="button-title" unselectable="on">Usuarios</span>
+                    </div>
+                </div>
+                <div class="ribbon-section-sep" unselectable="on"></div>
+                
             </div>
         </div>
         <div role="tabpanel" class="tab-pane active" id="programacion">

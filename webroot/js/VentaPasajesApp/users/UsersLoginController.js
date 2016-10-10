@@ -23,5 +23,4 @@ VentaPasajesApp.controller("UsersLoginController", function($scope, UsersService
             }
         });
     };
-    
 });

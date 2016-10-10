@@ -91,7 +91,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
             }
             $scope.searching = false;
         });
-    }
+    };
     
     $scope.onProgramacionSelect = function(programacion_id_selected) {
         ProgramacionesService.get({id: programacion_id_selected}, function(data) {
@@ -165,7 +165,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         } else {
             alert("Este asiento ya está reservado");
         }
-    }
+    };
     
     $scope.buy = function(pasaje, index) {
         if (pasaje.persona == undefined) {
@@ -198,7 +198,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                 $scope.pasajes[key].nro_doc += 1;
             })
         });
-    }
+    };
     
     $scope.cerrarPasaje = function($index) {
         var nro_piso = $scope.pasajes[$index].busAsiento.bus_piso.nro_piso;
@@ -240,7 +240,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         }, function(data) {
             $window.open('pasajes/' + data.pasaje.id, '_blank');
         });
-    }
+    };
     
     $scope.cancel = function() {
         
@@ -249,6 +249,19 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     $scope.addPersona = function() {
         $("#btnAddPersona").addClass("disabled");
         $("#btnAddPersona").prop("disabled", true);
-        $scope.modalUrl = VentaPasajesApp.path_location + "personas/add";
+        $scope.modalUrlPersona = VentaPasajesApp.path_location + "personas/add";
     };
+    
+    $scope.openPersonasModal = function() {
+        $("#mdlPersonas").modal("toggle");
+    }
+    
+    $("#mdlPersonas").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $("#btnAddPersona").removeClass("disabled");
+            $("#btnAddPersona").attr("disabled", false);
+            $scope.modalUrlPersona = "";
+        });
+    });
+    
 });

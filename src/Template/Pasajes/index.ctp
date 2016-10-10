@@ -214,7 +214,7 @@ $this->assign("title", "Pasajes");
 
 <!-- Modal -->
 <div class="modal fade" id="mdlPersonas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" ng-include="modalUrl" onload="openPersonasModal()">
+    <div class="modal-dialog" role="document" ng-include="modalUrlPersona" onload="openPersonasModal()">
         
     </div>
 </div>
