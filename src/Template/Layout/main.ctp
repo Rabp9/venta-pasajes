@@ -87,6 +87,10 @@
         "VentaPasajesApp/clientes/AddClientesController.js",
         "VentaPasajesApp/clientes/EditClientesController.js",
         "VentaPasajesApp/clientes/ViewClientesController.js",
+        
+        "VentaPasajesApp/users/ListUsersController.js",
+        "VentaPasajesApp/users/ListUsersController.js",
+        "VentaPasajesApp/users/ListUsersController.js",
         "VentaPasajesApp/users/UsersLoginController.js",
         "VentaPasajesApp/users/UsersManageController.js"
     ]) ?>

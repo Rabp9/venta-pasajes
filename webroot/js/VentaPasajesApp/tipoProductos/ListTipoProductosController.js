@@ -53,7 +53,7 @@ VentaPasajesApp.controller("ListTipoProductosController", function($scope, TipoP
     } 
     
     $scope.removeTipoProducto = function(id) {
-        if(confirm("¿Está seguro de desactivar este tipoProducto?")) {
+        if(confirm("¿Está seguro de desactivar este tipo de Producto?")) {
             var tipoProducto = TipoProductosService.get({id: id}, function() {
                 tipoProducto.estado_id = 2;
                 delete tipoProducto.estado; 

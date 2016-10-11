@@ -5,6 +5,20 @@ use App\Controller\AppController;
 
 class UsersController extends AppController
 {
+    public function index() {
+        $this->viewBuilder()->layout(false);
+        
+        $users = $this->Users->find("all")
+            ->contain(['UserDetalles' => [
+                "Groups", 'Agencias' => [
+                    "Ubigeos"
+                ]
+            ], 'Estados']);
+
+        $this->set(compact('users'));
+        $this->set('_serialize', ['users']);
+    }
+
     public function login() {
         $this->viewBuilder()->layout(false);
         $user = $this->Users->newEntity($this->request->data);

@@ -103,7 +103,7 @@ VentaPasajesApp.config(function($routeProvider) {
             title: 'Tipo de Productos'
         })
         .when('/users', {
-            controller: 'UsersController',
+            controller: 'ListUsersController',
             templateUrl: 'users',
             title: 'Usuarios'
         })
