@@ -68,7 +68,7 @@ $this->assign("title", "Lista de Usuarios");
                         <td width="3%" bgcolor="#D6E4F2">{{ user.id }}</td>
                         <td width="6%">{{ user.username }}</td>
                         <td width="8%">{{ user.user_detalle.group.descripcion }}</td>
-                        <td width="5%">{{ user.user_detalle.agencia.direccion }} ({{ user.user_detalle.agencia.ubigeo.descripcion }})</td>
+                        <td width="5%">{{ user.user_detalle.agencia.direccion }} {{ if(user.user_detalle.agencia != undefined) {'(' + user.user_detalle.agencia.ubigeo.descripcion }}</td>
                         <td width="5%">{{ user.estado.descripcion }}</td>
                        
                         <td width="4%">
@@ -85,7 +85,7 @@ $this->assign("title", "Lista de Usuarios");
 
 <!-- Modal -->
 <div class="modal fade" id="mdlUsers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document" ng-include="modalUrlUsers" onload="openModalUsers()">
+    <div class="modal-dialog" role="document" ng-include="modalUrlUser" onload="openModalUsers()">
         
     </div>
 </div>

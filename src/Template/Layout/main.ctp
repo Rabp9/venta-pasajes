@@ -31,7 +31,8 @@
         "VentaPasajesApp/giros/GirosService.js",
         "VentaPasajesApp/tipoProductos/TipoProductosService.js",
         "VentaPasajesApp/clientes/ClientesService.js",
-        "VentaPasajesApp/users/UsersService.js"
+        "VentaPasajesApp/users/UsersService.js",
+        "VentaPasajesApp/users/GroupsService.js"
     ])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
@@ -89,8 +90,8 @@
         "VentaPasajesApp/clientes/ViewClientesController.js",
         
         "VentaPasajesApp/users/ListUsersController.js",
-        "VentaPasajesApp/users/ListUsersController.js",
-        "VentaPasajesApp/users/ListUsersController.js",
+        "VentaPasajesApp/users/AddUsersController.js",
+        "VentaPasajesApp/users/EditUsersController.js",
         "VentaPasajesApp/users/UsersLoginController.js",
         "VentaPasajesApp/users/UsersManageController.js"
     ]) ?>

@@ -1,16 +1,16 @@
-<!-- src/Template/TipoProductos/edit.ctp -->
-<div ng-controller="EditTipoProductosController">
-    <?php echo $this->Form->create($tipoProducto, ["url" => false, "ng-submit" => "updateTipoProducto()"]); ?>
+<!-- src/Template/Users/edit.ctp -->
+<div ng-controller="EditUsersController">
+    <?php echo $this->Form->create($user, ["url" => false, "ng-submit" => "updateUser()"]); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Editar TipoProducto</h4>
+                <h4 class="modal-title" id="myModalLabel">Editar Usuario</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <?php
-                            echo $this->Form->input('descripcion', ["ng-model" => "editTipoProducto.descripcion"]);
+                            echo $this->Form->input('username', ["ng-model" => "editTipoProducto.descripcion"]);
                             echo $this->Form->input('valor', ["ng-model" => "editTipoProducto.valor", 'required' => true]);
                         ?>
                         <div class="form-group">

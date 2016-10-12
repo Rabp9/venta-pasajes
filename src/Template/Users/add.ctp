@@ -21,11 +21,20 @@
                                 'required' => true
                             ]);
                             echo $this->Form->input('repassword', [
-                                "label" => "Re-Password", 
+                                "label" => "Re-Password",
+                                "type" => "password",
                                 "ng-model" => "newUser.repassword",
                                 'required' => true
                             ]);
-                        ?>
+                            ?>
+                            <div class="form-group">
+                                <label for="sltGroup">Grupo</label>
+                                <select id="sltGroup" class="form-control"
+                                    ng-options="group.id as group.descripcion + ' (' + group.descripcion + ')' for group in groups"
+                                    ng-model="group_selected" required>
+                                    <option value="">Selecciona un Grupo</option>
+                                </select>
+                            </div>
                         <div class="form-group">
                             <label>Estado</label>
                             <div>

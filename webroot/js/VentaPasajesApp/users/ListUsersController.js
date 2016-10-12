@@ -7,9 +7,9 @@ VentaPasajesApp.controller("ListUsersController", function($scope, UsersService)
     $scope.predicate = "id";
     $scope.message = "";
     
-    $scope.openModal = function() {
+    $scope.openModalUsers = function() {
         $("#mdlUsers").modal("toggle");
-    }
+    };
     
     $("#mdlUsers").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
