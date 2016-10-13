@@ -139,6 +139,7 @@ Router::scope('/', function ($routes) {
     ]);
     $routes->resources('Rutas');
     $routes->resources('Agencias');
+    $routes->resources('Groups');
     $routes->resources('Encomiendas', [
         'map' => [
             '/' => [

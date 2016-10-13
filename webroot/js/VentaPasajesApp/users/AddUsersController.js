@@ -1,6 +1,6 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("AddUsersController", function($scope, UsersService, GroupsService) {
+VentaPasajesApp.controller("AddUsersController", function($scope, UsersService, GroupsService, AgenciasService) {
     $scope.newUser = new UsersService();
     $scope.newUser.estado_id = 1;
     
@@ -8,9 +8,14 @@ VentaPasajesApp.controller("AddUsersController", function($scope, UsersService, 
         $scope.groups = data.groups;
     });
     
+    AgenciasService.get(function(data) {
+        $scope.agencias = data.agencias;
+    });
+    
     $scope.addUser = function() {
         $("#btnRegistrar").addClass("disabled");
         $("#btnRegistrar").prop("disabled", false);
+        console.log($scope.newUser);
         if ($scope.newUser.password == $scope.newUser.repassword) {
             UsersService.save($scope.newUser, function(data) {
                 $("#mdlUsers").modal('toggle');

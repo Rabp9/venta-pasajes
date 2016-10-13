@@ -29,4 +29,20 @@ class User extends Entity
         '*' => true,
         'id' => false
     ];
+    
+    protected $_virtual = ['datosAgencia'];
+      
+    protected function _getDatosAgencia() {
+        if (isset($this->_properties['user_detalle'])) {
+            if (isset($this->_properties['user_detalle']['agencia'])) {
+                if (isset($this->_properties['user_detalle']['agencia']['direccion'])) {
+                    $agencia = $this->_properties['user_detalle']['agencia']['direccion'];
+                    $ciudad = $this->_properties['user_detalle']['agencia']['ubigeo']['descripcion'];
+                    return $agencia . ' (' . $ciudad . ')';
+                }
+            }
+        }
+        return '';
+    }
+    
 }

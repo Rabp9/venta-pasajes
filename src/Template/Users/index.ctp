@@ -68,9 +68,9 @@ $this->assign("title", "Lista de Usuarios");
                         <td width="3%" bgcolor="#D6E4F2">{{ user.id }}</td>
                         <td width="6%">{{ user.username }}</td>
                         <td width="8%">{{ user.user_detalle.group.descripcion }}</td>
-                        <td width="5%">{{ user.user_detalle.agencia.direccion }} {{ if(user.user_detalle.agencia != undefined) {'(' + user.user_detalle.agencia.ubigeo.descripcion }}</td>
+                        <td width="5%">{{ user.datosAgencia }}</td>
                         <td width="5%">{{ user.estado.descripcion }}</td>
-                       
+                    
                         <td width="4%">
                             <a style="cursor: pointer;" ng-click="viewUser(user.id)" title="ver"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a> |
                             <a style="cursor: pointer;" ng-click="editUser(user.id)" title="editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> |

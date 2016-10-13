@@ -32,7 +32,7 @@
         "VentaPasajesApp/tipoProductos/TipoProductosService.js",
         "VentaPasajesApp/clientes/ClientesService.js",
         "VentaPasajesApp/users/UsersService.js",
-        "VentaPasajesApp/users/GroupsService.js"
+        "VentaPasajesApp/groups/GroupsService.js"
     ])
     ?>
     <?= $this->Html->script(["VentaPasajesApp/buses/ListBusesController.js", 
