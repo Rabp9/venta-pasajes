@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Auth\DefaultPasswordHasher;
 
 class UsersController extends AppController
 {
@@ -31,13 +32,19 @@ class UsersController extends AppController
         $this->viewBuilder()->layout(false);
         $user = $this->Users->newEntity($this->request->data);
         
+        $hasher = new DefaultPasswordHasher();
+        
         $user = $this->Users->find()
-            ->where(['username' => $user->username, 'password' => $user->password])
-            ->contain(['UserDetalles' => ['Groups']])
+            ->where(['username' => $user->username])
             ->first();
         
-        $this->set(compact('user'));
-        $this->set('_serialize', ['user']);
+        if (!empty($user)) {
+            if (!$hasher->check($this->request->data['password'], $user->password)) {
+                $user = null;
+            }
+        }
+        $this->set(compact('user', 'pass'));
+        $this->set('_serialize', ['user', 'pass']);
     }
     
     public function manage() {
@@ -71,7 +78,9 @@ class UsersController extends AppController
         
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->data);
+            $user = $this->Users->patchEntity($user, $this->request->data, [
+                'associated' => ['UserDetalles']
+            ]);
             if ($this->Users->save($user)) {
                 $message = array(
                     'text' => __('Usuario registrado correctamente'),
@@ -85,8 +94,8 @@ class UsersController extends AppController
             }
         }
         $estados = $this->Users->Estados->find('list');
-        $this->set(compact('user'));
-        $this->set('_serialize', ['message']);
+        $this->set(compact('user', 'message'));
+        $this->set('_serialize', ['user', 'message']);
     }
   
     public function edit($id = null) {

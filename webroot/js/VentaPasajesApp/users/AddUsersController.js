@@ -15,8 +15,8 @@ VentaPasajesApp.controller("AddUsersController", function($scope, UsersService, 
     $scope.addUser = function() {
         $("#btnRegistrar").addClass("disabled");
         $("#btnRegistrar").prop("disabled", false);
-        console.log($scope.newUser);
         if ($scope.newUser.password == $scope.newUser.repassword) {
+            $scope.newUser.user_detalle.estado_id = 1;
             UsersService.save($scope.newUser, function(data) {
                 $("#mdlUsers").modal('toggle');
                 $scope.newUser = new UsersService();

@@ -1,6 +1,7 @@
 <!-- src/Template/Users/add.ctp -->
+
 <div ng-controller="AddUsersController">
-    <?= $this->Form->create($user, ["url" => false, "ng-submit" => "addUser()"]); ?>
+    <?= $this->Form->create($user, ["url" => false, "ng-submit" => "addUser()", 'novalidate' => true]); ?>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
