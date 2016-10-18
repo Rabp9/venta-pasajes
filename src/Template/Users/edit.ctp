@@ -10,14 +10,47 @@
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <?php
-                            echo $this->Form->input('username', ["ng-model" => "editTipoProducto.descripcion"]);
-                            echo $this->Form->input('valor', ["ng-model" => "editTipoProducto.valor", 'required' => true]);
+                            echo $this->Form->input('username', [
+                                "label" => "Nombre de Usuario", 
+                                "ng-model" => "editUser.username",
+                                "required" => true
+                            ]);
                         ?>
+                        <button class="btn" ng-class="{'btn-primary': !changePass}" type="button" ng-click="changePass = !changePass"><span class="glyphicon glyphicon-refresh"></span> Cambiar Password</button>
+                        <div class="form-group" ng-show="changePass">
+                            <?php
+                            echo $this->Form->input('password', [
+                                "label" => "Password", 
+                                "ng-model" => "editUser.password"
+                            ]);
+                            echo $this->Form->input('repassword', [
+                                "label" => "Re-Password",
+                                "type" => "password",
+                                "ng-model" => "editUser.repassword"
+                            ]);
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <label for="sltGroup">Grupo</label>
+                            <select id="sltGroup" class="form-control"
+                                ng-options="group.id as group.descripcion for group in groups"
+                                ng-model="editUser.user_detalle.group_id" required>
+                                <option value="">Selecciona un Grupo</option>
+                            </select>
+                        </div>
+                        <div class="form-group" ng-show="editUser.user_detalle.group_id == 2">
+                            <label for="sltAgencia">Agencia</label>
+                            <select id="sltAgencia" class="form-control"
+                                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                ng-model="editUser.user_detalle.agencia_id">
+                                <option value="">Selecciona una Agencia</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label>Estado</label>
                             <div>
-                                <label><input type="radio" ng-model="editTipoProducto.estado_id" ng-value="1"> Activo</label>
-                                <label><input type="radio" ng-model="editTipoProducto.estado_id" ng-value="2"> Inactivo</label>
+                                <label><input type="radio" ng-model="editUser.estado_id" ng-value="1"> Activo</label>
+                                <label><input type="radio" ng-model="editUser.estado_id" ng-value="2"> Inactivo</label>
                             </div>
                         </div>
                     </div>

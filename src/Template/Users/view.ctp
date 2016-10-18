@@ -1,25 +1,30 @@
-<!-- src/Template/TipoProductos/view.ctp -->
-<div ng-controller="ViewTipoProductosController">
+<!-- src/Template/Users/view.ctp -->
+<div ng-controller="ViewUsersController">
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Ver Tipo de Producto</h4>
+            <h4 class="modal-title" id="myModalLabel">Ver Usuario</h4>
         </div>
         <div class="modal-body">
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2">
                     <dl class="dl-horizontal">
                         <dt>Código</dt>
-                        <dd><?= $tipoProducto->id ?></dd>
+                        <dd><?= $user->id ?></dd>
                         
-                        <dt>Descripción</dt>
-                        <dd><?= $tipoProducto->descripcion ?></dd>
+                        <dt>Nombre de Usuario</dt>
+                        <dd><?= $user->username ?></dd>
                         
-                        <dt>Valor</dt>
-                        <dd><?= $tipoProducto->valor ?></dd>
+                        <dt>Grupo</dt>
+                        <dd><?= $user->user_detalle->group->descripcion ?></dd>
+                        
+                        <?php if ($user->user_detalle->agencia) { ?>
+                        <dt>Agencia</dt>
+                        <dd><?= $user->datosAgencia ?></dd>
+                        <?php } ?>
                         
                         <dt>Estado</dt>
-                        <dd><?= $tipoProducto->estado->descripcion ?></dd>
+                        <dd><?= $user->estado->descripcion ?></dd>
                     </dl>
                 </div>
             </div>

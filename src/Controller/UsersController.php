@@ -73,6 +73,23 @@ class UsersController extends AppController
         $this->set('_serialize', ['message']);
     }
     
+    public function view($id = null) {
+        $this->viewBuilder()->layout(false);
+        
+        $user = $this->Users->get($id, [
+            'contain' => ['UserDetalles' => ['Groups'], 'Estados']
+        ]);
+        
+        if ($user->user_detalle->agencia_id) {
+            $user = $this->Users->get($id, [
+                'contain' => ['UserDetalles' => ['Groups', 'Agencias' => ['Ubigeos']], 'Estados']
+            ]);
+        }
+
+        $this->set('user', $user);
+        $this->set('_serialize', ['user']);
+    }
+    
     public function add() {
         $this->viewBuilder()->layout(false);
         
@@ -102,8 +119,15 @@ class UsersController extends AppController
         $this->viewBuilder()->layout(false);
         
         $user = $this->Users->get($id, [
-            'user' => []
+            'contain' => ['UserDetalles' => ['Groups'], 'Estados']
         ]);
+        
+        if ($user->user_detalle->agencia_id) {
+            $user = $this->Users->get($id, [
+                'contain' => ['UserDetalles' => ['Groups', 'Agencias' => ['Ubigeos']], 'Estados']
+            ]);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
             if ($this->Users->save($user)) {
@@ -118,8 +142,7 @@ class UsersController extends AppController
                 );
             }
         }
-        $estados = $this->Users->Estados->find('list');
-        $this->set(compact('estados', 'message'));
-        $this->set("_serialize", ["message"]);
-    } 
+        $this->set(compact('user', 'message'));
+        $this->set("_serialize", ['user', 'message']);
+    }
 }

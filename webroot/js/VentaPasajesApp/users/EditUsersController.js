@@ -1,25 +1,43 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("EditTipoProductosController", function($scope, TipoProductosService, EstadosService) {
-    $scope.estados = new EstadosService();
+VentaPasajesApp.controller("EditUsersController", function($scope, UsersService, GroupsService, AgenciasService) {
+    $scope.changePass = false;
     
-    $scope.editTipoProducto = TipoProductosService.get({ id: $scope.$parent.id }, function() {
-        $scope.editTipoProducto = $scope.editTipoProducto.tipoProducto;
-        delete $scope.editTipoProducto.estado;
+    UsersService.get({ id: $scope.$parent.id }, function(data) {
+        $scope.editUser = data.user;
     });
     
-    $scope.estados = EstadosService.get(function() {
-        $scope.estados = $scope.estados.estados;
+    GroupsService.get(function(data) {
+        $scope.groups = data.groups;
     });
     
-    $scope.updateTipoProducto = function() {
+    AgenciasService.get(function(data) {
+        $scope.agencias = data.agencias;
+    });
+    
+    $scope.updateUser = function() {
         $("#btnRegistrar").addClass("disabled");
         $("#btnRegistrar").prop("disabled", true);
-        var tipoProducto = TipoProductosService.get({id: $scope.$parent.id}, function() {
-            tipoProducto = angular.extend(tipoProducto, $scope.editTipoProducto);
-            delete tipoProducto.estado;
-            tipoProducto.$update({id: $scope.$parent.id}, function(data) {
-                $("#mdlTipoProductos").modal('toggle');
+        var user = UsersService.get({id: $scope.$parent.id}, function() {
+            user = angular.extend(user, $scope.editUser);
+            delete user.estado;
+            delete user.user_detalle.group;
+            delete user.user_detalle.agencia;
+            if (!$scope.changePass) {
+                delete user.password;
+            } else {
+                if ($scope.editUser.password != $scope.editUser.repassword) {
+                    alert('Las contraseñas deben coincidir');
+                    $("#btnRegistrar").removeClass("disabled");
+                    $("#btnRegistrar").prop("disabled", true);
+                    return;
+                }
+            }
+            if (user.user_detalle.group_id == 1) {
+                user.user_detalle.agencia_id = null;
+            }
+            user.$update({id: $scope.$parent.id}, function(data) {
+                $("#mdlUsers").modal('toggle');
                 $scope.$parent.actualizarMessage(data.message);
                 $scope.$parent.list();
             });

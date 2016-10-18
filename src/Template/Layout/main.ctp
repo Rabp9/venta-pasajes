@@ -93,6 +93,7 @@
         "VentaPasajesApp/users/AddUsersController.js",
         "VentaPasajesApp/users/EditUsersController.js",
         "VentaPasajesApp/users/UsersLoginController.js",
+        "VentaPasajesApp/users/ViewUsersController.js",
         "VentaPasajesApp/users/UsersManageController.js"
     ]) ?>
     <?= $this->Html->script([
