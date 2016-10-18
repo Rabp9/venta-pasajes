@@ -2,7 +2,7 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li id="liPerfil" role="presentation" class="active"><a data-target="#perfil" aria-controls="home" role="tab" data-toggle="tab">Perfil</a></li>
-        <li id="liMantenedores" role="presentation"><a data-target="#mantenedores" aria-controls="profile" role="tab" data-toggle="tab">Mantenedores</a></li>
+        <li ng-show="user.user_detalle.group_id == 1" id="liMantenedores" role="presentation"><a data-target="#mantenedores" aria-controls="profile" role="tab" data-toggle="tab">Mantenedores</a></li>
         <li id="liProgramacion" role="presentation"><a data-target="#programacion" aria-controls="settings" role="tab" data-toggle="tab">Programación</a></li>
         <li id="liVentas" role="presentation"><a data-target="#ventas" aria-controls="messages" role="tab" data-toggle="tab">Ventas</a></li>
         <li id="liReportes" role="presentation"><a data-target="#reportes" aria-controls="settings" role="tab" data-toggle="tab">Reportes</a></li>
@@ -137,7 +137,7 @@
         </div>
         <div role="tabpanel" class="tab-pane active" id="programacion">
             <div class="ribbon-tab" id="format-tab6" unselectable="on" style="display: block;">
-                <div class="ribbon-section" unselectable="on"> 
+                <div ng-show="user.user_detalle.group_id == 1" class="ribbon-section" unselectable="on"> 
                     <div class="ribbon-button ribbon-button-large" id="add-table-btn" unselectable="on">
                         <a class="btn-lg" href="#/rutas">
                             <span class="glyphicon glyphicon-road"></span>

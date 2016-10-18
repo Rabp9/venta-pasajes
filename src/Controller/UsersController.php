@@ -35,6 +35,7 @@ class UsersController extends AppController
         $hasher = new DefaultPasswordHasher();
         
         $user = $this->Users->find()
+            ->contain(['UserDetalles' => ['Groups']])
             ->where(['username' => $user->username])
             ->first();
         
