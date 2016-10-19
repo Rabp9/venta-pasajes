@@ -29,7 +29,7 @@ VentaPasajesApp.controller("EditUsersController", function($scope, UsersService,
                 if ($scope.editUser.password != $scope.editUser.repassword) {
                     alert('Las contraseñas deben coincidir');
                     $("#btnRegistrar").removeClass("disabled");
-                    $("#btnRegistrar").prop("disabled", true);
+                    $("#btnRegistrar").prop("disabled", false);
                     return;
                 }
             }

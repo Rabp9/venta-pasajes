@@ -66,8 +66,8 @@ INSERT INTO groups(descripcion, estado_id) values
 -- Users
 
 INSERT INTO users(username, password, estado_id) values
-	('admin', '123456', 1),
-    ('acruzado', '123456', 1);
+	('admin', '$2y$10$U1ZB/...NbULjpLzLq/nhuPGDPFvKyRgZiyzlYu22J.GvzECOGyHO', 1),
+    ('acruzado', '$10$2xjVroewUfT0VNQ2j8AVi.5EMrWUj.QDu7OzWzZ4JtKibuWVked6W', 1);
     
 -- User_detalles
 
