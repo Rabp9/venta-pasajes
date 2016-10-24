@@ -135,7 +135,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
 
                 GirosService.save($scope.newGiro, function(data) {
                     $scope.message = data.message;
-                    if ($scope.message.type = 'success') {                    
+                    if ($scope.message.type == 'success') {                    
                         $('#ulTabs li:eq(1) a').tab('show');
                         $scope.construct();
                         $scope.listGiros();
