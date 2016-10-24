@@ -242,6 +242,10 @@ Router::scope('/', function ($routes) {
             'getForPrint/:programacion_id/:detalle_desplazamiento_id/:bus_asiento_id' => [
                 'action' => 'getForPrint',
                 'method' => 'GET'
+            ],
+            'cancel' => [
+                'action' => 'cancel',
+                'method' => 'POST'
             ]
         ]
     ]);

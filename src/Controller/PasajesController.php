@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\I18n\Time;
 use rabp9\PDF;
 
 class PasajesController extends AppController
@@ -210,5 +209,33 @@ class PasajesController extends AppController
         $this->response->type("application/pdf");
        
         $this->render('lista_pasajeros');
+    }
+    
+    public function cancel() {
+        $programacion_id = $this->request->data['programacion_id'];
+        $detalle_desplazamiento_id = $this->request->data['detalle_desplazamiento_id'];
+        $bus_asiento_id = $this->request->data['bus_asiento_id'];
+      
+        $pasaje = $this->Pasajes->find()
+            ->where([
+                'programacion_id' => $programacion_id,
+                'detalle_desplazamiento_id' => $detalle_desplazamiento_id,
+                'bus_asiento_id' => $bus_asiento_id
+            ])->first();
+        
+        if ($this->Pasajes->delete($pasaje)) {
+            $message = array(
+                'text' => __('Pasaje cancelado correctamente'),
+                'type' => 'success'
+            );
+        } else {
+            $message = array(
+                'text' => __('No fue posible cancelar el pasaje'),
+                'type' => 'error'
+            );
+        }
+        
+        $this->set(compact('message'));
+        $this->set('_serialize', ['message']);
     }
 }

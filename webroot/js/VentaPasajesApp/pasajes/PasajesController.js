@@ -43,10 +43,16 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     
     $scope.contextMenu = function(bus_asiento_id, bus_asiento_estado, $event) {
         if (bus_asiento_estado == 'restringido') {
+            var alter = 0;
+            if ($event.pageY > document.body.clientHeight) {
+                alter = -200;
+            } else {
+                alter = -122;
+            }
             $("#cmnPasajes").css({
                 display: "block",
                 left: $event.pageX,
-                top: $event.pageY - 122
+                top: $event.pageY + alter
             });
             $scope.busPrintSelected = bus_asiento_id;
         }
@@ -247,7 +253,20 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     };
     
     $scope.cancel = function() {
-        
+        if (confirm('¿Está seguro de cancelar la este pasaje?')) {
+            var programacion_id = $scope.programacion_selected.id;
+            var detalle_desplazamiento_id = $scope.detalle_desplazamiento.id;
+            var bus_asiento_id = $scope.busPrintSelected;
+
+            PasajesService.cancel({
+                programacion_id: programacion_id,
+                detalle_desplazamiento_id: detalle_desplazamiento_id,
+                bus_asiento_id: bus_asiento_id
+            }, function(data) {
+                $scope.message = data.message;
+                $scope.onProgramacionSelect(programacion_id);
+            });
+        }
     };
     
     $scope.addPersona = function() {

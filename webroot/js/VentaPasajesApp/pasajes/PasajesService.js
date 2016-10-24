@@ -12,6 +12,10 @@ VentaPasajesApp.factory("PasajesService", function($resource) {
         getForPrint: {
             method: 'GET',
             url: VentaPasajesApp.path_location + "pasajes/getForPrint/:programacion_id/:detalle_desplazamiento_id/:bus_asiento_id/.json"
+        },
+        cancel: {
+            method: 'POST',
+            url: VentaPasajesApp.path_location + "pasajes/cancel/.json"
         }
     });
 });
