@@ -162,11 +162,26 @@ class EncomiendasController extends AppController
         
         $programacion = $this->Encomiendas->Programaciones->get($id, [    
             'contain' => [
+                'Buses',
                 'Encomiendas' => [
                     'PersonaRemitente',
                     'EncomiendasTipos' => ['TipoProductos'],
                     'Desplazamientos' => [
                         'AgenciaDestino' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]]
+                    ]
+                ],
+                'Giros' => [
+                    'PersonaRemitente',
+                    'Desplazamientos' => [
+                        'AgenciaDestino' => ['Ubigeos' => ['ParentUbigeos1' => ['ParentUbigeos2']]]
+                    ]
+                ],
+                'Rutas' => [
+                    "DetalleDesplazamientos" => [
+                        "Desplazamientos" => [
+                            "AgenciaOrigen" => ["Ubigeos"], 
+                            "AgenciaDestino" => ["Ubigeos"]
+                        ]
                     ]
                 ]
             ]

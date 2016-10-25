@@ -39,19 +39,19 @@
     $pdf->SetFont("Arial", "B", 7);
     $pdf->Cell(24, $h_celda, utf8_decode('Oficina de Origen:'), $borde_celda, 0, 'L');
     $pdf->SetFont("Arial", "", 7);
-    $pdf->Cell(35, $h_celda, utf8_decode('Av. Larco (Chepen)'), $borde_celda, 0, 'L');
+    $pdf->Cell(35, $h_celda, utf8_decode($programacion->ruta->detalleArray[0]), $borde_celda, 0, 'L');
     $pdf->SetFont("Arial", "B", 7);
     $pdf->Cell(24, $h_celda, utf8_decode('Oficina de Destino:'), $borde_celda, 0, 'L');
     $pdf->SetFont("Arial", "", 7);
-    $pdf->Cell(35, $h_celda, utf8_decode('Av. Larco (Chepen)'), $borde_celda, 0, 'L');
+    $pdf->Cell(35, $h_celda, utf8_decode(array_pop((array_slice($programacion->ruta->detalleArray, -1)))), $borde_celda, 0, 'L');
     $pdf->SetFont("Arial", "B", 7);
     $pdf->Cell(15, $h_celda, utf8_decode('Omnibus:'), $borde_celda, 0, 'L');
     $pdf->SetFont("Arial", "", 7);
-    $pdf->Cell(29, $h_celda, utf8_decode('PLACAXXXX'), $borde_celda, 0, 'L');
+    $pdf->Cell(29, $h_celda, utf8_decode($programacion->bus->placa), $borde_celda, 0, 'L');
     $pdf->SetFont("Arial", "B", 7);
     $pdf->Cell(11, $h_celda, utf8_decode('Fecha:'), $borde_celda, 0, 'L');
     $pdf->SetFont("Arial", "", 7);
-    $pdf->Cell(21, $h_celda, utf8_decode('05/06/2016'), $borde_celda, 0, 'L');
+    $pdf->Cell(21, $h_celda, utf8_decode((new \Cake\I18n\Time($programacion->fechahora_prog))->format('Y-m-d')), $borde_celda, 0, 'L');
     $pdf->ln();
     
     // Tabla
@@ -69,6 +69,7 @@
     
     // Tabla
     // Body
+    // Encomiendas
     $i = 1;
     $total = 45;
     $n_encomiendas = sizeof($programacion->encomiendas);
@@ -83,8 +84,21 @@
         $pdf->ln();
         $i++;
     }
+    // Giros
+    $n_giros = sizeof($programacion->giros);
+    foreach ($programacion->giros as $giro) {
+        $pdf->SetFont("Arial", "", 7);
+        $pdf->Cell(6, $h_celda, utf8_decode($i), $borde_celda, 0, 'C');
+        $pdf->Cell(62, $h_celda, utf8_decode($giro->personaRemitente->full_name), $borde_celda, 0, 'C');
+        $pdf->Cell(62, $h_celda, utf8_decode('-----------------------------------'), $borde_celda, 0, 'C');
+        $pdf->Cell(21, $h_celda, utf8_decode(number_format($giro->valor_total, 2, '.', ',')), $borde_celda, 0, 'C');
+        $pdf->Cell(36, $h_celda, utf8_decode($giro->desplazamiento->AgenciaDestino->direccion . ' (' . $encomienda->desplazamiento->AgenciaDestino->ubigeo->descripcion . ')'), $borde_celda, 0, 'C');
+        $pdf->Cell(10, $h_celda, utf8_decode(substr($giro->condicion, 0, 1)), $borde_celda, 0, 'C');
+        $pdf->ln();
+        $i++;
+    }
     
-    for ($i = 0; $i < ($total - $n_encomiendas); $i++) {
+    for ($i = 0; $i < ($total - ($n_encomiendas + $n_giros)); $i++) {
         $pdf->Cell(6, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
         $pdf->Cell(62, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');
         $pdf->Cell(62, $h_celda, utf8_decode(''), $borde_celda, 0, 'C');

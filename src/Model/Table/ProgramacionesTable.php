@@ -64,6 +64,10 @@ class ProgramacionesTable extends Table
             'foreignKey' => 'programacion_id'
         ]);
         
+        $this->hasMany('Giros', [
+            'foreignKey' => 'programacion_id'
+        ]);
+        
         $this->hasMany('Pasajes', [
             'foreignKey' => 'programacion_id'
         ]);

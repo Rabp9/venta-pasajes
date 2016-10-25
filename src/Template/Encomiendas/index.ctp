@@ -382,7 +382,6 @@ $this->assign("title", "Encomiendas");
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2">
-                            {{ newTipoProducto | json }}
                             <div class="form-group">
                                 <label for="sltProducto">Producto</label>
                                 <select id="sltProducto" class="form-control"
