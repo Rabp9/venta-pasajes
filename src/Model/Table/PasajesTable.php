@@ -50,7 +50,7 @@ class PasajesTable extends Table
         
         $this->belongsTo('Clientes', [
             'foreignKey' => 'cliente_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->belongsTo('DetalleDesplazamientos', [
             'foreignKey' => 'detalle_desplazamiento_id',

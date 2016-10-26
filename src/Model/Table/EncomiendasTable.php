@@ -46,7 +46,7 @@ class EncomiendasTable extends Table
         
         $this->belongsTo('Clientes', [
             'foreignKey' => 'cliente_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         
         $this->belongsTo('Estados', [
@@ -69,7 +69,8 @@ class EncomiendasTable extends Table
         ]);
         
         $this->hasMany('EncomiendasTipos', [
-            'foreignKey' => 'encomienda_id'
+            'foreignKey' => 'encomienda_id',
+            'joinType' => 'INNER'
         ]);
     }
 

@@ -157,6 +157,7 @@ class ImportarController extends AppController
         
         if ($ch_clientes) {
             $clientes = $clientesTable->find()
+                ->select(['ruc', 'razonsocial', 'direccion', 'telefono', 'estado_id', 'flag_export'])
                 ->where(['flag_export' => false])
                 ->toArray();
             $clientesTable->updateAll(
@@ -166,7 +167,13 @@ class ImportarController extends AppController
         
         if ($ch_pasajes) {
             $pasajes = $pasajesTable->find()
-                ->where(['flag_export' => false]);
+                ->select(['Clientes.ruc', 'persona_id', 'bus_asiento_id', 'programacion_id', 'detalle_desplazamiento_id', 'agencia_id', 'valor', 'fechahora', 'nro_doc', 'Pasajes.flag_export'])
+                ->where(['Pasajes.flag_export' => false])
+                ->contain(['Clientes'])
+                ->toArray();
+            $pasajesTable->updateAll(
+                ['flag_export' => true], 
+                ['flag_export' => false]);
         }
         
         if ($ch_giros) {
@@ -181,7 +188,9 @@ class ImportarController extends AppController
         
         if ($ch_encomiendas) {
             $encomiendas = $encomiendasTable->find()
-                ->where(['flag_export' => false])
+                ->select(['programacion_id', 'Clientes.ruc', 'desplazamiento_id', 'remitente', 'destinatario', 'fechahora', 'valor_neto', 'igv', 'valor_total', 'observaciones', 'fecha_envio', 'fecha_recepcion', 'tipodoc', 'nro_doc', 'condicion', 'estado_id', 'Encomiendas.flag_export'])
+                ->where(['Encomiendas.flag_export' => false])
+                ->contain(['Clientes', 'EncomiendasTipos'])
                 ->toArray();
             $encomiendasTable->updateAll(
                 ['flag_export' => true], 

@@ -22,13 +22,13 @@ $this->assign("title", "Importar Datos");
                 </div>
                 <div class="col-md-6 panel" style="height: 100px;">
                     <dl class="dl-horizontal">
-                        <dt>Número de Clientes nuevos:</dt>
+                        <dt>No. de Clientes nuevos:</dt>
                         <dd>{{ nro_clientes }}</dd>
-                        <dt>Número de Pasajes:</dt>
+                        <dt>No. de Pasajes nuevos:</dt>
                         <dd>{{ nro_pasajes }}</dd>
-                        <dt>Número de Giros:</dt>
+                        <dt>No. de Giros nuevos:</dt>
                         <dd>{{ nro_giros }}</dd>
-                        <dt>Número de Encomiendas:</dt>
+                        <dt>No. de Encomiendas nuevos:</dt>
                         <dd>{{ nro_encomiendas }}</dd>
                     </dl>
                 </div>

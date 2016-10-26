@@ -225,6 +225,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
                 if ($scope.newEncomienda.tipodoc === 'factura') {
                     $scope.newEncomienda.cliente_id = $scope.newEncomienda.cliente.id;
                 }
+                delete $scope.newEncomienda.cliente;
                 EncomiendasService.save($scope.newEncomienda, function(data) {
                     $scope.message = data.message;
                     if ($scope.message.type = 'success') {                    
