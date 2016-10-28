@@ -188,9 +188,9 @@ class ImportarController extends AppController
         
         if ($ch_encomiendas) {
             $encomiendas = $encomiendasTable->find()
-                ->select(['programacion_id', 'Clientes.ruc', 'desplazamiento_id', 'remitente', 'destinatario', 'fechahora', 'valor_neto', 'igv', 'valor_total', 'observaciones', 'fecha_envio', 'fecha_recepcion', 'tipodoc', 'nro_doc', 'condicion', 'estado_id', 'Encomiendas.flag_export'])
+                ->select(['programacion_id', 'Clientes.ruc', 'desplazamiento_id', 'remitente', 'destinatario', 'fechahora', 'valor_neto', 'igv', 'valor_total', 'observaciones', 'fecha_envio', 'fecha_recepcion', 'tipodoc', 'nro_doc', 'condicion', 'estado_id', 'Encomiendas.flag_export', 'EncomiendasTipos.detalle'])
                 ->where(['Encomiendas.flag_export' => false])
-                ->contain(['Clientes', 'EncomiendasTipos'])
+                ->contain(['Clientes', 'EncomiendasTipos' => ["TipoProductos"]])
                 ->toArray();
             $encomiendasTable->updateAll(
                 ['flag_export' => true], 
