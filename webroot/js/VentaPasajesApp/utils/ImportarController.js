@@ -17,13 +17,18 @@ VentaPasajesApp.controller("ImportarController", function($scope, ImportarServic
     };
     
     $scope.import = function() {
+        $('#btnImportar').addClass('disabled');
+        $('#btnImportar').prop('disabled', true);
         var file = $scope.backup;
          
         var fd = new FormData();
         fd.append('file', file);
         
         ImportarService.import(fd, function(data) {
-            console.log(data);
+            $scope.message = data.message;
+            
+            $('#btnImportar').removeClass('disabled');
+            $('#btnImportar').prop('disabled', false);
         });
     }
     

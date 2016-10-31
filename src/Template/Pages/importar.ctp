@@ -4,6 +4,14 @@ $this->extend('/Common/vista');
 $this->assign("module-name", "Importar");
 $this->assign("title", "Importar Datos");
 ?>
+<div ng-show="message.type == 'success'" class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" ng-click="message.type = ''"><span aria-hidden="true">&times;</span></button>
+    {{ message.text }}
+</div>
+<div ng-show="message.type == 'error'" class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" ng-click="message.type = ''"><span aria-hidden="true">&times;</span></button>
+    {{ message.text }}
+</div>
  <!-- Nav tabs -->
 <ul id="ulTabs" class="nav nav-tabs" role="tablist" >
     <li role="presentation" class="active"><a data-target="#import" aria-controls="import" role="tab" data-toggle="tab">Importar</a></li>
@@ -33,7 +41,7 @@ $this->assign("title", "Importar Datos");
                     </dl>
                 </div>
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary">Cargar datos</button>
+                    <button id="btnImportar" type="submit" class="btn btn-primary">Cargar datos</button>
                 </div>
             </div>
         </form>

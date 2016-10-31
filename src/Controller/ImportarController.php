@@ -38,58 +38,79 @@ class ImportarController extends AppController
         
         $conn = ConnectionManager::get($clientesTable->defaultConnectionName());
         $r = true;
-        
         if (!empty($backup->clientes)) {
-            if (!$clientesTable->save($backup->clientes)) {
-                $r = false;
-            }
+            $clientesTable->connection()->transactional(function () use ($clientesTable, $backup) {
+                foreach ($backup->clientes as $cliente) {
+                    $cliente = $clientesTable->newEntity((array)$cliente);
+                    $clientesTable->save($cliente, ['atomic' => false]);
+                }
+            });
         }
         
         if (!empty($backup->pasajes)) {
-            if (!$pasajesTable->save($backup->pasajes)) {
-                $r = false;
-            }
-            
+             $pasajesTable->connection()->transactional(function () use ($pasajesTable, $backup) {
+                foreach ($backup->pasajes as $pasaje) {
+                    $fechahora = $pasaje->fechahora;
+                    unset($pasaje->fechahora);
+                    $pasaje = $pasajesTable->newEntity((array)$pasaje);
+                    $pasaje->fechahora = $fechahora;
+                    $pasajesTable->save($pasaje, ['atomic' => false]);
+                }
+            });
         }
         
         if (!empty($backup->giros)) {
-            foreach ($backup->giros as $giro) {
-                $giro_aux = $girosTable->newEntity((array)$giro);
-                if ($giro->fecha) {
-                    $giro_aux->fecha = Time::createFromFormat("Y-m-d", $giro->fecha);
+             $girosTable->connection()->transactional(function () use ($girosTable, $backup) {
+                foreach ($backup->giros as $giro) {
+                    $fecha = $giro->fecha;
+                    $fecha_envio = $giro->fecha_envio;
+                    $fecha_recepcion = $giro->fecha_recepcion;
+                    unset($giro->fecha);
+                    unset($giro->fecha_envio);
+                    unset($giro->fecha_recepcion);
+                    $giro = $girosTable->newEntity((array)$giro);
+                    $giro->fecha = $fecha;
+                    $giro->fecha_envio = $fecha_envio;
+                    $giro->fecha_recepcion = $fecha_recepcion;
+                    $girosTable->save($giro, ['atomic' => false]);
                 }
-                if ($giro->fecha_envio) {
-                    $giro_aux->fecha_envio = Time::createFromFormat("Y-m-d", $giro->fecha_envio);
-                }
-                if ($giro->fecha_recepcion) {
-                    $giro_aux->fecha_recepcion = Time::createFromFormat("Y-m-d", $giro->fecha_recepcion);
-                }
-                if (!$girosTable->save($giro_aux)) {
-                    $r = false;
-                    break;
-                }
-            }
+            });
         }
         
         if (!empty($backup->encomiendas)) {
-            if (!$encomiendasTable->save($backup->encomiendas)) {
-                $r = false;
-            }
+            $encomiendasTable->connection()->transactional(function () use ($encomiendasTable, $clientesTable, $backup) {
+                foreach ($backup->encomiendas as $encomienda) {
+                    $ruc = $encomienda->cliente->ruc;
+                    $encomiendas_tipos = $encomienda->encomiendas_tipos;
+                    
+                    $cliente = $clientesTable->find()->where(['ruc' => $ruc])->first();
+                    $fechahora = $encomienda->fechahora;
+                    $fecha_envio = $encomienda->fecha_envio;
+                    $fecha_recepcion = $encomienda->fecha_recepcion;
+                    unset($encomienda->fechahora);
+                    unset($encomienda->fecha_envio);
+                    unset($encomienda->fecha_recepcion);
+                    $encomienda = $encomiendasTable->newEntity((array)$encomienda);
+                    $encomienda->cliente_id = $cliente->id;
+                    $encomienda->fechahora = $fechahora;
+                    $encomienda->fecha_envio = $fecha_envio;
+                    $encomienda->fecha_recepcion = $fecha_recepcion;
+                    if ($encomiendasTable->save($encomienda, ['atomic' => false])) {
+                        foreach ($encomiendas_tipos as $encomiendas_tipo) {
+                            $encomiendas_tipo = $encomiendasTable->EncomiendasTipos->newEntity((array)$encomiendas_tipo);
+                            $encomiendas_tipo->encomienda_id = $encomienda->id;
+                            $encomiendasTable->EncomiendasTipos->save($encomiendas_tipo);
+                        }
+                    }
+                }
+            });
         }
         
-        if ($r) {
-            $conn->commit();
-            $message = [
-                "type" => "success",
-                "text" => "El Backup fue restaurado exitosamente"
-            ];
-        } else {
-            $conn->rollback();
-            $message = [
-                "type" => "error",
-                "text" => "El Backup no fue restaurado exitosamente"
-            ];
-        }
+        $algo = $conn->commit();
+        $message = [
+            "type" => "success",
+            "text" => "El Backup fue restaurado exitosamente"
+        ];
         
         $this->set(compact("message"));
         $this->set("_serialize", ["message"]);
