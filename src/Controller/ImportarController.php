@@ -188,10 +188,26 @@ class ImportarController extends AppController
         
         if ($ch_encomiendas) {
             $encomiendas = $encomiendasTable->find()
-                ->select(['programacion_id', 'Clientes.ruc', 'desplazamiento_id', 'remitente', 'destinatario', 'fechahora', 'valor_neto', 'igv', 'valor_total', 'observaciones', 'fecha_envio', 'fecha_recepcion', 'tipodoc', 'nro_doc', 'condicion', 'estado_id', 'Encomiendas.flag_export', 'EncomiendasTipos.detalle'])
                 ->where(['Encomiendas.flag_export' => false])
-                ->contain(['Clientes', 'EncomiendasTipos' => ["TipoProductos"]])
+                ->contain(['Clientes' => function($q) {
+                    return $q
+                        ->select(['ruc']);
+                }, 'EncomiendasTipos' => ['TipoProductos']])
                 ->toArray();
+            $encomiendas_final = array();
+            foreach ($encomiendas as $encomienda) {
+                unset($encomienda['id']);
+                unset($encomienda['cliente_id']);
+                $encomiendas_tipos_final = array();
+                foreach ($encomienda['encomiendas_tipos'] as $encomiendas_tipo) {
+                    unset($encomiendas_tipo['id']);
+                    unset($encomiendas_tipo['encomienda_id']);
+                    $encomiendas_tipos_final[] = $encomiendas_tipo;
+                }
+                $encomienda['encomiendas_tipos'] = $encomiendas_tipos_final;
+                $encomiendas_final[] = $encomienda;
+            }
+            $encomiendas = $encomiendas_final;
             $encomiendasTable->updateAll(
                 ['flag_export' => true], 
                 ['flag_export' => false]);

@@ -56,4 +56,3 @@ class Encomienda extends Entity
         return ucfirst($this->_properties['tipodoc']) . ' 001-' . str_pad($this->_properties['nro_doc'],  6, '0', STR_PAD_LEFT);
     }
 }
-
