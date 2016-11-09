@@ -17,6 +17,10 @@ VentaPasajesApp.factory("GirosService", function($resource) {
             method: "GET",
             url: VentaPasajesApp.path_location + "giros/getSinEntregar/.json"
         },
+        getOrigenDestino: {
+            method: "POST",
+            url: VentaPasajesApp.path_location + "giros/getOrigenDestino/.json"
+        },
         cancelarAsignacion: {
             method: "POST",
             url: VentaPasajesApp.path_location + "giros/cancelarAsignacion/.json"

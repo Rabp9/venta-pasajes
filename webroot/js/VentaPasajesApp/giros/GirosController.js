@@ -158,6 +158,11 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
             ProgramacionesService.get(function(data) {
                 $scope.programaciones_filtradas = data.programaciones;
                 $scope.loading_programaciones = false;
+                GirosService.getOrigenDestino({ids: $scope.giros_selected}, function(data) {
+                    $scope.origen_selected = data.origen_id;
+                    $scope.destino_selected = data.destino_id;
+                    $scope.onSearchChange();
+                });
             });
             $scope.asignando = true;
         } else {

@@ -97,7 +97,37 @@ class GirosController extends AppController
         $this->set(compact('giros'));
         $this->set('_serialize', ['giros']);
     }
-
+    
+    public function getOrigenDestino() {
+        $this->viewBuilder()->layout(false);
+        
+        $giros_id = $this->request->data['ids'];
+        
+        $origenes_id = array();
+        $destinos_id = array();
+        foreach ($giros_id as $giro_id) {
+            $giro = $this->Giros->find()
+                ->where(['Giros.id' => $giro_id])
+                ->contain(['Desplazamientos' => ['AgenciaOrigen', 'AgenciaDestino']])
+                ->first();
+            $origenes_id[] = $giro->desplazamiento->AgenciaOrigen->id;
+            $destinos_id[] = $giro->desplazamiento->AgenciaDestino->id;
+        }
+        
+        $origenes_id = array_unique($origenes_id);
+        $destinos_id = array_unique($destinos_id);
+        
+        $origen_id = null;
+        $destino_id = null;
+        
+        if (sizeof($origenes_id) == 1 && sizeof($destinos_id) == 1) {
+            $origen_id = $origenes_id[0];
+            $destino_id = $destinos_id[0];
+        } 
+        $this->set(compact('origen_id', 'destino_id'));
+        $this->set('_serialize', ['origen_id', 'destino_id']);
+    }
+    
     public function getNextNroDoc() {
         $nro_doc = $this->Giros->getNextNroDoc();
     
