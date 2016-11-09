@@ -253,6 +253,11 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             ProgramacionesService.get(function(data) {
                 $scope.programaciones_filtradas = data.programaciones;
                 $scope.loading_programaciones = false;
+                EncomiendasService.getOrigenDestino({ids: $scope.encomiendas_selected}, function(data) {
+                    $scope.origen_selected = data.origen_id;
+                    $scope.destino_selected = data.destino_id;
+                    $scope.onSearchChange();
+                });
             });
             $scope.asignando = true;
         } else {

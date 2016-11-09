@@ -13,6 +13,10 @@ VentaPasajesApp.factory("EncomiendasService", function($resource) {
             method: "GET",
             url: VentaPasajesApp.path_location + "encomiendas/getSinEntregar/.json"
         },
+        getOrigenDestino: {
+            method: "POST",
+            url: VentaPasajesApp.path_location + "encomiendas/getOrigenDestino/.json"
+        },
         cancelarAsignacion: {
             method: "POST",
             url: VentaPasajesApp.path_location + "encomiendas/cancelarAsignacion/.json"
