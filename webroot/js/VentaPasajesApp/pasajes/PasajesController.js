@@ -193,6 +193,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         if ($rootScope.user.user_detalle.agencia_id) {
             pasaje.agencia_id = $rootScope.user.user_detalle.agencia.id;
         }
+        pasaje.user_id = $rootScope.user.id;
         PasajesService.save(pasaje, function(data) {
             $("#frmPasaje" + index).parent().parent().fadeOut(500);
             $scope.onProgramacionSelect(programacion_id);

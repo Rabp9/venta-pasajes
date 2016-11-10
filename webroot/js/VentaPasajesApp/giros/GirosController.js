@@ -133,6 +133,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
             }, function(data) {
                 $scope.newGiro.desplazamiento_id = data.desplazamiento.id;
 
+                $scope.newGiro.user_id = $rootScope.user.id;
                 GirosService.save($scope.newGiro, function(data) {
                     $scope.message = data.message;
                     if ($scope.message.type == 'success') {                    
