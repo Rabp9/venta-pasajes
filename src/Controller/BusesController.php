@@ -35,7 +35,8 @@ class BusesController extends AppController
             if ($this->Buses->save($bus)) {
                 $message = array(
                     'text' => __('Bus registrado correctamente'),
-                    'type' => 'success'
+                    'type' => 'success',
+                    'id' => $bus->id
                 );
             } else {
                 $message = array(

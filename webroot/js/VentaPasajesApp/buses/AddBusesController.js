@@ -1,6 +1,6 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("AddBusesController", function($scope, BusesService) {
+VentaPasajesApp.controller("AddBusesController", function($scope, BusesService, $location) {
     $scope.newBus = new BusesService();
     $scope.newBus.estado_id = 1;
     
@@ -12,6 +12,9 @@ VentaPasajesApp.controller("AddBusesController", function($scope, BusesService) 
             $scope.newBus = new BusesService();
             $scope.$parent.actualizarMessage(data.message);
             $scope.$parent.list();
+            if (confirm('¿Desea administrar el bus ahora?')) {
+                $location.path('busesAdministrar/' + data.message.id);
+            }
         });;
     }
 });
