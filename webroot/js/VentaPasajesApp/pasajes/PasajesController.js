@@ -190,8 +190,9 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         delete pasaje.busAsiento;
         delete pasaje.programacion;
         delete pasaje.detalleDesplazamiento;
+        
         if ($rootScope.user.user_detalle.agencia_id) {
-            pasaje.agencia_id = $rootScope.user.user_detalle.agencia.id;
+            pasaje.agencia_id = $rootScope.user.user_detalle.agencia_id;
         }
         pasaje.user_id = $rootScope.user.id;
         PasajesService.save(pasaje, function(data) {
