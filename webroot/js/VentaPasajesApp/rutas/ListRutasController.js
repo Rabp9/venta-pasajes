@@ -34,6 +34,10 @@ VentaPasajesApp.controller("ListRutasController", function($scope, RutasService,
         $scope.loading_ruta_selected = true;
         RutasService.get({id: id}, function(data) {
             $scope.ruta_selected = data.ruta;
+            // Setear tiene o no restricciones
+            RutasService.hasRestricciones({id: $scope.ruta_selected.id}, function(data) {
+                $scope.has_restricciones = data.response;
+            });
             $scope.loading_ruta_selected = false;
         });
     }

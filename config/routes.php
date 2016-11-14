@@ -137,7 +137,18 @@ Router::scope('/', function ($routes) {
             ]
         ]
     ]);
-    $routes->resources('Rutas');
+    $routes->resources('rutas', [
+        'map' => [
+            '/' => [
+                'action' => 'index',
+                'method' => 'GET'
+            ],       
+            'hasRestricciones/:id' => [
+                'action' => 'hasRestricciones',
+                'method' => 'GET'
+            ]
+        ]
+    ]);
     $routes->resources('Agencias');
     $routes->resources('Groups');
     $routes->resources('Encomiendas', [

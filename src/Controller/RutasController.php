@@ -97,4 +97,28 @@ class RutasController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+    
+    public function hasRestricciones($id = null) {
+        $this->viewBuilder()->layout(false);
+        
+        $ruta = $this->Rutas->find()
+            ->where(['id' => $id])
+            ->contain(["DetalleDesplazamientos" => [
+                'Restricciones',
+                "Desplazamientos" => [
+                    "AgenciaOrigen" => ["Ubigeos"],
+                    "AgenciaDestino" => ["Ubigeos"]
+                ]
+            ]])
+            ->first();
+        $response = $ruta;
+        $response = false;
+        foreach ($ruta->detalle_desplazamientos as $detalleDesplazamiento) {
+            if (sizeof($detalleDesplazamiento->restricciones)) {
+                $response = true;
+            }
+        }
+        $this->set(compact('response'));
+        $this->set('_serialize', ['response']);
+    }
 }

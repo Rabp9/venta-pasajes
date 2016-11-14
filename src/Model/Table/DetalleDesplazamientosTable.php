@@ -34,8 +34,14 @@ class DetalleDesplazamientosTable extends Table
             'foreignKey' => 'ruta_id',
             'joinType' => 'INNER'
         ]);
+        
         $this->belongsTo('Desplazamientos', [
             'foreignKey' => 'desplazamiento_id',
+            'joinType' => 'INNER'
+        ]);
+        
+        $this->hasMany('Restricciones', [
+            'foreignKey' => 'desplazamiento_x',
             'joinType' => 'INNER'
         ]);
     }

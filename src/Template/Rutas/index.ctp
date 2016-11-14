@@ -61,6 +61,13 @@ $this->assign("title", "Rutas");
             </div>
             <button id="btnAddDesplazamientos" type="button" class="btn btn-primary" ng-click="addDesplazamiento()">Nuevo Desplazamiento</button>
             <button id="btnSetRestricciones" type="button" class="btn btn-primary" ng-click="setRestricciones()">Restricciones</button>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p ng-hide="has_restricciones" class="alert alert-danger" style="width: 99%;">
+                        Aún no se han establecido las Restricciones.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
