@@ -60,8 +60,6 @@ VentaPasajesApp.controller("AddProgramacionesController", function($scope, Progr
         $scope.programacion.fechahora_prog = $filter("date")($scope.prefechahora_prog, "yyyy-MM-dd HH:mm:ss");
         $scope.programacion.estado_id = 1;
         ProgramacionesService.save($scope.programacion, function(data) {
-            var type = data.message.type;
-            var text = data.message.text;
             $('#aProgramacionesAdd').removeClass('disabled');
             $('#aProgramacionesAdd').prop('disabled', false);
             
