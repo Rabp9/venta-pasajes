@@ -40,6 +40,7 @@
                         'required' => true
                     ]);
                     echo $this->Form->input("tiempo", [
+                        "label" => "Tiempo (en horas)",
                         "ng-model" => "newTarifa.tiempo",
                         'required' => true
                     ]);
