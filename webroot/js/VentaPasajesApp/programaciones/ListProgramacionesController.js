@@ -5,6 +5,7 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
     $scope.predicate = "id";
     $scope.message = {};
     $scope.modalProgramacionesAddUrl = '';
+    $scope.modalRegistrarSalidaUrl = '';
     $scope.tipo = 1;
     
     $("#txtBuscarFecha").datepicker({
@@ -19,7 +20,11 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
     
     $scope.openProgramacionesAddModal = function() {
         $("#mdlProgramacionesAdd").modal("toggle");
-    }
+    };
+    
+    $scope.openRegistrarSalidaModal = function() {
+        $("#mdlRegistrarSalida").modal("toggle");
+    };
     
     $("#mdlProgramacionesAdd").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
@@ -29,6 +34,13 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
         });
     });
     
+    $("#mdlRegistrarSalida").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $('#aRegistrarSalida').removeClass('disabled');
+            $('#aRegistrarSalida').prop('disabled', false);
+            $scope.modalRegistrarSalidaUrl = "";
+        });
+    });
     
     $scope.list = function() {
         $scope.programaciones = [];
@@ -66,6 +78,12 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
     
     $scope.showListPasajeros = function(programacion_id) {
         $window.open('pasajes/getByProgramacion/' + programacion_id, '_blank');
+    }
+    
+    $scope.registrarSalida = function(programacion_id) {
+        $('.btn-registrar-salida').addClass('disabled');
+        $('.btn-registrar-salida').prop('disabled', true);
+        $scope.modalRegistrarSalidaUrl = VentaPasajesApp.path_location + "programaciones/registrarSalida";
     }
     
     $scope.showListEncomiendas = function(programacion_id) {

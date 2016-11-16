@@ -41,6 +41,7 @@ Filtros:
                     <td>{{programacion.bus.placa}}</td>
                     <td>{{programacion.fechahora_prog }}</td>
                     <td>
+                        <button ng-click="registrarSalida(programacion.id)" class="btn btn-primary btn-registrar-salida" title="Registrar Salida"><span class="glyphicon glyphicon-send"></span></button>
                         <button ng-click="showListPasajeros(programacion.id)" class="btn btn-primary" title="Lista de Pasajeros"><span class="glyphicon glyphicon-object-align-left"></span></button>
                         <button ng-click="showListEncomiendas(programacion.id)" class="btn btn-primary" title="Lista de Encomiendas"><span class="glyphicon glyphicon-list"></span></button>
                     </td>
@@ -52,6 +53,12 @@ Filtros:
 <!-- Modal -->
 <div class="modal fade" id="mdlProgramacionesAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" ng-include="modalProgramacionesAddUrl" onload="openProgramacionesAddModal()">
+        
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="mdlRegistrarSalida" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" ng-include="modalRegistrarSalidaUrl" onload="openRegistrarSalidaModal()">
         
     </div>
 </div>

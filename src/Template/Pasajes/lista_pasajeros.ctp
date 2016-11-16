@@ -10,7 +10,7 @@
     $pdf->SetAutoPageBreak(true, 5);  
     
     for ($i = 0; $i < $programacion->bus->nro_pisos; $i++) {
-        $pdf->Text($margen_x + 165, $margen_y + 22, utf8_decode(str_pad($encomienda->nro_doc,  6, '0', STR_PAD_LEFT)));
+        $pdf->Text($margen_x + 165, $margen_y + 22, utf8_decode(str_pad($programacion->id,  6, '0', STR_PAD_LEFT)));
         $pdf->AddPage();
         $pdf->Image("img/logo.png", $margen_x + 75, $margen_y + 10);
 
@@ -37,7 +37,7 @@
         $pdf->SetFont("Arial", "B", 10);
         $pdf->Cell($w_title, $h_celda, utf8_decode('HORA SALIDA'), $borde_celda, 0, 'C');
         $pdf->SetFont("Arial", "", 10);
-        $pdf->Cell($w_value, $h_celda, utf8_decode($programacion->fecha_via->format('H:i:s')), 'B', 0, 'C');
+        $pdf->Cell($w_value, $h_celda, utf8_decode("asd"/*$programacion->fecha_via->format('H:i:s')*/), 'B', 0, 'C');
 
         $pdf->ln();
 
@@ -54,7 +54,7 @@
         $pdf->SetFont("Arial", "B", 10);
         $pdf->Cell($w_title, $h_celda, utf8_decode('FECHA DE VIAJE'), $borde_celda, 0, 'C');
         $pdf->SetFont("Arial", "", 10);
-        $pdf->Cell($w_value, $h_celda, utf8_decode($programacion->fecha_via->format('Y-m-d')), 'B', 0, 'C');
+        $pdf->Cell($w_value, $h_celda, utf8_decode("dada"/*$programacion->fecha_via->format('Y-m-d')*/), 'B', 0, 'C');
 
         $pdf->ln();
 

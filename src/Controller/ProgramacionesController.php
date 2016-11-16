@@ -168,4 +168,8 @@ class ProgramacionesController extends AppController
         $this->set(compact('programaciones'));
         $this->set('_serialize', ['programaciones']);
     }
+    
+    public function registrarSalida() {
+        $this->viewBuilder()->layout(false);
+    }
 }

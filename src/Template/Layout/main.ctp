@@ -57,6 +57,7 @@
         
         "VentaPasajesApp/programaciones/ListProgramacionesController.js",
         "VentaPasajesApp/programaciones/AddProgramacionesController.js",
+        "VentaPasajesApp/programaciones/RegistrarSalidaController.js",
       
         "VentaPasajesApp/personas/ListPersonasController.js",
         "VentaPasajesApp/personas/AddPersonasController.js",
