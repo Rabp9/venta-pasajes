@@ -177,7 +177,7 @@ $this->assign("title", "Pasajes");
                         <input id="pasaje{{$index}}" type="text" class="form-control" ng-model="pasaje.nro_doc" required/>
                     </div>
                     <div class="form-group">
-                        <label for="txtPersonaDni" style="display: block;">Persona</label>
+                        <label for="txtPersonaDni" style="display: block;">Persona (DNI)</label>
                         <input id="txtPersonaDni" type="text" ng-model="dnis[$index]" 
                             class="form-control" maxlength="8"
                             style="width: 68%; display: inline;" />
