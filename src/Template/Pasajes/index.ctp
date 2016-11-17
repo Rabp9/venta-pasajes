@@ -173,7 +173,7 @@ $this->assign("title", "Pasajes");
                         </div>
                     </fieldset>
                     <div class="form-group">
-                        <label for="pasaje{{$index}}">Nro Doc:</label>
+                        <label for="pasaje{{$index}}">Código Boleto:</label>
                         <input id="pasaje{{$index}}" type="text" class="form-control" ng-model="pasaje.nro_doc" required/>
                     </div>
                     <div class="form-group">
