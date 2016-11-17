@@ -195,6 +195,16 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             return;
         }
         
+        if ($scope.remitente == null) {
+            alert('Seleecione un remitente');
+            return;
+        }
+        
+        if ($scope.destinatario == null) {
+            alert('Seleecione un destinatario');
+            return;
+        }
+                
         if ($scope.remitente.id === $scope.destinatario.id) {
             alert('El remitente y el destinatario no pueden ser los mismos');
             return;
@@ -221,6 +231,14 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
                 origen: $scope.origen_selected,
                 destino: $scope.destino_selected
             }, function(data) {
+                if (data.desplazamiento == null) {
+                    alert("No existe un desplazamiento definido entre el origen y el destino");
+                    alert("No fue posible registrar la encomienda");
+                    
+                    $("#btnRegistrarEncomienda").removeClass("disabled");
+                    $("#btnRegistrarEncomienda").attr("disabled", false);
+                    return;
+                }
                 $scope.newEncomienda.desplazamiento_id = data.desplazamiento.id;
                 if ($scope.newEncomienda.tipodoc === 'factura') {
                     $scope.newEncomienda.cliente_id = $scope.newEncomienda.cliente.id;

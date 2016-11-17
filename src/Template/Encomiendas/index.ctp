@@ -49,7 +49,7 @@ $this->assign("title", "Encomiendas");
                                             <label for="txtDestinatarioDni">Destinatario (DNi)</label>
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <input class="form-control" ng-model="destinatario_dni" type="search" maxlength="8" style="width: 75%; display: inline;">
+                                                    <input class="form-control" ng-model="destinatario_dni" type="search" maxlength="8" required style="width: 75%; display: inline;">
                                                     <button id="btnBuscarDestinatario" style="width: 10%; display: inline;" class="btn btn-primary" type="button" ng-click="buscarDestinatario()"><samp class="glyphicon glyphicon-search"></samp></button>
                                                     <button id="btnNuevoDestinatario" style="width: 10%; display: inline;" class="btn btn-primary" type="button" ng-click="addPersonaD()"><samp class="glyphicon glyphicon-plus"></samp></button>
                                                 </div>

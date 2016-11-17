@@ -114,6 +114,16 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
             return;
         }
         
+        if ($scope.remitente == null) {
+            alert('Seleecione un remitente');
+            return;
+        }
+        
+        if ($scope.destinatario == null) {
+            alert('Seleecione un destinatario');
+            return;
+        }
+                
         if ($scope.remitente.id === $scope.destinatario.id) {
             alert('El remitente y el destinatario no pueden ser los mismos');
             return;
@@ -131,6 +141,14 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
                 origen: $scope.origen_selected,
                 destino: $scope.destino_selected
             }, function(data) {
+                if (data.desplazamiento == null) {
+                    alert("No existe un desplazamiento definido entre el origen y el destino");
+                    alert("No fue posible registrar el giro");
+                    
+                    $("#btnRegistrarGiro").removeClass("disabled");
+                    $("#btnRegistrarGiro").attr("disabled", false);
+                    return;
+                }
                 $scope.newGiro.desplazamiento_id = data.desplazamiento.id;
 
                 $scope.newGiro.user_id = $rootScope.user.id;
