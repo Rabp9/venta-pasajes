@@ -15,6 +15,10 @@ VentaPasajesApp.factory("ProgramacionesService", function($resource) {
         getAnteriores: {
             method: 'GET',
             url: VentaPasajesApp.path_location + "programaciones/getAnteriores/.json"
+        },
+        registrarSalidaPost: {
+            method: 'POST',
+            url: VentaPasajesApp.path_location + "programaciones/registrarSalidaPost/.json"
         }
     });
 });

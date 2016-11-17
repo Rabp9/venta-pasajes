@@ -169,7 +169,35 @@ class ProgramacionesController extends AppController
         $this->set('_serialize', ['programaciones']);
     }
     
-    public function registrarSalida() {
+    public function registrarSalida($id = null) {
         $this->viewBuilder()->layout(false);
+        $programacion_id = $id;
+        
+        $this->set(compact('programacion_id'));
+        $this->set('_serialize', ['programacion_id']);
+    }
+    
+    public function registrarSalidaPost() {
+        $this->viewBuilder()->layout(false);
+        $programacion_id = $this->request->data["programacion_id"];
+        $fecha_via = $this->request->data["fecha_via"];
+        
+        $programacion = $this->Programaciones->get($programacion_id);
+        $programacion->fecha_via = $fecha_via;
+        
+        if ($this->Programaciones->save($programacion)) {
+            $message = array(
+                'text' => __('Fecha de viaje registrada correctamente'),
+                'type' => 'success'
+            );
+        } else {
+            $message = array(
+                'text' => __('No fue posible registrar la fecha de viaje'),
+                'type' => 'error' 
+            );
+        }
+            
+        $this->set(compact('message'));
+        $this->set('_serialize', ['message']);
     }
 }

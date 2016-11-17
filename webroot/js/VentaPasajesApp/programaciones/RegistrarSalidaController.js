@@ -1,25 +1,25 @@
 var VentaPasajesApp = angular.module("VentaPasajesApp");
 
-VentaPasajesApp.controller("RegistrarSalidaController", function($scope, ProgramacionesService) {
+VentaPasajesApp.controller("RegistrarSalidaController", function($scope, ProgramacionesService, $filter) {
     
-    $scope.save = function() {
-        $("#btnRegistrarProgramacion").addClass("disabled");
-        $("#btnRegistrarProgramacion").attr("disabled", true);
-        angular.forEach($scope.conductoresSelected, function(value, key) {
-            var conductor = value;
-            $scope.programacion.detalle_conductores[key].conductor_id = conductor.id;
-        });
-        $scope.programacion.fechahora_prog = $filter("date")($scope.prefechahora_prog, "yyyy-MM-dd HH:mm:ss");
-        $scope.programacion.estado_id = 1;
-        ProgramacionesService.save($scope.programacion, function(data) {
-            $('#aProgramacionesAdd').removeClass('disabled');
-            $('#aProgramacionesAdd').prop('disabled', false);
+    $scope.save = function(programacion_id) {
+        $("#btnRegistrarSalida").addClass("disabled");
+        $("#btnRegistrarSalida").attr("disabled", true); 
+        
+        var fecha_via = $filter("date")($scope.preFecha_via, "yyyy-MM-dd HH:mm:ss");
+        ProgramacionesService.registrarSalidaPost({
+            programacion_id: programacion_id,
+            fecha_via: fecha_via
+        }, function(data) {
+            console.log(data);
+            $('.btn-registrar-salida').removeClass('disabled');
+            $('.btn-registrar-salida').prop('disabled', false);
             
-            $("#mdlProgramacionesAdd").modal('toggle');
+            $("#mdlRegistrarSalida").modal('toggle');
             $scope.$parent.actualizarMessage(data.message);
-            $("#btnRegistrarProgramacion").removeClass("disabled");
-            $("#btnRegistrarProgramacion").attr("disabled", false);
-            $scope.list();
+            $("#btnRegistrarSalida").removeClass("disabled");
+            $("#btnRegistrarSalida").attr("disabled", false);
+            $scope.$parent.cambiar();
         })
     };
 });

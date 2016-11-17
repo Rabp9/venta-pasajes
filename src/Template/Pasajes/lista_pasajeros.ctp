@@ -37,7 +37,7 @@
         $pdf->SetFont("Arial", "B", 10);
         $pdf->Cell($w_title, $h_celda, utf8_decode('HORA SALIDA'), $borde_celda, 0, 'C');
         $pdf->SetFont("Arial", "", 10);
-        $pdf->Cell($w_value, $h_celda, utf8_decode("asd"/*$programacion->fecha_via->format('H:i:s')*/), 'B', 0, 'C');
+        $pdf->Cell($w_value, $h_celda, utf8_decode($programacion->fecha_via->format('H:i:s')), 'B', 0, 'C');
 
         $pdf->ln();
 
@@ -54,7 +54,7 @@
         $pdf->SetFont("Arial", "B", 10);
         $pdf->Cell($w_title, $h_celda, utf8_decode('FECHA DE VIAJE'), $borde_celda, 0, 'C');
         $pdf->SetFont("Arial", "", 10);
-        $pdf->Cell($w_value, $h_celda, utf8_decode("dada"/*$programacion->fecha_via->format('Y-m-d')*/), 'B', 0, 'C');
+        $pdf->Cell($w_value, $h_celda, utf8_decode($programacion->fecha_via->format('Y-m-d')), 'B', 0, 'C');
 
         $pdf->ln();
 

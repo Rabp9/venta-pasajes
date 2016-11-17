@@ -36,8 +36,8 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
     
     $("#mdlRegistrarSalida").on("hidden.bs.modal", function(e) {
         $scope.$apply(function() {
-            $('#aRegistrarSalida').removeClass('disabled');
-            $('#aRegistrarSalida').prop('disabled', false);
+            $('.btn-registrar-salida').removeClass('disabled');
+            $('.btn-registrar-salida').prop('disabled', false);
             $scope.modalRegistrarSalidaUrl = "";
         });
     });
@@ -68,8 +68,8 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
         });
     };
     
-    $scope.cambiar = function(tipo) {
-        if (tipo == 1) {
+    $scope.cambiar = function() {
+        if ($scope.tipo == 1) {
             $scope.list();
         } else {
             $scope.listAnteriores();
@@ -83,7 +83,7 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
     $scope.registrarSalida = function(programacion_id) {
         $('.btn-registrar-salida').addClass('disabled');
         $('.btn-registrar-salida').prop('disabled', true);
-        $scope.modalRegistrarSalidaUrl = VentaPasajesApp.path_location + "programaciones/registrarSalida";
+        $scope.modalRegistrarSalidaUrl = VentaPasajesApp.path_location + "programaciones/registrarSalida/" + programacion_id;
     }
     
     $scope.showListEncomiendas = function(programacion_id) {

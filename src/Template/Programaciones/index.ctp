@@ -19,8 +19,8 @@ Filtros:
 </select>
 <input type="search" placeholder="Buscar por Placa de Bus" ng-model="search_placa" class="form-control" style="display: inline; width: 15%;" />
 <input id="txtBuscarFecha" type="text" placeholder="Buscar por fecha" ng-model="search_fecha" class="form-control" style="display: inline; width: 15%" />
-<label><input type="radio" ng-model="tipo" ng-value="1" ng-change="cambiar(tipo)"> Disponibles</label> |
-<label><input type="radio" ng-model="tipo" ng-value="2" ng-change="cambiar(tipo)"> Anteriores</label>
+<label><input type="radio" ng-model="tipo" ng-value="1" ng-change="cambiar()"> Disponibles</label> |
+<label><input type="radio" ng-model="tipo" ng-value="2" ng-change="cambiar()"> Anteriores</label>
 
 <a id="aProgramacionesAdd" class="btn btn-primary pull-right" ng-click="addProgramacion()"><span class="glyphicon glyphicon-plus"></span> Nueva Programación</a>
 <div class="list-group">
@@ -41,8 +41,8 @@ Filtros:
                     <td>{{programacion.bus.placa}}</td>
                     <td>{{programacion.fechahora_prog }}</td>
                     <td>
-                        <button ng-click="registrarSalida(programacion.id)" class="btn btn-primary btn-registrar-salida" title="Registrar Salida"><span class="glyphicon glyphicon-send"></span></button>
-                        <button ng-click="showListPasajeros(programacion.id)" class="btn btn-primary" title="Lista de Pasajeros"><span class="glyphicon glyphicon-object-align-left"></span></button>
+                        <button ng-hide="programacion.fecha_via != null" ng-click="registrarSalida(programacion.id)" class="btn btn-primary btn-registrar-salida" title="Registrar Salida"><span class="glyphicon glyphicon-send"></span></button>
+                        <button ng-show="programacion.fecha_via != null" ng-click="showListPasajeros(programacion.id)" class="btn btn-primary" title="Lista de Pasajeros"><span class="glyphicon glyphicon-object-align-left"></span></button>
                         <button ng-click="showListEncomiendas(programacion.id)" class="btn btn-primary" title="Lista de Encomiendas"><span class="glyphicon glyphicon-list"></span></button>
                     </td>
                 </tr>

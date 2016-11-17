@@ -297,6 +297,10 @@ Router::scope('/', function ($routes) {
             'getAnteriores' => [
                 'action' => 'getAnteriores',
                 'method' => 'GET'
+            ],
+            'registrarSalidaPost' => [
+                'action' => 'registrarSalidaPost',
+                'method' => 'POST'
             ]
         ]
     ]);

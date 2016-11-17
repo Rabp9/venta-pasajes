@@ -1,6 +1,6 @@
 <!-- src/Template/Programaciones/registrarSalida.ctp -->
 <div ng-controller="RegistrarSalidaController">
-    <form ng-submit="save()">
+    <form ng-submit="save(<?= $programacion_id ?>)">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -9,7 +9,10 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-12">
-                        
+                        <div class="form-group">
+                            <label for="txtFechaHoraViaje">Fecha y Hora de Viaje</label>
+                            <input id="txtFechaHoraViaje" class="form-control" type="datetime-local" ng-model="preFecha_via"/>
+                        </div>
                     </div>
                 </div>
             </div>
