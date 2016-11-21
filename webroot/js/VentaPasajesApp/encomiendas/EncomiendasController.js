@@ -464,7 +464,6 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
         if ($scope.encomiendas_asignados_selected.length != 0) {
             if (confirm('¿Está seguro de registrar la entrega de estas encomiendas?')) {
                 EncomiendasService.registrarEntregaMany({ids: $scope.encomiendas_asignados_selected}, function(data) {
-                    console.log(data);
                     $scope.message = data.message;
                     $scope.listEncomiendas();
                     
@@ -489,7 +488,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.cancelarMany = function() {
         $("#btnCancelar").addClass("disabled");
         $("#btnCancelar").attr("disabled", true);
-        
+        console.log($scope.encomiendas_asignados_selected);
         if ($scope.encomiendas_asignados_selected.length != 0) {
             if (confirm('¿Está seguro de cancelar las encomiendas?')) {
                 EncomiendasService.cancelarAsignacionMany({ids: $scope.encomiendas_asignados_selected}, function(data) {
@@ -534,10 +533,10 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             angular.forEach($scope.filteredEncomiendasList, function(value, key) {
                 ids.push(value.id);
             });
-            $scope.giros_asignados_selected = ids;
+            $scope.encomiendas_asignados_selected = ids;
             $(".encomiendas_asignados_selected").prop("checked", true);
         } else {
-            $scope.giros_selected = [];
+            $scope.encomiendas_selected = [];
             $(".encomiendas_asignados_selected").prop("checked", false);
         }
     };
