@@ -265,7 +265,11 @@ Router::scope('/', function ($routes) {
             'cancel' => [
                 'action' => 'cancel',
                 'method' => 'POST'
-            ]
+            ],
+            'getData/:bus_asiento_id/:programacion_id/:detalle_desplazamiento_id' => [
+                'action' => 'getData',
+                'method' => 'GET'
+            ],
         ]
     ]);
     $routes->resources('Ubigeos', [

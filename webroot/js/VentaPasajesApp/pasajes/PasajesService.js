@@ -16,6 +16,10 @@ VentaPasajesApp.factory("PasajesService", function($resource) {
         cancel: {
             method: 'POST',
             url: VentaPasajesApp.path_location + "pasajes/cancel/.json"
+        },
+        getData: {
+            method: 'GET',
+            url: VentaPasajesApp.path_location + "pasajes/getData/:bus_asiento_id/:programacion_id/:detalle_desplazamiento_id.json"
         }
     });
 });

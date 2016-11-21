@@ -11,7 +11,7 @@
     $pdf->AddPage();
     
     $pdf->SetFont("Arial", '', 16);
-    $pdf->Text($margen_x + 15, $margen_y + 20, utf8_decode(str_pad($pasaje->nro_doc, 6, '0', STR_PAD_LEFT)));
+    $pdf->Text($margen_x + 15, $margen_y + 20, utf8_decode($pasaje->cod_boleto));
 
     if ($pasaje->cliente) {
         // Razon Social
@@ -33,11 +33,11 @@
     
     // Fecha de Viaje
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 17, $margen_y + 42, utf8_decode((new \Cake\I18n\Time($pasaje->programacion->fechahora_prog))->format('Y-m-d')));
+    $pdf->Text($margen_x + 17, $margen_y + 42, utf8_decode($pasaje->programacion->fecha_prog));
     
     // Hora de Viaje
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 69, $margen_y + 42, utf8_decode((new \Cake\I18n\Time($pasaje->programacion->fechahora_prog))->format('H:i:s')));
+    $pdf->Text($margen_x + 69, $margen_y + 42, utf8_decode($pasaje->programacion->hora_prog));
     
     // Asientos
     $pdf->SetFont("Arial", '', 8);
@@ -45,7 +45,7 @@
     
     // Valor
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + -2, $margen_y + 54, utf8_decode(number_format($pasaje->valor, 2, '.', ',')));
+    $pdf->Text($margen_x + -2, $margen_y + 54, utf8_decode($pasaje->valor_formatted));
     
     // Origen
     $pdf->SetFont("Arial", '', 8);
@@ -82,7 +82,7 @@
    
     // Hora
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 169, $margen_y + 49, utf8_decode((new \Cake\I18n\Time($pasaje->programacion->fechahora_prog))->format('H:i:s')));
+    $pdf->Text($margen_x + 169, $margen_y + 49, utf8_decode($pasaje->programacion->hora_prog));
     
     // Destino
     $pdf->SetFont("Arial", '', 8);
@@ -90,7 +90,7 @@
     
     // Valor
     $pdf->SetFont("Arial", '', 8);
-    $pdf->Text($margen_x + 152, $margen_y + 64, utf8_decode(number_format($pasaje->valor, 2, '.', ',')));
+    $pdf->Text($margen_x + 152, $margen_y + 64, utf8_decode($pasaje->valor_formatted));
     
     $pdf->Output("Boleto_de_Viaje.pdf", "I");
 ?>

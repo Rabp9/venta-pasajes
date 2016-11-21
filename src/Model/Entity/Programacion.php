@@ -37,7 +37,7 @@ class Programacion extends Entity
         'id' => false
     ];
     
-    protected $_virtual = ['piloto', 'copiloto'];
+    protected $_virtual = ['piloto', 'copiloto', 'fecha_prog', 'hora_prog'];
     
     protected function _getFechahora_prog($fechahora_prog) {
         if (isset($fechahora_prog)) {
@@ -68,5 +68,13 @@ class Programacion extends Entity
             }
         }
         return '';
+    }
+    
+    protected function _getFechaProg() {
+        return (new \Cake\I18n\Time($this->_properties['fechahora_prog']))->format('Y-m-d');
+    }
+    
+    protected function _getHoraProg() {
+        return (new \Cake\I18n\Time($this->_properties['fechahora_prog']))->format('H:i:s');
     }
 }

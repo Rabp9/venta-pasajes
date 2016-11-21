@@ -6,6 +6,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     ClientesService, $rootScope
 ) {
     var date = new Date();
+    
     $scope.construct = function() {
         $scope.searching = false;
         $scope.reverse = false;
@@ -15,7 +16,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         $scope.personas = [];
         $scope.fecha = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
     };
-    
+
     $scope.construct();
 
     $("#txtFecha").datepicker({
@@ -118,6 +119,14 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                             detalle_desplazamiento_id: $scope.detalle_desplazamiento.id
                         }, function(data) {
                             $scope.programacion_selected.bus.bus_pisos[k_piso].bus_asientos[k_asiento].estado = data.estado;
+                        });
+                        
+                        PasajesService.getData({
+                            bus_asiento_id: v_asiento.id,
+                            programacion_id: $scope.programacion_selected.id,
+                            detalle_desplazamiento_id: $scope.detalle_desplazamiento.id
+                        }, function(data) {
+                            $scope.programacion_selected.bus.bus_pisos[k_piso].bus_asientos[k_asiento].pasaje = data.pasaje;
                         });
                     });
                 });
@@ -289,4 +298,18 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         });
     });
     
+    $scope.showData = function(pasaje) {
+        if (pasaje != null) {
+            var enter = "\n";
+            var codBoleta = 'Código Boleta: ' + pasaje.cod_boleto;
+            var pasajero = 'Pasajero: ' + pasaje.persona.full_name;
+            var dni = 'DNI: ' + pasaje.persona.dni;
+            var fechahora_prog = 'Fecha: ' + pasaje.programacion.fecha_prog;
+            var valor = 'Valor: ' + pasaje.valor_formatted;
+            
+            return codBoleta + enter + pasajero + enter + dni + enter + fechahora_prog + enter + valor;
+        } else {
+            return "";
+        }
+    }
 });

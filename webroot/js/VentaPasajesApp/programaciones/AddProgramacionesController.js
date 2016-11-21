@@ -2,8 +2,6 @@ var VentaPasajesApp = angular.module("VentaPasajesApp");
 
 VentaPasajesApp.controller("AddProgramacionesController", function($scope, ProgramacionesService, BusesService, RutasService, ServiciosService, ConductoresService, EstadosService, $filter) {  
     $scope.step = 1;
-    var date = new Date();
-    $scope.prefechahora_prog = date;
   
     BusesService.get(function(data) {
         $scope.buses = data.buses;

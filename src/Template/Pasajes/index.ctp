@@ -132,7 +132,8 @@ $this->assign("title", "Pasajes");
                                         class="draggable {{bus_asiento.estado}}" ng-class="" ng-repeat="bus_asiento in bus_piso.bus_asientos"
                                         style="position: absolute; left: {{bus_asiento.x}}; top: {{bus_asiento.y}}"
                                         ng-click="showBusAsiento(bus_asiento.id, bus_asiento.estado)"
-                                        ng-right-click="contextMenu(bus_asiento.id, bus_asiento.estado, $event)">
+                                        ng-right-click="contextMenu(bus_asiento.id, bus_asiento.estado, $event)"
+                                        title="{{showData(bus_asiento.pasaje)}}">
                                         <span>{{bus_asiento.nro_asiento}}</span>
                                     </div>
                                 </div>

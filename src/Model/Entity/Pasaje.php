@@ -36,4 +36,14 @@ class Pasaje extends Entity
         '*' => true,
         'id' => false
     ];
+    
+    protected $_virtual = ['cod_boleto', 'valor_formatted'];
+    
+    protected function _getCodBoleto() {
+        return str_pad($this->_properties['id'], 6, '0', STR_PAD_LEFT);
+    }
+    
+    protected function _getValorFormatted() {
+        return number_format($this->_properties['valor'], 2, '.', ',');
+    }
 }

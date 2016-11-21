@@ -238,4 +238,26 @@ class PasajesController extends AppController
         $this->set(compact('message'));
         $this->set('_serialize', ['message']);
     }
+    
+    public function getData() {
+        $this->viewBuilder()->layout(false);
+        
+        $this->loadModel('Restricciones');
+        
+        $bus_asiento_id = $this->request->param("bus_asiento_id");
+        $programacion_id = $this->request->param("programacion_id");
+        $detalle_desplazamiento_id = $this->request->param("detalle_desplazamiento_id");
+        
+        $pasaje = $this->Pasajes->find()
+            ->where([
+                "bus_asiento_id" => $bus_asiento_id, 
+                "programacion_id" => $programacion_id,
+                "detalle_desplazamiento_id" => $detalle_desplazamiento_id
+            ])
+            ->contain(['Personas', 'Programaciones'])
+            ->first();
+        
+        $this->set(compact('pasaje'));
+        $this->set('_serialize', ['pasaje']);
+    }
 }
