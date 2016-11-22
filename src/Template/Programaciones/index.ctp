@@ -44,6 +44,7 @@ Filtros:
                         <button ng-hide="programacion.fecha_via != null" ng-click="registrarSalida(programacion.id)" class="btn btn-primary btn-registrar-salida" title="Registrar Salida"><span class="glyphicon glyphicon-send"></span></button>
                         <button ng-show="programacion.fecha_via != null" ng-click="showListPasajeros(programacion.id)" class="btn btn-primary" title="Lista de Pasajeros"><span class="glyphicon glyphicon-object-align-left"></span></button>
                         <button ng-click="showListEncomiendas(programacion.id)" class="btn btn-primary" title="Lista de Encomiendas"><span class="glyphicon glyphicon-list"></span></button>
+                        <button ng-show="programacion.fecha_via != null" ng-click="showManifiestoPasajeros(programacion.id)" class="btn btn-primary" title="Manifiesto de Pasajeros"><span class="glyphicon glyphicon-list-alt"></span></button>
                     </td>
                 </tr>
             </table>

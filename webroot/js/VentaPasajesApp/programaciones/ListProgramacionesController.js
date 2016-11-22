@@ -90,6 +90,10 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
         $window.open('encomiendas/getByProgramacion/' + programacion_id, '_blank');
     }
     
+    $scope.showManifiestoPasajeros = function(programacion_id) {
+        $window.open('pasajes/getManifiesto/' + programacion_id, '_blank');
+    }
+        
     $scope.addProgramacion= function() {
         $('#aProgramacionesAdd').addClass('disabled');
         $('#aProgramacionesAdd').prop('disabled', true);
