@@ -244,7 +244,7 @@ class PasajesController extends AppController
                 "programacion_id" => $programacion_id,
                 "detalle_desplazamiento_id" => $detalle_desplazamiento_id
             ])
-            ->contain(['Personas', 'Programaciones'])
+            ->contain(['Personas', 'Programaciones', 'Estados'])
             ->first();
         
         $this->set(compact('pasaje'));

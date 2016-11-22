@@ -187,9 +187,14 @@ $this->assign("title", "Pasajes");
                         <input type="text" ng-model="pasaje.persona.full_name" class="form-control" readonly />
                     </div>
                     <div class="form-group">
-                        <label for="txtValor">Valor <small>({{ precio_min }} - {{ precio_max }})</small></label>
+                        <label for="txtValor" style="display: block;">Valor <small>({{ precio_min }} - {{ precio_max }})</small></label>
                         <input id="txtValor" type="number" min="{{ precio_min }}" 
-                            max="{{ precio_max }}" ng-model="pasaje.valor" class="form-control" required />
+                            max="{{ precio_max }}" ng-model="pasaje.valor" class="form-control" required style="display: inline; width: 56%;" />
+                        <select id="sltCondicion" ng-model="pasaje.estado_id" class="form-control" required style="display: inline; width: 42%;">
+                            <option value="">Seleccione</option>
+                            <option value="1">Comprar</option>
+                            <option value="5">Reservar</option>
+                        </select>
                     </div>
                     <button id="btnComprar{{$index}}" class="btn btn-primary" type="submit">Comprar</button>
                 </form>
