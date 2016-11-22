@@ -48,8 +48,8 @@ $this->assign("title", "Rutas");
                             <tbody>
                                 <tr ng-mouseover="showOptions = true" ng-mouseleave="showOptions = false" ng-repeat="detalle_desplazamiento in ruta_selected.detalle_desplazamientos" class="textnot2 animated" style="background-color: #fff;" onmouseover="style.backgroundColor='#cccccc';" onmouseout="style.backgroundColor='#fff'">
                                     <td width="5%" bgcolor="#D6E4F2">{{ detalle_desplazamiento.id }}</td>
-                                    <td width="35%" align="center">{{ detalle_desplazamiento.desplazamiento.AgenciaOrigen.direccion }} ({{ detalle_desplazamiento.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
-                                    <td width="35%" align="center">{{ detalle_desplazamiento.desplazamiento.AgenciaDestino.direccion }} ({{ detalle_desplazamiento.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
+                                    <td width="35%" align="center">{{ detalle_desplazamiento.desplazamiento.AgenciaOrigen.ubigeo.descripcion }} ({{ detalle_desplazamiento.desplazamiento.AgenciaOrigen.direccion }})</td>
+                                    <td width="35%" align="center">{{ detalle_desplazamiento.desplazamiento.AgenciaDestino.ubigeo.descripcion }} ({{ detalle_desplazamiento.desplazamiento.AgenciaDestino.direccion }})</td>
                                     <td width='2%'>
                                         <a style="cursor: pointer;" ng-click="removeDetalleDesplazamiento(detalle_desplazamiento.id, $event)" title="Eliminar"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
                                     </td>

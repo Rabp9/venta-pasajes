@@ -27,7 +27,7 @@ $this->assign("title", "Lista de Tarifas");
         <div class="form-group">
             <label for="sltOrigen">Origen</label>
             <select id="sltOrigen" class="form-control"
-                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                ng-options="agencia.id as agencia.ubigeo.descripcion + ' (' + agencia.direccion + ')' for agencia in agencias"
                 ng-model="origen_selected" ng-change="onSelected()">
                 <option value="">Selecciona una Agencia</option>
             </select>
@@ -37,7 +37,7 @@ $this->assign("title", "Lista de Tarifas");
         <div class="form-group">
             <label for="sltDestino">Destino</label>
             <select id="sltDestino" class="form-control"
-                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                ng-options="agencia.id as agencia.ubigeo.descripcion + ' (' + agencia.direccion + ')' for agencia in agencias"
                 ng-model="destino_selected" ng-change="onSelected()">
                 <option value="">Selecciona una Agencia</option>
             </select>
@@ -114,8 +114,8 @@ $this->assign("title", "Lista de Tarifas");
                         onmouseout="style.backgroundColor='#fff'">
                         
                         <td width="3%" bgcolor="#D6E4F2">{{ tarifa.id }}</td>
-                        <td width="8%">{{ tarifa.desplazamiento.AgenciaOrigen.direccion + ' (' + tarifa.desplazamiento.AgenciaOrigen.ubigeo.descripcion + ')' }}</td>
-                        <td width="8%">{{ tarifa.desplazamiento.AgenciaDestino.direccion + ' (' + tarifa.desplazamiento.AgenciaDestino.ubigeo.descripcion + ')' }}</td>
+                        <td width="8%">{{ tarifa.desplazamiento.AgenciaOrigen.ubigeo.descripcion + ' (' + tarifa.desplazamiento.AgenciaOrigen.direccion + ')' }}</td>
+                        <td width="8%">{{ tarifa.desplazamiento.AgenciaDestino.ubigeo.descripcion + ' (' + tarifa.desplazamiento.AgenciaDestino.direccion + ')' }}</td>
                         <td width="8%">{{ tarifa.servicio.descripcion }}</td>
                         <td width="5%">{{ tarifa.precio_min + ' - ' + tarifa.precio_max }}</td>
                         <td width="5%">{{ tarifa.tiempo }}</td>

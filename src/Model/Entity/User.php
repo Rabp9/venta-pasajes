@@ -38,7 +38,7 @@ class User extends Entity
                 if (isset($this->_properties['user_detalle']['agencia']['direccion'])) {
                     $agencia = $this->_properties['user_detalle']['agencia']['direccion'];
                     $ciudad = $this->_properties['user_detalle']['agencia']['ubigeo']['descripcion'];
-                    return $agencia . ' (' . $ciudad . ')';
+                    return $ciudad . ' (' . $agencia . ')';
                 }
             }
         }

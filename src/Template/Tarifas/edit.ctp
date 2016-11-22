@@ -9,22 +9,22 @@
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="txtServicioEdit">Servicio</label>
                                 <input id="txtServicioEdit" type="text" class="form-control" value="{{ editTarifa.servicio.descripcion }}" readonly />
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="txtOrigenEdit">Origen</label>
-                                <input id="txtOrigenEdit" type="text" class="form-control" value="{{ editTarifa.desplazamiento.AgenciaOrigen.direccion }}" readonly />
+                                <input id="txtOrigenEdit" type="text" class="form-control" value="{{ editTarifa.desplazamiento.AgenciaOrigen.ubigeo.descripcion + ' (' + editTarifa.desplazamiento.AgenciaOrigen.direccion + ')' }}" readonly />
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="txtDestinoEdit">Destino</label>
-                                <input id="txtDestinoEdit" type="text" class="form-control" value="{{ editTarifa.desplazamiento.AgenciaDestino.direccion }}" readonly />
+                                <input id="txtDestinoEdit" type="text" class="form-control" value="{{ editTarifa.desplazamiento.AgenciaDestino.ubigeo.descripcion + ' (' + editTarifa.desplazamiento.AgenciaDestino.direccion + ')' }}" readonly />
                             </div>
                         </div>
                     </div>

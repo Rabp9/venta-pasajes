@@ -39,7 +39,7 @@
                         <div class="form-group" ng-show="newUser.user_detalle.group_id == 2">
                             <label for="sltAgencia">Agencia</label>
                             <select id="sltAgencia" class="form-control"
-                                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                ng-options="agencia.id as agencia.ubigeo.descripcion + ' (' + agencia.direccion + ')' for agencia in agencias"
                                 ng-model="newUser.user_detalle.agencia_id">
                                 <option value="">Selecciona una Agencia</option>
                             </select>

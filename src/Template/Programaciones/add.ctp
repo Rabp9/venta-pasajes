@@ -67,10 +67,10 @@
 
                                     <ul class="tag-overflow">
                                         <li ng-repeat="detalle in rutaSelected.detalle_desplazamientos">
-                                            {{detalle.desplazamiento.AgenciaOrigen.direccion}} 
-                                            ({{detalle.desplazamiento.AgenciaOrigen.ubigeo.descripcion}}) - 
-                                            {{detalle.desplazamiento.AgenciaDestino.direccion}}
-                                            ({{detalle.desplazamiento.AgenciaDestino.ubigeo.descripcion}})
+                                            {{detalle.desplazamiento.AgenciaOrigen.ubigeo.descripcion}} 
+                                            ({{detalle.desplazamiento.AgenciaOrigen.direccion}}) - 
+                                            {{detalle.desplazamiento.AgenciaDestino.ubigeo.descripcion}}
+                                            ({{detalle.desplazamiento.AgenciaDestino.direccion}})
                                         </li>
                                     </ul>
                                 </dl>

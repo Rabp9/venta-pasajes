@@ -18,7 +18,7 @@
                                 <div class="form-group">
                                     <label for="sltOrigen">Origen</label>
                                     <select id="sltOrigen" class="form-control"
-                                        ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                        ng-options="agencia.id as agencia.ubigeo.descripcion + ' (' + agencia.direccion + ')' for agencia in agencias"
                                         ng-model="origen_selected" ng-change="onSelected()">
                                         <option value="">Selecciona una Agencia</option>
                                     </select>
@@ -28,7 +28,7 @@
                                 <div class="form-group">
                                     <label for="sltDestino">Destino</label>
                                     <select id="sltDestino" class="form-control"
-                                        ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                        ng-options="agencia.id as agencia.ubigeo.descripcion + ' (' + agencia.direccion + ')' for agencia in agencias"
                                         ng-model="destino_selected" ng-change="onSelected()">
                                         <option value="">Selecciona una Agencia</option>
                                     </select>

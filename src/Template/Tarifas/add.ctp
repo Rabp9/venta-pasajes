@@ -9,22 +9,22 @@
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-12">
                             <div class="form-group">
                                 <label for="txtServicioAdd">Servicio</label>
                                 <input id="txtServicioAdd" type="text" class="form-control" value="{{ Servicio.descripcion }}" readonly />
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="txtOrigenAdd">Origen</label>
-                                <input id="txtOrigenAdd" type="text" class="form-control" value="{{ AgenciaOrigen.direccion }}" readonly />
+                                <input id="txtOrigenAdd" type="text" class="form-control" value="{{ AgenciaOrigen.ubigeo.descripcion + ' (' + AgenciaOrigen.direccion + ')' }}" readonly />
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="txtDestinoAdd">Destino</label>
-                                <input id="txtDestinoAdd" type="text" class="form-control" value="{{ AgenciaDestino.direccion }}" readonly />
+                                <input id="txtDestinoAdd" type="text" class="form-control" value="{{ AgenciaDestino.ubigeo.descripcion + ' (' + AgenciaDestino.direccion + ')' }}" readonly />
                             </div>
                         </div>
                     </div>

@@ -66,7 +66,7 @@ $this->assign("title", "Encomiendas");
                                         <div class="form-group">
                                             <label for="sltOrigen">Origen</label>
                                             <select id="sltOrigen" class="form-control"
-                                                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                                ng-options="agencia.id as agencia.ubigeo.descripcion + ' (' + agencia.direccion + ')' for agencia in agencias"
                                                 ng-model="origen_selected" required>
                                                 <option value="">Selecciona una Agencia</option>
                                             </select>
@@ -76,7 +76,7 @@ $this->assign("title", "Encomiendas");
                                         <div class="form-group">
                                             <label for="sltDestino">Destino</label>
                                             <select id="sltDestino" class="form-control"
-                                                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                                ng-options="agencia.id as agencia.ubigeo.descripcion + ' (' + agencia.direccion + ')' for agencia in agencias"
                                                 ng-model="destino_selected" required>
                                                 <option value="">Selecciona una Agencia</option>
                                             </select>
@@ -253,8 +253,8 @@ $this->assign("title", "Encomiendas");
                                     <td width="1%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
                                     <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control encomiendas_selected" checklist-model="encomiendas_selected" checklist-value="encomienda.id"/></td>
                                     <td width="3%">{{ encomienda.documento }}</td>
-                                    <td width="5%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
-                                    <td width="5%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
+                                    <td width="5%">{{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }} ({{ encomienda.desplazamiento.AgenciaOrigen.direccion }})</td>
+                                    <td width="5%">{{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }} ({{ encomienda.desplazamiento.AgenciaDestino.direccion }})</td>
                                     <td width="5%">{{ encomienda.personaRemitente.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaRemitente.dni }}</span></td>
                                     <td width="5%">{{ encomienda.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaDestinatario.dni }}</span></td>
                                     <td width="5%">{{ encomienda.fechahora | date : 'yyyy-MM-dd' }}</td>
@@ -346,8 +346,8 @@ $this->assign("title", "Encomiendas");
                                     <td width="1%" bgcolor="#D6E4F2">{{ encomienda.id }}</td>
                                     <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control encomiendas_asignados_selected" checklist-model="encomiendas_asignados_selected" checklist-value="encomienda.id"/></td>
                                     <td width="3%">{{ encomienda.documento }}</td>
-                                    <td width="5%">{{ encomienda.desplazamiento.AgenciaOrigen.direccion }} ({{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
-                                    <td width="5%">{{ encomienda.desplazamiento.AgenciaDestino.direccion }} ({{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
+                                    <td width="5%">{{ encomienda.desplazamiento.AgenciaOrigen.ubigeo.descripcion }} ({{ encomienda.desplazamiento.AgenciaOrigen.direccion }})</td>
+                                    <td width="5%">{{ encomienda.desplazamiento.AgenciaDestino.ubigeo.descripcion }} ({{ encomienda.desplazamiento.AgenciaDestino.direccion }})</td>
                                     <td width="5%">{{ encomienda.personaRemitente.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaRemitente.dni }}</span></td>
                                     <td width="5%">{{ encomienda.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ encomienda.personaDestinatario.dni }}</span></td>
                                     <td width="5%">{{ encomienda.fechahora | date: 'yyyy-MM-dd' }}</td>
@@ -432,14 +432,14 @@ $this->assign("title", "Encomiendas");
                         <div class="row">
                             <div class="col-sm-6">
                                 <select id="sltOrigen" class="form-control"
-                                    ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                    ng-options="agencia.id as agencia.ubigeo.descripcion + ' (' + agencia.direccion + ')' for agencia in agencias"
                                     ng-model="origen_selected" ng-change="onSearchChange()">
                                     <option value="">Selecciona un Origen</option>
                                 </select>
                             </div>
                             <div class="col-sm-6">
                                 <select id="sltDestino" class="form-control"
-                                    ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                    ng-options="agencia.id as agencia.ubigeo.descripcion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
                                     ng-model="destino_selected" ng-change="onSearchChange()">
                                     <option value="">Selecciona un Destino</option>
                                 </select>

@@ -66,7 +66,7 @@ $this->assign("title", "Giros");
                                         <div class="form-group">
                                             <label for="sltOrigen">Origen</label>
                                             <select id="sltOrigen" class="form-control"
-                                                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                                ng-options="agencia.id as agencia.ubigeo.descripcion + ' (' + agencia.direccion + ')' for agencia in agencias"
                                                 ng-model="origen_selected" required>
                                                 <option value="">Selecciona una Agencia</option>
                                             </select>
@@ -76,7 +76,7 @@ $this->assign("title", "Giros");
                                         <div class="form-group">
                                             <label for="sltDestino">Destino</label>
                                             <select id="sltDestino" class="form-control"
-                                                ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias"
+                                                ng-options="agencia.id as agencia.ubigeo.descripcion + ' (' + agencia.direccion + ')' for agencia in agencias"
                                                 ng-model="destino_selected" required>
                                                 <option value="">Selecciona una Agencia</option>
                                             </select>
@@ -201,8 +201,8 @@ $this->assign("title", "Giros");
                                     <td width="1%" bgcolor="#D6E4F2">{{ giro.id }}</td>
                                     <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control giros_selected" checklist-model="giros_selected" checklist-value="giro.id"/></td>
                                     <td width="3%">{{ giro.documento }}</td>
-                                    <td width="5%">{{ giro.desplazamiento.AgenciaOrigen.direccion }} ({{ giro.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
-                                    <td width="5%">{{ giro.desplazamiento.AgenciaDestino.direccion }} ({{ giro.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
+                                    <td width="5%">{{ giro.desplazamiento.AgenciaOrigen.ubigeo.descripcion }} ({{ giro.desplazamiento.AgenciaOrigen.direccion }})</td>
+                                    <td width="5%">{{ giro.desplazamiento.AgenciaDestino.ubigeo.descripcion }} ({{ giro.desplazamiento.AgenciaDestino.direccion }})</td>
                                     <td width="5%">{{ giro.personaRemitente.full_name }}<br/><span style="font-weight: bold;">{{ giro.personaRemitente.dni }}</span></td>
                                     <td width="5%">{{ giro.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ giro.personaDestinatario.dni }}</span></td>
                                     <td width="5%">{{ giro.fecha | date : 'yyyy-MM-dd' }}</td>
@@ -294,8 +294,8 @@ $this->assign("title", "Giros");
                                     <td width="1%" bgcolor="#D6E4F2">{{ giro.id }}</td>
                                     <td width="1%" bgcolor="#D6E4F2"><input type="checkbox" class="form-control giros_asignados_selected" checklist-model="giros_asignados_selected" checklist-value="giro.id"/></td>
                                     <td width="3%">{{ giro.documento }}</td>
-                                    <td width="5%">{{ giro.desplazamiento.AgenciaOrigen.direccion }} ({{ giro.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
-                                    <td width="5%">{{ giro.desplazamiento.AgenciaDestino.direccion }} ({{ giro.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
+                                    <td width="5%">{{ giro.desplazamiento.AgenciaOrigen.ubigeo.descripcion }} ({{ giro.desplazamiento.AgenciaOrigen.direccion }})</td>
+                                    <td width="5%">{{ giro.desplazamiento.AgenciaDestino.ubigeo.descripcion }} ({{ giro.desplazamiento.AgenciaDestino.direccion }})</td>
                                     <td width="5%">{{ giro.personaRemitente.full_name }}<br/><span style="font-weight: bold;">{{ giro.personaRemitente.dni }}</span></td>
                                     <td width="5%">{{ giro.personaDestinatario.full_name }}<br/><span style="font-weight: bold;">{{ giro.personaDestinatario.dni }}</span></td>
                                     <td width="5%">{{ giro.fecha | date : 'yyyy-MM-dd' }}</td>

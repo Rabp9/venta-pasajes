@@ -36,7 +36,7 @@ $this->assign("title", "Administrar");
                 <div class="col-sm-12">
                     <label for="sltAgencia">Agencia</label>
                     <select id="sltAgencia" ng-model="user.user_detalle.agencia_id" ng-value="4" class="form-control"
-                        ng-options="agencia.id as agencia.direccion + ' (' + agencia.ubigeo.descripcion + ')' for agencia in agencias">
+                        ng-options="agencia.id as agencia.ubigeo.descripcion + ' (' + agencia.direccion + ')' for agencia in agencias">
                         <option value="">Seleecionar Agencia</option>
                     </select>
                 </div>

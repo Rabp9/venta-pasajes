@@ -47,8 +47,8 @@
                             <tbody>
                                 <tr ng-repeat="desplazamiento in desplazamientos_x">
                                     <td>{{desplazamiento.id}}</td>
-                                    <td>{{desplazamiento.desplazamiento.AgenciaOrigen.direccion }} ({{desplazamiento.desplazamiento.AgenciaOrigen.ubigeo.descripcion }})</td>
-                                    <td>{{desplazamiento.desplazamiento.AgenciaDestino.direccion }} ({{desplazamiento.desplazamiento.AgenciaDestino.ubigeo.descripcion }})</td>
+                                    <td>{{desplazamiento.desplazamiento.AgenciaOrigen.ubigeo.descripcion }} ({{ desplazamiento.desplazamiento.AgenciaOrigen.direccion }})</td>
+                                    <td>{{desplazamiento.desplazamiento.AgenciaDestino.ubigeo.descripcion }} ({{ desplazamiento.desplazamiento.AgenciaDestino.direccion }})</td>
                                 </tr>
                             </tbody>
                         </table>
