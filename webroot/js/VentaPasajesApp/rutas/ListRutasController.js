@@ -139,7 +139,7 @@ VentaPasajesApp.controller("ListRutasController", function($scope, RutasService,
         if ($scope.ruta_selected.detalle_desplazamientos.length) {
             $('#btnSetRestricciones').addClass("disabled");
             $("#btnSetRestricciones").attr("disabled", true);
-            $scope.modalRestriccionesUrl = VentaPasajesApp.path_location + "detalleDesplazamientos/setRestricciones";
+            $scope.modalRestriccionesUrl = VentaPasajesApp.path_location + "detalleDesplazamientos/setRestricciones/" + $scope.ruta_selected.id;
         } else {
             alert('No ha agregado desplazamientos aún');
         }

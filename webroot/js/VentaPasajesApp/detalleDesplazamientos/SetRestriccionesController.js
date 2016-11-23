@@ -34,7 +34,7 @@ VentaPasajesApp.controller("SetRestriccionesController", function($scope, Restri
        
     $scope.list();
     
-    $scope.setRestricciones = function() {
+    $scope.setRestricciones = function(id) {
         $('#btnRegistrarRestricciones').addClass("disabled");
         $("#btnRegistrarRestricciones").attr("disabled", true);
         
@@ -47,6 +47,7 @@ VentaPasajesApp.controller("SetRestriccionesController", function($scope, Restri
         
         RestriccionesService.saveMany($scope.restricciones, function(data) {
             $scope.$parent.actualizarMessage(data.message);
+            $scope.$parent.fetchDesplazamientos(id);
             $("#mdlRestricciones").modal('toggle');
             
             $('#btnRegistrarRestricciones').removeClass("disabled");

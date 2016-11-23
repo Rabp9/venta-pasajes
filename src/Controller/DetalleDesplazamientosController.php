@@ -90,6 +90,8 @@ class DetalleDesplazamientosController extends AppController
     
     public function setRestricciones($id = null) {
         $this->viewBuilder()->layout(false);
+        $this->set(compact("id"));
+        $this->set('_serialize', ["id"]);
     }
     
     public function getByRutaAndDesplazamiento() {
