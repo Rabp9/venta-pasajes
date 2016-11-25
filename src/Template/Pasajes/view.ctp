@@ -13,6 +13,10 @@
     $pdf->SetFont("Arial", '', 16);
     $pdf->Text($margen_x + 15, $margen_y + 20, utf8_decode($pasaje->cod_boleto));
 
+    if ($pasaje->estado->id == 6) {
+        $pdf->Text(182, 6, utf8_decode('Reservado'));
+    }
+    
     if ($pasaje->cliente) {
         // Razon Social
         $pdf->SetFont("Arial", '', 8);

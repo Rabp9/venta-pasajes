@@ -53,6 +53,11 @@ body {
     color: white;
 }
 
+.reservado {
+    background-color: blue;
+    color: white;
+}
+
 .asientoSelected {
     border: 5px solid blue;
 }

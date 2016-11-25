@@ -20,8 +20,8 @@ class PasajesController extends AppController
         if ($pasaje->cliente_id) {
             $pasaje = $this->Pasajes->find()
                 ->where(['Pasajes.id' => $id])
-                ->contain(['Clientes', 'Personas', 'BusAsientos', 
-                    'Programaciones',
+                ->contain(['Clientes', 'Personas', 'BusAsientos',
+                    'Programaciones', 'Estados',
                     'DetalleDesplazamientos' => [
                         'Desplazamientos' => [
                             'AgenciaOrigen' => ['Ubigeos'],
@@ -33,7 +33,7 @@ class PasajesController extends AppController
             $pasaje = $this->Pasajes->find()
                 ->where(['Pasajes.id' => $id])
                 ->contain(['Personas', 'BusAsientos', 
-                    'Programaciones',
+                    'Programaciones', 'Estados',
                     'DetalleDesplazamientos' => [
                         'Desplazamientos' => [
                             'AgenciaOrigen' => ['Ubigeos'],

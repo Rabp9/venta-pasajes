@@ -7,6 +7,7 @@ INSERT INTO estados(descripcion) values
 	('inactivo'),
     ('programado'),
     ('entregado'),
+    ('comprado'),
     ('reservado');
 
 -- Agencias

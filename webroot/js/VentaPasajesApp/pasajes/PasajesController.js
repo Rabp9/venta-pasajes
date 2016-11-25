@@ -169,7 +169,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                             detalle_desplazamiento_id: $scope.detalle_desplazamiento.id,
                             tipodoc: 'boleta',
                             nro_doc: nro_doc,
-                            estado_id: 1
+                            estado_id: 5
                         }
                         $scope.pasajes.push(pasaje);
                         $('#asiento' + data_busAsiento.busAsiento.bus_piso.nro_piso + data_busAsiento.busAsiento.nro_asiento).addClass('asientoSelected');
@@ -312,6 +312,18 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
             return codBoleta + enter + pasajero + enter + dni + enter + fechahora_prog + enter + valor + enter + estado;
         } else {
             return "";
+        }
+    }
+    
+    $scope.showEstado = function(estado, pasaje) {
+        if (pasaje != null) {
+            if (pasaje.estado.id == 6) {
+                return 'reservado';
+            } else {
+                return estado;
+            }
+        } else {
+            return estado;
         }
     }
 });

@@ -129,7 +129,7 @@ $this->assign("title", "Pasajes");
                                     <img id="img-bus{{bus_piso.nro_piso}}" class="img-bus" 
                                          ng-src="img/buses/{{bus_piso.imagen}}"/>
                                     <div id="asiento{{bus_piso.nro_piso}}{{bus_asiento.nro_asiento}}" 
-                                        class="draggable {{bus_asiento.estado}}" ng-class="" ng-repeat="bus_asiento in bus_piso.bus_asientos"
+                                        class="draggable {{showEstado(bus_asiento.estado, bus_asiento.pasaje)}}" ng-class="" ng-repeat="bus_asiento in bus_piso.bus_asientos"
                                         style="position: absolute; left: {{bus_asiento.x}}; top: {{bus_asiento.y}}"
                                         ng-click="showBusAsiento(bus_asiento.id, bus_asiento.estado)"
                                         ng-right-click="contextMenu(bus_asiento.id, bus_asiento.estado, $event)"
@@ -190,10 +190,9 @@ $this->assign("title", "Pasajes");
                         <label for="txtValor" style="display: block;">Valor <small>({{ precio_min }} - {{ precio_max }})</small></label>
                         <input id="txtValor" type="number" min="{{ precio_min }}" 
                             max="{{ precio_max }}" ng-model="pasaje.valor" class="form-control" required style="display: inline; width: 56%;" />
-                        <select id="sltCondicion" ng-model="pasaje.estado_id" class="form-control" required style="display: inline; width: 42%;">
+                        <select id="sltCondicion" ng-model="pasaje.estado_id" class="form-control" required style="display: inline; width: 42%;"
+                                ng-options="estado.id as estado.descripcion for estado in [{id: 5, descripcion: 'Comprar'}, {id: 6, descripcion: 'Reservar'}]">
                             <option value="">Seleccione</option>
-                            <option value="1">Comprar</option>
-                            <option value="5">Reservar</option>
                         </select>
                     </div>
                     <button id="btnComprar{{$index}}" class="btn btn-primary" type="submit">Comprar</button>
