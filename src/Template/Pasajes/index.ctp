@@ -12,7 +12,7 @@ $this->assign("title", "Pasajes");
     <button type="button" class="close" ng-click="message.type = ''"><span aria-hidden="true">&times;</span></button>
     {{ message.text }}
 </div>
-
+{{ showDetallesOption | json }}
 <div class="row">
     <div class="col-md-9">
         <div id="dvFiltros" class="row">
@@ -212,6 +212,7 @@ $this->assign("title", "Pasajes");
 <div id="cmnPasajes" class="dropdown open">
     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
         <li><a ng-click="print()">Imprimir</a></li>
+        <li ng-show="showDetallesOption"><a ng-click="showDetallesWindow()">Detalles</a></li>
         <li role="separator" class="divider"></li>
         <li><a ng-click="cancel()">Cancelar</a></li>
     </ul>

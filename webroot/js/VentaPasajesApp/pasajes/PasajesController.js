@@ -56,6 +56,18 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                 top: $event.pageY + alter
             });
             $scope.busPrintSelected = bus_asiento_id;
+            
+            PasajesService.getData({
+                bus_asiento_id: bus_asiento_id,
+                programacion_id: $scope.programacion_selected.id,
+                detalle_desplazamiento_id: $scope.detalle_desplazamiento.id
+            }, function(data) {
+                if (data.pasaje) {
+                    $scope.showDetallesOption = true;
+                } else {
+                    $scope.showDetallesOption = false;
+                }
+            });
         }
     }
    
@@ -325,5 +337,9 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         } else {
             return estado;
         }
+    };
+    
+    $scope.showDetallesWindow = function() {
+        
     }
 });
