@@ -250,4 +250,16 @@ class PasajesController extends AppController
         $this->set(compact('pasaje'));
         $this->set('_serialize', ['pasaje']);
     }
+    
+    public function detalle($id) {
+        $this->viewBuilder()->layout(false);
+        
+        $pasaje = $this->Pasajes->find()
+            ->where(["Pasajes.id" => $id])
+            ->contain(['Personas', 'Programaciones', 'Estados'])
+            ->first();
+        
+        $this->set(compact('pasaje'));
+        $this->set('_serialize', ['pasaje']);
+    }
 }

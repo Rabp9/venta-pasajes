@@ -340,6 +340,26 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
     };
     
     $scope.showDetallesWindow = function() {
+        var programacion_id = $scope.programacion_selected.id;
+        var detalle_desplazamiento_id = $scope.detalle_desplazamiento.id;
+        var bus_asiento_id = $scope.busPrintSelected;
         
+        PasajesService.getForPrint({
+            programacion_id: programacion_id,
+            detalle_desplazamiento_id: detalle_desplazamiento_id,
+            bus_asiento_id: bus_asiento_id
+        }, function(data) {
+            $scope.modalUrlPasaje = VentaPasajesApp.path_location + "pasajes/detalle/" + data.pasaje.id;
+        });
+    };
+    
+    $scope.openPasajeDetalleModal = function() {
+        $("#mdlDetallePasaje").modal("toggle");
     }
+    
+    $("#mdlDetallePasaje").on("hidden.bs.modal", function(e) {
+        $scope.$apply(function() {
+            $scope.modalUrlPasaje = "";
+        });
+    });
 });
