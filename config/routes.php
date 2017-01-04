@@ -270,6 +270,10 @@ Router::scope('/', function ($routes) {
                 'action' => 'getData',
                 'method' => 'GET'
             ],
+            'confirmarCompra' => [
+                'action' => 'confirmarCompra',
+                'method' => 'POST'
+            ],
         ]
     ]);
     $routes->resources('Ubigeos', [

@@ -213,6 +213,7 @@ $this->assign("title", "Pasajes");
     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
         <li><a ng-click="print()">Imprimir</a></li>
         <li ng-show="showDetallesOption"><a ng-click="showDetallesWindow()">Detalles</a></li>
+        <li ng-show="showConfirmarCompraOption"><a ng-click="confirmarCompra()">Confirmar Compra</a></li>
         <li role="separator" class="divider"></li>
         <li><a ng-click="cancel()">Cancelar</a></li>
     </ul>

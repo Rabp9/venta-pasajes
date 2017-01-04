@@ -262,4 +262,35 @@ class PasajesController extends AppController
         $this->set(compact('pasaje'));
         $this->set('_serialize', ['pasaje']);
     }
+    
+    public function confirmarCompra() {
+        $this->viewBuilder()->layout(false);
+        
+        $programacion_id = $this->request->data['programacion_id'];
+        $detalle_desplazamiento_id = $this->request->data['detalle_desplazamiento_id'];
+        $bus_asiento_id = $this->request->data['bus_asiento_id'];
+      
+        $pasaje = $this->Pasajes->find()
+            ->where([
+                'programacion_id' => $programacion_id,
+                'detalle_desplazamiento_id' => $detalle_desplazamiento_id,
+                'bus_asiento_id' => $bus_asiento_id
+            ])->first();
+        
+        $pasaje->estado_id = 5;
+        if ($this->Pasajes->save($pasaje)) {
+            $message = array(
+                'text' => __('Compra confirmada correctamente'),
+                'type' => 'success'
+            );
+        } else {
+            $message = array(
+                'text' => __('No fue posible confirmar la compra'),
+                'type' => 'error'
+            );
+        }
+        
+        $this->set(compact('message'));
+        $this->set('_serialize', ['message']);
+    }
 }

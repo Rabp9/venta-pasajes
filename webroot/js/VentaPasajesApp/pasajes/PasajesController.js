@@ -67,6 +67,11 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                 } else {
                     $scope.showDetallesOption = false;
                 }
+                if(data.pasaje.estado_id == 6) {
+                    $scope.showConfirmarCompraOption = true;
+                } else {
+                    $scope.showConfirmarCompraOption = false;
+                }
             });
         }
     }
@@ -362,4 +367,21 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
             $scope.modalUrlPasaje = "";
         });
     });
+    
+    $scope.confirmarCompra = function() {
+        if (confirm('¿Está seguro de confirmar esta reservación?')) {
+            var programacion_id = $scope.programacion_selected.id;
+            var detalle_desplazamiento_id = $scope.detalle_desplazamiento.id;
+            var bus_asiento_id = $scope.busPrintSelected;
+            
+            PasajesService.confirmarCompra({
+                programacion_id: programacion_id,
+                detalle_desplazamiento_id: detalle_desplazamiento_id,
+                bus_asiento_id: bus_asiento_id
+            }, function(data) {
+                $scope.message = data.message;
+                $scope.onProgramacionSelect(programacion_id);
+            });
+        }
+    }
 });
