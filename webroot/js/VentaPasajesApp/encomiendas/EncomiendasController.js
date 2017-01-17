@@ -372,7 +372,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     };
     
     $scope.printBoleta = function(id) {
-        $window.open('encomiendas/' + id, '_blank');
+        $window.open('encomiendas/' + id, '_blank', 'Boleta');
     };
     
     $scope.cancelarAsignacion = function(id) {

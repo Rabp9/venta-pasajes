@@ -277,7 +277,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
             detalle_desplazamiento_id: detalle_desplazamiento_id,
             bus_asiento_id: bus_asiento_id
         }, function(data) {
-            $window.open('pasajes/' + data.pasaje.id, '_blank');
+            $window.open('pasajes/' + data.pasaje.id, '_blank', 'Boleto de Viaje');
         });
     };
     

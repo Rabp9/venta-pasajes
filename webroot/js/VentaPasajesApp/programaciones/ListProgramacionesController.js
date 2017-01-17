@@ -87,11 +87,11 @@ VentaPasajesApp.controller("ListProgramacionesController", function($scope, Prog
     }
     
     $scope.showListEncomiendas = function(programacion_id) {
-        $window.open('encomiendas/getByProgramacion/' + programacion_id, '_blank');
+        $window.open('encomiendas/getByProgramacion/' + programacion_id, '_blank', 'Lista de Encomiendas');
     }
     
     $scope.showManifiestoPasajeros = function(programacion_id) {
-        $window.open('pasajes/getManifiesto/' + programacion_id, '_blank');
+        $window.open('pasajes/getManifiesto/' + programacion_id, '_blank', 'Manifiesto de Pasajeros');
     }
         
     $scope.addProgramacion= function() {

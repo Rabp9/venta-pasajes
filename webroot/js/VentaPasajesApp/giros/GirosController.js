@@ -301,7 +301,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
     };
     
     $scope.printBoleta = function(id) {
-        $window.open('giros/' + id, '_blank');
+        $window.open('giros/' + id, '_blank', 'Boleta');
     };
     
     $scope.cancelarAsignacion = function(id) {
