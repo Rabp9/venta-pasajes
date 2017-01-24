@@ -5,7 +5,7 @@
     $h_celda = 5;
     $meses = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SET', 'OCT', 'NOV', 'DIC'];
     
-    $pdf->setTitle(utf8_decode('Manifiesto de Pasajeros - Programación N° ' . $programacion->id));
+    $pdf->SetTitle(utf8_decode('Manifiesto de Pasajeros - Programación N° ' . $programacion->id));
     $pdf->SetLeftMargin(6);
     $pdf->SetAutoPageBreak(true, 5);  
     

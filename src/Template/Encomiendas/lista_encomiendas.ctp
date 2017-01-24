@@ -5,6 +5,7 @@
     $h_celda = 5;
     $meses = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SET', 'OCT', 'NOV', 'DIC'];
     
+    $pdf->SetTitle('Relación de Encomiendas');
     $pdf->SetLeftMargin(6);
     $pdf->SetAutoPageBreak(true, 5);  
     

@@ -5,6 +5,7 @@
     $h_celda = 3;
     $meses = ['ENE', 'FEB', 'MAR', 'ABR', 'MAY', 'JUN', 'JUL', 'AGO', 'SET', 'OCT', 'NOV', 'DIC'];
     
+    $pdf->SetTitle('Boleto de Viaje');
     $pdf->SetLeftMargin(6);
     $pdf->SetAutoPageBreak(true, 5);  
     
