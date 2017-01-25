@@ -225,7 +225,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         PasajesService.save(pasaje, function(data) {
             $("#frmPasaje" + index).parent().parent().fadeOut(500);
             $scope.onProgramacionSelect(programacion_id);
-            $window.open('pasajes/' + data.pasaje.id, '_blank');
+            $window.open('pasajes/' + data.pasaje.id, '_blank', 'Boleto de Viaje');
             $scope.pasajes.splice(index, 1);
             
             $('#btnComprar' + index).removeClass('disabled');
