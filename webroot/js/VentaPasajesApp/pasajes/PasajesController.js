@@ -46,7 +46,11 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         if (bus_asiento_estado == 'restringido') {
             var alter = 0;
             if ($event.pageY > document.body.clientHeight) {
-                alter = -200;
+                if ($($event.target).attr('class') == 'draggable  restringido') {
+                    alter = -228; // Comprado
+                } else if($($event.target).attr('class') == 'draggable  reservado') {
+                    alter = -255; // Reservado
+                }
             } else {
                 alter = -122;
             }
