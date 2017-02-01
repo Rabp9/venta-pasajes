@@ -192,9 +192,11 @@ VentaPasajesApp.directive('dvDraggable', function() {
 
             var bus_asiento = scope.bus.bus_pisos[nroPiso].bus_asientos[nroAsiento];
             
-            element.css("left", bus_asiento.x);
-            element.css("top", bus_asiento.y);
-            element.css("position", "absolute");
+            if (bus_asiento !== undefined) {
+                element.css("left", bus_asiento.x);
+                element.css("top", bus_asiento.y);
+                element.css("position", "absolute");
+            }
         }
     };
 });

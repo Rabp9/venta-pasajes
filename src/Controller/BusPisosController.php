@@ -28,6 +28,7 @@ class BusPisosController extends AppController
 
     public function add() {
         $this->viewBuilder()->layout(false);
+        
         if ($this->request->is("post")) {
             $conn = ConnectionManager::get($this->BusPisos->defaultConnectionName());
             $bus_pisos = $this->BusPisos->newEntities($this->request->data["bus_pisos"]);
