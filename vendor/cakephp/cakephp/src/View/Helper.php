@@ -37,7 +37,6 @@ use Cake\Event\EventListenerInterface;
  * - `beforeRenderFile(Event $event, $viewFile)` - Called before any view fragment is rendered.
  * - `afterRenderFile(Event $event, $viewFile, $content)` - Called after any view fragment is rendered.
  *   If a listener returns a non-null value, the output of the rendered file will be set to that.
- *
  */
 class Helper implements EventListenerInterface
 {
@@ -75,7 +74,7 @@ class Helper implements EventListenerInterface
     /**
      * Request object
      *
-     * @var \Cake\Network\Request
+     * @var \Cake\Http\ServerRequest
      */
     public $request = null;
 
@@ -119,7 +118,7 @@ class Helper implements EventListenerInterface
         $this->_View = $View;
         $this->request = $View->request;
 
-        $this->config($config);
+        $this->setConfig($config);
 
         if (!empty($this->helpers)) {
             $this->_helperMap = $View->helpers()->normalizeArray($this->helpers);
@@ -151,8 +150,19 @@ class Helper implements EventListenerInterface
         if (isset($this->_helperMap[$name]) && !isset($this->{$name})) {
             $config = ['enabled' => false] + (array)$this->_helperMap[$name]['config'];
             $this->{$name} = $this->_View->loadHelper($this->_helperMap[$name]['class'], $config);
+
             return $this->{$name};
         }
+    }
+
+    /**
+     * Get the view instance this helper is bound to.
+     *
+     * @return \Cake\View\View The bound view instance.
+     */
+    public function getView()
+    {
+        return $this->_View;
     }
 
     /**
@@ -173,6 +183,7 @@ class Helper implements EventListenerInterface
         if ($escape) {
             $confirm = h($confirm);
         }
+
         return $confirm;
     }
 
@@ -191,6 +202,7 @@ class Helper implements EventListenerInterface
         } else {
             $options[$key] = $class;
         }
+
         return $options;
     }
 
@@ -221,6 +233,7 @@ class Helper implements EventListenerInterface
                 $events[$event] = $method;
             }
         }
+
         return $events;
     }
 
@@ -251,7 +264,7 @@ class Helper implements EventListenerInterface
             'fieldset' => $this->fieldset,
             'tags' => $this->tags,
             'implementedEvents' => $this->implementedEvents(),
-            '_config' => $this->config(),
+            '_config' => $this->getConfig(),
         ];
     }
 }

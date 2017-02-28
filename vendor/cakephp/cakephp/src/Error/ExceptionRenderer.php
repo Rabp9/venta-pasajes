@@ -20,8 +20,8 @@ use Cake\Core\Configure;
 use Cake\Core\Exception\Exception as CakeException;
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Event\Event;
+use Cake\Http\ServerRequest;
 use Cake\Network\Exception\HttpException;
-use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\Routing\DispatcherFactory;
 use Cake\Routing\Router;
@@ -47,15 +47,22 @@ use PDOException;
  * Using a subclass of ExceptionRenderer gives you full control over how Exceptions are rendered, you
  * can configure your class in your config/app.php.
  */
-class ExceptionRenderer
+class ExceptionRenderer implements ExceptionRendererInterface
 {
+
+    /**
+     * The exception being handled.
+     *
+     * @var \Exception
+     */
+    public $error;
 
     /**
      * Controller instance.
      *
      * @var \Cake\Controller\Controller
      */
-    public $controller = null;
+    public $controller;
 
     /**
      * Template to render for Cake\Core\Exception\Exception
@@ -70,13 +77,6 @@ class ExceptionRenderer
      * @var string
      */
     public $method = '';
-
-    /**
-     * The exception being handled.
-     *
-     * @var \Exception
-     */
-    public $error = null;
 
     /**
      * Creates the controller to perform rendering on the error response.
@@ -115,12 +115,13 @@ class ExceptionRenderer
     protected function _getController()
     {
         if (!$request = Router::getRequest(true)) {
-            $request = Request::createFromGlobals();
+            $request = ServerRequest::createFromGlobals();
         }
         $response = new Response();
 
         try {
             $class = App::className('Error', 'Controller', 'Controller');
+            /* @var \Cake\Controller\Controller $controller */
             $controller = new $class($request, $response);
             $controller->startupProcess();
             $startup = true;
@@ -141,6 +142,7 @@ class ExceptionRenderer
         if (empty($controller)) {
             $controller = new Controller($request, $response);
         }
+
         return $controller;
     }
 
@@ -165,7 +167,7 @@ class ExceptionRenderer
         }
 
         $message = $this->_message($exception, $code);
-        $url = $this->controller->request->here();
+        $url = $this->controller->request->getRequestTarget();
 
         if (method_exists($exception, 'responseHeader')) {
             $this->controller->response->header($exception->responseHeader());
@@ -189,6 +191,7 @@ class ExceptionRenderer
         if ($unwrapped instanceof CakeException && $isDebug) {
             $this->controller->set($unwrapped->getAttributes());
         }
+
         return $this->_outputMessage($template);
     }
 
@@ -207,8 +210,10 @@ class ExceptionRenderer
             $this->controller->response->body($result);
             $result = $this->controller->response;
         }
+
         return $result;
     }
+
     /**
      * Get method name
      *
@@ -225,6 +230,7 @@ class ExceptionRenderer
         }
 
         $method = Inflector::variable($baseClass) ?: 'error500';
+
         return $this->method = $method;
     }
 
@@ -266,19 +272,12 @@ class ExceptionRenderer
         $exception = $this->_unwrap($exception);
         $isHttpException = $exception instanceof HttpException;
 
-        if (!Configure::read('debug') && !$isHttpException) {
+        if (!Configure::read('debug') && !$isHttpException || $isHttpException) {
             $template = 'error500';
             if ($code < 500) {
                 $template = 'error400';
             }
-            return $this->template = $template;
-        }
 
-        if ($isHttpException) {
-            $template = 'error500';
-            if ($code < 500) {
-                $template = 'error400';
-            }
             return $this->template = $template;
         }
 
@@ -305,6 +304,7 @@ class ExceptionRenderer
         if ($errorCode >= 400 && $errorCode < 506) {
             $code = $errorCode;
         }
+
         return $code;
     }
 
@@ -318,18 +318,21 @@ class ExceptionRenderer
     {
         try {
             $this->controller->render($template);
+
             return $this->_shutdown();
         } catch (MissingTemplateException $e) {
             $attributes = $e->getAttributes();
             if (isset($attributes['file']) && strpos($attributes['file'], 'error500') !== false) {
                 return $this->_outputMessageSafe('error500');
             }
+
             return $this->_outputMessage('error500');
         } catch (MissingPluginException $e) {
             $attributes = $e->getAttributes();
             if (isset($attributes['plugin']) && $attributes['plugin'] === $this->controller->plugin) {
                 $this->controller->plugin = null;
             }
+
             return $this->_outputMessageSafe('error500');
         } catch (Exception $e) {
             return $this->_outputMessageSafe('error500');
@@ -348,13 +351,14 @@ class ExceptionRenderer
         $helpers = ['Form', 'Html'];
         $this->controller->helpers = $helpers;
         $builder = $this->controller->viewBuilder();
-        $builder->helpers($helpers, false)
-            ->layoutPath('')
-            ->templatePath('Error');
-        $view = $this->controller->createView();
+        $builder->setHelpers($helpers, false)
+            ->setLayoutPath('')
+            ->setTemplatePath('Error');
+        $view = $this->controller->createView('View');
 
         $this->controller->response->body($view->render($template, 'error'));
         $this->controller->response->type('html');
+
         return $this->controller->response;
     }
 
@@ -369,11 +373,16 @@ class ExceptionRenderer
     {
         $this->controller->dispatchEvent('Controller.shutdown');
         $dispatcher = DispatcherFactory::create();
+        $eventManager = $dispatcher->eventManager();
+        foreach ($dispatcher->filters() as $filter) {
+            $eventManager->on($filter);
+        }
         $args = [
             'request' => $this->controller->request,
             'response' => $this->controller->response
         ];
         $result = $dispatcher->dispatchEvent('Dispatcher.afterDispatch', $args);
-        return $result->data['response'];
+
+        return $result->getData('response');
     }
 }

@@ -62,7 +62,6 @@ use InvalidArgumentException;
  *
  * When using the `for` or `when` matchers, conditions will be re-checked on the before and after
  * callback as the conditions could change during the dispatch cycle.
- *
  */
 class DispatcherFilter implements EventListenerInterface
 {
@@ -102,7 +101,7 @@ class DispatcherFilter implements EventListenerInterface
         if (!isset($config['priority'])) {
             $config['priority'] = $this->_priority;
         }
-        $this->config($config);
+        $this->setConfig($config);
         if (isset($config['when']) && !is_callable($config['when'])) {
             throw new InvalidArgumentException('"when" conditions must be a callable.');
         }
@@ -139,7 +138,7 @@ class DispatcherFilter implements EventListenerInterface
      */
     public function handle(Event $event)
     {
-        $name = $event->name();
+        $name = $event->getName();
         list(, $method) = explode('.', $name);
         if (empty($this->_config['for']) && empty($this->_config['when'])) {
             return $this->{$method}($event);
@@ -157,7 +156,8 @@ class DispatcherFilter implements EventListenerInterface
      */
     public function matches(Event $event)
     {
-        $request = $event->data['request'];
+        /* @var \Cake\Http\ServerRequest $request */
+        $request = $event->getData('request');
         $pass = true;
         if (!empty($this->_config['for'])) {
             $len = strlen('preg:');
@@ -170,9 +170,10 @@ class DispatcherFilter implements EventListenerInterface
             }
         }
         if ($pass && !empty($this->_config['when'])) {
-            $response = $event->data['response'];
+            $response = $event->getData('response');
             $pass = $this->_config['when']($request, $response);
         }
+
         return $pass;
     }
 

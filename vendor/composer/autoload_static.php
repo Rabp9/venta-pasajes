@@ -18,6 +18,10 @@ class ComposerStaticInite9fe3149102b52199adeb55c96958940
     );
 
     public static $prefixLengthsPsr4 = array (
+        'Z' => 
+        array (
+            'Zend\\Diactoros\\' => 15,
+        ),
         'X' => 
         array (
             'XdgBaseDir\\' => 11,
@@ -27,19 +31,31 @@ class ComposerStaticInite9fe3149102b52199adeb55c96958940
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Yaml\\' => 23,
             'Symfony\\Component\\VarDumper\\' => 28,
+            'Symfony\\Component\\Process\\' => 26,
+            'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\Filesystem\\' => 29,
+            'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\Config\\' => 25,
+            'Seld\\PharUtils\\' => 15,
+            'Seld\\JsonLint\\' => 14,
+            'Seld\\CliPrompt\\' => 15,
         ),
         'P' => 
         array (
             'Psy\\' => 4,
+            'Psr\\Log\\' => 8,
+            'Psr\\Http\\Message\\' => 17,
             'PhpParser\\' => 10,
             'Phinx\\' => 6,
         ),
         'M' => 
         array (
             'Migrations\\' => 11,
+        ),
+        'J' => 
+        array (
+            'JsonSchema\\' => 11,
         ),
         'D' => 
         array (
@@ -48,6 +64,10 @@ class ComposerStaticInite9fe3149102b52199adeb55c96958940
         ),
         'C' => 
         array (
+            'Composer\\Spdx\\' => 14,
+            'Composer\\Semver\\' => 16,
+            'Composer\\CaBundle\\' => 18,
+            'Composer\\' => 9,
             'Cake\\Test\\' => 10,
             'Cake\\Composer\\' => 14,
             'Cake\\Chronos\\' => 13,
@@ -59,13 +79,17 @@ class ComposerStaticInite9fe3149102b52199adeb55c96958940
         ),
         'A' => 
         array (
-            'Aura\\Intl\\_Config\\' => 18,
+            'Aura\\Intl\\' => 10,
             'App\\Test\\' => 9,
             'App\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Zend\\Diactoros\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
+        ),
         'XdgBaseDir\\' => 
         array (
             0 => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src',
@@ -82,9 +106,21 @@ class ComposerStaticInite9fe3149102b52199adeb55c96958940
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
+        'Symfony\\Component\\Process\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/process',
+        ),
+        'Symfony\\Component\\Finder\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/finder',
+        ),
         'Symfony\\Component\\Filesystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/filesystem',
+        ),
+        'Symfony\\Component\\Debug\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/debug',
         ),
         'Symfony\\Component\\Console\\' => 
         array (
@@ -94,9 +130,29 @@ class ComposerStaticInite9fe3149102b52199adeb55c96958940
         array (
             0 => __DIR__ . '/..' . '/symfony/config',
         ),
+        'Seld\\PharUtils\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/seld/phar-utils/src',
+        ),
+        'Seld\\JsonLint\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/seld/jsonlint/src/Seld/JsonLint',
+        ),
+        'Seld\\CliPrompt\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/seld/cli-prompt/src',
+        ),
         'Psy\\' => 
         array (
             0 => __DIR__ . '/..' . '/psy/psysh/src/Psy',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'PhpParser\\' => 
         array (
@@ -110,6 +166,10 @@ class ComposerStaticInite9fe3149102b52199adeb55c96958940
         array (
             0 => __DIR__ . '/..' . '/cakephp/migrations/src',
         ),
+        'JsonSchema\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/justinrainbow/json-schema/src/JsonSchema',
+        ),
         'DebugKit\\Test\\Fixture\\' => 
         array (
             0 => __DIR__ . '/..' . '/cakephp/debug_kit/tests/Fixture',
@@ -117,6 +177,22 @@ class ComposerStaticInite9fe3149102b52199adeb55c96958940
         'DebugKit\\' => 
         array (
             0 => __DIR__ . '/..' . '/cakephp/debug_kit/src',
+        ),
+        'Composer\\Spdx\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/spdx-licenses/src',
+        ),
+        'Composer\\Semver\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/semver/src',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
+        ),
+        'Composer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/composer/src/Composer',
         ),
         'Cake\\Test\\' => 
         array (
@@ -138,9 +214,9 @@ class ComposerStaticInite9fe3149102b52199adeb55c96958940
         array (
             0 => __DIR__ . '/..' . '/cakephp/bake/src',
         ),
-        'Aura\\Intl\\_Config\\' => 
+        'Aura\\Intl\\' => 
         array (
-            0 => __DIR__ . '/..' . '/aura/intl/config',
+            0 => __DIR__ . '/..' . '/aura/intl/src',
         ),
         'App\\Test\\' => 
         array (
@@ -160,13 +236,6 @@ class ComposerStaticInite9fe3149102b52199adeb55c96958940
                 0 => __DIR__ . '/..' . '/itbz/fpdf/src',
             ),
         ),
-        'P' => 
-        array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
-        ),
         'J' => 
         array (
             'JakubOnderka\\PhpConsoleHighlighter' => 
@@ -183,17 +252,6 @@ class ComposerStaticInite9fe3149102b52199adeb55c96958940
             'Detection' => 
             array (
                 0 => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/namespaced',
-            ),
-        ),
-        'A' => 
-        array (
-            'Aura\\Intl' => 
-            array (
-                0 => __DIR__ . '/..' . '/aura/intl/src',
-            ),
-            'Aura\\Composer\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/aura/installer-default/src',
             ),
         ),
     );

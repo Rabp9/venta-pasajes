@@ -80,6 +80,7 @@ class RuleInvoker
     public function setOptions(array $options)
     {
         $this->options = $options + $this->options;
+
         return $this;
     }
 
@@ -96,13 +97,14 @@ class RuleInvoker
         if ($name) {
             $this->name = $name;
         }
+
         return $this;
     }
 
     /**
      * Invoke the rule.
      *
-     * @param \Cake\Datasouce\EntityInterface $entity The entity the rule
+     * @param \Cake\Datasource\EntityInterface $entity The entity the rule
      *   should apply to.
      * @param array $scope The rule's scope/options.
      * @return bool Whether or not the rule passed.

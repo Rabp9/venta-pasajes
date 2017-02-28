@@ -16,7 +16,6 @@ namespace Cake\Event;
 
 /**
  * Implements Cake\Event\EventDispatcherInterface.
- *
  */
 trait EventDispatcherTrait
 {
@@ -49,9 +48,10 @@ trait EventDispatcherTrait
     {
         if ($eventManager !== null) {
             $this->_eventManager = $eventManager;
-        } elseif (empty($this->_eventManager)) {
+        } elseif ($this->_eventManager === null) {
             $this->_eventManager = new EventManager();
         }
+
         return $this->_eventManager;
     }
 

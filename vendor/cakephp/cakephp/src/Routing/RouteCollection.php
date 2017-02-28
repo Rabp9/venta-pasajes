@@ -14,8 +14,10 @@
  */
 namespace Cake\Routing;
 
+use Cake\Routing\Exception\DuplicateNamedRouteException;
 use Cake\Routing\Exception\MissingRouteException;
 use Cake\Routing\Route\Route;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Contains a collection of routes.
@@ -38,14 +40,14 @@ class RouteCollection
     /**
      * The routes connected to this collection.
      *
-     * @var array
+     * @var \Cake\Routing\Route\Route[]
      */
     protected $_routes = [];
 
     /**
      * The hash map of named routes that are in this collection.
      *
-     * @var array
+     * @var \Cake\Routing\Route\Route[]
      */
     protected $_named = [];
 
@@ -77,6 +79,14 @@ class RouteCollection
 
         // Explicit names
         if (isset($options['_name'])) {
+            if (isset($this->_named[$options['_name']])) {
+                $matched = $this->_named[$options['_name']];
+                throw new DuplicateNamedRouteException([
+                    'name' => $options['_name'],
+                    'url' => $matched->template,
+                    'duplicate' => $matched,
+                ]);
+            }
             $this->_named[$options['_name']] = $route;
         }
 
@@ -95,8 +105,8 @@ class RouteCollection
         }
         $this->_paths[$path][] = $route;
 
-        $extensions = $route->extensions();
-        if ($extensions) {
+        $extensions = $route->getExtensions();
+        if (count($extensions) > 0) {
             $this->extensions($extensions);
         }
     }
@@ -105,10 +115,11 @@ class RouteCollection
      * Takes the URL string and iterates the routes until one is able to parse the route.
      *
      * @param string $url URL to parse.
+     * @param string $method The HTTP method to use.
      * @return array An array of request parameters parsed from the URL.
      * @throws \Cake\Routing\Exception\MissingRouteException When a URL has no matching route.
      */
-    public function parse($url)
+    public function parse($url, $method = '')
     {
         $decoded = urldecode($url);
         foreach (array_keys($this->_paths) as $path) {
@@ -121,22 +132,65 @@ class RouteCollection
                 list($url, $queryParameters) = explode('?', $url, 2);
                 parse_str($queryParameters, $queryParameters);
             }
+            /* @var \Cake\Routing\Route\Route $route */
             foreach ($this->_paths[$path] as $route) {
-                $r = $route->parse($url);
+                $r = $route->parse($url, $method);
                 if ($r === false) {
                     continue;
                 }
                 if ($queryParameters) {
                     $r['?'] = $queryParameters;
                 }
+
                 return $r;
             }
         }
-        throw new MissingRouteException(['url' => $url]);
+
+        $exceptionProperties = ['url' => $url];
+        if ($method !== '') {
+            // Ensure that if the method is included, it is the first element of
+            // the array, to match the order that the strings are printed in the
+            // MissingRouteException error message, $_messageTemplateWithMethod.
+            $exceptionProperties = array_merge(['method' => $method], $exceptionProperties);
+        }
+        throw new MissingRouteException($exceptionProperties);
     }
 
     /**
-     * Get the set of names from the $url.  Accepts both older style array urls,
+     * Takes the ServerRequestInterface, iterates the routes until one is able to parse the route.
+     *
+     * @param \Psr\Http\Messages\ServerRequestInterface $request The request to parse route data from.
+     * @return array An array of request parameters parsed from the URL.
+     * @throws \Cake\Routing\Exception\MissingRouteException When a URL has no matching route.
+     */
+    public function parseRequest(ServerRequestInterface $request)
+    {
+        $uri = $request->getUri();
+        $urlPath = urldecode($uri->getPath());
+        foreach (array_keys($this->_paths) as $path) {
+            if (strpos($urlPath, $path) !== 0) {
+                continue;
+            }
+
+            /* @var \Cake\Routing\Route\Route $route */
+            foreach ($this->_paths[$path] as $route) {
+                $r = $route->parseRequest($request);
+                if ($r === false) {
+                    continue;
+                }
+                if ($uri->getQuery()) {
+                    parse_str($uri->getQuery(), $queryParameters);
+                    $r['?'] = $queryParameters;
+                }
+
+                return $r;
+            }
+        }
+        throw new MissingRouteException(['url' => $urlPath]);
+    }
+
+    /**
+     * Get the set of names from the $url. Accepts both older style array urls,
      * and newer style urls containing '_name'
      *
      * @param array $url The url to match.
@@ -159,7 +213,7 @@ class RouteCollection
             "${controller}:${action}",
             "${controller}:_action",
             "_controller:${action}",
-            "_controller:_action"
+            "_controller:_action",
         ];
 
         // No prefix, no plugin
@@ -191,7 +245,7 @@ class RouteCollection
                 "_prefix:${controller}:${action}",
                 "_prefix:${controller}:_action",
                 "_prefix:_controller:${action}",
-                "_prefix:_controller:_action"
+                "_prefix:_controller:_action",
             ];
         }
 
@@ -253,6 +307,7 @@ class RouteCollection
             if (empty($this->_routeTable[$name])) {
                 continue;
             }
+            /* @var \Cake\Routing\Route\Route $route */
             foreach ($this->_routeTable[$name] as $route) {
                 $match = $route->match($url, $context);
                 if ($match) {
@@ -266,7 +321,7 @@ class RouteCollection
     /**
      * Get all the connected routes as a flat list.
      *
-     * @return array
+     * @return \Cake\Routing\Route\Route[]
      */
     public function routes()
     {
@@ -276,7 +331,7 @@ class RouteCollection
     /**
      * Get the connected named routes.
      *
-     * @return array
+     * @return \Cake\Routing\Route\Route[]
      */
     public function named()
     {

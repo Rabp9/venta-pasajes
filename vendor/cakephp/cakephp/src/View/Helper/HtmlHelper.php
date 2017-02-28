@@ -25,7 +25,7 @@ use Cake\View\View;
  *
  * HtmlHelper encloses all methods needed while working with HTML pages.
  *
- * @property UrlHelper $Url
+ * @property \Cake\View\Helper\UrlHelper $Url
  * @link http://book.cakephp.org/3.0/en/views/helpers/html.html
  */
 class HtmlHelper extends Helper
@@ -89,6 +89,7 @@ class HtmlHelper extends Helper
      * Breadcrumbs.
      *
      * @var array
+     * @deprecated 3.3.6 Use the BreadcrumbsHelper instead
      */
     protected $_crumbs = [];
 
@@ -153,10 +154,12 @@ class HtmlHelper extends Helper
      * @return $this
      * @see \Cake\View\Helper\HtmlHelper::link() for details on $options that can be used.
      * @link http://book.cakephp.org/3.0/en/views/helpers/html.html#creating-breadcrumb-trails-with-htmlhelper
+     * @deprecated 3.3.6 Use the BreadcrumbsHelper instead
      */
     public function addCrumb($name, $link = null, array $options = [])
     {
         $this->_crumbs[] = [$name, $link, $options];
+
         return $this;
     }
 
@@ -183,6 +186,7 @@ class HtmlHelper extends Helper
         if (isset($this->_docTypes[$type])) {
             return $this->_docTypes[$type];
         }
+
         return null;
     }
 
@@ -191,7 +195,9 @@ class HtmlHelper extends Helper
      *
      * Create a meta tag that is output inline:
      *
-     * `$this->Html->meta('icon', 'favicon.ico');
+     * ```
+     * $this->Html->meta('icon', 'favicon.ico');
+     * ```
      *
      * Append the meta tag to custom view block "meta":
      *
@@ -236,6 +242,11 @@ class HtmlHelper extends Helper
                 'description' => ['name' => 'description', 'content' => $content],
                 'robots' => ['name' => 'robots', 'content' => $content],
                 'viewport' => ['name' => 'viewport', 'content' => $content],
+                'canonical' => ['rel' => 'canonical', 'link' => $content],
+                'next' => ['rel' => 'next', 'link' => $content],
+                'prev' => ['rel' => 'prev', 'link' => $content],
+                'first' => ['rel' => 'first', 'link' => $content],
+                'last' => ['rel' => 'last', 'link' => $content]
             ];
 
             if ($type === 'icon' && $content === null) {
@@ -302,6 +313,7 @@ class HtmlHelper extends Helper
         if (empty($charset)) {
             $charset = strtolower(Configure::read('App.encoding'));
         }
+
         return $this->formatTemplate('charset', [
             'charset' => (!empty($charset) ? $charset : 'utf-8')
         ]);
@@ -323,7 +335,7 @@ class HtmlHelper extends Helper
      *   over value of `escape`)
      * - `confirm` JavaScript confirmation message.
      *
-     * @param string $title The content to be wrapped by <a> tags.
+     * @param string $title The content to be wrapped by `<a>` tags.
      * @param string|array|null $url Cake-relative URL or array of URL parameters, or
      *   external URL (starts with http://)
      * @param array $options Array of options and HTML attributes.
@@ -365,6 +377,7 @@ class HtmlHelper extends Helper
         }
 
         $templater = $this->templater();
+
         return $templater->format('link', [
             'url' => $url,
             'attrs' => $templater->formatAttributes($options),
@@ -416,7 +429,7 @@ class HtmlHelper extends Helper
      *   CSS stylesheets. If `$path` is prefixed with '/', the path will be relative to the webroot
      *   of your application. Otherwise, the path will be relative to your CSS path, usually webroot/css.
      * @param array $options Array of options and HTML arguments.
-     * @return string|null CSS <link /> or <style /> tag, depending on the type of link.
+     * @return string|null CSS `<link />` or `<style />` tag, depending on the type of link.
      * @link http://book.cakephp.org/3.0/en/views/helpers/html.html#linking-to-css-files
      */
     public function css($path, array $options = [])
@@ -431,6 +444,7 @@ class HtmlHelper extends Helper
             if (empty($options['block'])) {
                 return $out . "\n";
             }
+
             return null;
         }
 
@@ -524,6 +538,7 @@ class HtmlHelper extends Helper
             if (empty($options['block'])) {
                 return $out . "\n";
             }
+
             return null;
         }
 
@@ -555,7 +570,8 @@ class HtmlHelper extends Helper
      *
      * ### Options
      *
-     * - `safe` (boolean) Whether or not the $script should be wrapped in <![CDATA[ ]]>
+     * - `safe` (boolean) Whether or not the $script should be wrapped in `<![CDATA[ ]]>`.
+     *   Defaults to `false`.
      * - `block` Set to true to append output to view block "script" or provide
      *   custom block name.
      *
@@ -567,7 +583,7 @@ class HtmlHelper extends Helper
      */
     public function scriptBlock($script, array $options = [])
     {
-        $options += ['safe' => true, 'block' => null];
+        $options += ['safe' => false, 'block' => null];
         if ($options['safe']) {
             $script = "\n" . '//<![CDATA[' . "\n" . $script . "\n" . '//]]>' . "\n";
         }
@@ -622,6 +638,7 @@ class HtmlHelper extends Helper
         $buffer = ob_get_clean();
         $options = $this->_scriptBlockOptions;
         $this->_scriptBlockOptions = [];
+
         return $this->scriptBlock($buffer, $options);
     }
 
@@ -651,6 +668,7 @@ class HtmlHelper extends Helper
         if ($oneLine) {
             return implode(' ', $out);
         }
+
         return implode("\n", $out);
     }
 
@@ -669,6 +687,7 @@ class HtmlHelper extends Helper
      *   also be an array, see above for details.
      * @return string|null Composed bread crumbs
      * @link http://book.cakephp.org/3.0/en/views/helpers/html.html#creating-breadcrumb-trails-with-htmlhelper
+     * @deprecated 3.3.6 Use the BreadcrumbsHelper instead
      */
     public function getCrumbs($separator = '&raquo;', $startText = false)
     {
@@ -682,8 +701,10 @@ class HtmlHelper extends Helper
                     $out[] = $crumb[0];
                 }
             }
+
             return implode($separator, $out);
         }
+
         return null;
     }
 
@@ -705,6 +726,7 @@ class HtmlHelper extends Helper
      *   also be an array, see `HtmlHelper::getCrumbs` for details.
      * @return string|null Breadcrumbs HTML list.
      * @link http://book.cakephp.org/3.0/en/views/helpers/html.html#creating-breadcrumb-trails-with-htmlhelper
+     * @deprecated 3.3.6 Use the BreadcrumbsHelper instead
      */
     public function getCrumbList(array $options = [], $startText = false)
     {
@@ -744,6 +766,7 @@ class HtmlHelper extends Helper
                 'attrs' => $this->templater()->formatAttributes($options)
             ]);
         }
+
         return $this->formatTemplate('ul', [
             'content' => $result,
             'attrs' => $this->templater()->formatAttributes($ulOptions)
@@ -756,6 +779,7 @@ class HtmlHelper extends Helper
      * @param string|array|bool $startText Text to prepend
      * @param bool $escape If the output should be escaped or not
      * @return array Crumb list including startText (if provided)
+     * @deprecated 3.3.6 Use the BreadcrumbsHelper instead
      */
     protected function _prepareCrumbs($startText, $escape = true)
     {
@@ -772,6 +796,7 @@ class HtmlHelper extends Helper
             unset($startText['url'], $startText['text']);
             array_unshift($crumbs, [$text, $url, $startText + ['escape' => $escape]]);
         }
+
         return $crumbs;
     }
 
@@ -834,6 +859,7 @@ class HtmlHelper extends Helper
                 'content' => $image
             ]);
         }
+
         return $image;
     }
 
@@ -901,6 +927,7 @@ class HtmlHelper extends Helper
             $count = 0;
         }
 
+        $out = [];
         foreach ($data as $line) {
             $count++;
             $cellsOut = $this->_renderCells($line, $useCount);
@@ -919,7 +946,7 @@ class HtmlHelper extends Helper
      *
      * @param array $line Line data to render.
      * @param bool $useCount Renders the count into the row. Default is false.
-     * @return string
+     * @return string[]
      */
     protected function _renderCells($line, $useCount = false)
     {
@@ -943,6 +970,7 @@ class HtmlHelper extends Helper
 
             $cellsOut[] = $this->tableCell($cell, $cellOptions);
         }
+
         return $cellsOut;
     }
 
@@ -1003,6 +1031,7 @@ class HtmlHelper extends Helper
         } else {
             $tag = 'tag';
         }
+
         return $this->formatTemplate($tag, [
             'attrs' => $this->templater()->formatAttributes($options),
             'tag' => $name,
@@ -1028,6 +1057,7 @@ class HtmlHelper extends Helper
         if (!empty($class)) {
             $options['class'] = $class;
         }
+
         return $this->tag('div', $text, $options);
     }
 
@@ -1055,6 +1085,7 @@ class HtmlHelper extends Helper
         if ($text === null) {
             $tag = 'parastart';
         }
+
         return $this->formatTemplate($tag, [
             'attrs' => $this->templater()->formatAttributes($options),
             'content' => $text,
@@ -1074,7 +1105,9 @@ class HtmlHelper extends Helper
      *
      * Outputs:
      *
-     * `<video src="http://www.somehost.com/files/audio.mp3">Fallback text</video>`
+     * ```
+     * <video src="http://www.somehost.com/files/audio.mp3">Fallback text</video>
+     * ```
      *
      * Using a video file:
      *
@@ -1084,7 +1117,9 @@ class HtmlHelper extends Helper
      *
      * Outputs:
      *
-     * `<video src="/files/video.mp4">Fallback text</video>`
+     * ```
+     * <video src="/files/video.mp4">Fallback text</video>
+     * ```
      *
      * Using multiple video files:
      *
@@ -1183,6 +1218,7 @@ class HtmlHelper extends Helper
             'pathPrefix' => null,
             'text' => null
         ]);
+
         return $this->tag($tag, $text, $options);
     }
 
@@ -1208,6 +1244,7 @@ class HtmlHelper extends Helper
     {
         $options += ['tag' => 'ul'];
         $items = $this->_nestedListItem($list, $options, $itemOptions);
+
         return $this->formatTemplate($options['tag'], [
             'attrs' => $this->templater()->formatAttributes($options, ['tag']),
             'content' => $items
@@ -1243,6 +1280,7 @@ class HtmlHelper extends Helper
             ]);
             $index++;
         }
+
         return $out;
     }
 

@@ -47,7 +47,7 @@ use RuntimeException;
  * There are 5 built-in caching engines:
  *
  * - `FileEngine` - Uses simple files to store content. Poor performance, but good for
- *    storing large objects, or things that are not IO sensitive.  Well suited to development
+ *    storing large objects, or things that are not IO sensitive. Well suited to development
  *    as it is an easy cache to inspect and manually flush.
  * - `ApcEngine` - Uses the APC object cache, one of the fastest caching engines.
  * - `MemcacheEngine` - Uses the PECL::Memcache extension and Memcached for storage.
@@ -100,16 +100,9 @@ class Cache
     protected static $_groups = [];
 
     /**
-     * Whether to reset the settings with the next call to Cache::set();
-     *
-     * @var array
-     */
-    protected static $_reset = false;
-
-    /**
      * Cache Registry used for creating and using cache adapters.
      *
-     * @var \Cake\Cache\CacheRegistry
+     * @var \Cake\Core\ObjectRegistry
      */
     protected static $_registry;
 
@@ -126,7 +119,7 @@ class Cache
             static::$_registry = $registry;
         }
 
-        if (empty(static::$_registry)) {
+        if (!static::$_registry) {
             static::$_registry = new CacheRegistry();
         }
 
@@ -154,7 +147,7 @@ class Cache
         $registry->load($name, $config);
 
         if ($config['className'] instanceof CacheEngine) {
-            $config = $config['className']->config();
+            $config = $config['className']->getConfig();
         }
 
         if (!empty($config['groups'])) {
@@ -188,6 +181,7 @@ class Cache
         }
 
         static::_buildEngine($config);
+
         return $registry->{$config};
     }
 
@@ -247,6 +241,7 @@ class Cache
                 E_USER_WARNING
             );
         }
+
         return $success;
     }
 
@@ -286,6 +281,7 @@ class Cache
                 ));
             }
         }
+
         return $return;
     }
 
@@ -313,6 +309,7 @@ class Cache
     public static function read($key, $config = 'default')
     {
         $engine = static::engine($config);
+
         return $engine->read($key);
     }
 
@@ -341,6 +338,7 @@ class Cache
     public static function readMany($keys, $config = 'default')
     {
         $engine = static::engine($config);
+
         return $engine->readMany($keys);
     }
 
@@ -406,6 +404,7 @@ class Cache
     public static function delete($key, $config = 'default')
     {
         $engine = static::engine($config);
+
         return $engine->delete($key);
     }
 
@@ -434,6 +433,7 @@ class Cache
     public static function deleteMany($keys, $config = 'default')
     {
         $engine = static::engine($config);
+
         return $engine->deleteMany($keys);
     }
 
@@ -447,9 +447,10 @@ class Cache
     public static function clear($check = false, $config = 'default')
     {
         $engine = static::engine($config);
+
         return $engine->clear($check);
     }
-    
+
     /**
      * Delete all keys from the cache from all configurations.
      *
@@ -459,11 +460,11 @@ class Cache
     public static function clearAll($check = false)
     {
         $status = [];
-        
+
         foreach (self::configured() as $config) {
             $status[$config] = self::clear($check, $config);
         }
-        
+
         return $status;
     }
 
@@ -477,6 +478,7 @@ class Cache
     public static function clearGroup($group, $config = 'default')
     {
         $engine = static::engine($config);
+
         return $engine->clearGroup($group);
     }
 
@@ -580,6 +582,7 @@ class Cache
         }
         $results = call_user_func($callable);
         self::write($key, $results, $config);
+
         return $results;
     }
 
@@ -612,6 +615,7 @@ class Cache
         if (is_resource($value)) {
             return false;
         }
+
         return $engine->add($key, $value);
     }
 }

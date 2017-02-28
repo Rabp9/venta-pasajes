@@ -32,8 +32,7 @@ class PDOStatement extends StatementDecorator
      */
     public function __construct(Statement $statement = null, $driver = null)
     {
-        $this->_statement = $statement;
-        $this->_driver = $driver;
+        parent::__construct($statement, $driver);
     }
 
     /**
@@ -100,6 +99,7 @@ class PDOStatement extends StatementDecorator
         if ($type === 'obj') {
             return $this->_statement->fetch(PDO::FETCH_OBJ);
         }
+
         return $this->_statement->fetch($type);
     }
 
@@ -128,6 +128,7 @@ class PDOStatement extends StatementDecorator
         if ($type === 'obj') {
             return $this->_statement->fetchAll(PDO::FETCH_OBJ);
         }
+
         return $this->_statement->fetchAll($type);
     }
 }

@@ -26,8 +26,8 @@ trait MagicPropertyTrait
      * Get a part of the ChronosInterface object
      *
      * @param string $name The property name to read.
-     * @return string|int|DateTimeZone The property value.
-     * @throws InvalidArgumentException
+     * @return string|int|\DateTimeZone The property value.
+     * @throws \InvalidArgumentException
      */
     public function __get($name)
     {
@@ -53,7 +53,7 @@ trait MagicPropertyTrait
                 return (int)ceil($this->day / ChronosInterface::DAYS_PER_WEEK);
 
             case $name === 'age':
-                return (int)$this->diffInYears();
+                return $this->diffInYears();
 
             case $name === 'quarter':
                 return (int)ceil($this->month / 3);
