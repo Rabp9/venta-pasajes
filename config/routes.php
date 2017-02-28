@@ -85,6 +85,10 @@ Router::scope('/', function ($routes) {
             'subir/' => [
                 'action' => 'subir',
                 'method' => 'POST'
+            ],
+            'prueba' => [
+                'action' => 'prueba',
+                'method' => 'POST'
             ]
         ]
     ]);
