@@ -19,6 +19,7 @@ use Cake\Filesystem\File;
 
 /**
  * Task for unloading plugins.
+ *
  */
 class UnloadTask extends Shell
 {
@@ -38,17 +39,11 @@ class UnloadTask extends Shell
      */
     public function main($plugin = null)
     {
-        $filename = 'bootstrap';
-        if ($this->params['cli']) {
-            $filename .= '_cli';
-        }
+        $this->bootstrap = ROOT . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-        $this->bootstrap = ROOT . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . $filename . '.php';
-
-        if (!$plugin) {
-            $this->err('You must provide a plugin name in CamelCase format.');
-            $this->err('To unload an "Example" plugin, run `cake plugin unload Example`.');
-
+        if (empty($plugin)) {
+            $this->err('<error>You must provide a plugin name in CamelCase format.</error>');
+            $this->err('To unload an "Example" plugin, run <info>`cake plugin unload Example`</info>.');
             return false;
         }
 
@@ -63,26 +58,21 @@ class UnloadTask extends Shell
      */
     protected function _modifyBootstrap($plugin)
     {
-        $finder = "@\nPlugin::load\((.|.\n|\n\s\s|\n\t|)+'$plugin'(.|.\n|)+\);\n@";
+        $finder = "/\nPlugin::load\((.|.\n|\n\s\s|\n\t|)+'$plugin'(.|.\n|)+\);\n/";
 
         $bootstrap = new File($this->bootstrap, false);
-        $content = $bootstrap->read();
+        $contents = $bootstrap->read();
 
-        if (!preg_match("@\n\s*Plugin::loadAll@", $content)) {
-            $newContent = preg_replace($finder, "", $content);
+        if (!preg_match("@\n\s*Plugin::loadAll@", $contents)) {
+            $contents = preg_replace($finder, "", $contents);
 
-            if ($newContent === $content) {
-                return false;
-            }
-
-            $bootstrap->write($newContent);
+            $bootstrap->write($contents);
 
             $this->out('');
             $this->out(sprintf('%s modified', $this->bootstrap));
 
             return true;
         }
-
         return false;
     }
 
@@ -95,14 +85,9 @@ class UnloadTask extends Shell
     {
         $parser = parent::getOptionParser();
 
-        $parser->addOption('cli', [
-                'help' => 'Use the bootstrap_cli file.',
-                'boolean' => true,
-                'default' => false,
-            ])
-            ->addArgument('plugin', [
-                'help' => 'Name of the plugin to load.',
-            ]);
+        $parser->addArgument('plugin', [
+            'help' => 'Name of the plugin to load.',
+        ]);
 
         return $parser;
     }

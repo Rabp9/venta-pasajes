@@ -17,7 +17,8 @@ namespace Cake\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * UuidportfolioFixture
+ * Class UuidportfolioFixture
+ *
  */
 class UuidportfoliosFixture extends TestFixture
 {

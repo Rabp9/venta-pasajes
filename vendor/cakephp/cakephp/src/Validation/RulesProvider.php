@@ -68,7 +68,6 @@ class RulesProvider
             $arguments = array_slice($arguments, 0, -1);
         }
         $object = is_string($this->_class) ? null : $this->_class;
-
         return $method->invokeArgs($object, $arguments);
     }
 }

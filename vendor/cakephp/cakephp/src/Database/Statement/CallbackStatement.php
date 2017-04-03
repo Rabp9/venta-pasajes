@@ -55,7 +55,6 @@ class CallbackStatement extends StatementDecorator
     {
         $callback = $this->_callback;
         $row = $this->_statement->fetch($type);
-
         return $row === false ? $row : $callback($row);
     }
 

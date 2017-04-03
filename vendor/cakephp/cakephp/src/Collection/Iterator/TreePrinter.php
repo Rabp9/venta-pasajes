@@ -20,6 +20,7 @@ use RecursiveIteratorIterator;
 /**
  * Iterator for flattening elements in a tree structure while adding some
  * visual markers for their relative position in the tree
+ *
  */
 class TreePrinter extends RecursiveIteratorIterator
 {
@@ -82,7 +83,6 @@ class TreePrinter extends RecursiveIteratorIterator
     public function key()
     {
         $extractor = $this->_key;
-
         return $extractor($this->_fetchCurrent(), parent::key(), $this);
     }
 
@@ -96,7 +96,6 @@ class TreePrinter extends RecursiveIteratorIterator
         $extractor = $this->_value;
         $current = $this->_fetchCurrent();
         $spacer = str_repeat($this->_spacer, $this->getDepth());
-
         return $spacer . $extractor($current, parent::key(), $this);
     }
 
@@ -121,7 +120,6 @@ class TreePrinter extends RecursiveIteratorIterator
         if ($this->_current !== null) {
             return $this->_current;
         }
-
         return $this->_current = parent::current();
     }
 }

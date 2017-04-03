@@ -18,6 +18,7 @@ use Exception;
  * Wraps a PHP 7 Error object inside a normal Exception
  * so it can be handled correctly by the rest of the
  * error handling system
+ *
  */
 class PHP7ErrorException extends Exception
 {

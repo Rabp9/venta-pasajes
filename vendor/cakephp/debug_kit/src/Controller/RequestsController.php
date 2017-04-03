@@ -19,8 +19,6 @@ use Cake\Network\Exception\NotFoundException;
 
 /**
  * Provides access to panel data.
- *
- * @property \DebugKit\Model\Table\RequestsTable $Requests
  */
 class RequestsController extends Controller
 {

@@ -1,12 +1,7 @@
-<?php
-/**
- * @type \DebugKit\View\AjaxView $this
- */
-?>
 <!DOCTYPE html>
 <html>
     <head>
-        <title><?= isset($title) ? h($title) : "Debug Kit Toolbar" ?></title>
+        <title>Debug Kit Toolbar</title>
         <?= $this->Html->css('DebugKit.reset') ?>
         <?= $this->Html->css('DebugKit.toolbar') ?>
     </head>

@@ -92,7 +92,6 @@ class BehaviorRegistry extends ObjectRegistry implements EventDispatcherInterfac
         if (!$result) {
             $result = App::className($class, 'ORM/Behavior', 'Behavior');
         }
-
         return $result;
     }
 
@@ -135,7 +134,6 @@ class BehaviorRegistry extends ObjectRegistry implements EventDispatcherInterfac
         $methods = $this->_getMethods($instance, $class, $alias);
         $this->_methodMap += $methods['methods'];
         $this->_finderMap += $methods['finders'];
-
         return $instance;
     }
 
@@ -200,7 +198,6 @@ class BehaviorRegistry extends ObjectRegistry implements EventDispatcherInterfac
     public function hasMethod($method)
     {
         $method = strtolower($method);
-
         return isset($this->_methodMap[$method]);
     }
 
@@ -216,7 +213,6 @@ class BehaviorRegistry extends ObjectRegistry implements EventDispatcherInterfac
     public function hasFinder($method)
     {
         $method = strtolower($method);
-
         return isset($this->_finderMap[$method]);
     }
 
@@ -233,7 +229,6 @@ class BehaviorRegistry extends ObjectRegistry implements EventDispatcherInterfac
         $method = strtolower($method);
         if ($this->hasMethod($method) && $this->has($this->_methodMap[$method][0])) {
             list($behavior, $callMethod) = $this->_methodMap[$method];
-
             return call_user_func_array([$this->_loaded[$behavior], $callMethod], $args);
         }
 
@@ -256,7 +251,6 @@ class BehaviorRegistry extends ObjectRegistry implements EventDispatcherInterfac
 
         if ($this->hasFinder($type) && $this->has($this->_finderMap[$type][0])) {
             list($behavior, $callMethod) = $this->_finderMap[$type];
-
             return call_user_func_array([$this->_loaded[$behavior], $callMethod], $args);
         }
 

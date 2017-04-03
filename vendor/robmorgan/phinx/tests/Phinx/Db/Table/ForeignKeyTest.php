@@ -61,7 +61,7 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testUnknownActionsNotAllowedThroughSetter()
+    public function testUnknownActionsNotAlowedThroughSetter()
     {
         $this->fk->setOnDelete('i m dump');
     }
@@ -69,7 +69,7 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testUnknownActionsNotAllowedThroughOptions()
+    public function testUnknownActionsNotAlowedThroughOptions()
     {
         $this->fk->setOptions(array('update' => 'no yu a dumb'));
     }
@@ -86,14 +86,5 @@ class ForeignKeyTest extends \PHPUnit_Framework_TestCase
             array('no_Action',           ForeignKey::NO_ACTION),
             array('Set_nuLL',            ForeignKey::SET_NULL),
         );
-    }
-
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage "0" is not a valid foreign key option.
-     */
-    public function testSetOptionThrowsExceptionIfOptionIsNotString()
-    {
-        $this->fk->setOptions(['update']);
     }
 }

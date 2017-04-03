@@ -111,8 +111,8 @@ class JsonView extends SerializedView
             if ($this->viewVars['_jsonp'] === true) {
                 $jsonpParam = 'callback';
             }
-            if ($this->request->getQuery($jsonpParam)) {
-                $return = sprintf('%s(%s)', h($this->request->getQuery($jsonpParam)), $return);
+            if (isset($this->request->query[$jsonpParam])) {
+                $return = sprintf('%s(%s)', h($this->request->query[$jsonpParam]), $return);
                 $this->response->type('js');
             }
         }
@@ -135,9 +135,7 @@ class JsonView extends SerializedView
     {
         $data = $this->_dataToSerialize($serialize);
 
-        $jsonOptions = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT |
-            JSON_PARTIAL_OUTPUT_ON_ERROR;
-
+        $jsonOptions = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT;
         if (isset($this->viewVars['_jsonOptions'])) {
             if ($this->viewVars['_jsonOptions'] === false) {
                 $jsonOptions = 0;
@@ -149,7 +147,6 @@ class JsonView extends SerializedView
         if (Configure::read('debug')) {
             $jsonOptions = $jsonOptions | JSON_PRETTY_PRINT;
         }
-
         return json_encode($data, $jsonOptions);
     }
 
@@ -185,7 +182,6 @@ class JsonView extends SerializedView
                     $data[$alias] = $this->viewVars[$key];
                 }
             }
-
             return !empty($data) ? $data : null;
         }
 

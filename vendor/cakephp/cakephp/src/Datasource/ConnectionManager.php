@@ -30,7 +30,7 @@ class ConnectionManager
 {
 
     use StaticConfigTrait {
-        setConfig as protected _setConfig;
+        config as protected _config;
         parseDsn as protected _parseDsn;
     }
 
@@ -67,17 +67,16 @@ class ConnectionManager
      *
      * @param string|array $key The name of the connection config, or an array of multiple configs.
      * @param array|null $config An array of name => config data for adapter.
-     * @return void
+     * @return array|null Null when adding configuration and an array of configuration data when reading.
      * @throws \Cake\Core\Exception\Exception When trying to modify an existing config.
      * @see \Cake\Core\StaticConfigTrait::config()
      */
-    public static function setConfig($key, $config = null)
+    public static function config($key, $config = null)
     {
         if (is_array($config)) {
             $config['name'] = $key;
         }
-
-        static::_setConfig($key, $config);
+        return static::_config($key, $config);
     }
 
     /**
@@ -119,7 +118,6 @@ class ConnectionManager
         }
 
         unset($config['path']);
-
         return $config;
     }
 
@@ -201,7 +199,6 @@ class ConnectionManager
         if (isset(static::$_registry->{$name})) {
             return static::$_registry->{$name};
         }
-
         return static::$_registry->load($name, static::$_config[$name]);
     }
 }

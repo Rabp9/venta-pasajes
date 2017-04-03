@@ -19,6 +19,7 @@ use InvalidArgumentException;
 
 /**
  * Storage engine for CakePHP caching
+ *
  */
 abstract class CacheEngine
 {
@@ -65,7 +66,7 @@ abstract class CacheEngine
      */
     public function init(array $config = [])
     {
-        $this->setConfig($config);
+        $this->config($config);
 
         if (!empty($this->_config['groups'])) {
             sort($this->_config['groups']);
@@ -111,7 +112,6 @@ abstract class CacheEngine
         foreach ($data as $key => $value) {
             $return[$key] = $this->write($key, $value);
         }
-
         return $return;
     }
 
@@ -136,7 +136,6 @@ abstract class CacheEngine
         foreach ($keys as $key) {
             $return[$key] = $this->read($key);
         }
-
         return $return;
     }
 
@@ -166,6 +165,7 @@ abstract class CacheEngine
      */
     abstract public function delete($key);
 
+
     /**
      * Delete all keys from the cache
      *
@@ -187,7 +187,6 @@ abstract class CacheEngine
         foreach ($keys as $key) {
             $return[$key] = $this->delete($key);
         }
-
         return $return;
     }
 
@@ -207,7 +206,6 @@ abstract class CacheEngine
         if ($cachedValue === false) {
             return $this->write($key, $value);
         }
-
         return false;
     }
 
@@ -244,17 +242,16 @@ abstract class CacheEngine
      */
     public function key($key)
     {
-        if (!$key) {
+        if (empty($key)) {
             return false;
         }
 
         $prefix = '';
-        if ($this->_groupPrefix) {
+        if (!empty($this->_groupPrefix)) {
             $prefix = vsprintf($this->_groupPrefix, $this->groups());
         }
 
-        $key = preg_replace('/[\s]+/', '_', strtolower(trim(str_replace([DIRECTORY_SEPARATOR, '/', '.'], '_', (string)$key))));
-
+        $key = preg_replace('/[\s]+/', '_', strtolower(trim(str_replace([DIRECTORY_SEPARATOR, '/', '.'], '_', strval($key)))));
         return $prefix . $key;
     }
 

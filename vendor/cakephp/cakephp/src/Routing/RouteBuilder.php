@@ -182,29 +182,17 @@ class RouteBuilder
         if ($routeKey !== false) {
             return substr($this->_path, 0, $routeKey);
         }
-
         return $this->_path;
     }
 
     /**
      * Get the parameter names/values for this scope.
      *
-     * @return array
+     * @return string
      */
     public function params()
     {
         return $this->_params;
-    }
-
-    /**
-     * Checks if there is already a route with a given name.
-     *
-     * @param string $name Name.
-     * @return bool
-     */
-    public function nameExists($name)
-    {
-        return array_key_exists($name, $this->_collection->named());
     }
 
     /**
@@ -221,7 +209,6 @@ class RouteBuilder
         if ($value !== null) {
             $this->_namePrefix = $value;
         }
-
         return $this->_namePrefix;
     }
 
@@ -300,9 +287,6 @@ class RouteBuilder
      * - 'actions' - Override the method names used for connecting actions.
      * - 'map' - Additional resource routes that should be connected. If you define 'only' and 'map',
      *   make sure that your mapped methods are also in the 'only' list.
-     * - 'prefix' - Define a routing prefix for the resource controller. If the current scope
-     *   defines a prefix, this prefix will be appended to it.
-     * - 'connectOptions' – Custom options for connecting the routes.
      *
      * @param string $name A controller name to connect resource routes for.
      * @param array|callable $options Options to use when generating REST routes, or a callback.
@@ -323,7 +307,6 @@ class RouteBuilder
             'only' => [],
             'actions' => [],
             'map' => [],
-            'prefix' => null,
         ];
 
         foreach ($options['map'] as $k => $mapped) {
@@ -336,21 +319,12 @@ class RouteBuilder
         }
 
         $connectOptions = $options['connectOptions'];
-        $method = $options['inflect'];
-        $urlName = Inflector::$method($name);
+        $urlName = Inflector::{$options['inflect']}($name);
         $resourceMap = array_merge(static::$_resourceMap, $options['map']);
 
         $only = (array)$options['only'];
         if (empty($only)) {
             $only = array_keys($resourceMap);
-        }
-
-        $prefix = '';
-        if ($options['prefix']) {
-            $prefix = $options['prefix'];
-        }
-        if (isset($this->_params['prefix']) && $prefix) {
-            $prefix = $this->_params['prefix'] . '/' . $prefix;
         }
 
         foreach ($resourceMap as $method => $params) {
@@ -369,9 +343,6 @@ class RouteBuilder
                 'action' => $action,
                 '_method' => $params['method'],
             ];
-            if ($prefix) {
-                $params['prefix'] = $prefix;
-            }
             $routeOptions = $connectOptions + [
                 'id' => $options['id'],
                 'pass' => ['id'],
@@ -467,8 +438,8 @@ class RouteBuilder
      */
     public function connect($route, array $defaults = [], array $options = [])
     {
-        if (!isset($options['action']) && !isset($defaults['action'])) {
-            $defaults['action'] = 'index';
+        if (empty($options['action'])) {
+            $defaults += ['action' => 'index'];
         }
 
         if (empty($options['_ext'])) {
@@ -511,7 +482,7 @@ class RouteBuilder
             $route = $route === '/' ? $route : rtrim($route, '/');
 
             foreach ($this->_params as $param => $val) {
-                if (isset($defaults[$param]) && $param !== 'prefix' && $defaults[$param] !== $val) {
+                if (isset($defaults[$param]) && $defaults[$param] !== $val) {
                     $msg = 'You cannot define routes that conflict with the scope. ' .
                         'Scope had %s = %s, while route had %s = %s';
                     throw new BadMethodCallException(sprintf(
@@ -596,27 +567,17 @@ class RouteBuilder
      * to the `Controller\Admin\Api\` namespace.
      *
      * @param string $name The prefix name to use.
-     * @param array|callable $params An array of routing defaults to add to each connected route.
-     *   If you have no parameters, this argument can be a callable.
-     * @param callable|null $callback The callback to invoke that builds the prefixed routes.
+     * @param callable $callback The callback to invoke that builds the prefixed routes.
      * @return void
-     * @throws \InvalidArgumentException If a valid callback is not passed
      */
-    public function prefix($name, $params = [], callable $callback = null)
+    public function prefix($name, callable $callback)
     {
-        if ($callback === null) {
-            if (!is_callable($params)) {
-                throw new InvalidArgumentException('A valid callback is expected');
-            }
-            $callback = $params;
-            $params = [];
-        }
         $name = Inflector::underscore($name);
         $path = '/' . $name;
         if (isset($this->_params['prefix'])) {
             $name = $this->_params['prefix'] . '/' . $name;
         }
-        $params = array_merge($params, ['prefix' => $name]);
+        $params = ['prefix' => $name];
         $this->scope($path, $params, $callback);
     }
 

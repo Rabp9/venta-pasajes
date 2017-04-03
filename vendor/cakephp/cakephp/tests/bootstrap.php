@@ -20,11 +20,7 @@ use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\Log\Log;
 
-if (is_file('vendor/autoload.php')) {
-    require_once 'vendor/autoload.php';
-} else {
-    require_once dirname(__DIR__) . '/vendor/autoload.php';
-}
+require_once 'vendor/autoload.php';
 
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
@@ -131,10 +127,3 @@ Date::setTestNow(Date::now());
 MutableDate::setTestNow(MutableDate::now());
 
 ini_set('intl.default_locale', 'en_US');
-
-if (class_exists('PHPUnit_Runner_Version')) {
-    class_alias('PHPUnit_Framework_TestResult', 'PHPUnit\Framework\TestResult');
-    class_alias('PHPUnit_Framework_Error', 'PHPUnit\Framework\Error\Error');
-    class_alias('PHPUnit_Framework_Error_Warning', 'PHPUnit\Framework\Error\Warning');
-    class_alias('PHPUnit_Framework_ExpectationFailedException', 'PHPUnit\Framework\ExpectationFailedException');
-}

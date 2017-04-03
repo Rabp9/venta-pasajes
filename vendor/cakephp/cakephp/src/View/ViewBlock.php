@@ -21,6 +21,7 @@ use Cake\Core\Exception\Exception;
  * Slots or blocks are combined with extending views and layouts to afford slots
  * of content that are present in a layout or parent view, but are defined by the child
  * view or elements used in the view.
+ *
  */
 class ViewBlock
 {
@@ -104,10 +105,9 @@ class ViewBlock
         if ($this->_discardActiveBufferOnEnd) {
             $this->_discardActiveBufferOnEnd = false;
             ob_end_clean();
-
             return;
         }
-        if ($this->_active) {
+        if (!empty($this->_active)) {
             $mode = end($this->_active);
             $active = key($this->_active);
             $content = ob_get_clean();
@@ -139,7 +139,6 @@ class ViewBlock
     {
         if ($value === null) {
             $this->start($name, $mode);
-
             return;
         }
 
@@ -179,7 +178,6 @@ class ViewBlock
         if (!isset($this->_blocks[$name])) {
             return $default;
         }
-
         return $this->_blocks[$name];
     }
 
@@ -212,7 +210,6 @@ class ViewBlock
     public function active()
     {
         end($this->_active);
-
         return key($this->_active);
     }
 

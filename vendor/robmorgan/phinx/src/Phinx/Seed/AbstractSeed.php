@@ -30,7 +30,6 @@ namespace Phinx\Seed;
 
 use Phinx\Db\Table;
 use Phinx\Db\Adapter\AdapterInterface;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -51,11 +50,6 @@ abstract class AbstractSeed implements SeedInterface
     protected $adapter;
 
     /**
-     * @var InputInterface
-     */
-    protected $input;
-
-    /**
      * @var OutputInterface
      */
     protected $output;
@@ -63,18 +57,10 @@ abstract class AbstractSeed implements SeedInterface
     /**
      * Class Constructor.
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @return void
      */
-    final public function __construct(InputInterface $input = null, OutputInterface $output = null)
+    final public function __construct()
     {
-        if (!is_null($input)){
-            $this->setInput($input);
-        }
-        if (!is_null($output)){
-            $this->setOutput($output);
-        }
-        
         $this->init();
     }
 
@@ -109,23 +95,6 @@ abstract class AbstractSeed implements SeedInterface
     public function getAdapter()
     {
         return $this->adapter;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setInput(InputInterface $input)
-    {
-        $this->input = $input;
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getInput()
-    {
-        return $this->input;
     }
 
     /**

@@ -17,7 +17,7 @@ namespace Cake\Auth;
 use Cake\Controller\ComponentRegistry;
 use Cake\Controller\Controller;
 use Cake\Core\Exception\Exception;
-use Cake\Http\ServerRequest;
+use Cake\Network\Request;
 
 /**
  * An authorization adapter for AuthComponent. Provides the ability to authorize
@@ -27,7 +27,7 @@ use Cake\Http\ServerRequest;
  * ```
  *  public function isAuthorized($user)
  *  {
- *      if ($this->request->getParam('admin')) {
+ *      if ($this->request->param('admin')) {
  *          return $user['role'] === 'admin';
  *      }
  *      return !empty($user);
@@ -77,18 +77,17 @@ class ControllerAuthorize extends BaseAuthorize
             }
             $this->_Controller = $controller;
         }
-
         return $this->_Controller;
     }
 
     /**
      * Checks user authorization using a controller callback.
      *
-     * @param array|\ArrayAccess $user Active user data
-     * @param \Cake\Http\ServerRequest $request Request instance.
+     * @param array $user Active user data
+     * @param \Cake\Network\Request $request Request instance.
      * @return bool
      */
-    public function authorize($user, ServerRequest $request)
+    public function authorize($user, Request $request)
     {
         return (bool)$this->_Controller->isAuthorized($user);
     }

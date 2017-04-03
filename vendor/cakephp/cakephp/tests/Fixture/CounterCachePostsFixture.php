@@ -18,6 +18,7 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * Counter Cache Test Fixtures
+ *
  */
 class CounterCachePostsFixture extends TestFixture
 {

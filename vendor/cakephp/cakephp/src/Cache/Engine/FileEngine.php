@@ -29,6 +29,7 @@ use SplFileObject;
  * engine available, or have content which is not performance sensitive.
  *
  * You can configure a FileEngine cache, using Cache::config()
+ *
  */
 class FileEngine extends CacheEngine
 {
@@ -36,7 +37,7 @@ class FileEngine extends CacheEngine
     /**
      * Instance of SplFileObject class
      *
-     * @var \SplFileObject|null
+     * @var \SplFileObject
      */
     protected $_File = null;
 
@@ -98,10 +99,9 @@ class FileEngine extends CacheEngine
         if (substr($this->_config['path'], -1) !== DIRECTORY_SEPARATOR) {
             $this->_config['path'] .= DIRECTORY_SEPARATOR;
         }
-        if ($this->_groupPrefix) {
+        if (!empty($this->_groupPrefix)) {
             $this->_groupPrefix = str_replace('_', DIRECTORY_SEPARATOR, $this->_groupPrefix);
         }
-
         return $this->_active();
     }
 
@@ -199,7 +199,6 @@ class FileEngine extends CacheEngine
             if ($this->_config['lock']) {
                 $this->_File->flock(LOCK_UN);
             }
-
             return false;
         }
 
@@ -222,7 +221,6 @@ class FileEngine extends CacheEngine
             }
             $data = unserialize((string)$data);
         }
-
         return $data;
     }
 
@@ -287,7 +285,6 @@ class FileEngine extends CacheEngine
                 $cleared[] = $path;
             }
         }
-
         return true;
     }
 
@@ -377,7 +374,7 @@ class FileEngine extends CacheEngine
     protected function _setKey($key, $createKey = false)
     {
         $groups = null;
-        if ($this->_groupPrefix) {
+        if (!empty($this->_groupPrefix)) {
             $groups = vsprintf($this->_groupPrefix, $this->groups());
         }
         $dir = $this->_config['path'] . $groups;
@@ -396,7 +393,6 @@ class FileEngine extends CacheEngine
                 $this->_File = $path->openFile('c+');
             } catch (Exception $e) {
                 trigger_error($e->getMessage(), E_USER_WARNING);
-
                 return false;
             }
             unset($path);
@@ -409,7 +405,6 @@ class FileEngine extends CacheEngine
                 ), E_USER_WARNING);
             }
         }
-
         return true;
     }
 
@@ -432,10 +427,8 @@ class FileEngine extends CacheEngine
                 '%s is not writable',
                 $this->_config['path']
             ), E_USER_WARNING);
-
             return false;
         }
-
         return true;
     }
 
@@ -454,9 +447,8 @@ class FileEngine extends CacheEngine
         $key = Inflector::underscore(str_replace(
             [DIRECTORY_SEPARATOR, '/', '.', '<', '>', '?', ':', '|', '*', '"'],
             '_',
-            (string)$key
+            strval($key)
         ));
-
         return $key;
     }
 
@@ -488,7 +480,6 @@ class FileEngine extends CacheEngine
                 //@codingStandardsIgnoreEnd
             }
         }
-
         return true;
     }
 }

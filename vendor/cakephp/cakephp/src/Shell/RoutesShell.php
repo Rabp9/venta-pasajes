@@ -20,6 +20,7 @@ use Cake\Routing\Router;
 
 /**
  * Provides interactive CLI tools for routing.
+ *
  */
 class RoutesShell extends Shell
 {
@@ -47,7 +48,7 @@ class RoutesShell extends Shell
      * Checks a url for the route that will be applied.
      *
      * @param string $url The URL to parse
-     * @return bool Success
+     * @return null|false
      */
     public function check($url)
     {
@@ -69,20 +70,17 @@ class RoutesShell extends Shell
             $this->helper('table')->output($output);
             $this->out();
         } catch (MissingRouteException $e) {
-            $this->warn("'$url' did not match any routes.");
+            $this->err("<warning>'$url' did not match any routes.</warning>");
             $this->out();
-
             return false;
         }
-
-        return true;
     }
 
     /**
      * Generate a URL based on a set of parameters
      *
      * Takes variadic arguments of key/value pairs.
-     * @return bool Success
+     * @return null|false
      */
     public function generate()
     {
@@ -94,11 +92,8 @@ class RoutesShell extends Shell
         } catch (MissingRouteException $e) {
             $this->err("<warning>The provided parameters do not match any routes.</warning>");
             $this->out();
-
             return false;
         }
-
-        return true;
     }
 
     /**
@@ -109,7 +104,7 @@ class RoutesShell extends Shell
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
-        $parser->setDescription(
+        $parser->description(
             'Get the list of routes connected in this application. ' .
             'This tool also lets you test URL generation and URL parsing.'
         )->addSubcommand('check', [
@@ -121,7 +116,6 @@ class RoutesShell extends Shell
                 "Routing parameters should be supplied in a key:value format. " .
                 "For example `controller:Articles action:view 2`"
         ]);
-
         return $parser;
     }
 
@@ -142,7 +136,6 @@ class RoutesShell extends Shell
                 $out[] = $arg;
             }
         }
-
         return $out;
     }
 }

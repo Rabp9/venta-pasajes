@@ -47,26 +47,18 @@ class RoutingFilter extends DispatcherFilter
      */
     public function beforeDispatch(Event $event)
     {
-        /* @var \Cake\Http\ServerRequest $request */
-        $request = $event->getData('request');
-        if (Router::getRequest(true) !== $request) {
-            Router::setRequestInfo($request);
-        }
+        $request = $event->data['request'];
+        Router::setRequestInfo($request);
 
         try {
-            if (!$request->getParam('controller')) {
-                $params = Router::parseRequest($request);
+            if (empty($request->params['controller'])) {
+                $params = Router::parse($request->url);
                 $request->addParams($params);
             }
-
-            return null;
         } catch (RedirectException $e) {
-            $event->stopPropagation();
-            /* @var \Cake\Network\Response $response */
-            $response = $event->getData('response');
+            $response = $event->data['response'];
             $response->statusCode($e->getCode());
             $response->header('Location', $e->getMessage());
-
             return $response;
         }
     }

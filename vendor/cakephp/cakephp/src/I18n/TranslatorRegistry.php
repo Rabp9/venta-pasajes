@@ -15,11 +15,8 @@
 namespace Cake\I18n;
 
 use Aura\Intl\Exception;
-use Aura\Intl\FormatterLocator;
-use Aura\Intl\PackageLocator;
 use Aura\Intl\TranslatorLocator;
 use Cake\Cache\CacheEngine;
-use Cake\I18n\TranslatorFactory;
 
 /**
  * Constructs and stores instances of translators that can be
@@ -34,16 +31,9 @@ class TranslatorRegistry extends TranslatorLocator
      * packages where none can be found for the combination of translator
      * name and locale.
      *
-     * @var callable[]
+     * @var array
      */
-    protected $_loaders = [];
-
-    /**
-     * Fallback loader name
-     *
-     * @var string
-     */
-    protected $_fallbackLoader = '_fallback';
+    protected $_loaders;
 
     /**
      * The name of the default formatter to use for newly created
@@ -69,43 +59,6 @@ class TranslatorRegistry extends TranslatorLocator
     protected $_cacher;
 
     /**
-     * Constructor.
-     *
-     * @param \Aura\Intl\PackageLocator $packages The package locator.
-     * @param \Aura\Intl\FormatterLocator $formatters The formatter locator.
-     * @param \Cake\I18n\TranslatorFactory $factory A translator factory to
-     *   create translator objects for the locale and package.
-     * @param string $locale The default locale code to use.
-     */
-    public function __construct(
-        PackageLocator $packages,
-        FormatterLocator $formatters,
-        TranslatorFactory $factory,
-        $locale
-    ) {
-        parent::__construct($packages, $formatters, $factory, $locale);
-
-        $this->registerLoader($this->_fallbackLoader, function ($name, $locale) {
-            $chain = new ChainMessagesLoader([
-                new MessagesFileLoader($name, $locale, 'mo'),
-                new MessagesFileLoader($name, $locale, 'po')
-            ]);
-
-            // \Aura\Intl\Package by default uses formatter configured with key "basic".
-            // and we want to make sure the cake domain always uses the default formatter
-            $formatter = $name === 'cake' ? 'default' : $this->_defaultFormatter;
-            $chain = function () use ($formatter, $chain) {
-                $package = $chain();
-                $package->setFormatter($formatter);
-
-                return $package;
-            };
-
-            return $chain;
-        });
-    }
-
-    /**
      * Sets the CacheEngine instance used to remember translators across
      * requests.
      *
@@ -123,7 +76,7 @@ class TranslatorRegistry extends TranslatorLocator
      * @param string $name The translator package to retrieve.
      * @param string|null $locale The locale to use; if empty, uses the default
      * locale.
-     * @return \Aura\Intl\TranslatorInterface|null A translator object.
+     * @return \Aura\Intl\TranslatorInterface A translator object.
      * @throws \Aura\Intl\Exception If no translator with that name could be found
      * for the given locale.
      */
@@ -173,7 +126,6 @@ class TranslatorRegistry extends TranslatorLocator
         if (!isset($this->_loaders[$name])) {
             $this->registerLoader($name, $this->_partialLoader());
         }
-
         return $this->_getFromLoader($name, $locale);
     }
 
@@ -207,7 +159,6 @@ class TranslatorRegistry extends TranslatorLocator
         if ($name === null) {
             return $this->_defaultFormatter;
         }
-
         return $this->_defaultFormatter = $name;
     }
 
@@ -232,7 +183,21 @@ class TranslatorRegistry extends TranslatorLocator
      */
     protected function _fallbackLoader($name, $locale)
     {
-        return $this->_loaders[$this->_fallbackLoader]($name, $locale);
+        $chain = new ChainMessagesLoader([
+            new MessagesFileLoader($name, $locale, 'mo'),
+            new MessagesFileLoader($name, $locale, 'po')
+        ]);
+
+        // \Aura\Intl\Package by default uses formatter configured with key "basic".
+        // and we want to make sure the cake domain always uses the default formatter
+        $formatter = $name === 'cake' ? 'default' : $this->_defaultFormatter;
+        $chain = function () use ($formatter, $chain) {
+            $package = $chain();
+            $package->setFormatter($formatter);
+            return $package;
+        };
+
+        return $chain;
     }
 
     /**
@@ -269,7 +234,6 @@ class TranslatorRegistry extends TranslatorLocator
         $loader = $this->setLoaderFallback($name, $loader);
 
         $this->packages->set($name, $locale, $loader);
-
         return parent::get($name, $locale);
     }
 
@@ -287,12 +251,10 @@ class TranslatorRegistry extends TranslatorLocator
             return $loader;
         }
         $loader = function () use ($loader, $fallbackDomain) {
-            /* @var \Aura\Intl\Package $package */
             $package = $loader();
             if (!$package->getFallback()) {
                 $package->setFallback($fallbackDomain);
             }
-
             return $package;
         };
 

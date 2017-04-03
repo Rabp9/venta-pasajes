@@ -28,16 +28,14 @@ class TimedBehavior extends Behavior
      *
      * @param \Cake\Event\Event $event The beforeFind event
      * @param \Cake\ORM\Query $query Query
-     * @return \Cake\ORM\Query
+     * @return bool true
      */
     public function beforeFind(Event $event, $query)
     {
         $alias = $event->subject()->alias();
         DebugTimer::start($alias . '_find', $alias . '->find()');
-
         return $query->formatResults(function ($results) use ($alias) {
             DebugTimer::stop($alias . '_find');
-
             return $results;
         });
     }
@@ -45,7 +43,7 @@ class TimedBehavior extends Behavior
     /**
      * beforeSave, starts a time before a save is initiated.
      *
-     * @param \Cake\Event\Event $event The beforeSave event
+     * @param Cake\Event\Event $event The beforeSave event
      * @return void
      */
     public function beforeSave(Event $event)
@@ -57,7 +55,7 @@ class TimedBehavior extends Behavior
     /**
      * afterSave, stop the timer started from a save.
      *
-     * @param \Cake\Event\Event $event The afterSave event
+     * @param Cake\Event\Event $event The afterSave event
      * @return void
      */
     public function afterSave(Event $event)

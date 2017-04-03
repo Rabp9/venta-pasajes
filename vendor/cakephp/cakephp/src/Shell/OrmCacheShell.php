@@ -51,7 +51,6 @@ class OrmCacheShell extends Shell
             $schema->describe($table, ['forceRefresh' => true]);
         }
         $this->out('<success>Cache build complete</success>');
-
         return true;
     }
 
@@ -71,7 +70,7 @@ class OrmCacheShell extends Shell
         if (empty($name)) {
             $tables = $schema->listTables();
         }
-        $configName = $schema->getCacheMetadata();
+        $configName = $schema->cacheMetadata();
 
         foreach ($tables as $table) {
             $this->_io->verbose(sprintf(
@@ -83,18 +82,16 @@ class OrmCacheShell extends Shell
             Cache::delete($key, $configName);
         }
         $this->out('<success>Cache clear complete</success>');
-
         return true;
     }
 
     /**
      * Helper method to get the schema collection.
      *
-     * @return false|\Cake\Database\Schema\Collection|\Cake\Database\Schema\CachedCollection
+     * @return false|\Cake\Database\Schema\Collection
      */
     protected function _getSchema()
     {
-        /* @var \Cake\Database\Connection $source */
         $source = ConnectionManager::get($this->params['connection']);
         if (!method_exists($source, 'schemaCollection')) {
             $msg = sprintf(
@@ -102,8 +99,7 @@ class OrmCacheShell extends Shell
                 'as it does not implement a "schemaCollection()" method.',
                 $this->params['connection']
             );
-            $this->abort($msg);
-
+            $this->error($msg);
             return false;
         }
         $config = $source->config();
@@ -111,8 +107,7 @@ class OrmCacheShell extends Shell
             $this->_io->verbose('Metadata cache was disabled in config. Enabling to clear cache.');
             $source->cacheMetadata(true);
         }
-
-        return $source->getSchemaCollection();
+        return $source->schemaCollection();
     }
 
     /**

@@ -1,18 +1,12 @@
-@font-face {
-	font-family: 'CakeFont';
-	src: url('./raleway-medium.eot');
-	src: url('./raleway-regular.eot?#iefix') format('embedded-opentype'),
-		url('./raleway-regular.woff') format('woff'),
-		url('./raleway-regular.ttf') format('truetype'),
-		url('./raleway-regular.svg#ralewayregular') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
+/**
+ * Colors borrowed from http://www.google.es/design/spec/style/color.html#color-ui-color-palette
+ */
+@import url(//fonts.googleapis.com/css?family=Open+Sans:300);
 
 body {
 	padding: 0;
 	margin: 0;
-	font-family: "Helvetica-Neue", Helvetica, Arial, sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
 	overflow: hidden;
 }
 
@@ -23,9 +17,9 @@ h1,
 h2,
 h3,
 h4 {
-	font-family: 'CakeFont', sans-serif;
+	font-family: 'Open Sans', sans-serif;
 	margin: 15px 0;
-	font-weight: 300;
+	font-weight: bold;
 	line-height: 20px;
 	text-rendering: optimizelegibility;
 }
@@ -58,21 +52,21 @@ p {
 }
 
 .toolbar {
-	background: #D33C44;
+	background: #ffc600;
 	height: 40px;
 	position: absolute;
 	bottom: 0;
 	left: 0;
 	right: 0;
+	border-radius: 8px 0 0 0;
 }
 .toolbar.open {
 	border-radius: 0;
 	overflow: auto;
-	padding-right: 40px;
 }
 
 .hidden {
-	display: none;
+    display: none;
 }
 
 /* Open close button */
@@ -86,23 +80,19 @@ p {
 }
 #panel-button {
 	line-height: 20px;
-	height: 40px;
-	width: 40px;
+	height: 30px;
+	width: 30px;
+	padding: 5px;
 	position: absolute;
 	right: 0;
 	bottom: 0;
 }
 #panel-button img {
 	margin: 0;
-	display: block;
-}
-.panel-button {
-	color: #fff;
-	font-family: CakeFont, Helvetica, Arial, sans-serif;
 }
 .panel-summary {
-	background: rgba(60, 60, 60, 0.3);
-	color: #fff;
+	background: rgba(255, 255, 255, 0.5);
+	color: #333;
 	font-size: 12px;
 	line-height: 20px;
 	padding: 4px;
@@ -112,23 +102,20 @@ p {
 
 
 .panel {
-	border-left: 1px solid rgba(0, 0, 0, 0.075);
+	border-left: 1px solid #ffb400;
 	padding: 0px 9px;
 }
 .panel:first-child {
 	border-left: 0;
 }
 .panel-active {
-	background: #fff;
-	color: #D33C44;
+	color: #fff;
+	background-color: #009688;
 	transition: background-color 300ms linear;
-}
-.panel-active .panel-button {
-	color: #D33C44;
-}
 
-.history-mode .panel-active .panel-button {
-	color: #ab47bc;
+}
+.history-mode .panel-active {
+	background: #ab47bc;
 }
 
 /**
@@ -161,9 +148,8 @@ p {
 
 .panel-title {
 	color: #fff;
-	font-family: CakeFont, sans-serif;
 	font-weight: normal;
-	background: #D33C44;
+	background: #009688;
 	padding: 10px;
 	margin: 0;
 	transition: background-color 300ms linear;
@@ -219,20 +205,22 @@ table td,
 table th {
 	text-align: left;
 	border: 0;
-	padding: 9px;
+	padding: 6px;
 	margin: 0;
 }
 table td {
 	border-bottom: 1px solid #ccc;
 }
 table th {
-	border-bottom: 3px solid #2a6496;
+	border-bottom: 3px solid #004d40;
 	color: #111;
 	font-weight: bold;
 	line-height: 16px;
 }
+table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
 
-pre,
 .debug-table td {
 	font-family: Monaco, Consolas, mono-space;
 }
@@ -244,15 +232,7 @@ pre,
 }
 .debug-table td:nth-child(n+2) {
 	word-wrap: break-word;
-	word-break: break-all;
 	word-break: break-word; /* Not standard for webkit */
-}
-.debug-table th.left,
-.debug-table td.left {
-    text-align: left;
-}
-.debug-table .highlighted td {
-	background: #e7e9fd;
 }
 
 .list {
@@ -270,18 +250,18 @@ pre,
 }
 .neat-array {
 	padding: 1px 2px 1px 20px;
-	background: #eaeae7;
+	background: #B3E5FC;
 	list-style: none;
 	margin: 0 0 1em 0;
 }
 .neat-array .neat-array {
 	padding: 0 0 0 20px;
 	margin: 0;
-	border-top: 1px solid #eaeae7;
+	border-top: 1px solid #B3E5FC;
 }
 .neat-array li {
-	border-top: 1px solid #eaeae7;
-	border-bottom: 1px solid #eaeae7;
+	border-top: 1px solid #B3E5FC;
+	border-bottom: 1px solid #B3E5FC;
 	background: rgba(255, 255, 255, 0.95);
 	margin: 0;
 	line-height: 1.5em;
@@ -290,13 +270,8 @@ pre,
 	background: #fff;
 }
 .neat-array li strong {
-	padding-left: 8px;
+	padding: 0 8px;
 	font-weight: bold;
-}
-.neat-array li > strong:before {
-	position: relative;
-	left: -3px;
-	content: "\2003 ";
 }
 
 /* expandable sections */
@@ -348,7 +323,7 @@ pre,
 	background: #ddd;
 }
 .graph-bar-value {
-	background: #428bca;
+	background: #259b24;
 }
 
 
@@ -405,21 +380,6 @@ pre,
 	font-family: Monaco, Consolas, mono-space;
 }
 
-/**
- * Packages panel
- */
-.package-version {
-	background: #D33C44;
-	border-radius: 4px;
-	line-height: 20px;
-	display: inline-block;
-	white-space: nowrap;
-}
-
-.package-link {
-	color: #000000;
-	text-decoration: none;
-}
 
 /**
  * Warnings and info boxes.
@@ -431,19 +391,17 @@ pre,
 }
 
 .warning {
-	background: #f2dede;
+	background: #ffab91;
 }
 
 .info {
-	background: #d9edf7;
+	background: #80deea;
 }
 .warning:before,
 .info:before {
 	padding: 8px;
 	line-height: 12px;
 	font-size: 20px;
-	font-family: "CakeFont";
-	font-weight: bold;
 	height: 12px;
 	width: 12px;
 	border-radius: 15px;
@@ -459,11 +417,11 @@ pre,
 }
 
 .warning:before {
-	color: #f2dede;
+	color: #ffab91;
 	content: '!';
 }
 .info:before {
-	color: #d9edf7;
+	color: #80deea;
 	content: 'i';
 }
 
@@ -472,11 +430,12 @@ pre,
  */
 .btn-primary {
 	font-size: 14px;
-	border: 1px solid #2a6496;
-	background-color: #428bca;
+	border: 1px solid #8bc34a;
+	background-color: #9ccc65;
 	color: #fff;
 	border-radius: 4px;
-	box-shadow: 0 2px 0 #2a6496;
+	text-shadow: 0 1px 0 #689f38;
+	box-shadow: 0 2px 0 #689f38;
 }
 .btn-primary:active {
 	box-shadow: none;
@@ -536,51 +495,4 @@ pre,
 		-webkit-transform: rotate(360deg);
 		transform: rotate(360deg);
 	}
-}
-
-.panel-content .filtered-credentials {
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.terminal {
-	margin: 20px 0;
-	padding: 20px;
-	background-color: #1a1a1a;
-	color: #ffffff;
-	line-height: 1.4;
-	display: none;
-}
-
-.terminal .section-header {
-	color: #428bca;
-}
-
-.terminal .section-header:nth-of-type(1) {
-	margin-top: 0;
-}
-
-.terminal highlight {
-	color: #D33C44;
-}
-
-.terminal .loading {
-	margin: 0;
-}
-
-.terminal .indicator {
-	vertical-align: middle;
-	width: 30px;
-	height: 30px;
-	-webkit-animation: spin 4s linear infinite;
-	-moz-animation: spin 4s linear infinite;
-	animation: spin 4s linear infinite;
-}
-
-.terminal .warning-message {
-	color: #ffcc00;
-}
-
-.terminal .success-message {
-	color: #42bd41;
 }

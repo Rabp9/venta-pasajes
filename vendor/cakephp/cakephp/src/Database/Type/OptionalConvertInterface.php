@@ -22,8 +22,8 @@ interface OptionalConvertInterface
 {
 
     /**
-     * Returns whether the cast to PHP is required to be invoked, since
-     * it is not a identity function.
+     * Returns whehter the cast to PHP is required to be invoked, since
+     * it is not a indentity function.
      *
      * @return bool
      */

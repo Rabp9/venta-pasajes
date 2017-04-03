@@ -20,6 +20,7 @@ use PDO;
 /**
  * Represents a database diver containing all specificities for
  * a database engine including its SQL dialect
+ *
  */
 abstract class Driver
 {
@@ -63,7 +64,7 @@ abstract class Driver
         $config += $this->_baseConfig;
         $this->_config = $config;
         if (!empty($config['quoteIdentifiers'])) {
-            $this->enableAutoQuoting();
+            $this->autoQuoting(true);
         }
     }
 
@@ -86,7 +87,7 @@ abstract class Driver
      * If first argument is passed,
      *
      * @param null|\PDO $connection The connection object
-     * @return \Cake\Database\Connection
+     * @return void
      */
     abstract public function connection($connection = null);
 
@@ -252,26 +253,15 @@ abstract class Driver
             return 'TRUE';
         }
         if (is_float($value)) {
-            return str_replace(',', '.', (string)$value);
+            return str_replace(',', '.', strval($value));
         }
         if ((is_int($value) || $value === '0') || (
             is_numeric($value) && strpos($value, ',') === false &&
             $value[0] !== '0' && strpos($value, 'e') === false)
         ) {
-            return (string)$value;
+            return $value;
         }
-
         return $this->_connection->quote($value, PDO::PARAM_STR);
-    }
-
-    /**
-     * Returns the schema name that's being used
-     *
-     * @return string
-     */
-    public function schema()
-    {
-        return $this->_config['schema'];
     }
 
     /**
@@ -297,48 +287,21 @@ abstract class Driver
     }
 
     /**
-     * Sets whether or not this driver should automatically quote identifiers
-     * in queries.
-     *
-     * @param bool $enable Whether to enable auto quoting
-     * @return $this
-     */
-    public function enableAutoQuoting($enable = true)
-    {
-        $this->_autoQuoting = (bool)$enable;
-
-        return $this;
-    }
-
-    /**
-     * Returns whether or not this driver should automatically quote identifiers
-     * in queries
-     *
-     * @return bool
-     */
-    public function isAutoQuotingEnabled()
-    {
-        return $this->_autoQuoting;
-    }
-
-    /**
      * Returns whether or not this driver should automatically quote identifiers
      * in queries
      *
      * If called with a boolean argument, it will toggle the auto quoting setting
      * to the passed value
      *
-     * @deprecated 3.4.0 use enableAutoQuoting()/isAutoQuotingEnabled() instead.
-     * @param bool|null $enable Whether to enable auto quoting
+     * @param bool|null $enable whether to enable auto quoting
      * @return bool
      */
     public function autoQuoting($enable = null)
     {
-        if ($enable !== null) {
-            $this->enableAutoQuoting($enable);
+        if ($enable === null) {
+            return $this->_autoQuoting;
         }
-
-        return $this->isAutoQuotingEnabled();
+        return $this->_autoQuoting = (bool)$enable;
     }
 
     /**
@@ -355,7 +318,6 @@ abstract class Driver
         $processor = $this->newCompiler();
         $translator = $this->queryTranslator($query->type());
         $query = $translator($query);
-
         return [$query, $processor->compile($query, $generator)];
     }
 
@@ -366,7 +328,7 @@ abstract class Driver
      */
     public function newCompiler()
     {
-        return new QueryCompiler();
+        return new QueryCompiler;
     }
 
     /**

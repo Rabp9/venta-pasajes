@@ -16,7 +16,6 @@ namespace Cake\Filesystem;
 
 use DirectoryIterator;
 use Exception;
-use InvalidArgumentException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
@@ -167,7 +166,7 @@ class Folder
      * Change directory to $path.
      *
      * @param string $path Path to the directory to change to
-     * @return string|bool The new path. Returns false on failure
+     * @return string The new path. Returns false on failure
      */
     public function cd($path)
     {
@@ -175,7 +174,6 @@ class Folder
         if (is_dir($path)) {
             return $this->path = $path;
         }
-
         return false;
     }
 
@@ -238,11 +236,11 @@ class Folder
         }
 
         if ($dirs) {
-            $dirs = array_merge(...array_values($dirs));
+            $dirs = call_user_func_array('array_merge', $dirs);
         }
 
         if ($files) {
-            $files = array_merge(...array_values($files));
+            $files = call_user_func_array('array_merge', $files);
         }
 
         return [$dirs, $files];
@@ -258,7 +256,6 @@ class Folder
     public function find($regexpPattern = '.*', $sort = false)
     {
         list(, $files) = $this->read($sort);
-
         return array_values(preg_grep('/^' . $regexpPattern . '$/i', $files));
     }
 
@@ -277,7 +274,6 @@ class Folder
         $startsOn = $this->path;
         $out = $this->_findRecursive($pattern, $sort);
         $this->cd($startsOn);
-
         return $out;
     }
 
@@ -304,7 +300,6 @@ class Folder
             $this->cd(Folder::addPathElement($start, $dir));
             $found = array_merge($found, $this->findRecursive($pattern, $sort));
         }
-
         return $found;
     }
 
@@ -330,7 +325,6 @@ class Folder
         if (empty($path)) {
             return false;
         }
-
         return $path[0] === '/' ||
             preg_match('/^[A-Z]:\\\\/i', $path) ||
             substr($path, 0, 2) === '\\\\' ||
@@ -382,7 +376,6 @@ class Folder
         if (Folder::isSlashTerm($path)) {
             return $path;
         }
-
         return $path . Folder::correctSlashFor($path);
     }
 
@@ -397,12 +390,11 @@ class Folder
     {
         $element = (array)$element;
         array_unshift($element, rtrim($path, DIRECTORY_SEPARATOR));
-
         return implode(DIRECTORY_SEPARATOR, $element);
     }
 
     /**
-     * Returns true if the Folder is in the given Cake path.
+     * Returns true if the File is in a given CakePath.
      *
      * @param string $path The path to check.
      * @return bool
@@ -417,28 +409,22 @@ class Folder
     }
 
     /**
-     * Returns true if the Folder is in the given path.
+     * Returns true if the File is in given path.
      *
-     * @param string $path The absolute path to check that the current `pwd()` resides within.
-     * @param bool $reverse Reverse the search, check if the given `$path` resides within the current `pwd()`.
+     * @param string $path The path to check that the current pwd() resides with in.
+     * @param bool $reverse Reverse the search, check that pwd() resides within $path.
      * @return bool
-     * @throws \InvalidArgumentException When the given `$path` argument is not an absolute path.
      */
-    public function inPath($path, $reverse = false)
+    public function inPath($path = '', $reverse = false)
     {
-        if (!Folder::isAbsolute($path)) {
-            throw new InvalidArgumentException('The $path argument is expected to be an absolute path.');
-        }
-
         $dir = Folder::slashTerm($path);
         $current = Folder::slashTerm($this->pwd());
 
         if (!$reverse) {
-            $return = preg_match('/^' . preg_quote($dir, '/') . '(.*)/', $current);
+            $return = preg_match('/^(.*)' . preg_quote($dir, '/') . '(.*)/', $current);
         } else {
-            $return = preg_match('/^' . preg_quote($current, '/') . '(.*)/', $dir);
+            $return = preg_match('/^(.*)' . preg_quote($current, '/') . '(.*)/', $dir);
         }
-
         return (bool)$return;
     }
 
@@ -462,12 +448,10 @@ class Folder
             if (@chmod($path, intval($mode, 8))) {
                 //@codingStandardsIgnoreEnd
                 $this->_messages[] = sprintf('%s changed to %s', $path, $mode);
-
                 return true;
             }
 
             $this->_errors[] = sprintf('%s NOT changed to %s', $path, $mode);
-
             return false;
         }
 
@@ -497,7 +481,6 @@ class Folder
                 return true;
             }
         }
-
         return false;
     }
 
@@ -527,7 +510,6 @@ class Folder
             }
             $subdirectories[] = $fullPath ? $item->getRealPath() : $item->getFilename();
         }
-
         return $subdirectories;
     }
 
@@ -566,7 +548,6 @@ class Folder
             if ($type === null) {
                 return [[], []];
             }
-
             return [];
         }
 
@@ -594,7 +575,6 @@ class Folder
         if ($type === 'dir') {
             return $directories;
         }
-
         return $files;
     }
 
@@ -625,7 +605,6 @@ class Folder
 
         if (is_file($pathname)) {
             $this->_errors[] = sprintf('%s is a file', $pathname);
-
             return false;
         }
         $pathname = rtrim($pathname, DIRECTORY_SEPARATOR);
@@ -637,16 +616,13 @@ class Folder
                 if (mkdir($pathname, $mode, true)) {
                     umask($old);
                     $this->_messages[] = sprintf('%s created', $pathname);
-
                     return true;
                 }
                 umask($old);
                 $this->_errors[] = sprintf('%s NOT created', $pathname);
-
                 return false;
             }
         }
-
         return false;
     }
 
@@ -683,7 +659,6 @@ class Folder
             }
             $j = count($stack);
         }
-
         return $size;
     }
 
@@ -727,7 +702,6 @@ class Folder
                         $this->_messages[] = sprintf('%s removed', $filePath);
                     } else {
                         $this->_errors[] = sprintf('%s NOT removed', $filePath);
-
                         return false;
                     }
                 }
@@ -740,11 +714,9 @@ class Folder
                 $this->_messages[] = sprintf('%s removed', $path);
             } else {
                 $this->_errors[] = sprintf('%s NOT removed', $path);
-
                 return false;
             }
         }
-
         return true;
     }
 
@@ -788,7 +760,6 @@ class Folder
 
         if (!$this->cd($fromDir)) {
             $this->_errors[] = sprintf('%s not found', $fromDir);
-
             return false;
         }
 
@@ -798,7 +769,6 @@ class Folder
 
         if (!is_writable($toDir)) {
             $this->_errors[] = sprintf('%s not writable', $toDir);
-
             return false;
         }
 
@@ -884,7 +854,6 @@ class Folder
                 return (bool)$this->cd($options['to']);
             }
         }
-
         return false;
     }
 
@@ -900,7 +869,6 @@ class Folder
         if ($reset) {
             $this->_messages = [];
         }
-
         return $messages;
     }
 
@@ -916,7 +884,6 @@ class Folder
         if ($reset) {
             $this->_errors = [];
         }
-
         return $errors;
     }
 
@@ -924,7 +891,7 @@ class Folder
      * Get the real path (taking ".." and such into account)
      *
      * @param string $path Path to resolve
-     * @return string|bool The resolved path
+     * @return string The resolved path
      */
     public function realpath($path)
     {
@@ -932,7 +899,6 @@ class Folder
             if (!Folder::isAbsolute($path)) {
                 $path = Folder::addPathElement($this->path, $path);
             }
-
             return $path;
         }
         $path = str_replace('/', DIRECTORY_SEPARATOR, trim($path));
@@ -952,7 +918,6 @@ class Folder
                     array_pop($newparts);
                     continue;
                 }
-
                 return false;
             }
             $newparts[] = $part;
@@ -971,7 +936,6 @@ class Folder
     public static function isSlashTerm($path)
     {
         $lastChar = $path[strlen($path) - 1];
-
         return $lastChar === '/' || $lastChar === '\\';
     }
 }

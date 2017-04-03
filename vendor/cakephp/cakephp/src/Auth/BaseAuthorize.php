@@ -16,7 +16,7 @@ namespace Cake\Auth;
 
 use Cake\Controller\ComponentRegistry;
 use Cake\Core\InstanceConfigTrait;
-use Cake\Http\ServerRequest;
+use Cake\Network\Request;
 
 /**
  * Abstract base authorization adapter for AuthComponent.
@@ -51,15 +51,15 @@ abstract class BaseAuthorize
     public function __construct(ComponentRegistry $registry, array $config = [])
     {
         $this->_registry = $registry;
-        $this->setConfig($config);
+        $this->config($config);
     }
 
     /**
      * Checks user authorization.
      *
-     * @param array|\ArrayAccess $user Active user data
-     * @param \Cake\Http\ServerRequest $request Request instance.
+     * @param array $user Active user data
+     * @param \Cake\Network\Request $request Request instance.
      * @return bool
      */
-    abstract public function authorize($user, ServerRequest $request);
+    abstract public function authorize($user, Request $request);
 }

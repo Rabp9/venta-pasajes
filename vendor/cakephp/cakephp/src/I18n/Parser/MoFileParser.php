@@ -141,7 +141,6 @@ class MoFileParser
         }
 
         fclose($stream);
-
         return $messages;
     }
 

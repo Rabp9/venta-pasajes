@@ -46,7 +46,6 @@ class DateType extends DateTimeType
     public function useImmutable()
     {
         $this->_setClassName('Cake\I18n\FrozenDate', 'DateTimeImmutable');
-
         return $this;
     }
 
@@ -58,7 +57,6 @@ class DateType extends DateTimeType
     public function useMutable()
     {
         $this->_setClassName('Cake\I18n\Date', 'DateTime');
-
         return $this;
     }
 
@@ -74,7 +72,6 @@ class DateType extends DateTimeType
         if ($date instanceof DateTime) {
             $date->setTime(0, 0, 0);
         }
-
         return $date;
     }
 
@@ -91,7 +88,6 @@ class DateType extends DateTimeType
         if ($date instanceof DateTime) {
             $date->setTime(0, 0, 0);
         }
-
         return $date;
     }
 
@@ -100,9 +96,7 @@ class DateType extends DateTimeType
      */
     protected function _parseValue($value)
     {
-        /* @var \Cake\I18n\Time $class */
         $class = $this->_className;
-
         return $class::parseDate($value, $this->_localeFormat);
     }
 }

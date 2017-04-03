@@ -38,7 +38,6 @@ trait BufferResultsTrait
     public function bufferResults($buffer)
     {
         $this->_bufferResults = (bool)$buffer;
-
         return $this;
     }
 }

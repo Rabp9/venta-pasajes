@@ -28,9 +28,6 @@
  */
 namespace Phinx\Migration;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-
 /**
  * Migration interface
  *
@@ -38,38 +35,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 interface CreationInterface
 {
-    /**
-     * CreationInterface constructor.
-     *
-     * @param InputInterface|null  $input
-     * @param OutputInterface|null $output
-     */
-    public function __construct(InputInterface $input = null, OutputInterface $output = null);
-
-    /**
-     * @param InputInterface $input
-     *
-     * @return CreationInterface
-     */
-    public function setInput(InputInterface $input);
-
-    /**
-     * @param OutputInterface $output
-     *
-     * @return CreationInterface
-     */
-    public function setOutput(OutputInterface $output);
-
-    /**
-     * @return InputInterface
-     */
-    public function getInput();
-
-    /**
-     * @return OutputInterface
-     */
-    public function getOutput();
-
     /**
      * Get the migration template.
      *

@@ -16,20 +16,14 @@
  */
 namespace Cake\TestSuite;
 
-if (class_exists('PHPUnit_Runner_Version') && !class_exists('PHPUnit\Framework\TestSuite')) {
-    if (version_compare(\PHPUnit_Runner_Version::id(), '5.7', '<')) {
-        trigger_error(sprintf('Your PHPUnit Version must be at least 5.7.0 to use CakePHP Testsuite, found %s', \PHPUnit_Runner_Version::id()), E_USER_ERROR);
-    }
-    class_alias('PHPUnit_Framework_TestSuite', 'PHPUnit\Framework\TestSuite');
-}
-
 use Cake\Filesystem\Folder;
-use PHPUnit\Framework\TestSuite as BaseTestSuite;
+use PHPUnit_Framework_TestSuite;
 
 /**
  * A class to contain test cases and run them with shared fixtures
+ *
  */
-class TestSuite extends BaseTestSuite
+class TestSuite extends PHPUnit_Framework_TestSuite
 {
 
     /**

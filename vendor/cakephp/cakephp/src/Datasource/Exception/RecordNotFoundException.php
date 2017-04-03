@@ -18,6 +18,7 @@ use RuntimeException;
 
 /**
  * Exception raised when a particular record was not found
+ *
  */
 class RecordNotFoundException extends RuntimeException
 {

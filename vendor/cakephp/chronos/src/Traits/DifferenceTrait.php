@@ -40,35 +40,33 @@ trait DifferenceTrait
     /**
      * Get the difference in years
      *
-     * @param \Cake\Chronos\ChronosInterface|null $dt The instance to difference from.
+     * @param ChronosInterface|null $dt The instance to difference from.
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
     public function diffInYears(ChronosInterface $dt = null, $abs = true)
     {
         $dt = $dt === null ? static::now($this->tz) : $dt;
-
         return (int)$this->diff($dt, $abs)->format('%r%y');
     }
 
     /**
      * Get the difference in months
      *
-     * @param \Cake\Chronos\ChronosInterface|null $dt The instance to difference from.
+     * @param ChronosInterface|null $dt The instance to difference from.
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
     public function diffInMonths(ChronosInterface $dt = null, $abs = true)
     {
         $dt = $dt === null ? static::now($this->tz) : $dt;
-
         return $this->diffInYears($dt, $abs) * ChronosInterface::MONTHS_PER_YEAR + (int)$this->diff($dt, $abs)->format('%r%m');
     }
 
     /**
      * Get the difference in weeks
      *
-     * @param \Cake\Chronos\ChronosInterface|null $dt The instance to difference from.
+     * @param ChronosInterface|null $dt The instance to difference from.
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
@@ -80,14 +78,13 @@ trait DifferenceTrait
     /**
      * Get the difference in days
      *
-     * @param \Cake\Chronos\ChronosInterface|null $dt The instance to difference from.
+     * @param ChronosInterface|null $dt The instance to difference from.
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
     public function diffInDays(ChronosInterface $dt = null, $abs = true)
     {
         $dt = $dt === null ? static::now($this->tz) : $dt;
-
         return (int)$this->diff($dt, $abs)->format('%r%a');
     }
 
@@ -95,7 +92,7 @@ trait DifferenceTrait
      * Get the difference in days using a filter callable
      *
      * @param callable $callback The callback to use for filtering.
-     * @param \Cake\Chronos\ChronosInterface|null $dt The instance to difference from.
+     * @param ChronosInterface|null $dt The instance to difference from.
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
@@ -108,7 +105,7 @@ trait DifferenceTrait
      * Get the difference in hours using a filter callable
      *
      * @param callable $callback The callback to use for filtering.
-     * @param \Cake\Chronos\ChronosInterface|null $dt The instance to difference from.
+     * @param ChronosInterface|null $dt The instance to difference from.
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
@@ -120,9 +117,9 @@ trait DifferenceTrait
     /**
      * Get the difference by the given interval using a filter callable
      *
-     * @param \Cake\Chronos\ChronosInterval $ci An interval to traverse by
+     * @param ChronosInterval $ci An interval to traverse by
      * @param callable $callback The callback to use for filtering.
-     * @param \Cake\Chronos\ChronosInterface|null $dt The instance to difference from.
+     * @param ChronosInterface|null $dt The instance to difference from.
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
@@ -156,7 +153,7 @@ trait DifferenceTrait
     /**
      * Get the difference in weekdays
      *
-     * @param \Cake\Chronos\ChronosInterface|null $dt The instance to difference from.
+     * @param ChronosInterface|null $dt The instance to difference from.
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
@@ -170,7 +167,7 @@ trait DifferenceTrait
     /**
      * Get the difference in weekend days using a filter
      *
-     * @param \Cake\Chronos\ChronosInterface|null $dt The instance to difference from.
+     * @param ChronosInterface|null $dt The instance to difference from.
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
@@ -184,7 +181,7 @@ trait DifferenceTrait
     /**
      * Get the difference in hours
      *
-     * @param \Cake\Chronos\ChronosInterface|null $dt The instance to difference from.
+     * @param ChronosInterface|null $dt The instance to difference from.
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
@@ -196,7 +193,7 @@ trait DifferenceTrait
     /**
      * Get the difference in minutes
      *
-     * @param \Cake\Chronos\ChronosInterface|null $dt The instance to difference from.
+     * @param ChronosInterface|null $dt The instance to difference from.
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
@@ -208,7 +205,7 @@ trait DifferenceTrait
     /**
      * Get the difference in seconds
      *
-     * @param \Cake\Chronos\ChronosInterface|null $dt The instance to difference from.
+     * @param ChronosInterface|null $dt The instance to difference from.
      * @param bool $abs Get the absolute of the difference
      * @return int
      */
@@ -249,7 +246,6 @@ trait DifferenceTrait
     public static function fromNow($datetime)
     {
         $timeNow = new static();
-
         return $timeNow->diff($datetime);
     }
 
@@ -293,10 +289,8 @@ trait DifferenceTrait
             if (static::$diffFormatter === null) {
                 static::$diffFormatter = new DifferenceFormatter();
             }
-
             return static::$diffFormatter;
         }
-
         return static::$diffFormatter = $formatter;
     }
 }

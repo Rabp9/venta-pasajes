@@ -80,11 +80,9 @@ trait SqlserverDialectTrait
      *
      * @return int
      */
-    // @codingStandardsIgnoreLine
     public function _version()
     {
         $this->connect();
-
         return $this->_connection->getAttribute(PDO::ATTR_SERVER_VERSION);
     }
 
@@ -111,7 +109,7 @@ trait SqlserverDialectTrait
             ->offset(null)
             ->order([], true);
 
-        $outer = new Query($query->getConnection());
+        $outer = new Query($query->connection());
         $outer->select('*')
             ->from(['_cake_paging_' => $query]);
 
@@ -129,7 +127,6 @@ trait SqlserverDialectTrait
             if (isset($row['_cake_page_rownum_'])) {
                 unset($row['_cake_page_rownum_']);
             }
-
             return $row;
         });
 
@@ -158,11 +155,10 @@ trait SqlserverDialectTrait
             ->select(function ($q) use ($distinct, $order) {
                 $over = $q->newExpr('ROW_NUMBER() OVER')
                     ->add('(PARTITION BY')
-                    ->add($q->newExpr()->add($distinct)->setConjunction(','))
+                    ->add($q->newExpr()->add($distinct)->tieWith(','))
                     ->add($order)
                     ->add(')')
-                    ->setConjunction(' ');
-
+                    ->tieWith(' ');
                 return [
                     '_cake_distinct_pivot_' => $over
                 ];
@@ -171,7 +167,7 @@ trait SqlserverDialectTrait
             ->offset(null)
             ->order([], true);
 
-        $outer = new Query($query->getConnection());
+        $outer = new Query($query->connection());
         $outer->select('*')
             ->from(['_cake_distinct_' => $query])
             ->where(['_cake_distinct_pivot_' => 1]);
@@ -182,7 +178,6 @@ trait SqlserverDialectTrait
             if (isset($row['_cake_distinct_pivot_'])) {
                 unset($row['_cake_distinct_pivot_']);
             }
-
             return $row;
         });
 
@@ -198,7 +193,6 @@ trait SqlserverDialectTrait
     protected function _expressionTranslators()
     {
         $namespace = 'Cake\Database\Expression';
-
         return [
             $namespace . '\FunctionExpression' => '_transformFunctionExpression',
             $namespace . '\TupleComparison' => '_transformTupleComparison'
@@ -214,10 +208,10 @@ trait SqlserverDialectTrait
      */
     protected function _transformFunctionExpression(FunctionExpression $expression)
     {
-        switch ($expression->getName()) {
+        switch ($expression->name()) {
             case 'CONCAT':
                 // CONCAT function is expressed as exp1 + exp2
-                $expression->setName('')->setConjunction(' +');
+                $expression->name('')->tieWith(' +');
                 break;
             case 'DATEDIFF':
                 $hasDay = false;
@@ -225,7 +219,6 @@ trait SqlserverDialectTrait
                     if ($value === 'day') {
                         $hasDay = true;
                     }
-
                     return $value;
                 };
                 $expression->iterateParts($visitor);
@@ -236,17 +229,17 @@ trait SqlserverDialectTrait
                 break;
             case 'CURRENT_DATE':
                 $time = new FunctionExpression('GETUTCDATE');
-                $expression->setName('CONVERT')->add(['date' => 'literal', $time]);
+                $expression->name('CONVERT')->add(['date' => 'literal', $time]);
                 break;
             case 'CURRENT_TIME':
                 $time = new FunctionExpression('GETUTCDATE');
-                $expression->setName('CONVERT')->add(['time' => 'literal', $time]);
+                $expression->name('CONVERT')->add(['time' => 'literal', $time]);
                 break;
             case 'NOW':
-                $expression->setName('GETUTCDATE');
+                $expression->name('GETUTCDATE');
                 break;
             case 'EXTRACT':
-                $expression->setName('DATEPART')->setConjunction(' ,');
+                $expression->name('DATEPART')->tieWith(' ,');
                 break;
             case 'DATE_ADD':
                 $params = [];
@@ -258,7 +251,6 @@ trait SqlserverDialectTrait
                         $params[0] = rtrim($valueUnit[1], 's');
                         $params[1] = $valueUnit[0];
                     }
-
                     return $p;
                 };
                 $manipulator = function ($p, $key) use (&$params) {
@@ -266,29 +258,17 @@ trait SqlserverDialectTrait
                 };
 
                 $expression
-                    ->setName('DATEADD')
-                    ->setConjunction(',')
+                    ->name('DATEADD')
+                    ->tieWith(',')
                     ->iterateParts($visitor)
                     ->iterateParts($manipulator)
                     ->add([$params[2] => 'literal']);
                 break;
             case 'DAYOFWEEK':
                 $expression
-                    ->setName('DATEPART')
-                    ->setConjunction(' ')
+                    ->name('DATEPART')
+                    ->tieWith(' ')
                     ->add(['weekday, ' => 'literal'], [], true);
-                break;
-            case 'SUBSTR':
-                $expression->setName('SUBSTRING');
-                if (count($expression) < 4) {
-                    $params = [];
-                    $expression
-                        ->iterateParts(function ($p) use (&$params) {
-                            return $params[] = $p;
-                        })
-                        ->add([new FunctionExpression('LEN', [$params[0]]), ['string']]);
-                }
-
                 break;
         }
     }
@@ -299,7 +279,7 @@ trait SqlserverDialectTrait
      * Used by Cake\Schema package to reflect schema and
      * generate schema.
      *
-     * @return \Cake\Database\Schema\SqlserverSchema
+     * @return \Cake\Database\Schema\MysqlSchema
      */
     public function schemaDialect()
     {

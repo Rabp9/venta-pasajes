@@ -21,7 +21,7 @@ use Cake\Utility\Inflector;
 use Cake\View\Helper;
 
 /**
- * UrlHelper class for generating URLs.
+ * UrlHelper class for generating urls.
  */
 class UrlHelper extends Helper
 {
@@ -29,35 +29,15 @@ class UrlHelper extends Helper
     /**
      * Returns a URL based on provided parameters.
      *
-     * ### Options:
-     *
-     * - `escape`: If false, the URL will be returned unescaped, do only use if it is manually
-     *    escaped afterwards before being displayed.
-     * - `fullBase`: If true, the full base URL will be prepended to the result
-     *
-     * @param string|array|null $url Either a relative string URL like `/products/view/23` or
+     * @param string|array|null $url Either a relative string url like `/products/view/23` or
      *    an array of URL parameters. Using an array for URLs will allow you to leverage
      *    the reverse routing features of CakePHP.
-     * @param array|bool $options Array of options; bool `full` for BC reasons.
+     * @param bool $full If true, the full base URL will be prepended to the result
      * @return string Full translated URL with base path.
      */
-    public function build($url = null, $options = false)
+    public function build($url = null, $full = false)
     {
-        $defaults = [
-            'fullBase' => false,
-            'escape' => true,
-        ];
-        if (!is_array($options)) {
-            $options = ['fullBase' => $options];
-        }
-        $options += $defaults;
-
-        $url = Router::url($url, $options['fullBase']);
-        if ($options['escape']) {
-            $url = h($url);
-        }
-
-        return $url;
+        return h(Router::url($url, $full));
     }
 
     /**
@@ -76,7 +56,6 @@ class UrlHelper extends Helper
     public function image($path, array $options = [])
     {
         $pathPrefix = Configure::read('App.imageBaseUrl');
-
         return $this->assetUrl($path, $options + compact('pathPrefix'));
     }
 
@@ -98,7 +77,6 @@ class UrlHelper extends Helper
     {
         $pathPrefix = Configure::read('App.cssBaseUrl');
         $ext = '.css';
-
         return $this->assetUrl($path, $options + compact('pathPrefix', 'ext'));
     }
 
@@ -120,7 +98,6 @@ class UrlHelper extends Helper
     {
         $pathPrefix = Configure::read('App.jsBaseUrl');
         $ext = '.js';
-
         return $this->assetUrl($path, $options + compact('pathPrefix', 'ext'));
     }
 
@@ -169,7 +146,6 @@ class UrlHelper extends Helper
         if (!empty($options['fullBase'])) {
             $path = rtrim(Router::fullBaseUrl(), '/') . '/' . ltrim($path, '/');
         }
-
         return $path;
     }
 
@@ -185,7 +161,6 @@ class UrlHelper extends Helper
         $parts = array_map('rawurldecode', explode('/', $path));
         $parts = array_map('rawurlencode', $parts);
         $encoded = implode('/', $parts);
-
         return h(str_replace($path, $encoded, $url));
     }
 
@@ -203,7 +178,7 @@ class UrlHelper extends Helper
         $timestampEnabled = $stamp === 'force' || ($stamp === true && Configure::read('debug'));
         if ($timestampEnabled && strpos($path, '?') === false) {
             $filepath = preg_replace(
-                '/^' . preg_quote($this->request->getAttribute('webroot'), '/') . '/',
+                '/^' . preg_quote($this->request->webroot, '/') . '/',
                 '',
                 urldecode($path)
             );
@@ -223,7 +198,6 @@ class UrlHelper extends Helper
                 //@codingStandardsIgnoreEnd
             }
         }
-
         return $path;
     }
 
@@ -237,7 +211,7 @@ class UrlHelper extends Helper
     {
         $asset = explode('?', $file);
         $asset[1] = isset($asset[1]) ? '?' . $asset[1] : null;
-        $webPath = $this->request->getAttribute('webroot') . $asset[0];
+        $webPath = $this->request->webroot . $asset[0];
         $file = $asset[0];
 
         if (!empty($this->theme)) {
@@ -249,19 +223,18 @@ class UrlHelper extends Helper
             }
 
             if (file_exists(Configure::read('App.wwwRoot') . $theme . $file)) {
-                $webPath = $this->request->getAttribute('webroot') . $theme . $asset[0];
+                $webPath = $this->request->webroot . $theme . $asset[0];
             } else {
                 $themePath = Plugin::path($this->theme);
                 $path = $themePath . 'webroot/' . $file;
                 if (file_exists($path)) {
-                    $webPath = $this->request->getAttribute('webroot') . $theme . $asset[0];
+                    $webPath = $this->request->webroot . $theme . $asset[0];
                 }
             }
         }
         if (strpos($webPath, '//') !== false) {
             return str_replace('//', '/', $webPath . $asset[1]);
         }
-
         return $webPath . $asset[1];
     }
 

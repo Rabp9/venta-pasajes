@@ -78,7 +78,6 @@ class JsonConfig implements ConfigEngineInterface
                 $key
             ));
         }
-
         return $values;
     }
 
@@ -94,7 +93,6 @@ class JsonConfig implements ConfigEngineInterface
     public function dump($key, array $data)
     {
         $filename = $this->_getFilePath($key);
-
         return file_put_contents($filename, json_encode($data, JSON_PRETTY_PRINT)) > 0;
     }
 }

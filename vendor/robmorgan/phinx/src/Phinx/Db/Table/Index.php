@@ -69,7 +69,7 @@ class Index
      * Sets the index columns.
      *
      * @param array $columns
-     * @return Index
+     * @return Column
      */
     public function setColumns($columns)
     {
@@ -165,8 +165,8 @@ class Index
         // Valid Options
         $validOptions = array('type', 'unique', 'name', 'limit');
         foreach ($options as $option => $value) {
-            if (!in_array($option, $validOptions, true)) {
-                throw new \RuntimeException(sprintf('"%s" is not a valid index option.', $option));
+            if (!in_array($option, $validOptions)) {
+                throw new \RuntimeException('\'' . $option . '\' is not a valid index option.');
             }
 
             // handle $options['unique']
@@ -180,6 +180,5 @@ class Index
             $method = 'set' . ucfirst($option);
             $this->$method($value);
         }
-        return $this;
     }
 }

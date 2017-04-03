@@ -114,33 +114,28 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
     /**
      * Dumps a Data object.
      *
-     * @param Data                               $data   A Data object
-     * @param callable|resource|string|true|null $output A line dumper callable, an opened stream, an output path or true to return the dump
-     *
-     * @return string|null The dump as string when $output is true
+     * @param Data                          $data   A Data object
+     * @param callable|resource|string|null $output A line dumper callable, an opened stream or an output path
      */
     public function dump(Data $data, $output = null)
     {
-        if ($returnDump = true === $output) {
-            $output = fopen('php://memory', 'r+b');
-        }
+        $exception = null;
         if ($output) {
             $prevOutput = $this->setOutput($output);
         }
         try {
             $data->dump($this);
             $this->dumpLine(-1);
-
-            if ($returnDump) {
-                $result = stream_get_contents($output, -1, 0);
-                fclose($output);
-
-                return $result;
-            }
-        } finally {
-            if ($output) {
-                $this->setOutput($prevOutput);
-            }
+        } catch (\Exception $exception) {
+            // Re-thrown below
+        } catch (\Throwable $exception) {
+            // Re-thrown below
+        }
+        if ($output) {
+            $this->setOutput($prevOutput);
+        }
+        if (null !== $exception) {
+            throw $exception;
         }
     }
 
@@ -158,9 +153,8 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
     /**
      * Generic line dumper callback.
      *
-     * @param string $line      The line to write
-     * @param int    $depth     The recursive depth in the dumped structure
-     * @param string $indentPad The line indent pad
+     * @param string $line  The line to write
+     * @param int    $depth The recursive depth in the dumped structure
      */
     protected function echoLine($line, $depth, $indentPad)
     {
@@ -178,9 +172,6 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
      */
     protected function utf8Encode($s)
     {
-        if (preg_match('//u', $s)) {
-            return $s;
-        }
         if (false !== $c = @iconv($this->charset, 'UTF-8', $s)) {
             return $c;
         }

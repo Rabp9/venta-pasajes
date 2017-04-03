@@ -40,9 +40,9 @@ class EagerLoader
      * Contains a nested array with the compiled containments tree
      * This is a normalized version of the user provided containments array.
      *
-     * @var \Cake\ORM\EagerLoadable[]|\Cake\ORM\EagerLoadable|null
+     * @var array
      */
-    protected $_normalized = null;
+    protected $_normalized;
 
     /**
      * List of options accepted by associations in contain()
@@ -67,7 +67,7 @@ class EagerLoader
     /**
      * A list of associations that should be loaded with a separate query
      *
-     * @var \Cake\ORM\EagerLoadable[]
+     * @var array
      */
     protected $_loadExternal = [];
 
@@ -139,7 +139,6 @@ class EagerLoader
         $this->_normalized = null;
         $this->_loadExternal = [];
         $this->_aliasList = [];
-
         return $this->_containments = $associations;
     }
 
@@ -160,102 +159,17 @@ class EagerLoader
     }
 
     /**
-     * Sets whether or not contained associations will load fields automatically.
+     * Set whether or not contained associations will load fields automatically.
      *
-     * @param bool $enable The value to set.
-     * @return $this
-     */
-    public function enableAutoFields($enable = true)
-    {
-        $this->_autoFields = (bool)$enable;
-
-        return $this;
-    }
-
-    /**
-     * Gets whether or not contained associations will load fields automatically.
-     *
+     * @param bool|null $value The value to set.
      * @return bool The current value.
      */
-    public function isAutoFieldsEnabled()
+    public function autoFields($value = null)
     {
+        if ($value !== null) {
+            $this->_autoFields = (bool)$value;
+        }
         return $this->_autoFields;
-    }
-
-    /**
-     * Sets/Gets whether or not contained associations will load fields automatically.
-     *
-     * @deprecated 3.4.0 Use enableAutoFields()/isAutoFieldsEnabled() instead.
-     * @param bool|null $enable The value to set.
-     * @return bool The current value.
-     */
-    public function autoFields($enable = null)
-    {
-        if ($enable !== null) {
-            $this->enableAutoFields($enable);
-        }
-
-        return $this->isAutoFieldsEnabled();
-    }
-
-    /**
-     * Adds a new association to the list that will be used to filter the results of
-     * any given query based on the results of finding records for that association.
-     * You can pass a dot separated path of associations to this method as its first
-     * parameter, this will translate in setting all those associations with the
-     * `matching` option.
-     *
-     *  ### Options
-     *  - 'joinType': INNER, OUTER, ...
-     *  - 'fields': Fields to contain
-     *
-     * @param string $assoc A single association or a dot separated path of associations.
-     * @param callable|null $builder the callback function to be used for setting extra
-     * options to the filtering query
-     * @param array $options Extra options for the association matching.
-     * @return $this
-     */
-    public function setMatching($assoc, callable $builder = null, $options = [])
-    {
-        if ($this->_matching === null) {
-            $this->_matching = new static();
-        }
-
-        if (!isset($options['joinType'])) {
-            $options['joinType'] = 'INNER';
-        }
-
-        $assocs = explode('.', $assoc);
-        $last = array_pop($assocs);
-        $containments = [];
-        $pointer =& $containments;
-        $opts = ['matching' => true] + $options;
-        unset($opts['negateMatch']);
-
-        foreach ($assocs as $name) {
-            $pointer[$name] = $opts;
-            $pointer =& $pointer[$name];
-        }
-
-        $pointer[$last] = ['queryBuilder' => $builder, 'matching' => true] + $options;
-
-        $this->_matching->contain($containments);
-
-        return $this;
-    }
-
-    /**
-     * Returns the current tree of associations to be matched.
-     *
-     * @return array The resulting containments array
-     */
-    public function getMatching()
-    {
-        if ($this->_matching === null) {
-            $this->_matching = new static();
-        }
-
-        return $this->_matching->contain();
     }
 
     /**
@@ -268,7 +182,6 @@ class EagerLoader
      * If called with no arguments it will return the current tree of associations to
      * be matched.
      *
-     * @deprecated 3.4.0 Use setMatching()/getMatching() instead.
      * @param string|null $assoc A single association or a dot separated path of associations.
      * @param callable|null $builder the callback function to be used for setting extra
      * options to the filtering query
@@ -278,11 +191,29 @@ class EagerLoader
      */
     public function matching($assoc = null, callable $builder = null, $options = [])
     {
-        if ($assoc !== null) {
-            $this->setMatching($assoc, $builder, $options);
+        if ($this->_matching === null) {
+            $this->_matching = new self();
         }
 
-        return $this->getMatching();
+        if ($assoc === null) {
+            return $this->_matching->contain();
+        }
+
+        $assocs = explode('.', $assoc);
+        $last = array_pop($assocs);
+        $containments = [];
+        $pointer =& $containments;
+        $options += ['joinType' => 'INNER'];
+        $opts = ['matching' => true] + $options;
+        unset($opts['negateMatch']);
+
+        foreach ($assocs as $name) {
+            $pointer[$name] = $opts;
+            $pointer =& $pointer[$name];
+        }
+
+        $pointer[$last] = ['queryBuilder' => $builder, 'matching' => true] + $options;
+        return $this->_matching->contain($containments);
     }
 
     /**
@@ -389,10 +320,6 @@ class EagerLoader
                 };
             }
 
-            if (!is_array($options)) {
-                $options = [$options => []];
-            }
-
             $pointer[$table] = $options + $pointer[$table];
         }
 
@@ -422,7 +349,7 @@ class EagerLoader
         $processed = [];
         do {
             foreach ($attachable as $alias => $loadable) {
-                $config = $loadable->getConfig() + [
+                $config = $loadable->config() + [
                     'aliasPath' => $loadable->aliasPath(),
                     'propertyPath' => $loadable->propertyPath(),
                     'includeFields' => $includeFields,
@@ -451,7 +378,6 @@ class EagerLoader
         $matching = $this->_matching ? $this->_matching->normalized($repository) : [];
         $this->_fixStrategies();
         $this->_loadExternal = [];
-
         return $this->_resolveJoins($contain, $matching);
     }
 
@@ -461,7 +387,7 @@ class EagerLoader
      *
      * @param \Cake\ORM\Table $repository The table containing the associations
      * to be loaded
-     * @return \Cake\ORM\EagerLoadable[]
+     * @return array
      */
     public function externalAssociations(Table $repository)
     {
@@ -470,7 +396,6 @@ class EagerLoader
         }
 
         $this->attachableAssociations($repository);
-
         return $this->_loadExternal;
     }
 
@@ -485,7 +410,7 @@ class EagerLoader
      * separated strings representing associations that lead to this `$alias` in the
      * chain of associations to be loaded. The second value is the path to follow in
      * entities' properties to fetch a record of the corresponding association.
-     * @return \Cake\ORM\EagerLoadable Object with normalized associations
+     * @return array normalized associations
      * @throws \InvalidArgumentException When containments refer to associations that do not exist.
      */
     protected function _normalizeContain(Table $parent, $alias, $options, $paths)
@@ -494,22 +419,22 @@ class EagerLoader
         $instance = $parent->association($alias);
         if (!$instance) {
             throw new InvalidArgumentException(
-                sprintf('%s is not associated with %s', $parent->getAlias(), $alias)
+                sprintf('%s is not associated with %s', $parent->alias(), $alias)
             );
         }
-        if ($instance->getAlias() !== $alias) {
+        if ($instance->alias() !== $alias) {
             throw new InvalidArgumentException(sprintf(
                 "You have contained '%s' but that association was bound as '%s'.",
                 $alias,
-                $instance->getAlias()
+                $instance->alias()
             ));
         }
 
         $paths += ['aliasPath' => '', 'propertyPath' => '', 'root' => $alias];
         $paths['aliasPath'] .= '.' . $alias;
-        $paths['propertyPath'] .= '.' . $instance->getProperty();
+        $paths['propertyPath'] .= '.' . $instance->property();
 
-        $table = $instance->getTarget();
+        $table = $instance->target();
 
         $extra = array_diff_key($options, $defaults);
         $config = [
@@ -517,8 +442,7 @@ class EagerLoader
             'instance' => $instance,
             'config' => array_diff_key($options, $extra),
             'aliasPath' => trim($paths['aliasPath'], '.'),
-            'propertyPath' => trim($paths['propertyPath'], '.'),
-            'targetProperty' => $instance->getProperty()
+            'propertyPath' => trim($paths['propertyPath'], '.')
         ];
         $config['canBeJoined'] = $instance->canBeJoined($config['config']);
         $eagerLoadable = new EagerLoadable($alias, $config);
@@ -555,7 +479,6 @@ class EagerLoader
                 if (count($configs) < 2) {
                     continue;
                 }
-                /* @var \Cake\ORM\EagerLoadable $loadable */
                 foreach ($configs as $loadable) {
                     if (strpos($loadable->aliasPath(), '.')) {
                         $this->_correctStrategy($loadable);
@@ -574,7 +497,7 @@ class EagerLoader
      */
     protected function _correctStrategy($loadable)
     {
-        $config = $loadable->getConfig();
+        $config = $loadable->config();
         $currentStrategy = isset($config['strategy']) ?
             $config['strategy'] :
             'join';
@@ -584,8 +507,8 @@ class EagerLoader
         }
 
         $config['strategy'] = Association::STRATEGY_SELECT;
-        $loadable->setConfig($config);
-        $loadable->setCanBeJoined(false);
+        $loadable->config($config);
+        $loadable->canBeJoined(false);
     }
 
     /**
@@ -615,10 +538,9 @@ class EagerLoader
                 $this->_correctStrategy($loadable);
             }
 
-            $loadable->setCanBeJoined(false);
+            $loadable->canBeJoined(false);
             $this->_loadExternal[] = $loadable;
         }
-
         return $result;
     }
 
@@ -629,7 +551,7 @@ class EagerLoader
      * @param \Cake\ORM\Query $query The query for which to eager load external
      * associations
      * @param \Cake\Database\StatementInterface $statement The statement created after executing the $query
-     * @return \Cake\Database\StatementInterface statement modified statement with extra loaders
+     * @return \Cake\Database\Statement\CallbackStatement statement modified statement with extra loaders
      */
     public function loadExternal($query, $statement)
     {
@@ -638,14 +560,14 @@ class EagerLoader
             return $statement;
         }
 
-        $driver = $query->getConnection()->driver();
+        $driver = $query->connection()->driver();
         list($collected, $statement) = $this->_collectKeys($external, $query, $statement);
 
         foreach ($external as $meta) {
             $contain = $meta->associations();
             $instance = $meta->instance();
-            $config = $meta->getConfig();
-            $alias = $instance->getSource()->getAlias();
+            $config = $meta->config();
+            $alias = $instance->source()->alias();
             $path = $meta->aliasPath();
 
             $requiresKeys = $instance->requiresKeys($config);
@@ -664,7 +586,6 @@ class EagerLoader
             );
             $statement = new CallbackStatement($statement, $driver, $f);
         }
-
         return $statement;
     }
 
@@ -687,48 +608,32 @@ class EagerLoader
     {
         $map = [];
 
-        if (!$this->getMatching() && !$this->contain() && empty($this->_joinsMap)) {
+        if (!$this->matching() && !$this->contain() && empty($this->_joinsMap)) {
             return $map;
         }
 
-        $map = $this->_buildAssociationsMap($map, $this->_matching->normalized($table), true);
-        $map = $this->_buildAssociationsMap($map, $this->normalized($table));
-        $map = $this->_buildAssociationsMap($map, $this->_joinsMap);
-
-        return $map;
-    }
-
-    /**
-     * An internal method to build a map which is used for the return value of the
-     * associationsMap() method.
-     *
-     * @param array $map An initial array for the map.
-     * @param array $level An array of EagerLoadable instances.
-     * @param bool $matching Whether or not it is an association loaded through `matching()`.
-     * @return array
-     */
-    protected function _buildAssociationsMap($map, $level, $matching = false)
-    {
-        /* @var \Cake\ORM\EagerLoadable $meta */
-        foreach ($level as $assoc => $meta) {
-            $canBeJoined = $meta->canBeJoined();
-            $instance = $meta->instance();
-            $associations = $meta->associations();
-            $forMatching = $meta->forMatching();
-            $map[] = [
-                'alias' => $assoc,
-                'instance' => $instance,
-                'canBeJoined' => $canBeJoined,
-                'entityClass' => $instance->getTarget()->getEntityClass(),
-                'nestKey' => $canBeJoined ? $assoc : $meta->aliasPath(),
-                'matching' => $forMatching !== null ? $forMatching : $matching,
-                'targetProperty' => $meta->targetProperty()
-            ];
-            if ($canBeJoined && $associations) {
-                $map = $this->_buildAssociationsMap($map, $associations, $matching);
+        $visitor = function ($level, $matching = false) use (&$visitor, &$map) {
+            foreach ($level as $assoc => $meta) {
+                $canBeJoined = $meta->canBeJoined();
+                $instance = $meta->instance();
+                $associations = $meta->associations();
+                $forMatching = $meta->forMatching();
+                $map[] = [
+                    'alias' => $assoc,
+                    'instance' => $instance,
+                    'canBeJoined' => $canBeJoined,
+                    'entityClass' => $instance->target()->entityClass(),
+                    'nestKey' => $canBeJoined ? $assoc : $meta->aliasPath(),
+                    'matching' => $forMatching !== null ? $forMatching : $matching
+                ];
+                if ($canBeJoined && $associations) {
+                    $visitor($associations, $matching);
+                }
             }
-        }
-
+        };
+        $visitor($this->_matching->normalized($table), true);
+        $visitor($this->normalized($table));
+        $visitor($this->_joinsMap);
         return $map;
     }
 
@@ -742,18 +647,15 @@ class EagerLoader
      * will be normalized
      * @param bool $asMatching Whether or not this join results should be treated as a
      * 'matching' association.
-     * @param string $targetProperty The property name where the results of the join should be nested at.
-     * If not passed, the default property for the association will be used.
      * @return void
      */
-    public function addToJoinsMap($alias, Association $assoc, $asMatching = false, $targetProperty = null)
+    public function addToJoinsMap($alias, Association $assoc, $asMatching = false)
     {
         $this->_joinsMap[$alias] = new EagerLoadable($alias, [
             'aliasPath' => $alias,
             'instance' => $assoc,
             'canBeJoined' => true,
             'forMatching' => $asMatching,
-            'targetProperty' => $targetProperty ?: $assoc->getProperty()
         ]);
     }
 
@@ -769,19 +671,18 @@ class EagerLoader
     protected function _collectKeys($external, $query, $statement)
     {
         $collectKeys = [];
-        /* @var \Cake\ORM\EagerLoadable $meta */
         foreach ($external as $meta) {
             $instance = $meta->instance();
-            if (!$instance->requiresKeys($meta->getConfig())) {
+            if (!$instance->requiresKeys($meta->config())) {
                 continue;
             }
 
-            $source = $instance->getSource();
+            $source = $instance->source();
             $keys = $instance->type() === Association::MANY_TO_ONE ?
-                (array)$instance->getForeignKey() :
-                (array)$instance->getBindingKey();
+                (array)$instance->foreignKey() :
+                (array)$instance->bindingKey();
 
-            $alias = $source->getAlias();
+            $alias = $source->alias();
             $pkFields = [];
             foreach ($keys as $key) {
                 $pkFields[] = key($query->aliasField($key, $alias));
@@ -794,7 +695,7 @@ class EagerLoader
         }
 
         if (!($statement instanceof BufferedStatement)) {
-            $statement = new BufferedStatement($statement, $query->getConnection()->driver());
+            $statement = new BufferedStatement($statement, $query->connection()->driver());
         }
 
         return [$this->_groupKeys($statement, $collectKeys), $statement];
@@ -833,7 +734,6 @@ class EagerLoader
         }
 
         $statement->rewind();
-
         return $keys;
     }
 }

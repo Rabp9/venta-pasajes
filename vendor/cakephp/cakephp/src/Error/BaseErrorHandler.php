@@ -31,13 +31,6 @@ abstract class BaseErrorHandler
 {
 
     /**
-     * Options to use for the Error handling.
-     *
-     * @var array
-     */
-    protected $_options = [];
-
-    /**
      * Display an error message in an environment specific way.
      *
      * Subclasses should implement this method to display the error as
@@ -151,7 +144,6 @@ abstract class BaseErrorHandler
         }
         $this->_displayError($data, $debug);
         $this->_logError($log, $data);
-
         return true;
     }
 
@@ -223,7 +215,6 @@ abstract class BaseErrorHandler
         $this->_logError(LOG_ERR, $data);
 
         $this->handleException(new FatalErrorException($description, 500, $file, $line));
-
         return true;
     }
 
@@ -231,7 +222,7 @@ abstract class BaseErrorHandler
      * Increases the PHP "memory_limit" ini setting by the specified amount
      * in kilobytes
      *
-     * @param int $additionalKb Number in kilobytes
+     * @param string $additionalKb Number in kilobytes
      * @return void
      */
     public function increaseMemoryLimit($additionalKb)
@@ -242,7 +233,7 @@ abstract class BaseErrorHandler
         }
         $limit = trim($limit);
         $units = strtoupper(substr($limit, -1));
-        $current = (int)substr($limit, 0, strlen($limit) - 1);
+        $current = substr($limit, 0, strlen($limit) - 1);
         if ($units === 'M') {
             $current = $current * 1024;
             $units = 'K';
@@ -287,7 +278,6 @@ abstract class BaseErrorHandler
             $message .= "\nTrace:\n" . $trace . "\n";
         }
         $message .= "\n\n";
-
         return Log::write($level, $message);
     }
 
@@ -315,19 +305,18 @@ abstract class BaseErrorHandler
                 }
             }
         }
-
         return Log::error($this->_getMessage($exception));
     }
 
     /**
      * Get the request context for an error/exception trace.
      *
-     * @param \Cake\Http\ServerRequest $request The request to read from.
+     * @param \Cake\Network\Request $request The request to read from.
      * @return string
      */
     protected function _requestContext($request)
     {
-        $message = "\nRequest URL: " . $request->getRequestTarget();
+        $message = "\nRequest URL: " . $request->here();
 
         $referer = $request->env('HTTP_REFERER');
         if ($referer) {
@@ -337,7 +326,6 @@ abstract class BaseErrorHandler
         if ($clientIp && $clientIp !== '::1') {
             $message .= "\nClient IP: " . $clientIp;
         }
-
         return $message;
     }
 
@@ -375,7 +363,6 @@ abstract class BaseErrorHandler
         if (!empty($config['trace'])) {
             $message .= "\nStack Trace:\n" . $exception->getTraceAsString() . "\n\n";
         }
-
         return $message;
     }
 
@@ -413,7 +400,6 @@ abstract class BaseErrorHandler
 
         $error = $levelMap[$code];
         $log = $logMap[$error];
-
         return [ucfirst($error), $log];
     }
 }

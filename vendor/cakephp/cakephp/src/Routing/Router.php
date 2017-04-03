@@ -15,10 +15,8 @@
 namespace Cake\Routing;
 
 use Cake\Core\Configure;
-use Cake\Http\ServerRequest;
+use Cake\Network\Request;
 use Cake\Utility\Inflector;
-use InvalidArgumentException;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Parses the request URL into controller, action, and parameters. Uses the connected routes
@@ -45,7 +43,7 @@ class Router
     /**
      * Default route class.
      *
-     * @var string
+     * @var bool
      */
     protected static $_defaultRouteClass = 'Cake\Routing\Route\Route';
 
@@ -148,7 +146,7 @@ class Router
      * The stack of URL filters to apply against routing URLs before passing the
      * parameters to the route collection.
      *
-     * @var callable[]
+     * @var array
      */
     protected static $_urlFilters = [];
 
@@ -221,15 +219,12 @@ class Router
      *   shifted into the passed arguments. As well as supplying patterns for routing parameters.
      * @return void
      * @see \Cake\Routing\RouteBuilder::redirect()
-     * @deprecated 3.3.0 Use Router::scope() and RouteBuilder::redirect() instead.
      */
     public static function redirect($route, $url, $options = [])
     {
+        $options += ['routeClass' => 'Cake\Routing\Route\RedirectRoute'];
         if (is_string($url)) {
             $url = ['redirect' => $url];
-        }
-        if (!isset($options['routeClass'])) {
-            $options['routeClass'] = 'Cake\Routing\Route\RedirectRoute';
         }
         static::connect($route, $url, $options);
     }
@@ -284,7 +279,6 @@ class Router
      * @param string|array $controller A controller name or array of controller names (i.e. "Posts" or "ListItems")
      * @param array $options Options to use when generating REST routes
      * @see \Cake\Routing\RouteBuilder::resources()
-     * @deprecated 3.3.0 Use Router::scope() and RouteBuilder::resources() instead.
      * @return void
      */
     public static function mapResources($controller, $options = [])
@@ -295,7 +289,6 @@ class Router
             $prefix = $pluginUrl = false;
             if (!empty($options['prefix'])) {
                 $prefix = $options['prefix'];
-                unset($options['prefix']);
             }
             if ($plugin) {
                 $pluginUrl = Inflector::underscore($plugin);
@@ -309,24 +302,20 @@ class Router
                 $path = '/' . implode('/', [$prefix, $pluginUrl]);
                 $params = ['prefix' => $prefix, 'plugin' => $plugin];
                 static::scope($path, $params, $callback);
-
                 return;
             }
 
             if ($prefix) {
                 static::prefix($prefix, $callback);
-
                 return;
             }
 
             if ($plugin) {
                 static::plugin($plugin, $callback);
-
                 return;
             }
 
             static::scope('/', $callback);
-
             return;
         }
     }
@@ -334,13 +323,11 @@ class Router
     /**
      * Parses given URL string. Returns 'routing' parameters for that URL.
      *
-     * @param string $url URL to be parsed.
-     * @param string $method The HTTP method being used.
-     * @return array Parsed elements from URL.
+     * @param string $url URL to be parsed
+     * @return array Parsed elements from URL
      * @throws \Cake\Routing\Exception\MissingRouteException When a route cannot be handled
-     * @deprecated 3.4.0 Use Router::parseRequest() instead.
      */
-    public static function parse($url, $method = '')
+    public static function parse($url)
     {
         if (!static::$initialized) {
             static::_loadRoutes();
@@ -348,24 +335,7 @@ class Router
         if (strpos($url, '/') !== 0) {
             $url = '/' . $url;
         }
-
-        return static::$_collection->parse($url, $method);
-    }
-
-    /**
-     * Get the routing parameters for the request is possible.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The request to parse request data from.
-     * @return array Parsed elements from URL.
-     * @throws \Cake\Routing\Exception\MissingRouteException When a route cannot be handled
-     */
-    public static function parseRequest(ServerRequestInterface $request)
-    {
-        if (!static::$initialized) {
-            static::_loadRoutes();
-        }
-
-        return static::$_collection->parseRequest($request);
+        return static::$_collection->parse($url);
     }
 
     /**
@@ -379,12 +349,12 @@ class Router
      * Will accept either a Cake\Network\Request object or an array of arrays. Support for
      * accepting arrays may be removed in the future.
      *
-     * @param \Cake\Http\ServerRequest|array $request Parameters and path information or a Cake\Network\Request object.
+     * @param \Cake\Network\Request|array $request Parameters and path information or a Cake\Network\Request object.
      * @return void
      */
     public static function setRequestInfo($request)
     {
-        if ($request instanceof ServerRequest) {
+        if ($request instanceof Request) {
             static::pushRequest($request);
         } else {
             $requestData = $request;
@@ -394,7 +364,7 @@ class Router
                 'action' => false,
                 'plugin' => null
             ];
-            $request = new ServerRequest();
+            $request = new Request();
             $request->addParams($requestData[0])->addPaths($requestData[1]);
             static::pushRequest($request);
         }
@@ -404,52 +374,35 @@ class Router
      * Push a request onto the request stack. Pushing a request
      * sets the request context used when generating URLs.
      *
-     * @param \Cake\Http\ServerRequest $request Request instance.
+     * @param \Cake\Network\Request $request Request instance.
      * @return void
      */
-    public static function pushRequest(ServerRequest $request)
+    public static function pushRequest(Request $request)
     {
         static::$_requests[] = $request;
-        static::setRequestContext($request);
+        static::_setContext($request);
     }
 
     /**
      * Store the request context for a given request.
      *
-     * @param \Cake\Http\ServerRequest|\Psr\Http\Message\ServerRequestInterface $request The request instance.
+     * @param \Cake\Network\Request $request The request instance.
      * @return void
-     * @throws InvalidArgumentException When parameter is an incorrect type.
      */
-    public static function setRequestContext($request)
+    protected static function _setContext($request)
     {
-        if ($request instanceof ServerRequest) {
-            static::$_requestContext = [
-                '_base' => $request->base,
-                '_port' => $request->port(),
-                '_scheme' => $request->scheme(),
-                '_host' => $request->host()
-            ];
-
-            return;
-        }
-        if ($request instanceof ServerRequestInterface) {
-            $uri = $request->getUri();
-            static::$_requestContext = [
-                '_base' => $request->getAttribute('base'),
-                '_port' => $uri->getPort(),
-                '_scheme' => $uri->getScheme(),
-                '_host' => $uri->getHost(),
-            ];
-
-            return;
-        }
-        throw new InvalidArgumentException('Unknown request type received.');
+        static::$_requestContext = [
+            '_base' => $request->base,
+            '_port' => $request->port(),
+            '_scheme' => $request->scheme(),
+            '_host' => $request->host()
+        ];
     }
 
     /**
-     * Pops a request off of the request stack. Used when doing requestAction
+     * Pops a request off of the request stack.  Used when doing requestAction
      *
-     * @return \Cake\Http\ServerRequest The request removed from the stack.
+     * @return \Cake\Network\Request The request removed from the stack.
      * @see \Cake\Routing\Router::pushRequest()
      * @see \Cake\Routing\RequestActionTrait::requestAction()
      */
@@ -458,10 +411,9 @@ class Router
         $removed = array_pop(static::$_requests);
         $last = end(static::$_requests);
         if ($last) {
-            static::setRequestContext($last);
+            static::_setContext($last);
             reset(static::$_requests);
         }
-
         return $removed;
     }
 
@@ -469,16 +421,13 @@ class Router
      * Get the current request object, or the first one.
      *
      * @param bool $current True to get the current request, or false to get the first one.
-     * @return \Cake\Http\ServerRequest|null
+     * @return \Cake\Network\Request|null
      */
     public static function getRequest($current = false)
     {
         if ($current) {
-            $request = end(static::$_requests);
-
-            return $request ?: null;
+            return end(static::$_requests);
         }
-
         return isset(static::$_requests[0]) ? static::$_requests[0] : null;
     }
 
@@ -493,7 +442,6 @@ class Router
         if (empty(static::$_initialState)) {
             static::$_collection = new RouteCollection();
             static::$_initialState = get_class_vars(get_called_class());
-
             return;
         }
         foreach (static::$_initialState as $key => $val) {
@@ -523,8 +471,8 @@ class Router
      *
      * ```
      * Router::addUrlFilter(function ($params, $request) {
-     *  if ($request->getParam('lang') && !isset($params['lang'])) {
-     *    $params['lang'] = $request->getParam('lang');
+     *  if (isset($request->params['lang']) && !isset($params['lang'])) {
+     *    $params['lang'] = $request->params['lang'];
      *  }
      *  return $params;
      * });
@@ -552,7 +500,6 @@ class Router
         foreach (static::$_urlFilters as $filter) {
             $url = $filter($url, $request);
         }
-
         return $url;
     }
 
@@ -577,7 +524,7 @@ class Router
      *   cake relative URLs are required when using requestAction.
      * - `_scheme` - Set to create links on different schemes like `webcal` or `ftp`. Defaults
      *   to the current scheme.
-     * - `_host` - Set the host to use for the link. Defaults to the current host.
+     * - `_host` - Set the host to use for the link.  Defaults to the current host.
      * - `_port` - Set the port if you need to create links on non-standard ports.
      * - `_full` - If true output of `Router::fullBaseUrl()` will be prepended to generated URLs.
      * - `#` - Allows you to set URL hash fragments.
@@ -608,17 +555,14 @@ class Router
         ];
         $here = $base = $output = $frag = null;
 
-        // In 4.x this should be replaced with state injected via setRequestContext
         $request = static::getRequest(true);
         if ($request) {
             $params = $request->params;
             $here = $request->here;
-            $base = $request->getAttribute('base');
-        } else {
+            $base = $request->base;
+        }
+        if (!isset($base)) {
             $base = Configure::read('App.base');
-            if (isset(static::$_requestContext['_base'])) {
-                $base = static::$_requestContext['_base'];
-            }
         }
 
         if (empty($url)) {
@@ -626,7 +570,6 @@ class Router
             if ($full) {
                 $output = static::fullBaseUrl() . $output;
             }
-
             return $output;
         }
         if (is_array($url)) {
@@ -691,7 +634,6 @@ class Router
                 $output = static::fullBaseUrl() . $output;
             }
         }
-
         return $output . $frag;
     }
 
@@ -719,7 +661,6 @@ class Router
         if (empty(static::$_fullBaseUrl)) {
             static::$_fullBaseUrl = Configure::read('App.fullBaseUrl');
         }
-
         return static::$_fullBaseUrl;
     }
 
@@ -733,7 +674,7 @@ class Router
      * This will strip out 'autoRender', 'bare', 'requested', and 'return' param names as those
      * are used for CakePHP internals and should not normally be part of an output URL.
      *
-     * @param \Cake\Http\ServerRequest|array $params The params array or
+     * @param \Cake\Network\Request|array $params The params array or
      *     Cake\Network\Request object that needs to be reversed.
      * @param bool $full Set to true to include the full URL including the
      *     protocol when reversing the URL.
@@ -742,7 +683,7 @@ class Router
     public static function reverse($params, $full = false)
     {
         $url = [];
-        if ($params instanceof ServerRequest) {
+        if ($params instanceof Request) {
             $url = $params->query;
             $params = $params->params;
         } elseif (isset($params['url'])) {
@@ -767,8 +708,7 @@ class Router
         if (!empty($url)) {
             $params['?'] = $url;
         }
-
-        return static::url($params, $full);
+        return Router::url($params, $full);
     }
 
     /**
@@ -783,12 +723,12 @@ class Router
     public static function normalize($url = '/')
     {
         if (is_array($url)) {
-            $url = static::url($url);
+            $url = Router::url($url);
         }
         if (preg_match('/^[a-z\-]+:\/\//', $url)) {
             return $url;
         }
-        $request = static::getRequest();
+        $request = Router::getRequest();
 
         if (!empty($request->base) && stristr($url, $request->base)) {
             $url = preg_replace('/^' . preg_quote($request->base, '/') . '/', '', $url, 1);
@@ -803,7 +743,6 @@ class Router
         if (empty($url)) {
             return '/';
         }
-
         return $url;
     }
 
@@ -813,7 +752,7 @@ class Router
      * Instructs the router to parse out file extensions
      * from the URL. For example, http://example.com/posts.rss would yield a file
      * extension of "rss". The file extension itself is made available in the
-     * controller as `$this->request->getParam('_ext')`, and is used by the RequestHandler
+     * controller as `$this->request->params['_ext']`, and is used by the RequestHandler
      * component to automatically switch to alternate layouts and templates, and
      * load helpers corresponding to the given content, i.e. RssHelper. Switching
      * layouts and helpers requires that the chosen extension has a defined mime type
@@ -834,14 +773,12 @@ class Router
             if (!static::$initialized) {
                 static::_loadRoutes();
             }
-
             return array_unique(array_merge(static::$_defaultExtensions, $collection->extensions()));
         }
         $extensions = (array)$extensions;
         if ($merge) {
             $extensions = array_unique(array_merge(static::$_defaultExtensions, $extensions));
         }
-
         return static::$_defaultExtensions = $extensions;
     }
 
@@ -855,23 +792,21 @@ class Router
      *
      * ### Options
      *
-     * - `separator` The string to use as a separator. Defaults to `:`.
+     * - `separator` The string to use as a separator.  Defaults to `:`.
      *
-     * @param \Cake\Http\ServerRequest $request The request object to modify.
+     * @param \Cake\Network\Request $request The request object to modify.
      * @param array $options The array of options.
-     * @return \Cake\Http\ServerRequest The modified request
-     * @deprecated 3.3.0 Named parameter backwards compatibility will be removed in 4.0.
+     * @return \Cake\Network\Request The modified request
      */
-    public static function parseNamedParams(ServerRequest $request, array $options = [])
+    public static function parseNamedParams(Request $request, array $options = [])
     {
         $options += ['separator' => ':'];
         if (empty($request->params['pass'])) {
             $request->params['named'] = [];
-
             return $request;
         }
         $named = [];
-        foreach ($request->getParam('pass') as $key => $value) {
+        foreach ($request->params['pass'] as $key => $value) {
             if (strpos($value, $options['separator']) === false) {
                 continue;
             }
@@ -897,7 +832,6 @@ class Router
             $named = array_merge_recursive($named, [$key => $value]);
         }
         $request->params['named'] = $named;
-
         return $request;
     }
 
@@ -911,16 +845,6 @@ class Router
      * re-open or re-use a scope the connected routes will be merged with the
      * existing ones.
      *
-     * ### Options
-     *
-     * The `$params` array allows you to define options for the routing scope.
-     * The options listed below *are not* available to be used as routing defaults
-     *
-     * - `routeClass` The route class to use in this scope. Defaults to
-     *   `Router::defaultRouteClass()`
-     * - `extensions` The extensions to enable in this scope. Defaults to the globally
-     *   enabled extensions set with `Router::extensions()`
-     *
      * ### Example
      *
      * ```
@@ -932,8 +856,12 @@ class Router
      * The above would result in a `/blog/` route being created, with both the
      * plugin & controller default parameters set.
      *
-     * You can use `Router::plugin()` and `Router::prefix()` as shortcuts to creating
+     * You can use Router::plugin() and Router::prefix() as shortcuts to creating
      * specific kinds of scopes.
+     *
+     * Routing scopes will inherit the globally set extensions configured with
+     * Router::extensions(). You can also set valid extensions using
+     * `$routes->extensions()` in your closure.
      *
      * @param string $path The path prefix for the scope. This path will be prepended
      *   to all routes connected in the scoped collection.
@@ -945,17 +873,9 @@ class Router
      */
     public static function scope($path, $params = [], $callback = null)
     {
-        $options = [
+        $builder = new RouteBuilder(static::$_collection, '/', [], [
             'routeClass' => static::defaultRouteClass(),
             'extensions' => static::$_defaultExtensions,
-        ];
-        if (is_array($params)) {
-            $options = $params + $options;
-            unset($params['routeClass'], $params['extensions']);
-        }
-        $builder = new RouteBuilder(static::$_collection, '/', [], [
-            'routeClass' => $options['routeClass'],
-            'extensions' => $options['extensions'],
         ]);
         $builder->scope($path, $params, $callback);
     }
@@ -969,9 +889,6 @@ class Router
      * The path parameter is used to generate the routing parameter name.
      * For example a path of `admin` would result in `'prefix' => 'admin'` being
      * applied to all connected routes.
-     *
-     * The prefix name will be inflected to the underscore version to create
-     * the routing path. If you want a custom path name, use the `path` option.
      *
      * You can re-open a prefix as many times as necessary, as well as nest prefixes.
      * Nested prefixes will result in prefix values like `admin/api` which translates
@@ -990,14 +907,7 @@ class Router
             $params = [];
         }
         $name = Inflector::underscore($name);
-
-        if (empty($params['path'])) {
-            $path = '/' . $name;
-        } else {
-            $path = $params['path'];
-            unset($params['path']);
-        }
-
+        $path = '/' . $name;
         $params = array_merge($params, ['prefix' => $name]);
         static::scope($path, $params, $callback);
     }
@@ -1039,14 +949,13 @@ class Router
     /**
      * Get the route scopes and their connected routes.
      *
-     * @return \Cake\Routing\Route\Route[]
+     * @return array
      */
     public static function routes()
     {
         if (!static::$initialized) {
             static::_loadRoutes();
         }
-
         return static::$_collection->routes();
     }
 

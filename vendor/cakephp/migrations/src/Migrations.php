@@ -58,14 +58,6 @@ class Migrations
     protected $command;
 
     /**
-     * Stub input to feed the manager class since we might not have an input ready when we get the Manager using
-     * the `getManager()` method
-     *
-     * @var \Symfony\Component\Console\Input\ArrayInput
-     */
-    protected $stubInput;
-
-    /**
      * Constructor
      * @param array $default Default option to be used when calling a method.
      * Available options are :
@@ -76,9 +68,8 @@ class Migrations
     public function __construct(array $default = [])
     {
         $this->output = new NullOutput();
-        $this->stubInput = new ArrayInput([]);
 
-        if ($default) {
+        if (!empty($default)) {
             $this->default = $default;
         }
     }
@@ -244,14 +235,8 @@ class Migrations
     {
         $this->setCommand('seed');
         $input = $this->getInput('Seed', [], $options);
-
-        $seed = $input->getOption('seed');
-        if (!$seed) {
-            $seed = null;
-        }
-
-        $params = ['default', $seed];
-        $this->run('seed', $params, $input);
+        $params = ['default', $input->getOption('seed')];
+        $this->run('Seed', $params, $input);
         return true;
     }
 
@@ -302,8 +287,7 @@ class Migrations
                 );
             }
 
-            $input = $this->input ?: $this->stubInput;
-            $this->manager = new CakeManager($config, $input, $this->output);
+            $this->manager = new CakeManager($config, $this->output);
         } elseif ($config !== null) {
             $defaultEnvironment = $config->getEnvironment('default');
             try {
@@ -377,7 +361,7 @@ class Migrations
     protected function prepareOptions($options = [])
     {
         $options = array_merge($this->default, $options);
-        if (!$options) {
+        if (empty($options)) {
             return $options;
         }
 

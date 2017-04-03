@@ -35,7 +35,7 @@ class EagerLoadable
     /**
      * A list of other associations to load from this level.
      *
-     * @var \Cake\Orm\EagerLoadable[]
+     * @var array
      */
     protected $_associations = [];
 
@@ -66,14 +66,6 @@ class EagerLoadable
      * A dotted separated string representing the path of entity properties
      * in which results for this level should be placed.
      *
-     * For example, in the following nested property:
-     *
-     * ```
-     *  $article->author->company->country
-     * ```
-     *
-     * The property path of `country` will be `author.company`
-     *
      * @var string
      */
     protected $_propertyPath;
@@ -94,22 +86,6 @@ class EagerLoadable
     protected $_forMatching;
 
     /**
-     * The property name where the association result should be nested
-     * in the result.
-     *
-     * For example, in the following nested property:
-     *
-     * ```
-     *  $article->author->company->country
-     * ```
-     *
-     * The target property of `country` will be just `country`
-     *
-     * @var string
-     */
-    protected $_targetProperty;
-
-    /**
      * Constructor. The $config parameter accepts the following array
      * keys:
      *
@@ -120,7 +96,6 @@ class EagerLoadable
      * - aliasPath
      * - propertyPath
      * - forMatching
-     * - targetProperty
      *
      * The keys maps to the settable properties in this class.
      *
@@ -132,7 +107,7 @@ class EagerLoadable
         $this->_name = $name;
         $allowed = [
             'associations', 'instance', 'config', 'canBeJoined',
-            'aliasPath', 'propertyPath', 'forMatching', 'targetProperty'
+            'aliasPath', 'propertyPath', 'forMatching'
         ];
         foreach ($allowed as $property) {
             if (isset($config[$property])) {
@@ -188,14 +163,6 @@ class EagerLoadable
      * Gets a dot separated string representing the path of entity properties
      * in which results for this level should be placed.
      *
-     * For example, in the following nested property:
-     *
-     * ```
-     *  $article->author->company->country
-     * ```
-     *
-     * The property path of `country` will be `author.company`
-     *
      * @return string|null
      */
     public function propertyPath()
@@ -206,57 +173,17 @@ class EagerLoadable
     /**
      * Sets whether or not this level can be fetched using a join.
      *
-     * @param bool $possible The value to set.
-     * @return $this
-     */
-    public function setCanBeJoined($possible)
-    {
-        $this->_canBeJoined = (bool)$possible;
-
-        return $this;
-    }
-
-    /**
-     * Gets whether or not this level can be fetched using a join.
-     *
-     * If called with arguments it sets the value.
-     * As of 3.4.0 the setter part is deprecated, use setCanBeJoined() instead.
+     * If called with no arguments it returns the current value.
      *
      * @param bool|null $possible The value to set.
      * @return bool
      */
     public function canBeJoined($possible = null)
     {
-        if ($possible !== null) {
-            $this->setCanBeJoined($possible);
+        if ($possible === null) {
+            return $this->_canBeJoined;
         }
-
-        return $this->_canBeJoined;
-    }
-
-    /**
-     * Sets the list of options to pass to the association object for loading
-     * the records.
-     *
-     * @param array $config The value to set.
-     * @return $this
-     */
-    public function setConfig(array $config)
-    {
-        $this->_config = $config;
-
-        return $this;
-    }
-
-    /**
-     * Gets the list of options to pass to the association object for loading
-     * the records.
-     *
-     * @return array
-     */
-    public function getConfig()
-    {
-        return $this->_config;
+        $this->_canBeJoined = $possible;
     }
 
     /**
@@ -266,17 +193,15 @@ class EagerLoadable
      * If called with no arguments it returns the current
      * value.
      *
-     * @deprecated 3.4.0 Use setConfig()/getConfig() instead.
      * @param array|null $config The value to set.
      * @return array
      */
     public function config(array $config = null)
     {
-        if ($config !== null) {
-            $this->setConfig($config);
+        if ($config === null) {
+            return $this->_config;
         }
-
-        return $this->getConfig();
+        $this->_config = $config;
     }
 
     /**
@@ -288,25 +213,6 @@ class EagerLoadable
     public function forMatching()
     {
         return $this->_forMatching;
-    }
-
-    /**
-     * The property name where the result of this association
-     * should be nested at the end.
-     *
-     * For example, in the following nested property:
-     *
-     * ```
-     *  $article->author->company->country
-     * ```
-     *
-     * The target property of `country` will be just `country`
-     *
-     * @return string|null
-     */
-    public function targetProperty()
-    {
-        return $this->_targetProperty;
     }
 
     /**
@@ -325,7 +231,6 @@ class EagerLoadable
         if ($this->_forMatching !== null) {
             $config = ['matching' => $this->_forMatching] + $config;
         }
-
         return [
             $this->_name => [
                 'associations' => $associations,

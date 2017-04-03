@@ -20,8 +20,8 @@ use Cake\View\Helper;
 /**
  * RSS Helper class for easy output RSS structures.
  *
- * @property \Cake\View\Helper\UrlHelper $Url
- * @property \Cake\View\Helper\TimeHelper $Time
+ * @property UrlHelper $Url
+ * @property TimeHelper $Time
  * @link http://book.cakephp.org/3.0/en/views/helpers/rss.html
  */
 class RssHelper extends Helper
@@ -151,7 +151,6 @@ class RssHelper extends Helper
             }
             $elems .= $this->elem($elem, $attributes, $data);
         }
-
         return $this->elem('channel', $attrib, $elems . $content, !($content === null));
     }
 
@@ -176,7 +175,6 @@ class RssHelper extends Helper
         for ($i = 0; $i < $c; $i++) {
             $out .= $this->item([], $items[$i]);
         }
-
         return $out;
     }
 
@@ -268,7 +266,6 @@ class RssHelper extends Helper
         if (!empty($elements)) {
             $content = implode('', $elements);
         }
-
         return $this->elem('item', (array)$att, $content, !($content === null));
     }
 
@@ -350,7 +347,6 @@ class RssHelper extends Helper
 
         $xml = $elem->saveXml();
         $xml = trim(substr($xml, strpos($xml, '?>') + 2));
-
         return $xml;
     }
 

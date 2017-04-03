@@ -24,7 +24,6 @@ use SimpleXmlElement;
 /**
  * Shows a list of commands available from the console.
  *
- * @property \Cake\Shell\Task\CommandTask $Command
  */
 class CommandListShell extends Shell
 {
@@ -67,7 +66,6 @@ class CommandListShell extends Shell
 
         if ($this->param('version')) {
             $this->out(Configure::version());
-
             return;
         }
 
@@ -127,7 +125,7 @@ class CommandListShell extends Shell
             }
         }
         $this->_io->outputAs(ConsoleOutput::RAW);
-        $this->out($shells->saveXML());
+        $this->out($shells->saveXml());
     }
 
     /**
@@ -139,7 +137,7 @@ class CommandListShell extends Shell
     {
         $parser = parent::getOptionParser();
 
-        $parser->setDescription(
+        $parser->description(
             'Get the list of available shells for this CakePHP application.'
         )->addOption('xml', [
             'help' => 'Get the listing as XML.',

@@ -17,7 +17,8 @@ namespace Cake\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * TestPluginCommentFixture
+ * Class TestPluginCommentFixture
+ *
  */
 class TestPluginCommentsFixture extends TestFixture
 {

@@ -11,12 +11,7 @@
  * @since         DebugKit 1.1
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
-/**
- * @type \DebugKit\View\AjaxView $this
- * @type \DebugKit\Model\Entity\Panel $panel
- * @type array $requests
- */
+use Cake\Routing\Router;
 ?>
 <div id="request-history">
 <?php if (empty($requests)): ?>

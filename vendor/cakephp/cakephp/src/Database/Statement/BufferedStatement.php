@@ -46,7 +46,6 @@ class BufferedStatement extends StatementDecorator
 
     /**
      * Current record pointer
-     *
      * @var int
      */
     protected $_counter = 0;
@@ -72,7 +71,6 @@ class BufferedStatement extends StatementDecorator
     public function execute($params = null)
     {
         $this->_reset();
-
         return parent::execute($params);
     }
 
@@ -87,22 +85,20 @@ class BufferedStatement extends StatementDecorator
         if ($this->_allFetched) {
             $row = ($this->_counter < $this->_count) ? $this->_records[$this->_counter++] : false;
             $row = ($row && $type === 'num') ? array_values($row) : $row;
-
             return $row;
         }
 
+        $this->_fetchType = $type;
         $record = parent::fetch($type);
 
         if ($record === false) {
             $this->_allFetched = true;
             $this->_counter = $this->_count + 1;
             $this->_statement->closeCursor();
-
             return false;
         }
 
         $this->_count++;
-
         return $this->_records[] = $record;
     }
 
@@ -122,7 +118,6 @@ class BufferedStatement extends StatementDecorator
         $this->_count = count($this->_records);
         $this->_allFetched = true;
         $this->_statement->closeCursor();
-
         return $this->_records;
     }
 

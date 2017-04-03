@@ -20,6 +20,7 @@ use Cake\Core\Exception\Exception;
 
 /**
  * Exception raised when an Entity could not be found.
+ *
  */
 class MissingEntityException extends Exception
 {

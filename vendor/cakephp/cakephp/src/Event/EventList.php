@@ -14,19 +14,16 @@
  */
 namespace Cake\Event;
 
-use ArrayAccess;
-use Countable;
-
 /**
  * The Event List
  */
-class EventList implements ArrayAccess, Countable
+class EventList implements \ArrayAccess, \Countable
 {
 
     /**
      * Events list
      *
-     * @var \Cake\Event\Event[]
+     * @var array
      */
     protected $_events = [];
 
@@ -56,7 +53,7 @@ class EventList implements ArrayAccess, Countable
      *
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
      * @param mixed $offset An offset to check for.
-     * @return bool True on success or false on failure.
+     * @return boole True on success or false on failure.
      */
     public function offsetExists($offset)
     {
@@ -75,7 +72,6 @@ class EventList implements ArrayAccess, Countable
         if ($this->offsetExists($offset)) {
             return $this->_events[$offset];
         }
-
         return null;
     }
 
@@ -124,11 +120,10 @@ class EventList implements ArrayAccess, Countable
     public function hasEvent($name)
     {
         foreach ($this->_events as $event) {
-            if ($event->getName() === $name) {
+            if ($event->name() === $name) {
                 return true;
             }
         }
-
         return false;
     }
 }

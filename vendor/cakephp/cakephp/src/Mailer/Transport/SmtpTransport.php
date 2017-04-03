@@ -52,9 +52,9 @@ class SmtpTransport extends AbstractTransport
     /**
      * Content of email to return
      *
-     * @var array
+     * @var string
      */
-    protected $_content = [];
+    protected $_content;
 
     /**
      * The response of the last sent SMTP command.
@@ -297,11 +297,10 @@ class SmtpTransport extends AbstractTransport
      */
     protected function _prepareFromAddress($email)
     {
-        $from = $email->getReturnPath();
+        $from = $email->returnPath();
         if (empty($from)) {
-            $from = $email->getFrom();
+            $from = $email->from();
         }
-
         return $from;
     }
 
@@ -313,10 +312,9 @@ class SmtpTransport extends AbstractTransport
      */
     protected function _prepareRecipientAddresses($email)
     {
-        $to = $email->getTo();
-        $cc = $email->getCc();
-        $bcc = $email->getBcc();
-
+        $to = $email->to();
+        $cc = $email->cc();
+        $bcc = $email->bcc();
         return array_merge(array_keys($to), array_keys($cc), array_keys($bcc));
     }
 
@@ -348,7 +346,6 @@ class SmtpTransport extends AbstractTransport
                 $messages[] = $line;
             }
         }
-
         return implode("\r\n", $messages);
     }
 
@@ -433,11 +430,7 @@ class SmtpTransport extends AbstractTransport
             $response = '';
             $startTime = time();
             while (substr($response, -2) !== "\r\n" && ((time() - $startTime) < $timeout)) {
-                $bytes = $this->_socket->read();
-                if ($bytes === false || $bytes === null) {
-                    break;
-                }
-                $response .= $bytes;
+                $response .= $this->_socket->read();
             }
             if (substr($response, -2) !== "\r\n") {
                 throw new SocketException('SMTP timeout.');
@@ -451,7 +444,6 @@ class SmtpTransport extends AbstractTransport
                 if ($code[2] === '-') {
                     continue;
                 }
-
                 return $code[1];
             }
             throw new SocketException(sprintf('SMTP Error: %s', $response));

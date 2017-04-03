@@ -21,6 +21,7 @@ use JsonSerializable;
  * Describes the methods a Collection should implement. A collection is an immutable
  * list of elements exposing a number of traversing and extracting method for
  * generating other collections.
+ *
  */
 interface CollectionInterface extends Iterator, JsonSerializable
 {
@@ -112,11 +113,9 @@ interface CollectionInterface extends Iterator, JsonSerializable
      * });
      * ```
      *
-     * Empty collections always return true because it is a vacuous truth.
-     *
      * @param callable $c a callback function
      * @return bool true if for all elements in this collection the provided
-     *   callback returns true, false otherwise.
+     * callback returns true, false otherwise
      */
     public function every(callable $c);
 
@@ -137,8 +136,8 @@ interface CollectionInterface extends Iterator, JsonSerializable
      * ```
      *
      * @param callable $c a callback function
-     * @return bool true if the provided callback returns true for any element in this
-     * collection, false otherwise
+     * @return bool true if for all elements in this collection the provided
+     * callback returns true, false otherwise
      */
     public function some(callable $c);
 
@@ -185,7 +184,7 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * @param callable $c The callback function to be called
      * @param mixed $zero The state of reduction
-     * @return mixed
+     * @return void
      */
     public function reduce(callable $c, $zero = null);
 
@@ -621,10 +620,9 @@ interface CollectionInterface extends Iterator, JsonSerializable
      * whether an element is parent of another
      * @param callable|string $parentPath the column name path to use for determining
      * whether an element is child of another
-     * @param string $nestingKey The key name under which children are nested
      * @return \Cake\Collection\CollectionInterface
      */
-    public function nest($idPath, $parentPath, $nestingKey = 'children');
+    public function nest($idPath, $parentPath);
 
     /**
      * Returns a new collection containing each of the elements found in `$values` as
@@ -893,8 +891,8 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * ```
      * $collection = new Collection([1, 2]);
-     * $zipped = $collection->zipWith([3, 4], [5, 6], function (...$args) {
-     *   return array_sum($args);
+     * $zipped = $collection->zipWith([3, 4], [5, 6], function () {
+     *   return array_sum(func_get_args());
      * });
      * $zipped->toList(); // returns [9, 12]; [(1 + 3 + 5), (2 + 4 + 6)]
      * ```
@@ -918,26 +916,8 @@ interface CollectionInterface extends Iterator, JsonSerializable
      *
      * @param int $chunkSize The maximum size for each chunk
      * @return \Cake\Collection\CollectionInterface
-     * @deprecated 4.0.0 Deprecated in favor of chunks
      */
     public function chunk($chunkSize);
-
-    /**
-     * Breaks the collection into smaller arrays of the given size.
-     *
-     * ### Example:
-     *
-     * ```
-     * $items ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5, 'f' => 6];
-     * $chunked = (new Collection($items))->chunkWithKeys(3)->toList();
-     * // Returns [['a' => 1, 'b' => 2, 'c' => 3], ['d' => 4, 'e' => 5, 'f' => 6]]
-     * ```
-     *
-     * @param int $chunkSize The maximum size for each chunk
-     * @param bool $preserveKeys If the keys of the array should be preserved
-     * @return \Cake\Collection\CollectionInterface
-     */
-    public function chunkWithKeys($chunkSize, $preserveKeys = true);
 
     /**
      * Returns whether or not there are elements in this collection
@@ -965,32 +945,4 @@ interface CollectionInterface extends Iterator, JsonSerializable
      * @return \Iterator
      */
     public function unwrap();
-
-    /**
-     * Transpose rows and columns into columns and rows
-     *
-     * ### Example:
-     *
-     * ```
-     * $items = [
-     *       ['Products', '2012', '2013', '2014'],
-     *       ['Product A', '200', '100', '50'],
-     *       ['Product B', '300', '200', '100'],
-     *       ['Product C', '400', '300', '200'],
-     * ]
-     *
-     * $transpose = (new Collection($items))->transpose()->toList();
-     *
-     * // Returns
-     * // [
-     * //     ['Products', 'Product A', 'Product B', 'Product C'],
-     * //     ['2012', '200', '300', '400'],
-     * //     ['2013', '100', '200', '300'],
-     * //     ['2014', '50', '100', '200'],
-     * // ]
-     * ```
-     *
-     * @return \Cake\Collection\CollectionInterface
-     */
-    public function transpose();
 }

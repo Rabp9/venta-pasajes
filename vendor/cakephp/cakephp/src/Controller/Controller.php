@@ -20,8 +20,8 @@ use Cake\Event\Event;
 use Cake\Event\EventDispatcherInterface;
 use Cake\Event\EventDispatcherTrait;
 use Cake\Event\EventListenerInterface;
-use Cake\Http\ServerRequest;
 use Cake\Log\LogTrait;
+use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Routing\RequestActionTrait;
@@ -122,7 +122,7 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      * This object contains all the information about a request and several methods for reading
      * additional information about the request.
      *
-     * @var \Cake\Http\ServerRequest
+     * @var \Cake\Network\Request
      * @link http://book.cakephp.org/3.0/en/controllers/request-response.html#request
      */
     public $request;
@@ -212,7 +212,7 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      * Holds all passed params.
      *
      * @var array
-     * @deprecated 3.1.0 Use `$this->request->getParam('pass')` instead.
+     * @deprecated 3.1.0 Use `$this->request->params['pass']` instead.
      */
     public $passedArgs = [];
 
@@ -222,21 +222,21 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      * Sets a number of properties based on conventions if they are empty. To override the
      * conventions CakePHP uses you can define properties in your class declaration.
      *
-     * @param \Cake\Http\ServerRequest|null $request Request object for this controller. Can be null for testing,
+     * @param \Cake\Network\Request|null $request Request object for this controller. Can be null for testing,
      *   but expect that features that use the request parameters will not work.
      * @param \Cake\Network\Response|null $response Response object for this controller.
      * @param string|null $name Override the name useful in testing when using mocks.
      * @param \Cake\Event\EventManager|null $eventManager The event manager. Defaults to a new instance.
      * @param \Cake\Controller\ComponentRegistry|null $components The component registry. Defaults to a new instance.
      */
-    public function __construct(ServerRequest $request = null, Response $response = null, $name = null, $eventManager = null, $components = null)
+    public function __construct(Request $request = null, Response $response = null, $name = null, $eventManager = null, $components = null)
     {
         if ($name !== null) {
             $this->name = $name;
         }
 
-        if ($this->name === null && $request && $request->getParam('controller')) {
-            $this->name = $request->getParam('controller');
+        if ($this->name === null && isset($request->params['controller'])) {
+            $this->name = $request->params['controller'];
         }
 
         if ($this->name === null) {
@@ -244,8 +244,8 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
             $this->name = substr($name, 0, -10);
         }
 
-        $this->setRequest($request !== null ? $request : new ServerRequest());
-        $this->response = $response !== null ? $response : new Response();
+        $this->setRequest($request !== null ? $request : new Request);
+        $this->response = $response !== null ? $response : new Response;
 
         if ($eventManager !== null) {
             $this->eventManager($eventManager);
@@ -296,7 +296,6 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
             $components->setController($this);
             $this->_components = $components;
         }
-
         return $this->_components;
     }
 
@@ -320,7 +319,6 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
     {
         list(, $prop) = pluginSplit($name);
         $this->{$prop} = $this->components()->load($name, $config);
-
         return $this->{$prop};
     }
 
@@ -332,29 +330,19 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      */
     public function __get($name)
     {
-        $deprecated = [
-            'layout' => 'getLayout',
-            'view' => 'getTemplate',
-            'theme' => 'getTheme',
-            'autoLayout' => 'isAutoLayoutEnabled',
-            'viewPath' => 'getTemplatePath',
-            'layoutPath' => 'getLayoutPath',
-        ];
-        if (isset($deprecated[$name])) {
-            $method = $deprecated[$name];
+        if (in_array($name, ['layout', 'view', 'theme', 'autoLayout', 'viewPath', 'layoutPath'], true)) {
+            $method = $name === 'viewPath' ? 'templatePath' : $name;
             trigger_error(
                 sprintf('Controller::$%s is deprecated. Use $this->viewBuilder()->%s() instead.', $name, $method),
                 E_USER_DEPRECATED
             );
-
-            return $this->viewBuilder()->{$method}();
+            return $this->viewBuilder()->{$name}();
         }
 
         list($plugin, $class) = pluginSplit($this->modelClass, true);
         if ($class !== $name) {
             return false;
         }
-
         return $this->loadModel($plugin . $class);
     }
 
@@ -368,21 +356,24 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
     public function __set($name, $value)
     {
         $deprecated = [
-            'layout' => 'setLayout',
-            'view' => 'setTemplate',
-            'theme' => 'setTheme',
-            'autoLayout' => 'enableAutoLayout',
-            'viewPath' => 'setTemplatePath',
-            'layoutPath' => 'setLayoutPath',
+            'layout' => 'layout',
+            'view' => 'template',
+            'theme' => 'theme',
+            'autoLayout' => 'autoLayout',
+            'viewPath' => 'templatePath',
+            'layoutPath' => 'layoutPath',
         ];
         if (isset($deprecated[$name])) {
             $method = $deprecated[$name];
             trigger_error(
-                sprintf('Controller::$%s is deprecated. Use $this->viewBuilder()->%s() instead.', $name, $method),
+                sprintf(
+                    'Controller::$%s is deprecated. Use $this->viewBuilder()->%s() instead.',
+                    $name,
+                    $method
+                ),
                 E_USER_DEPRECATED
             );
             $this->viewBuilder()->{$method}($value);
-
             return;
         }
 
@@ -399,16 +390,16 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      * - $this->passedArgs - Same as $request->params['pass]
      * - View::$plugin - $this->plugin
      *
-     * @param \Cake\Http\ServerRequest $request Request instance.
+     * @param \Cake\Network\Request $request Request instance.
      * @return void
      */
-    public function setRequest(ServerRequest $request)
+    public function setRequest(Request $request)
     {
         $this->request = $request;
-        $this->plugin = $request->getParam('plugin') ?: null;
+        $this->plugin = isset($request->params['plugin']) ? $request->params['plugin'] : null;
 
-        if ($request->getParam('pass')) {
-            $this->passedArgs = $request->getParam('pass');
+        if (isset($request->params['pass'])) {
+            $this->passedArgs = $request->params['pass'];
         }
     }
 
@@ -426,18 +417,16 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
         if (!isset($request)) {
             throw new LogicException('No Request object configured. Cannot invoke action');
         }
-        if (!$this->isAction($request->getParam('action'))) {
+        if (!$this->isAction($request->params['action'])) {
             throw new MissingActionException([
                 'controller' => $this->name . "Controller",
-                'action' => $request->getParam('action'),
-                'prefix' => $request->getParam('prefix') ?: '',
-                'plugin' => $request->getParam('plugin'),
+                'action' => $request->params['action'],
+                'prefix' => isset($request->params['prefix']) ? $request->params['prefix'] : '',
+                'plugin' => $request->params['plugin'],
             ]);
         }
-        /* @var callable $callable */
-        $callable = [$this, $request->getParam('action')];
-
-        return $callable(...array_values($request->getParam('pass')));
+        $callable = [$this, $request->params['action']];
+        return call_user_func_array($callable, $request->params['pass']);
     }
 
     /**
@@ -500,15 +489,13 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
     public function startupProcess()
     {
         $event = $this->dispatchEvent('Controller.initialize');
-        if ($event->getResult() instanceof Response) {
-            return $event->getResult();
+        if ($event->result instanceof Response) {
+            return $event->result;
         }
         $event = $this->dispatchEvent('Controller.startup');
-        if ($event->getResult() instanceof Response) {
-            return $event->getResult();
+        if ($event->result instanceof Response) {
+            return $event->result;
         }
-
-        return null;
     }
 
     /**
@@ -523,15 +510,14 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
     public function shutdownProcess()
     {
         $event = $this->dispatchEvent('Controller.shutdown');
-        if ($event->getResult() instanceof Response) {
-            return $event->getResult();
+        if ($event->result instanceof Response) {
+            return $event->result;
         }
-
-        return null;
     }
 
     /**
      * Redirects to given $url, after turning off $this->autoRender.
+     * Script execution is halted after the redirect.
      *
      * @param string|array $url A string or array-based URL pointing to another location within the app,
      *     or an absolute URL
@@ -545,22 +531,22 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
 
         $response = $this->response;
         if ($status) {
-            $response = $response->withStatus($status);
+            $response->statusCode($status);
         }
 
         $event = $this->dispatchEvent('Controller.beforeRedirect', [$url, $response]);
-        if ($event->getResult() instanceof Response) {
-            return $this->response = $event->getResult();
+        if ($event->result instanceof Response) {
+            return $event->result;
         }
         if ($event->isStopped()) {
             return null;
         }
 
-        if (!$response->getHeaderLine('Location')) {
-            $response = $response->withLocation(Router::url($url, true));
+        if (!$response->location()) {
+            $response->location(Router::url($url, true));
         }
 
-        return $this->response = $response;
+        return $response;
     }
 
     /**
@@ -575,14 +561,14 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      *
      * @param string $action The new action to be 'redirected' to.
      *   Any other parameters passed to this method will be passed as parameters to the new action.
-     * @param array ...$args Arguments passed to the action
      * @return mixed Returns the return value of the called action
      */
-    public function setAction($action, ...$args)
+    public function setAction($action)
     {
-        $this->request = $this->request->withParam('action', $action);
-
-        return $this->$action(...$args);
+        $this->request->params['action'] = $action;
+        $args = func_get_args();
+        unset($args[0]);
+        return call_user_func_array([&$this, $action], $args);
     }
 
     /**
@@ -596,32 +582,33 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
     public function render($view = null, $layout = null)
     {
         $builder = $this->viewBuilder();
-        if (!$builder->getTemplatePath()) {
-            $builder->setTemplatePath($this->_viewPath());
+        if (!$builder->templatePath()) {
+            $builder->templatePath($this->_viewPath());
         }
 
-        if ($this->request->getParam('bare')) {
-            $builder->enableAutoLayout(false);
+        if (!empty($this->request->params['bare'])) {
+            $builder->autoLayout(false);
         }
-        $builder->getClassName($this->viewClass);
+        $builder->className($this->viewClass);
 
         $this->autoRender = false;
 
         $event = $this->dispatchEvent('Controller.beforeRender');
-        if ($event->getResult() instanceof Response) {
-            return $event->getResult();
+        if ($event->result instanceof Response) {
+            return $event->result;
         }
         if ($event->isStopped()) {
             return $this->response;
         }
 
-        if ($builder->getTemplate() === null && $this->request->getParam('action')) {
-            $builder->setTemplate($this->request->getParam('action'));
+        if ($builder->template() === null &&
+            isset($this->request->params['action'])
+        ) {
+            $builder->template($this->request->params['action']);
         }
 
         $this->View = $this->createView();
         $this->response->body($this->View->render($view, $layout));
-
         return $this->response;
     }
 
@@ -633,21 +620,20 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
     protected function _viewPath()
     {
         $viewPath = $this->name;
-        if ($this->request->getParam('prefix')) {
+        if (!empty($this->request->params['prefix'])) {
             $prefixes = array_map(
                 'Cake\Utility\Inflector::camelize',
-                explode('/', $this->request->getParam('prefix'))
+                explode('/', $this->request->params['prefix'])
             );
             $viewPath = implode(DIRECTORY_SEPARATOR, $prefixes) . DIRECTORY_SEPARATOR . $viewPath;
         }
-
         return $viewPath;
     }
 
     /**
      * Returns the referring URL for this request.
      *
-     * @param string|array|null $default Default URL to use if HTTP_REFERER cannot be read from headers
+     * @param string|null $default Default URL to use if HTTP_REFERER cannot be read from headers
      * @param bool $local If true, restrict referring URLs to local server
      * @return string Referring URL
      */
@@ -659,20 +645,8 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
 
         $referer = $this->request->referer($local);
         if ($referer === '/' && $default && $default !== $referer) {
-            $url = Router::url($default, !$local);
-            $base = $this->request->getAttribute('base');
-            if ($local && $base && strpos($url, $base) === 0) {
-                $url = substr($url, strlen($base));
-                if ($url[0] !== '/') {
-                    $url = '/' . $url;
-                }
-
-                return $url;
-            }
-
-            return $url;
+            return Router::url($default, !$local);
         }
-
         return $referer;
     }
 
@@ -686,12 +660,11 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
      *
      * @param \Cake\ORM\Table|string|\Cake\ORM\Query|null $object Table to paginate
      * (e.g: Table instance, 'TableName' or a Query object)
-     * @param array $settings The settings/configuration used for pagination.
      * @return \Cake\ORM\ResultSet Query results
      * @link http://book.cakephp.org/3.0/en/controllers.html#paginating-a-model
      * @throws \RuntimeException When no compatible table object can be found.
      */
-    public function paginate($object = null, array $settings = [])
+    public function paginate($object = null)
     {
         if (is_object($object)) {
             $table = $object;
@@ -712,9 +685,7 @@ class Controller implements EventListenerInterface, EventDispatcherInterface
         if (empty($table)) {
             throw new RuntimeException('Unable to locate an object compatible with paginate.');
         }
-        $settings = $settings + $this->paginate;
-
-        return $this->Paginator->paginate($table, $settings);
+        return $this->Paginator->paginate($table, $this->paginate);
     }
 
     /**

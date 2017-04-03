@@ -16,6 +16,7 @@ use RuntimeException;
 
 /**
  * Base class that all CakePHP Exceptions extend.
+ *
  */
 class Exception extends RuntimeException
 {
@@ -38,7 +39,7 @@ class Exception extends RuntimeException
     /**
      * Array of headers to be passed to Cake\Network\Response::header()
      *
-     * @var array|null
+     * @var array
      */
     protected $_responseHeaders = null;
 

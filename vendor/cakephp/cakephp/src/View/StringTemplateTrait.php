@@ -17,10 +17,6 @@ namespace Cake\View;
 /**
  * Adds string template functionality to any class by providing methods to
  * load and parse string templates.
- *
- * This trait requires the implementing class to provide a `config()`
- * method for reading/updating templates. An implementation of this method
- * is provided by `Cake\Core\InstanceConfigTrait`
  */
 trait StringTemplateTrait
 {
@@ -33,33 +29,8 @@ trait StringTemplateTrait
     protected $_templater;
 
     /**
-     * Sets templates to use.
+     * Get/set templates to use.
      *
-     * @param array $templates Templates to be added.
-     * @return $this
-     */
-    public function setTemplates(array $templates)
-    {
-        $this->templater()->add($templates);
-
-        return $this;
-    }
-
-    /**
-     * Gets templates to use or a specific template.
-     *
-     * @param string|null $template String for reading a specific template, null for all.
-     * @return string|array
-     */
-    public function getTemplates($template = null)
-    {
-        return $this->templater()->get($template);
-    }
-
-    /**
-     * Gets/sets templates to use.
-     *
-     * @deprecated 3.4.0 Use setTemplates()/getTemplates() instead.
      * @param string|null|array $templates null or string allow reading templates. An array
      *   allows templates to be added.
      * @return $this|string|array
@@ -71,12 +42,11 @@ trait StringTemplateTrait
         }
 
         $this->templater()->add($templates);
-
         return $this;
     }
 
     /**
-     * Formats a template string with $data
+     * Format a template string with $data
      *
      * @param string $name The template name.
      * @param array $data The data to insert.
@@ -88,17 +58,17 @@ trait StringTemplateTrait
     }
 
     /**
-     * Returns the templater instance.
+     * templater
      *
      * @return \Cake\View\StringTemplate
      */
     public function templater()
     {
-        if ($this->_templater === null) {
-            $class = $this->getConfig('templateClass') ?: 'Cake\View\StringTemplate';
+        if (empty($this->_templater)) {
+            $class = $this->config('templateClass') ?: 'Cake\View\StringTemplate';
             $this->_templater = new $class();
 
-            $templates = $this->getConfig('templates');
+            $templates = $this->config('templates');
             if ($templates) {
                 if (is_string($templates)) {
                     $this->_templater->add($this->_defaultConfig['templates']);
@@ -108,7 +78,6 @@ trait StringTemplateTrait
                 }
             }
         }
-
         return $this->_templater;
     }
 }

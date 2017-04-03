@@ -54,7 +54,6 @@ class LazyEagerLoader
         $associations = array_keys($query->contain());
 
         $entities = $this->_injectResults($entities, $query, $associations, $source);
-
         return $returnSingle ? array_shift($entities) : $entities;
     }
 
@@ -69,7 +68,7 @@ class LazyEagerLoader
      */
     protected function _getQuery($objects, $contain, $source)
     {
-        $primaryKey = $source->getPrimaryKey();
+        $primaryKey = $source->primaryKey();
         $method = is_string($primaryKey) ? 'get' : 'extract';
 
         $keys = $objects->map(function ($entity) use ($primaryKey, $method) {
@@ -90,15 +89,14 @@ class LazyEagerLoader
 
                 $types = array_intersect_key($q->defaultTypes(), array_flip($primaryKey));
                 $primaryKey = array_map([$source, 'aliasField'], $primaryKey);
-
                 return new TupleComparison($primaryKey, $keys->toList(), $types, 'IN');
             })
             ->contain($contain);
 
-        foreach ($query->getEagerLoader()->attachableAssociations($source) as $loadable) {
-            $config = $loadable->getConfig();
+        foreach ($query->eagerLoader()->attachableAssociations($source) as $loadable) {
+            $config = $loadable->config();
             $config['includeFields'] = true;
-            $loadable->setConfig($config);
+            $loadable->config($config);
         }
 
         return $query;
@@ -117,9 +115,8 @@ class LazyEagerLoader
         $map = [];
         $container = $source->associations();
         foreach ($associations as $assoc) {
-            $map[$assoc] = $container->get($assoc)->getProperty();
+            $map[$assoc] = $container->get($assoc)->property();
         }
-
         return $map;
     }
 
@@ -137,7 +134,7 @@ class LazyEagerLoader
     {
         $injected = [];
         $properties = $this->_getPropertyMap($source, $associations);
-        $primaryKey = (array)$source->getPrimaryKey();
+        $primaryKey = (array)$source->primaryKey();
         $results = $results
             ->indexBy(function ($e) use ($primaryKey) {
                 return implode(';', $e->extract($primaryKey));

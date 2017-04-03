@@ -18,6 +18,7 @@ use Cake\Core\Exception\Exception;
 
 /**
  * Used when a model cannot be found.
+ *
  */
 class MissingModelException extends Exception
 {

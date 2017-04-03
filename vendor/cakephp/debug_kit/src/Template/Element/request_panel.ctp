@@ -15,16 +15,6 @@
  * @since         DebugKit 0.1
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
-/**
- * @type \DebugKit\View\AjaxView $this
- * @type array $headers
- * @type array $params
- * @type array $data
- * @type array $query
- * @type array $cookie
- * @type string $matchedRoute
- */
 ?>
 <?php if (!empty($headers) && $headers['response']): ?>
 <h4>Warning</h4>
@@ -57,9 +47,4 @@ endif;
     <?= $this->Toolbar->makeNeatArray($cookie) ?>
 <?php else: ?>
     <p class="info"><?= __d('debug_kit', 'No Cookie data.') ?></p>
-<?php endif; ?>
-
-<?php if (!empty($matchedRoute)): ?>
-<h4>Matched Route</h4>
-    <p><?= $this->Toolbar->makeNeatArray(['template' => $matchedRoute]) ?></p>
 <?php endif; ?>

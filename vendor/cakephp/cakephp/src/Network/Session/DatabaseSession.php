@@ -23,6 +23,7 @@ use SessionHandlerInterface;
 
 /**
  * DatabaseSession provides methods to be used with Session.
+ *
  */
 class DatabaseSession implements SessionHandlerInterface
 {
@@ -95,8 +96,8 @@ class DatabaseSession implements SessionHandlerInterface
         $result = $this->_table
             ->find('all')
             ->select(['data'])
-            ->where([$this->_table->getPrimaryKey() => $id])
-            ->enableHydration(false)
+            ->where([$this->_table->primaryKey() => $id])
+            ->hydrate(false)
             ->first();
 
         if (empty($result)) {
@@ -112,7 +113,7 @@ class DatabaseSession implements SessionHandlerInterface
         if ($session === false) {
             return '';
         }
-
+        
         return $session;
     }
 
@@ -130,9 +131,8 @@ class DatabaseSession implements SessionHandlerInterface
         }
         $expires = time() + $this->_timeout;
         $record = compact('data', 'expires');
-        $record[$this->_table->getPrimaryKey()] = $id;
+        $record[$this->_table->primaryKey()] = $id;
         $result = $this->_table->save(new Entity($record));
-
         return (bool)$result;
     }
 
@@ -144,12 +144,10 @@ class DatabaseSession implements SessionHandlerInterface
      */
     public function destroy($id)
     {
-        $this->_table->delete(new Entity(
-            [$this->_table->getPrimaryKey() => $id],
+        return (bool)$this->_table->delete(new Entity(
+            [$this->_table->primaryKey() => $id],
             ['markNew' => false]
         ));
-
-        return true;
     }
 
     /**
@@ -161,7 +159,6 @@ class DatabaseSession implements SessionHandlerInterface
     public function gc($maxlifetime)
     {
         $this->_table->deleteAll(['expires <' => time()]);
-
         return true;
     }
 }

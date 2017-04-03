@@ -21,6 +21,7 @@ use RedisException;
 
 /**
  * Redis storage engine for cache.
+ *
  */
 class RedisEngine extends CacheEngine
 {
@@ -86,7 +87,6 @@ class RedisEngine extends CacheEngine
         }
 
         parent::init($config);
-
         return $this->_connect();
     }
 
@@ -116,7 +116,6 @@ class RedisEngine extends CacheEngine
         if ($return) {
             $return = $this->_Redis->select($this->_config['database']);
         }
-
         return $return;
     }
 
@@ -160,7 +159,6 @@ class RedisEngine extends CacheEngine
         if ($value !== false && is_string($value)) {
             return unserialize($value);
         }
-
         return $value;
     }
 
@@ -244,7 +242,6 @@ class RedisEngine extends CacheEngine
         if ($this->_Redis->setnx($key, $value)) {
             return $this->_Redis->setex($key, $duration, $value);
         }
-
         return false;
     }
 
@@ -266,7 +263,6 @@ class RedisEngine extends CacheEngine
             }
             $result[] = $group . $value;
         }
-
         return $result;
     }
 

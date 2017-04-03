@@ -141,7 +141,6 @@ class XmlView extends SerializedView
         if (isset($options['return']) && strtolower($options['return']) === 'domdocument') {
             return Xml::fromArray($data, $options)->saveXML();
         }
-
         return Xml::fromArray($data, $options)->asXML();
     }
 }

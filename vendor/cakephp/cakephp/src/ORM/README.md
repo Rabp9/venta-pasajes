@@ -26,13 +26,13 @@ specify a driver to use:
 ```php
 use Cake\Datasource\ConnectionManager;
 
-ConnectionManager::setConfig('default', [
+ConnectionManager::config('default', [
 	'className' => 'Cake\Database\Connection',
 	'driver' => 'Cake\Database\Driver\Mysql',
 	'database' => 'test',
 	'username' => 'root',
 	'password' => 'secret',
-	'cacheMetadata' => false // If set to `true` you need to install the optional "cakephp/cache" package.
+	'cacheMetaData' => false // If set to `true` you need to install the optional "cakephp/cache" package.
 ]);
 ```
 

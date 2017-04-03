@@ -66,7 +66,7 @@ class IniConfig implements ConfigEngineInterface
     /**
      * The section to read, if null all sections will be read.
      *
-     * @var string|null
+     * @var string
      */
     protected $_section;
 
@@ -101,7 +101,7 @@ class IniConfig implements ConfigEngineInterface
         $file = $this->_getFilePath($key, true);
 
         $contents = parse_ini_file($file, true);
-        if ($this->_section && isset($contents[$this->_section])) {
+        if (!empty($this->_section) && isset($contents[$this->_section])) {
             $values = $this->_parseNestedValues($contents[$this->_section]);
         } else {
             $values = [];
@@ -114,7 +114,6 @@ class IniConfig implements ConfigEngineInterface
                 }
             }
         }
-
         return $values;
     }
 
@@ -140,7 +139,6 @@ class IniConfig implements ConfigEngineInterface
                 $values[$key] = $value;
             }
         }
-
         return $values;
     }
 
@@ -174,7 +172,6 @@ class IniConfig implements ConfigEngineInterface
         $contents = trim(implode("\n", $result));
 
         $filename = $this->_getFilePath($key);
-
         return file_put_contents($filename, $contents) > 0;
     }
 
@@ -195,7 +192,6 @@ class IniConfig implements ConfigEngineInterface
         if ($value === false) {
             return 'false';
         }
-
         return (string)$value;
     }
 }

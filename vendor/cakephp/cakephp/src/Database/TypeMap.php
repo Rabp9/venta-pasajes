@@ -47,42 +47,7 @@ class TypeMap
      */
     public function __construct(array $defaults = [])
     {
-        $this->setDefaults($defaults);
-    }
-
-    /**
-     * Configures a map of default fields and their associated types to be
-     * used as the default list of types for every function in this class
-     * with a $types param. Useful to avoid repetition when calling the same
-     * functions using the same fields and types.
-     *
-     * ### Example
-     *
-     * ```
-     * $query->setDefaults(['created' => 'datetime', 'is_visible' => 'boolean']);
-     * ```
-     *
-     * This method will replace all the existing type maps with the ones provided.
-     *
-     * @param array $defaults Associative array where keys are field names and values
-     * are the correspondent type.
-     * @return $this
-     */
-    public function setDefaults(array $defaults)
-    {
-        $this->_defaults = $defaults;
-
-        return $this;
-    }
-
-    /**
-     * Returns the currently configured types.
-     *
-     * @return array
-     */
-    public function getDefaults()
-    {
-        return $this->_defaults;
+        $this->defaults($defaults);
     }
 
     /**
@@ -101,18 +66,17 @@ class TypeMap
      *
      * This method will replace all the existing type maps with the ones provided.
      *
-     * @deprecated 3.4.0 Use setDefaults()/getDefaults() instead.
      * @param array|null $defaults associative array where keys are field names and values
      * are the correspondent type.
      * @return $this|array
      */
     public function defaults(array $defaults = null)
     {
-        if ($defaults !== null) {
-            return $this->setDefaults($defaults);
+        if ($defaults === null) {
+            return $this->_defaults;
         }
-
-        return $this->getDefaults();
+        $this->_defaults = $defaults;
+        return $this;
     }
 
     /**
@@ -131,38 +95,6 @@ class TypeMap
     /**
      * Sets a map of fields and their associated types for single-use.
      *
-     * ### Example
-     *
-     * ```
-     * $query->setTypes(['created' => 'time']);
-     * ```
-     *
-     * This method will replace all the existing type maps with the ones provided.
-     *
-     * @param array $types Associative array where keys are field names and values
-     * are the correspondent type.
-     * @return $this
-     */
-    public function setTypes(array $types)
-    {
-        $this->_types = $types;
-
-        return $this;
-    }
-
-    /**
-     * Gets a map of fields and their associated types for single-use.
-     *
-     * @return array
-     */
-    public function getTypes()
-    {
-        return $this->_types;
-    }
-
-    /**
-     * Sets a map of fields and their associated types for single-use.
-     *
      * If called with no arguments it will return the currently configured types.
      *
      * ### Example
@@ -173,18 +105,17 @@ class TypeMap
      *
      * This method will replace all the existing type maps with the ones provided.
      *
-     * @deprecated 3.4.0 Use setTypes()/getTypes() instead.
      * @param array|null $types associative array where keys are field names and values
      * are the correspondent type.
      * @return $this|array
      */
     public function types(array $types = null)
     {
-        if ($types !== null) {
-            return $this->setTypes($types);
+        if ($types === null) {
+            return $this->_types;
         }
-
-        return $this->getTypes();
+        $this->_types = $types;
+        return $this;
     }
 
     /**
@@ -203,7 +134,6 @@ class TypeMap
         if (isset($this->_defaults[$column])) {
             return $this->_defaults[$column];
         }
-
         return null;
     }
 

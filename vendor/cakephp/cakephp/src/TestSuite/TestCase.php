@@ -20,22 +20,21 @@ use Cake\Event\EventManager;
 use Cake\ORM\Exception\MissingTableClassException;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
-use Cake\TestSuite\Constraint\EventFired;
-use Cake\TestSuite\Constraint\EventFiredWith;
 use Cake\Utility\Inflector;
 use Exception;
-use PHPUnit\Framework\TestCase as BaseTestCase;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Cake TestCase class
+ *
  */
-abstract class TestCase extends BaseTestCase
+abstract class TestCase extends PHPUnit_Framework_TestCase
 {
 
     /**
      * The class responsible for managing the creation, loading and removing of fixtures
      *
-     * @var \Cake\TestSuite\Fixture\FixtureManager|null
+     * @var \Cake\TestSuite\Fixture\FixtureManager
      */
     public $fixtureManager = null;
 
@@ -43,7 +42,7 @@ abstract class TestCase extends BaseTestCase
      * By default, all fixtures attached to this class will be truncated and reloaded after each test.
      * Set this to false to handle manually
      *
-     * @var bool
+     * @var array
      */
     public $autoFixtures = true;
 
@@ -83,7 +82,6 @@ abstract class TestCase extends BaseTestCase
         if ($shouldSkip) {
             $this->markTestSkipped($message);
         }
-
         return $shouldSkip;
     }
 
@@ -98,7 +96,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        if (!$this->_configure) {
+        if (empty($this->_configure)) {
             $this->_configure = Configure::read();
         }
         if (class_exists('Cake\Routing\Router', false)) {
@@ -116,11 +114,10 @@ abstract class TestCase extends BaseTestCase
     public function tearDown()
     {
         parent::tearDown();
-        if ($this->_configure) {
+        if (!empty($this->_configure)) {
             Configure::clear();
             Configure::write($this->_configure);
         }
-        TableRegistry::clear();
     }
 
     /**
@@ -134,7 +131,7 @@ abstract class TestCase extends BaseTestCase
      */
     public function loadFixtures()
     {
-        if ($this->fixtureManager === null) {
+        if (empty($this->fixtureManager)) {
             throw new Exception('No fixture manager to load the test fixture');
         }
         $args = func_get_args();
@@ -147,7 +144,7 @@ abstract class TestCase extends BaseTestCase
      * Asserts that a global event was fired. You must track events in your event manager for this assertion to work
      *
      * @param string $name Event name
-     * @param EventManager|null $eventManager Event manager to check, defaults to global event manager
+     * @param EventManager $eventManager Event manager to check, defaults to global event manager
      * @param string $message Assertion failure message
      * @return void
      */
@@ -156,7 +153,7 @@ abstract class TestCase extends BaseTestCase
         if (!$eventManager) {
             $eventManager = EventManager::instance();
         }
-        $this->assertThat($name, new EventFired($eventManager), $message);
+        $this->assertThat($name, new Constraint\EventFired($eventManager), $message);
     }
 
     /**
@@ -167,7 +164,7 @@ abstract class TestCase extends BaseTestCase
      * @param string $name Event name
      * @param string $dataKey Data key
      * @param string $dataValue Data value
-     * @param EventManager|null $eventManager Event manager to check, defaults to global event manager
+     * @param EventManager $eventManager Event manager to check, defaults to global event manager
      * @param string $message Assertion failure message
      * @return void
      */
@@ -176,7 +173,7 @@ abstract class TestCase extends BaseTestCase
         if (!$eventManager) {
             $eventManager = EventManager::instance();
         }
-        $this->assertThat($name, new EventFiredWith($eventManager, $dataKey, $dataValue), $message);
+        $this->assertThat($name, new Constraint\EventFiredWith($eventManager, $dataKey, $dataValue), $message);
     }
 
     /**
@@ -324,7 +321,7 @@ abstract class TestCase extends BaseTestCase
             'assertTags() is deprecated, use assertHtml() instead.',
             E_USER_DEPRECATED
         );
-        $this->assertHtml($expected, $string, $fullDebug);
+        static::assertHtml($expected, $string, $fullDebug);
     }
 
     /**
@@ -401,7 +398,7 @@ abstract class TestCase extends BaseTestCase
                     }
                     $regex[] = [
                         sprintf('%sClose %s tag', $prefix[0], substr($tags, strlen($match[0]))),
-                        sprintf('%s\s*<[\s]*\/[\s]*%s[\s]*>[\n\r]*', $prefix[1], substr($tags, strlen($match[0]))),
+                        sprintf('%s<[\s]*\/[\s]*%s[\s]*>[\n\r]*', $prefix[1], substr($tags, strlen($match[0]))),
                         $i,
                     ];
                     continue;
@@ -410,7 +407,7 @@ abstract class TestCase extends BaseTestCase
                     $tags = $matches[1];
                     $type = 'Regex matches';
                 } else {
-                    $tags = '\s*' . preg_quote($tags, '/');
+                    $tags = preg_quote($tags, '/');
                     $type = 'Text equals';
                 }
                 $regex[] = [
@@ -499,13 +496,11 @@ abstract class TestCase extends BaseTestCase
                     debug($regex);
                 }
                 $this->assertRegExp($expression, $string, sprintf('Item #%d / regex #%d failed: %s', $itemNum, $i, $description));
-
                 return false;
             }
         }
 
         $this->assertTrue(true, '%s');
-
         return true;
     }
 
@@ -516,7 +511,7 @@ abstract class TestCase extends BaseTestCase
      * @param string $string The HTML string to check.
      * @param bool $fullDebug Whether or not more verbose output should be used.
      * @param array|string $regex Full regexp from `assertHtml`
-     * @return string|bool
+     * @return string
      */
     protected function _assertAttributes($assertions, $string, $fullDebug = false, $regex = '')
     {
@@ -542,7 +537,6 @@ abstract class TestCase extends BaseTestCase
             }
             $len = count($asserts);
         } while ($len > 0);
-
         return $string;
     }
 
@@ -618,7 +612,6 @@ abstract class TestCase extends BaseTestCase
         if (!$condition) {
             $this->markTestSkipped($message);
         }
-
         return $condition;
     }
 
@@ -665,13 +658,7 @@ abstract class TestCase extends BaseTestCase
             }
         }
 
-        if (stripos($mock->table(), 'mock') === 0) {
-            $mock->table(Inflector::tableize($baseClass));
-        }
-
         TableRegistry::set($baseClass, $mock);
-        TableRegistry::set($alias, $mock);
-
         return $mock;
     }
 }

@@ -51,7 +51,7 @@ use Cake\Log\LogTrait;
  *   propagation.
  *
  * While the controller is not an explicit argument for the callback methods it
- * is the subject of each event and can be fetched using Event::getSubject().
+ * is the subject of each event and can be fetched using Event::subject().
  *
  * @link http://book.cakephp.org/3.0/en/controllers/components.html
  * @see \Cake\Controller\Controller::$components
@@ -65,9 +65,7 @@ class Component implements EventListenerInterface
     /**
      * Request object
      *
-     * @var \Cake\Http\ServerRequest
-     * @deprecated 3.4.0 Storing references to the request is deprecated. Use Component::getController()
-     *   or callback $event->getSubject() to access the controller & request instead.
+     * @var \Cake\Network\Request
      */
     public $request;
 
@@ -75,8 +73,6 @@ class Component implements EventListenerInterface
      * Response object
      *
      * @var \Cake\Network\Response
-     * @deprecated 3.4.0 Storing references to the response is deprecated. Use Component::getController()
-     *   or callback $event->getSubject() to access the controller & response instead.
      */
     public $response;
 
@@ -125,22 +121,12 @@ class Component implements EventListenerInterface
             $this->response =& $controller->response;
         }
 
-        $this->setConfig($config);
+        $this->config($config);
 
-        if ($this->components) {
+        if (!empty($this->components)) {
             $this->_componentMap = $registry->normalizeArray($this->components);
         }
         $this->initialize($config);
-    }
-
-    /**
-     * Get the controller this component is bound to.
-     *
-     * @return \Cake\Controller\Controller The bound controller.
-     */
-    public function getController()
-    {
-        return $this->_registry->getController();
     }
 
     /**
@@ -165,14 +151,12 @@ class Component implements EventListenerInterface
     public function __get($name)
     {
         if (isset($this->_componentMap[$name]) && !isset($this->{$name})) {
-            $config = (array)$this->_componentMap[$name]['config'] + ['enabled' => false];
+            $config = ['enabled' => false] + (array)$this->_componentMap[$name]['config'];
             $this->{$name} = $this->_registry->load($this->_componentMap[$name]['class'], $config);
         }
-        if (!isset($this->{$name})) {
-            return null;
+        if (isset($this->{$name})) {
+            return $this->{$name};
         }
-
-        return $this->{$name};
     }
 
     /**
@@ -202,7 +186,6 @@ class Component implements EventListenerInterface
                 $events[$event] = $method;
             }
         }
-
         return $events;
     }
 
@@ -217,7 +200,7 @@ class Component implements EventListenerInterface
         return [
             'components' => $this->components,
             'implementedEvents' => $this->implementedEvents(),
-            '_config' => $this->getConfig(),
+            '_config' => $this->config(),
         ];
     }
 }

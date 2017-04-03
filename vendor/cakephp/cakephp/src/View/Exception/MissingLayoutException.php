@@ -16,6 +16,7 @@ use Cake\Core\Exception\Exception;
 
 /**
  * Used when a layout file cannot be found.
+ *
  */
 class MissingLayoutException extends Exception
 {

@@ -18,6 +18,7 @@ use Cake\Core\Exception\Exception;
 
 /**
  * Used when a cell class file cannot be found.
+ *
  */
 class MissingCellException extends Exception
 {

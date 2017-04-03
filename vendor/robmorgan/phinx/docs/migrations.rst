@@ -682,27 +682,6 @@ update   set an action to be triggered when the row is updated (use with ``CURRE
 timezone enable or disable the ``with time zone`` option for ``time`` and ``timestamp`` columns *(only applies to Postgres)*
 ======== ===========
 
-You can add ``created_at`` and ``updated_at`` timestamps to a table using the ``addTimestamps()`` method. This method also
-allows you to supply alternative names.
-
-.. code-block:: php
-
-        <?php
-
-        use Phinx\Migration\AbstractMigration;
-
-        class MyNewMigration extends AbstractMigration
-        {
-            /**
-             * Migrate Change.
-             */
-            public function change()
-            {
-                // Override the 'updated_at' column name with 'amended_at'.
-                $table = $this->table('users')->addTimestamps(null, 'amended_at')->create();
-            }
-        }
-
 For ``boolean`` columns:
 
 ======== ===========
@@ -918,13 +897,13 @@ To drop a column, use the ``removeColumn()`` method.
         class MyNewMigration extends AbstractMigration
         {
             /**
-             * Migrate up.
+             * Change Method.
              */
-            public function up()
+            public function change()
             {
                 $table = $this->table('users');
                 $table->removeColumn('short_name')
-                      ->save();
+                      ->update();
             }
         }
 
@@ -1091,9 +1070,6 @@ call this method for each index.
             {
                 $table = $this->table('users');
                 $table->removeIndex(array('email'));
-                
-                // alternatively, you can delete an index by its name, ie:
-                $table->removeIndexByName('idx_users_email');
             }
 
             /**

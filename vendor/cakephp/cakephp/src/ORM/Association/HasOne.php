@@ -16,7 +16,6 @@ namespace Cake\ORM\Association;
 
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Association;
-use Cake\ORM\Association\Loader\SelectLoader;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
 
@@ -30,29 +29,31 @@ class HasOne extends Association
 {
 
     use DependentDeleteTrait;
+    use SelectableAssociationTrait;
 
     /**
      * Valid strategies for this type of association
      *
      * @var array
      */
-    protected $_validStrategies = [
-        self::STRATEGY_JOIN,
-        self::STRATEGY_SELECT
-    ];
+    protected $_validStrategies = [self::STRATEGY_JOIN, self::STRATEGY_SELECT];
 
     /**
-     * Gets the name of the field representing the foreign key to the target table.
+     * Sets the name of the field representing the foreign key to the target table.
+     * If no parameters are passed current field is returned
      *
+     * @param string|null $key the key to be used to link both tables together
      * @return string
      */
-    public function getForeignKey()
+    public function foreignKey($key = null)
     {
-        if ($this->_foreignKey === null) {
-            $this->_foreignKey = $this->_modelKey($this->getSource()->getAlias());
+        if ($key === null) {
+            if ($this->_foreignKey === null) {
+                $this->_foreignKey = $this->_modelKey($this->source()->alias());
+            }
+            return $this->_foreignKey;
         }
-
-        return $this->_foreignKey;
+        return parent::foreignKey($key);
     }
 
     /**
@@ -63,7 +64,6 @@ class HasOne extends Association
     protected function _propertyName()
     {
         list(, $name) = pluginSplit($this->_name);
-
         return Inflector::underscore(Inflector::singularize($name));
     }
 
@@ -77,7 +77,7 @@ class HasOne extends Association
      */
     public function isOwningSide(Table $side)
     {
-        return $side === $this->getSource();
+        return $side === $this->source();
     }
 
     /**
@@ -105,20 +105,19 @@ class HasOne extends Association
      */
     public function saveAssociated(EntityInterface $entity, array $options = [])
     {
-        $targetEntity = $entity->get($this->getProperty());
+        $targetEntity = $entity->get($this->property());
         if (empty($targetEntity) || !($targetEntity instanceof EntityInterface)) {
             return $entity;
         }
 
         $properties = array_combine(
-            (array)$this->getForeignKey(),
-            $entity->extract((array)$this->getBindingKey())
+            (array)$this->foreignKey(),
+            $entity->extract((array)$this->bindingKey())
         );
         $targetEntity->set($properties, ['guard' => false]);
 
-        if (!$this->getTarget()->save($targetEntity, $options)) {
+        if (!$this->target()->save($targetEntity, $options)) {
             $targetEntity->unsetProperty(array_keys($properties));
-
             return false;
         }
 
@@ -127,22 +126,38 @@ class HasOne extends Association
 
     /**
      * {@inheritDoc}
-     *
-     * @return callable
      */
-    public function eagerLoader(array $options)
+    protected function _linkField($options)
     {
-        $loader = new SelectLoader([
-            'alias' => $this->getAlias(),
-            'sourceAlias' => $this->getSource()->getAlias(),
-            'targetAlias' => $this->getTarget()->getAlias(),
-            'foreignKey' => $this->getForeignKey(),
-            'bindingKey' => $this->getBindingKey(),
-            'strategy' => $this->getStrategy(),
-            'associationType' => $this->type(),
-            'finder' => [$this, 'find']
-        ]);
+        $links = [];
+        $name = $this->alias();
 
-        return $loader->buildEagerLoader($options);
+        foreach ((array)$options['foreignKey'] as $key) {
+            $links[] = sprintf('%s.%s', $name, $key);
+        }
+
+        if (count($links) === 1) {
+            return $links[0];
+        }
+
+        return $links;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function _buildResultMap($fetchQuery, $options)
+    {
+        $resultMap = [];
+        $key = (array)$options['foreignKey'];
+
+        foreach ($fetchQuery->all() as $result) {
+            $values = [];
+            foreach ($key as $k) {
+                $values[] = $result[$k];
+            }
+            $resultMap[implode(';', $values)] = $result;
+        }
+        return $resultMap;
     }
 }

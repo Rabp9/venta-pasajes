@@ -16,7 +16,6 @@ namespace Cake\Database\Type;
 
 use Cake\Database\Driver;
 use Cake\Database\Type;
-use Cake\Database\TypeInterface;
 use PDO;
 use RuntimeException;
 
@@ -25,30 +24,8 @@ use RuntimeException;
  *
  * Use to convert float/decimal data between PHP and the database types.
  */
-class FloatType extends Type implements TypeInterface
+class FloatType extends Type
 {
-    /**
-     * Identifier name for this type.
-     *
-     * (This property is declared here again so that the inheritance from
-     * Cake\Database\Type can be removed in the future.)
-     *
-     * @var string|null
-     */
-    protected $_name = null;
-
-    /**
-     * Constructor.
-     *
-     * (This method is declared here again so that the inheritance from
-     * Cake\Database\Type can be removed in the future.)
-     *
-     * @param string|null $name The name identifying this type
-     */
-    public function __construct($name = null)
-    {
-        $this->_name = $name;
-    }
 
     /**
      * The class to use for representing number objects
@@ -70,15 +47,17 @@ class FloatType extends Type implements TypeInterface
      *
      * @param string|resource $value The value to convert.
      * @param \Cake\Database\Driver $driver The driver instance to convert with.
-     * @return float|null
+     * @return string|resource
      */
     public function toDatabase($value, Driver $driver)
     {
         if ($value === null || $value === '') {
             return null;
         }
-
-        return (float)$value;
+        if (is_array($value)) {
+            return 1;
+        }
+        return floatval($value);
     }
 
     /**
@@ -86,7 +65,7 @@ class FloatType extends Type implements TypeInterface
      *
      * @param null|string|resource $value The value to convert.
      * @param \Cake\Database\Driver $driver The driver instance to convert with.
-     * @return float|null
+     * @return resource
      * @throws \Cake\Core\Exception\Exception
      */
     public function toPHP($value, Driver $driver)
@@ -95,10 +74,9 @@ class FloatType extends Type implements TypeInterface
             return null;
         }
         if (is_array($value)) {
-            return 1.0;
+            return 1;
         }
-
-        return (float)$value;
+        return floatval($value);
     }
 
     /**
@@ -117,7 +95,7 @@ class FloatType extends Type implements TypeInterface
      * Marshalls request data into PHP floats.
      *
      * @param mixed $value The value to convert.
-     * @return float|null Converted value.
+     * @return mixed Converted value.
      */
     public function marshal($value)
     {
@@ -131,7 +109,7 @@ class FloatType extends Type implements TypeInterface
             return $this->_parseValue($value);
         }
         if (is_array($value)) {
-            return 1.0;
+            return 1;
         }
 
         return $value;
@@ -148,14 +126,12 @@ class FloatType extends Type implements TypeInterface
     {
         if ($enable === false) {
             $this->_useLocaleParser = $enable;
-
             return $this;
         }
         if (static::$numberClass === 'Cake\I18n\Number' ||
             is_subclass_of(static::$numberClass, 'Cake\I18n\Number')
         ) {
             $this->_useLocaleParser = $enable;
-
             return $this;
         }
         throw new RuntimeException(
@@ -164,7 +140,7 @@ class FloatType extends Type implements TypeInterface
     }
 
     /**
-     * Converts a string into a float point after parsing it using the locale
+     * Converts a string into a float point after parseing it using the locale
      * aware parser.
      *
      * @param string $value The value to parse and convert to an float.
@@ -173,7 +149,6 @@ class FloatType extends Type implements TypeInterface
     protected function _parseValue($value)
     {
         $class = static::$numberClass;
-
         return $class::parseFloat($value);
     }
 }

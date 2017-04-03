@@ -79,7 +79,6 @@ class RelativeTimeFormatter
         if ($isNow) {
             return $isFuture ? __d('cake', '{0} from now', $message) : __d('cake', '{0} ago', $message);
         }
-
         return $isFuture ? __d('cake', '{0} after', $message) : __d('cake', '{0} before', $message);
     }
 
@@ -156,7 +155,6 @@ class RelativeTimeFormatter
                 'month' => __d('cake', 'about a month ago'),
                 'year' => __d('cake', 'about a year ago')
             ];
-
             return $relativeDate ? sprintf($options['relativeString'], $relativeDate) : $aboutAgo[$fWord];
         }
 
@@ -173,7 +171,6 @@ class RelativeTimeFormatter
             'month' => __d('cake', 'in about a month'),
             'year' => __d('cake', 'in about a year')
         ];
-
         return $aboutIn[$fWord];
     }
 
@@ -269,7 +266,6 @@ class RelativeTimeFormatter
         }
 
         $fNum = str_replace(['year', 'month', 'week', 'day', 'hour', 'minute', 'second'], [1, 2, 3, 4, 5, 6, 7], $fWord);
-
         return [$fNum, $fWord, $years, $months, $weeks, $days, $hours, $minutes, $seconds];
     }
 
@@ -334,7 +330,6 @@ class RelativeTimeFormatter
                 'month' => __d('cake', 'about a month ago'),
                 'year' => __d('cake', 'about a year ago')
             ];
-
             return $relativeDate ? sprintf($options['relativeString'], $relativeDate) : $aboutAgo[$fWord];
         }
 
@@ -348,7 +343,6 @@ class RelativeTimeFormatter
             'month' => __d('cake', 'in about a month'),
             'year' => __d('cake', 'in about a year')
         ];
-
         return $aboutIn[$fWord];
     }
 
@@ -379,7 +373,6 @@ class RelativeTimeFormatter
         } else {
             $options['accuracy'] += $class::$wordAccuracy;
         }
-
         return $options;
     }
 }

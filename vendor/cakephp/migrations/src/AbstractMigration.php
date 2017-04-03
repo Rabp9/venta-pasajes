@@ -30,8 +30,6 @@ class AbstractMigration extends BaseAbstractMigration
 
     /**
      * {@inheritdoc}
-     *
-     * @return \Migrations\Table
      */
     public function table($tableName, $options = array())
     {

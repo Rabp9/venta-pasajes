@@ -23,6 +23,7 @@ use Cake\Utility\Inflector;
 
 /**
  * Language string extractor
+ *
  */
 class ExtractTask extends Shell
 {
@@ -51,7 +52,7 @@ class ExtractTask extends Shell
     /**
      * Current file being processed
      *
-     * @var string|null
+     * @var string
      */
     protected $_file = null;
 
@@ -79,7 +80,7 @@ class ExtractTask extends Shell
     /**
      * Destination path
      *
-     * @var string|null
+     * @var string
      */
     protected $_output = null;
 
@@ -93,7 +94,7 @@ class ExtractTask extends Shell
     /**
      * Holds the validation string domain to use for validation messages when extracting
      *
-     * @var string
+     * @var bool
      */
     protected $_validationDomain = 'default';
 
@@ -131,16 +132,14 @@ class ExtractTask extends Shell
             if (strtoupper($response) === 'Q') {
                 $this->err('Extract Aborted');
                 $this->_stop();
-
                 return;
             }
             if (strtoupper($response) === 'D' && count($this->_paths)) {
                 $this->out();
-
                 return;
             }
             if (strtoupper($response) === 'D') {
-                $this->warn('No directories selected. Please choose a directory.');
+                $this->err('<warning>No directories selected.</warning> Please choose a directory.');
             } elseif (is_dir($response)) {
                 $this->_paths[] = $response;
                 $defaultPath = 'D';
@@ -207,7 +206,6 @@ class ExtractTask extends Shell
                 if (strtoupper($response) === 'Q') {
                     $this->err('Extract Aborted');
                     $this->_stop();
-
                     return;
                 }
                 if ($this->_isPathUsable($response)) {
@@ -240,7 +238,6 @@ class ExtractTask extends Shell
         if (!$this->_isPathUsable($this->_output)) {
             $this->err(sprintf('The output directory %s was not found or writable.', $this->_output));
             $this->_stop();
-
             return;
         }
 
@@ -311,7 +308,7 @@ class ExtractTask extends Shell
     public function getOptionParser()
     {
         $parser = parent::getOptionParser();
-        $parser->setDescription(
+        $parser->description(
             'CakePHP Language String Extraction:'
         )->addOption('app', [
             'help' => 'Directory where your application is located.'
@@ -364,7 +361,6 @@ class ExtractTask extends Shell
      */
     protected function _extractTokens()
     {
-        /* @var \Cake\Shell\Helper\ProgressHelper $progress */
         $progress = $this->helper('progress');
         $progress->init(['total' => count($this->_files)]);
         $isVerbose = $this->param('verbose');
@@ -605,7 +601,6 @@ class ExtractTask extends Shell
         $output .= "\"Content-Type: text/plain; charset=utf-8\\n\"\n";
         $output .= "\"Content-Transfer-Encoding: 8bit\\n\"\n";
         $output .= "\"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\\n\"\n\n";
-
         return $output;
     }
 
@@ -638,7 +633,6 @@ class ExtractTask extends Shell
             }
             $position++;
         }
-
         return $strings;
     }
 
@@ -658,7 +652,6 @@ class ExtractTask extends Shell
             $string = strtr($string, ["\\'" => "'", "\\\\" => "\\"]);
         }
         $string = str_replace("\r\n", "\n", $string);
-
         return addcslashes($string, "\0..\37\\\"");
     }
 
@@ -749,7 +742,6 @@ class ExtractTask extends Shell
         if (!is_dir($path)) {
             mkdir($path, 0770, true);
         }
-
         return is_dir($path) && is_writable($path);
     }
 }

@@ -13,11 +13,6 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 %>
-<?php
-/**
-  * @var \<%= $namespace %>\View\AppView $this
-  */
-?>
 <div class="<%= $pluralVar %> form">
 <?= $this->Flash->render('auth') ?>
     <?= $this->Form->create() ?>

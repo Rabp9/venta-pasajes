@@ -13,7 +13,7 @@
  */
 namespace Cake\TestSuite\Stub;
 
-use Cake\Http\Response as Base;
+use Cake\Network\Response as Base;
 
 /**
  * A response class intended for test cases.
@@ -24,15 +24,13 @@ class Response extends Base
     /**
      * Stub the send() method so headers and output are not sent.
      *
-     * @return $this
+     * @return void
      */
     public function send()
     {
-        if ($this->hasHeader('Location') && $this->_status === 200) {
+        if (isset($this->_headers['Location']) && $this->_status === 200) {
             $this->statusCode(302);
         }
         $this->_setContentType();
-
-        return $this;
     }
 }

@@ -14,6 +14,7 @@ namespace Cake\Network\Exception;
 
 /**
  * Represents an HTTP 503 error.
+ *
  */
 class ServiceUnavailableException extends HttpException
 {

@@ -16,6 +16,7 @@ use Cake\Core\Exception\Exception;
 
 /**
  * Used when a component cannot be found.
+ *
  */
 class MissingComponentException extends Exception
 {

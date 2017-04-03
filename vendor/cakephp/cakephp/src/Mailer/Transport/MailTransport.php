@@ -22,6 +22,7 @@ use Cake\Network\Exception\SocketException;
 
 /**
  * Send mail using mail() function
+ *
  */
 class MailTransport extends AbstractTransport
 {
@@ -45,14 +46,13 @@ class MailTransport extends AbstractTransport
             $headers[$key] = str_replace(["\r", "\n"], '', $header);
         }
         $headers = $this->_headersToString($headers, $eol);
-        $subject = str_replace(["\r", "\n"], '', $email->getSubject());
+        $subject = str_replace(["\r", "\n"], '', $email->subject());
         $to = str_replace(["\r", "\n"], '', $to);
 
         $message = implode($eol, $email->message());
 
         $params = isset($this->_config['additionalParameters']) ? $this->_config['additionalParameters'] : null;
         $this->_mail($to, $subject, $message, $headers, $params);
-
         return ['headers' => $headers, 'message' => $message];
     }
 

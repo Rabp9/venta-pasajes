@@ -54,8 +54,7 @@ class TimeHelper extends Helper
         if ($timezone) {
             return $timezone;
         }
-
-        return $this->getConfig('outputTimezone');
+        return $this->config('outputTimezone');
     }
 
     /**
@@ -81,16 +80,15 @@ class TimeHelper extends Helper
     public function nice($dateString = null, $timezone = null, $locale = null)
     {
         $timezone = $this->_getTimezone($timezone);
-
         return (new Time($dateString))->nice($timezone, $locale);
     }
 
     /**
-     * Returns true, if the given datetime string is today.
+     * Returns true if given datetime string is today.
      *
      * @param int|string|\DateTime $dateString UNIX timestamp, strtotime() valid string or DateTime object
      * @param string|\DateTimeZone|null $timezone User's timezone string or DateTimeZone object
-     * @return bool True if the given datetime string is today.
+     * @return bool True if datetime string is today
      */
     public function isToday($dateString, $timezone = null)
     {
@@ -98,11 +96,11 @@ class TimeHelper extends Helper
     }
 
     /**
-     * Returns true, if the given datetime string is in the future.
+     * Returns true if given datetime string is in the future.
      *
      * @param int|string|\DateTime $dateString UNIX timestamp, strtotime() valid string or DateTime object
      * @param string|\DateTimeZone|null $timezone User's timezone string or DateTimeZone object
-     * @return bool True if the given datetime string lies in the future.
+     * @return bool True if datetime string is today
      */
     public function isFuture($dateString, $timezone = null)
     {
@@ -110,11 +108,11 @@ class TimeHelper extends Helper
     }
 
     /**
-     * Returns true, if the given datetime string is in the past.
+     * Returns true if given datetime string is in the past.
      *
      * @param int|string|\DateTime $dateString UNIX timestamp, strtotime() valid string or DateTime object
      * @param string|\DateTimeZone|null $timezone User's timezone string or DateTimeZone object
-     * @return bool True if the given datetime string lies in the past.
+     * @return bool True if datetime string is today
      */
     public function isPast($dateString, $timezone = null)
     {
@@ -200,7 +198,7 @@ class TimeHelper extends Helper
      *
      * @param int|string|\DateTime $dateString UNIX timestamp, strtotime() valid string or DateTime object
      * @param string|\DateTimeZone|null $timezone User's timezone string or DateTimeZone object
-     * @return string UNIX timestamp
+     * @return int Unix timestamp
      * @see \Cake\I18n\Time::toUnix()
      */
     public function toUnix($dateString, $timezone = null)
@@ -219,7 +217,6 @@ class TimeHelper extends Helper
     public function toAtom($dateString, $timezone = null)
     {
         $timezone = $this->_getTimezone($timezone) ?: date_default_timezone_get();
-
         return (new Time($dateString))->timezone($timezone)->toAtomString();
     }
 
@@ -233,7 +230,6 @@ class TimeHelper extends Helper
     public function toRss($dateString, $timezone = null)
     {
         $timezone = $this->_getTimezone($timezone) ?: date_default_timezone_get();
-
         return (new Time($dateString))->timezone($timezone)->toRssString();
     }
 
@@ -291,7 +287,6 @@ class TimeHelper extends Helper
                 $element['tag']
             );
         }
-
         return $relativeDate;
     }
 
@@ -329,7 +324,7 @@ class TimeHelper extends Helper
      * Returns gmt as a UNIX timestamp.
      *
      * @param int|string|\DateTime|null $string UNIX timestamp, strtotime() valid string or DateTime object
-     * @return string UNIX timestamp
+     * @return int UNIX timestamp
      * @see \Cake\I18n\Time::gmt()
      */
     public function gmt($string = null)
@@ -376,13 +371,11 @@ class TimeHelper extends Helper
 
         try {
             $time = new Time($date);
-
             return $time->i18nFormat($format, $timezone);
         } catch (Exception $e) {
             if ($invalid === false) {
                 throw $e;
             }
-
             return $invalid;
         }
     }

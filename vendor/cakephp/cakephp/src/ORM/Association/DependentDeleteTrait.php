@@ -35,24 +35,22 @@ trait DependentDeleteTrait
      */
     public function cascadeDelete(EntityInterface $entity, array $options = [])
     {
-        if (!$this->getDependent()) {
+        if (!$this->dependent()) {
             return true;
         }
-        $table = $this->getTarget();
-        $foreignKey = (array)$this->getForeignKey();
-        $bindingKey = (array)$this->getBindingKey();
+        $table = $this->target();
+        $foreignKey = (array)$this->foreignKey();
+        $bindingKey = (array)$this->bindingKey();
         $conditions = array_combine($foreignKey, $entity->extract($bindingKey));
 
         if ($this->_cascadeCallbacks) {
             foreach ($this->find()->where($conditions)->toList() as $related) {
                 $table->delete($related, $options);
             }
-
             return true;
         }
 
-        $conditions = array_merge($conditions, $this->getConditions());
-
+        $conditions = array_merge($conditions, $this->conditions());
         return $table->deleteAll($conditions);
     }
 }

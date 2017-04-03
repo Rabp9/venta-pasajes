@@ -15,8 +15,8 @@
 namespace Cake\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Http\ServerRequest;
 use Cake\I18n\Time;
+use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\Utility\CookieCryptTrait;
 use Cake\Utility\Hash;
@@ -85,7 +85,7 @@ class CookieComponent extends Component
      *
      * Accessed in the controller using $this->Cookie->read('Name.key');
      *
-     * @var array
+     * @var string
      */
     protected $_values = [];
 
@@ -101,11 +101,9 @@ class CookieComponent extends Component
     protected $_loaded = [];
 
     /**
-     * A reference to the Controller's Cake\Network\Response object.
-     * Currently unused.
+     * A reference to the Controller's Cake\Network\Response object
      *
-     * @var \Cake\Network\Response|null
-     * @deprecated 3.4.0 Will be removed in 4.0.0
+     * @var \Cake\Network\Response
      */
     protected $_response = null;
 
@@ -118,17 +116,22 @@ class CookieComponent extends Component
     public function initialize(array $config)
     {
         if (!$this->_config['key']) {
-            $this->setConfig('key', Security::salt());
+            $this->config('key', Security::salt());
         }
 
         $controller = $this->_registry->getController();
 
+        if ($controller !== null) {
+            $this->_response =& $controller->response;
+        }
+
         if ($controller === null) {
-            $this->request = ServerRequest::createFromGlobals();
+            $this->request = Request::createFromGlobals();
+            $this->_response = new Response();
         }
 
         if (empty($this->_config['path'])) {
-            $this->setConfig('path', $this->request->webroot);
+            $this->config('path', $this->request->webroot);
         }
     }
 
@@ -163,14 +166,12 @@ class CookieComponent extends Component
         if ($option === null) {
             $default = $this->_config;
             $local = isset($this->_keyConfig[$keyname]) ? $this->_keyConfig[$keyname] : [];
-
             return $local + $default;
         }
         if (!is_array($option)) {
             $option = [$option => $value];
         }
         $this->_keyConfig[$keyname] = $option;
-
         return null;
     }
 
@@ -226,7 +227,6 @@ class CookieComponent extends Component
     public function read($key = null)
     {
         $this->_load($key);
-
         return Hash::get($this->_values, $key);
     }
 
@@ -266,7 +266,6 @@ class CookieComponent extends Component
         if (empty($key)) {
             return false;
         }
-
         return $this->read($key) !== null;
     }
 
@@ -309,8 +308,7 @@ class CookieComponent extends Component
         $config = $this->configKey($name);
         $expires = new Time($config['expires']);
 
-        $response = $this->getController()->response;
-        $response->cookie([
+        $this->_response->cookie([
             'name' => $name,
             'value' => $this->_encrypt($value, $config['encryption'], $config['key']),
             'expire' => $expires->format('U'),
@@ -335,8 +333,7 @@ class CookieComponent extends Component
         $config = $this->configKey($name);
         $expires = new Time('now');
 
-        $response = $this->getController()->response;
-        $response->cookie([
+        $this->_response->cookie([
             'name' => $name,
             'value' => '',
             'expire' => $expires->format('U') - 42000,

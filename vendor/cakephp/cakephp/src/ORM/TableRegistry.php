@@ -46,6 +46,7 @@ use Cake\ORM\Locator\LocatorInterface;
  * ```
  * $table = TableRegistry::get('Users', $config);
  * ```
+ *
  */
 class TableRegistry
 {
@@ -163,6 +164,6 @@ class TableRegistry
      */
     public static function __callStatic($name, $arguments)
     {
-        return static::locator()->$name(...$arguments);
+        return call_user_func_array([static::locator(), $name], $arguments);
     }
 }

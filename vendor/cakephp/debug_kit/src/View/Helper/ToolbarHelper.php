@@ -8,15 +8,16 @@
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @since         0.1
+ * @since         DebugKit 0.1
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 namespace DebugKit\View\Helper;
 
-use ArrayAccess;
+use Cake\Cache\Cache;
+use Cake\Datasource\ConnectionManager;
+use Cake\Event\Event;
 use Cake\View\Helper;
-use Closure;
-use Iterator;
+use DebugKit\DebugKitDebugger;
 
 /**
  * Provides Base methods for content specific debug toolbar helpers.
@@ -97,7 +98,7 @@ class ToolbarHelper extends Helper
             ksort($values);
         }
         foreach ($values as $key => $value) {
-            $out .= '<li><strong>' . h($key, $doubleEncode) . '</strong> ';
+            $out .= '<li><strong>' . h($key, $doubleEncode) . '</strong>';
             if (is_array($value) && count($value) > 0) {
                 $out .= '(array)';
             } elseif (is_object($value)) {
@@ -139,7 +140,6 @@ class ToolbarHelper extends Helper
             $out .= '</li>';
         }
         $out .= '</ul>';
-
         return $out;
     }
 }

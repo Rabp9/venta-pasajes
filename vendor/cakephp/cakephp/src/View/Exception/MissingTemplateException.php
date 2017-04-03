@@ -16,6 +16,7 @@ use Cake\Core\Exception\Exception;
 
 /**
  * Used when a template file cannot be found.
+ *
  */
 class MissingTemplateException extends Exception
 {

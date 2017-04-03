@@ -69,7 +69,6 @@ trait CookieCryptTrait
         if ($encrypt === 'aes') {
             $cipher = Security::encrypt($value, $key);
         }
-
         return $prefix . base64_encode($cipher);
     }
 
@@ -97,7 +96,7 @@ trait CookieCryptTrait
      * @param array $values Values to decrypt
      * @param string|bool $mode Encryption mode
      * @param string|null $key Used as the security salt if specified.
-     * @return string|array Decrypted values
+     * @return string decrypted string
      */
     protected function _decrypt($values, $mode, $key = null)
     {
@@ -109,7 +108,6 @@ trait CookieCryptTrait
         foreach ($values as $name => $value) {
             $decrypted[$name] = $this->_decode($value, $mode, $key);
         }
-
         return $decrypted;
     }
 
@@ -119,7 +117,7 @@ trait CookieCryptTrait
      * @param string $value The value to decode & decrypt.
      * @param string|false $encrypt The encryption cipher to use.
      * @param string|null $key Used as the security salt if specified.
-     * @return string|array Decoded values.
+     * @return string Decoded value.
      */
     protected function _decode($value, $encrypt, $key)
     {
@@ -138,7 +136,6 @@ trait CookieCryptTrait
         if ($encrypt === 'aes') {
             $value = Security::decrypt($value, $key);
         }
-
         return $this->_explode($value);
     }
 
@@ -158,14 +155,13 @@ trait CookieCryptTrait
      * Maintains reading backwards compatibility with 1.x CookieComponent::_implode().
      *
      * @param string $string A string containing JSON encoded data, or a bare string.
-     * @return string|array Map of key and values
+     * @return array Map of key and values
      */
     protected function _explode($string)
     {
         $first = substr($string, 0, 1);
         if ($first === '{' || $first === '[') {
             $ret = json_decode($string, true);
-
             return ($ret !== null) ? $ret : $string;
         }
         $array = [];
@@ -176,7 +172,6 @@ trait CookieCryptTrait
             }
             $array[$key[0]] = $key[1];
         }
-
         return $array;
     }
 }

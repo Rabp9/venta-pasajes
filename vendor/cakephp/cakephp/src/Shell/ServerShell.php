@@ -20,6 +20,7 @@ use Cake\Core\Configure;
 
 /**
  * built-in Server Shell
+ *
  */
 class ServerShell extends Shell
 {
@@ -48,7 +49,7 @@ class ServerShell extends Shell
     /**
      * listen port
      *
-     * @var int
+     * @var string
      */
     protected $_port = null;
 
@@ -150,7 +151,7 @@ class ServerShell extends Shell
     {
         $parser = parent::getOptionParser();
 
-        $parser->setDescription([
+        $parser->description([
             'PHP Built-in Server for CakePHP',
             '<warning>[WARN] Don\'t use this in a production environment</warning>',
         ])->addOption('host', [

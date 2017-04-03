@@ -51,8 +51,8 @@ class ColumnParser
                 }
             }
 
-            $nullable = (bool)preg_match('/\w+\?(\[\d+\])?/', $type);
-            $type = $nullable ? str_replace('?', '', $type) : $type;
+            $nullable = substr($type, -1) === '?';
+            $type = $nullable ? substr($type, 0, -1) : $type;
 
             list($type, $length) = $this->getTypeAndLength($field, $type);
             $fields[$field] = [
@@ -202,7 +202,7 @@ class ColumnParser
                 $fieldType = 'integer';
             } elseif ($field === 'id') {
                 $fieldType = 'integer';
-            } elseif (in_array($field, ['created', 'modified', 'updated']) || substr($field, -3) === '_at') {
+            } elseif (in_array($field, ['created', 'modified', 'updated'])) {
                 $fieldType = 'datetime';
             } else {
                 $fieldType = 'string';

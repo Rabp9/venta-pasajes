@@ -16,6 +16,7 @@ use Cake\Core\Exception\Exception;
 
 /**
  * Represents a fatal error
+ *
  */
 class FatalErrorException extends Exception
 {

@@ -11,8 +11,6 @@
 
 namespace Symfony\Component\VarDumper\Caster;
 
-use Symfony\Component\VarDumper\Cloner\Stub;
-
 /**
  * Helper for filtering out properties in casters.
  *
@@ -47,30 +45,20 @@ class Caster
     {
         if ($reflector->hasMethod('__debugInfo')) {
             $a = $obj->__debugInfo();
-        } elseif ($obj instanceof \Closure) {
-            $a = array();
         } else {
             $a = (array) $obj;
         }
-        if ($obj instanceof \__PHP_Incomplete_Class) {
-            return $a;
-        }
 
         if ($a) {
-            $combine = false;
             $p = array_keys($a);
             foreach ($p as $i => $k) {
-                if (isset($k[0]) && "\0" !== $k[0] && !$reflector->hasProperty($k)) {
-                    $combine = true;
+                if (!isset($k[0]) || ("\0" !== $k[0] && !$reflector->hasProperty($k))) {
                     $p[$i] = self::PREFIX_DYNAMIC.$k;
                 } elseif (isset($k[16]) && "\0" === $k[16] && 0 === strpos($k, "\0class@anonymous\0")) {
-                    $combine = true;
                     $p[$i] = "\0".$reflector->getParentClass().'@anonymous'.strrchr($k, "\0");
                 }
             }
-            if ($combine) {
-                $a = array_combine($p, $a);
-            }
+            $a = array_combine($p, $a);
         }
 
         return $a;
@@ -85,14 +73,11 @@ class Caster
      * @param array    $a                The array containing the properties to filter
      * @param int      $filter           A bit field of Caster::EXCLUDE_* constants specifying which properties to filter out
      * @param string[] $listedProperties List of properties to exclude when Caster::EXCLUDE_VERBOSE is set, and to preserve when Caster::EXCLUDE_NOT_IMPORTANT is set
-     * @param int      &$count           Set to the number of removed properties
      *
      * @return array The filtered array
      */
-    public static function filter(array $a, $filter, array $listedProperties = array(), &$count = 0)
+    public static function filter(array $a, $filter, array $listedProperties = array())
     {
-        $count = 0;
-
         foreach ($a as $k => $v) {
             $type = self::EXCLUDE_STRICT & $filter;
 
@@ -123,17 +108,8 @@ class Caster
 
             if ((self::EXCLUDE_STRICT & $filter) ? $type === $filter : $type) {
                 unset($a[$k]);
-                ++$count;
             }
         }
-
-        return $a;
-    }
-
-    public static function castPhpIncompleteClass(\__PHP_Incomplete_Class $c, array $a, Stub $stub, $isNested)
-    {
-        $stub->class .= '('.$a['__PHP_Incomplete_Class_Name'].')';
-        unset($a['__PHP_Incomplete_Class_Name']);
 
         return $a;
     }

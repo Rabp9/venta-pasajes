@@ -14,7 +14,7 @@
  */
 namespace Cake\View\Form;
 
-use Cake\Http\ServerRequest;
+use Cake\Network\Request;
 use Cake\Utility\Hash;
 
 /**
@@ -29,24 +29,17 @@ class FormContext implements ContextInterface
     /**
      * The request object.
      *
-     * @var \Cake\Http\ServerRequest
+     * @var \Cake\Network\Request
      */
     protected $_request;
 
     /**
-     * The form object.
-     *
-     * @var \Cake\Form\Form
-     */
-    protected $_form;
-
-    /**
      * Constructor.
      *
-     * @param \Cake\Http\ServerRequest $request The request object.
+     * @param \Cake\Network\Request $request The request object.
      * @param array $context Context info.
      */
-    public function __construct(ServerRequest $request, array $context)
+    public function __construct(Request $request, array $context)
     {
         $this->_request = $request;
         $context += [
@@ -82,19 +75,9 @@ class FormContext implements ContextInterface
     /**
      * {@inheritDoc}
      */
-    public function val($field, $options = [])
+    public function val($field)
     {
-        $options += [
-            'default' => null,
-            'schemaDefault' => true
-        ];
-
-        $val = $this->_request->getData($field);
-        if ($val !== null) {
-            return $val;
-        }
-
-        return $options['default'];
+        return $this->_request->data($field);
     }
 
     /**
@@ -109,7 +92,6 @@ class FormContext implements ContextInterface
         if ($this->type($field) !== 'boolean') {
             return $validator->isEmptyAllowed($field, $this->isCreate()) === false;
         }
-
         return false;
     }
 
@@ -136,7 +118,6 @@ class FormContext implements ContextInterface
     {
         $column = (array)$this->_form->schema()->field($field);
         $whitelist = ['length' => null, 'precision' => null];
-
         return array_intersect_key($column, $whitelist);
     }
 
@@ -146,7 +127,6 @@ class FormContext implements ContextInterface
     public function hasError($field)
     {
         $errors = $this->error($field);
-
         return count($errors) > 0;
     }
 

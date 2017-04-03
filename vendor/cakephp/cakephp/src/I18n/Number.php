@@ -50,9 +50,9 @@ class Number
     /**
      * Default currency used by Number::currency()
      *
-     * @var string|null
+     * @var string
      */
-    protected static $_defaultCurrency = null;
+    protected static $_defaultCurrency;
 
     /**
      * Formats a number with a level of precision.
@@ -70,7 +70,6 @@ class Number
     public static function precision($value, $precision = 3, array $options = [])
     {
         $formatter = static::formatter(['precision' => $precision, 'places' => $precision] + $options);
-
         return $formatter->format($value);
     }
 
@@ -117,7 +116,6 @@ class Number
         if ($options['multiply']) {
             $value *= 100;
         }
-
         return static::precision($value, $precision, $options) . '%';
     }
 
@@ -141,7 +139,6 @@ class Number
     {
         $formatter = static::formatter($options);
         $options += ['before' => '', 'after' => ''];
-
         return $options['before'] . $formatter->format($value) . $options['after'];
     }
 
@@ -161,7 +158,6 @@ class Number
     public static function parseFloat($value, array $options = [])
     {
         $formatter = static::formatter($options);
-
         return (float)$formatter->parse($value, NumberFormatter::TYPE_DOUBLE);
     }
 
@@ -186,7 +182,6 @@ class Number
         $value = number_format($value, $options['places'], '.', '');
         $sign = $value > 0 ? '+' : '';
         $options['before'] = isset($options['before']) ? $options['before'] . $sign : $sign;
-
         return static::format($value, $options);
     }
 
@@ -227,13 +222,11 @@ class Number
         if (!empty($options['fractionSymbol']) && $abs > 0 && $abs < 1) {
             $value = $value * 100;
             $pos = isset($options['fractionPosition']) ? $options['fractionPosition'] : 'after';
-
             return static::format($value, ['precision' => 0, $pos => $options['fractionSymbol']]);
         }
 
         $before = isset($options['before']) ? $options['before'] : null;
         $after = isset($options['after']) ? $options['after'] : null;
-
         return $before . $formatter->formatCurrency($value, $currency) . $after;
     }
 
@@ -317,7 +310,6 @@ class Number
         }
 
         $formatter = clone $formatter;
-
         return static::_setAttributes($formatter, $options);
     }
 

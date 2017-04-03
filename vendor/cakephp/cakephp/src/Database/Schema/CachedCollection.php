@@ -19,6 +19,7 @@ use Cake\Datasource\ConnectionInterface;
 
 /**
  * Extends the schema collection class to provide caching
+ *
  */
 class CachedCollection extends Collection
 {
@@ -40,7 +41,7 @@ class CachedCollection extends Collection
     public function __construct(ConnectionInterface $connection, $cacheKey = true)
     {
         parent::__construct($connection);
-        $this->setCacheMetadata($cacheKey);
+        $this->cacheMetadata($cacheKey);
     }
 
     /**
@@ -50,7 +51,7 @@ class CachedCollection extends Collection
     public function describe($name, array $options = [])
     {
         $options += ['forceRefresh' => false];
-        $cacheConfig = $this->getCacheMetadata();
+        $cacheConfig = $this->cacheMetadata();
         $cacheKey = $this->cacheKey($name);
 
         if (!empty($cacheConfig) && !$options['forceRefresh']) {
@@ -83,46 +84,19 @@ class CachedCollection extends Collection
     /**
      * Sets the cache config name to use for caching table metadata, or
      * disables it if false is passed.
-     *
-     * @param bool $enable Whether or not to enable caching
-     * @return $this
-     */
-    public function setCacheMetadata($enable)
-    {
-        if ($enable === true) {
-            $enable = '_cake_model_';
-        }
-
-        $this->_cache = $enable;
-
-        return $this;
-    }
-
-    /**
-     * Gets the cache config name to use for caching table metadata, false means disabled.
-     *
-     * @return string|bool
-     */
-    public function getCacheMetadata()
-    {
-        return $this->_cache;
-    }
-
-    /**
-     * Sets the cache config name to use for caching table metadata, or
-     * disables it if false is passed.
      * If called with no arguments it returns the current configuration name.
      *
-     * @deprecated 3.4.0 Use setCacheMetadata()/getCacheMetadata()
-     * @param bool|null $enable Whether or not to enable caching
+     * @param bool|null $enable whether or not to enable caching
      * @return string|bool
      */
     public function cacheMetadata($enable = null)
     {
-        if ($enable !== null) {
-            $this->setCacheMetadata($enable);
+        if ($enable === null) {
+            return $this->_cache;
         }
-
-        return $this->getCacheMetadata();
+        if ($enable === true) {
+            $enable = '_cake_model_';
+        }
+        return $this->_cache = $enable;
     }
 }

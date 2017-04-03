@@ -70,7 +70,7 @@ class HelpFormatter
     {
         $parser = $this->_parser;
         $out = [];
-        $description = $parser->getDescription();
+        $description = $parser->description();
         if (!empty($description)) {
             $out[] = Text::wrap($description, $width);
             $out[] = '';
@@ -91,7 +91,7 @@ class HelpFormatter
                 ]);
             }
             $out[] = '';
-            $out[] = sprintf('To see help on a subcommand use <info>`cake %s [subcommand] --help`</info>', $parser->getCommand());
+            $out[] = sprintf('To see help on a subcommand use <info>`cake %s [subcommand] --help`</info>', $parser->command());
             $out[] = '';
         }
 
@@ -124,12 +124,11 @@ class HelpFormatter
             }
             $out[] = '';
         }
-        $epilog = $parser->getEpilog();
+        $epilog = $parser->epilog();
         if (!empty($epilog)) {
             $out[] = Text::wrap($epilog, $width);
             $out[] = '';
         }
-
         return implode("\n", $out);
     }
 
@@ -142,7 +141,7 @@ class HelpFormatter
      */
     protected function _generateUsage()
     {
-        $usage = ['cake ' . $this->_parser->getCommand()];
+        $usage = ['cake ' . $this->_parser->command()];
         $subcommands = $this->_parser->subcommands();
         if (!empty($subcommands)) {
             $usage[] = '[subcommand]';
@@ -163,7 +162,6 @@ class HelpFormatter
             $args = ['[arguments]'];
         }
         $usage = array_merge($usage, $args);
-
         return implode(' ', $usage);
     }
 
@@ -179,7 +177,6 @@ class HelpFormatter
         foreach ($collection as $item) {
             $max = (strlen($item->name()) > $max) ? strlen($item->name()) : $max;
         }
-
         return $max;
     }
 
@@ -193,10 +190,10 @@ class HelpFormatter
     {
         $parser = $this->_parser;
         $xml = new SimpleXmlElement('<shell></shell>');
-        $xml->addChild('command', $parser->getCommand());
-        $xml->addChild('description', $parser->getDescription());
+        $xml->addChild('command', $parser->command());
+        $xml->addChild('description', $parser->description());
 
-        $xml->addChild('epilog', $parser->getEpilog());
+        $xml->addChild('epilog', $parser->epilog());
         $subcommands = $xml->addChild('subcommands');
         foreach ($parser->subcommands() as $command) {
             $command->xml($subcommands);
@@ -209,7 +206,6 @@ class HelpFormatter
         foreach ($parser->arguments() as $argument) {
             $argument->xml($arguments);
         }
-
-        return $string ? $xml->asXML() : $xml;
+        return $string ? $xml->asXml() : $xml;
     }
 }

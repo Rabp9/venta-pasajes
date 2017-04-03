@@ -12,6 +12,8 @@
  */
 namespace DebugKit\Panel;
 
+use Cake\Controller\Controller;
+use Cake\Event\Event;
 use Cake\Log\Log;
 use DebugKit\DebugPanel;
 
@@ -25,7 +27,7 @@ class LogPanel extends DebugPanel
     /**
      * Initialize hook - sets up the log listener.
      *
-     * @return void
+     * @return \LogPanel
      */
     public function initialize()
     {
@@ -40,7 +42,7 @@ class LogPanel extends DebugPanel
     /**
      * Get the panel data
      *
-     * @return array
+     * @return void
      */
     public function data()
     {
@@ -58,9 +60,8 @@ class LogPanel extends DebugPanel
     {
         $logger = Log::engine('debug_kit_log_panel');
         if (!$logger) {
-            return '0';
+            return 0;
         }
-
-        return (string)$logger->count();
+        return $logger->count();
     }
 }

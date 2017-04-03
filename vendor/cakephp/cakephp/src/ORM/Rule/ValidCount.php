@@ -15,6 +15,7 @@
 namespace Cake\ORM\Rule;
 
 use Cake\Datasource\EntityInterface;
+use Cake\ORM\Association;
 use Cake\Validation\Validation;
 use Countable;
 

@@ -16,7 +16,7 @@ namespace Cake\View\Form;
 
 use Cake\Collection\Collection;
 use Cake\Datasource\EntityInterface;
-use Cake\Http\ServerRequest;
+use Cake\Network\Request;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use RuntimeException;
@@ -48,7 +48,7 @@ class EntityContext implements ContextInterface
     /**
      * The request object.
      *
-     * @var \Cake\Http\ServerRequest
+     * @var \Cake\Network\Request
      */
     protected $_request;
 
@@ -82,19 +82,12 @@ class EntityContext implements ContextInterface
     protected $_tables = [];
 
     /**
-     * Dictionary of validators.
-     *
-     * @var \Cake\Validation\Validator[]
-     */
-    protected $_validator = [];
-
-    /**
      * Constructor.
      *
-     * @param \Cake\Http\ServerRequest $request The request object.
+     * @param \Cake\Network\Request $request The request object.
      * @param array $context Context info.
      */
-    public function __construct(ServerRequest $request, array $context)
+    public function __construct(Request $request, array $context)
     {
         $this->_request = $request;
         $context += [
@@ -155,7 +148,7 @@ class EntityContext implements ContextInterface
             is_array($entity) ||
             $entity instanceof Traversable
         );
-        $alias = $this->_rootName = $table->getAlias();
+        $alias = $this->_rootName = $table->alias();
         $this->_tables[$alias] = $table;
     }
 
@@ -164,11 +157,11 @@ class EntityContext implements ContextInterface
      *
      * Gets the primary key columns from the root entity's schema.
      *
-     * @return array
+     * @return bool
      */
     public function primaryKey()
     {
-        return (array)$this->_tables[$this->_rootName]->getPrimaryKey();
+        return (array)$this->_tables[$this->_rootName]->primaryKey();
     }
 
     /**
@@ -178,8 +171,7 @@ class EntityContext implements ContextInterface
     {
         $parts = explode('.', $field);
         $table = $this->_getTable($parts);
-        $primaryKey = (array)$table->getPrimaryKey();
-
+        $primaryKey = (array)$table->primaryKey();
         return in_array(array_pop($parts), $primaryKey);
     }
 
@@ -206,7 +198,6 @@ class EntityContext implements ContextInterface
         if ($entity instanceof EntityInterface) {
             return $entity->isNew() !== false;
         }
-
         return true;
     }
 
@@ -216,26 +207,16 @@ class EntityContext implements ContextInterface
      * Traverses the entity data and finds the value for $path.
      *
      * @param string $field The dot separated path to the value.
-     * @param array $options Options:
-     *   - `default`: Default value to return if no value found in request
-     *     data or entity.
-     *   - `schemaDefault`: Boolean indicating whether default value from table
-     *     schema should be used if it's not explicitly provided.
      * @return mixed The value of the field or null on a miss.
      */
-    public function val($field, $options = [])
+    public function val($field)
     {
-        $options += [
-            'default' => null,
-            'schemaDefault' => true
-        ];
-
-        $val = $this->_request->getData($field);
+        $val = $this->_request->data($field);
         if ($val !== null) {
             return $val;
         }
         if (empty($this->_context['entity'])) {
-            return $options['default'];
+            return null;
         }
         $parts = explode('.', $field);
         $entity = $this->entity($parts);
@@ -245,48 +226,13 @@ class EntityContext implements ContextInterface
         }
 
         if ($entity instanceof EntityInterface) {
-            $part = array_pop($parts);
-            $val = $entity->get($part);
-            if ($val !== null) {
-                return $val;
-            }
-            if ($options['default'] !== null
-                || !$options['schemaDefault']
-                || !$entity->isNew()
-            ) {
-                return $options['default'];
-            }
-
-            return $this->_schemaDefault($part, $entity);
+            return $entity->get(array_pop($parts));
         }
         if (is_array($entity)) {
             $key = array_pop($parts);
-
             return isset($entity[$key]) ? $entity[$key] : null;
         }
-
         return null;
-    }
-
-    /**
-     * Get default value from table schema for given entity field.
-     *
-     * @param string $field Field name.
-     * @param \Cake\Datasource\EntityInterface $entity The entity.
-     * @return mixed
-     */
-    protected function _schemaDefault($field, $entity)
-    {
-        $table = $this->_getTable($entity);
-        if ($table === false) {
-            return null;
-        }
-        $defaults = $table->getSchema()->defaultValues();
-        if (!array_key_exists($field, $defaults)) {
-            return null;
-        }
-
-        return $defaults[$field];
     }
 
     /**
@@ -295,7 +241,7 @@ class EntityContext implements ContextInterface
      *
      * @param array|\Traversable $values The list from which to extract primary keys from
      * @param array $path Each one of the parts in a path for a field name
-     * @return array|null
+     * @return array
      */
     protected function _extractMultiple($values, $path)
     {
@@ -303,8 +249,7 @@ class EntityContext implements ContextInterface
             return null;
         }
         $table = $this->_getTable($path, false);
-        $primary = $table ? (array)$table->getPrimaryKey() : ['id'];
-
+        $primary = $table ? (array)$table->primaryKey() : ['id'];
         return (new Collection($values))->extract($primary[0])->toArray();
     }
 
@@ -316,7 +261,7 @@ class EntityContext implements ContextInterface
      * will be returned.
      *
      * @param array|null $path Each one of the parts in a path for a field name
-     *  or null to get the entity passed in constructor context.
+     *  or null to get the entity passed in contructor context.
      * @return \Cake\Datasource\EntityInterface|\Traversable|array|bool
      * @throws \RuntimeException When properties cannot be read.
      */
@@ -348,7 +293,6 @@ class EntityContext implements ContextInterface
 
             if (!$isLast && $next === null && $prop !== '_ids') {
                 $table = $this->_getTable($path);
-
                 return $table->newEntity();
             }
 
@@ -389,7 +333,6 @@ class EntityContext implements ContextInterface
                     return $val;
                 }
             }
-
             return false;
         }
     }
@@ -418,7 +361,6 @@ class EntityContext implements ContextInterface
         if ($this->type($field) !== 'boolean') {
             return $validator->isEmptyAllowed($fieldName, $isNew) === false;
         }
-
         return false;
     }
 
@@ -432,8 +374,7 @@ class EntityContext implements ContextInterface
     public function fieldNames()
     {
         $table = $this->_getTable('0');
-
-        return $table->getSchema()->columns();
+        return $table->schema()->columns();
     }
 
     /**
@@ -452,13 +393,12 @@ class EntityContext implements ContextInterface
         $entity = $this->entity($parts) ?: null;
 
         if (isset($this->_validator[$key])) {
-            $this->_validator[$key]->setProvider('entity', $entity);
-
+            $this->_validator[$key]->provider('entity', $entity);
             return $this->_validator[$key];
         }
 
         $table = $this->_getTable($parts);
-        $alias = $table->getAlias();
+        $alias = $table->alias();
 
         $method = 'default';
         if (is_string($this->_context['validator'])) {
@@ -468,8 +408,7 @@ class EntityContext implements ContextInterface
         }
 
         $validator = $table->validator($method);
-        $validator->setProvider('entity', $entity);
-
+        $validator->provider('entity', $entity);
         return $this->_validator[$key] = $validator;
     }
 
@@ -526,8 +465,7 @@ class EntityContext implements ContextInterface
     {
         $parts = explode('.', $field);
         $table = $this->_getTable($parts);
-
-        return $table->getSchema()->baseColumnType(array_pop($parts));
+        return $table->schema()->baseColumnType(array_pop($parts));
     }
 
     /**
@@ -540,9 +478,8 @@ class EntityContext implements ContextInterface
     {
         $parts = explode('.', $field);
         $table = $this->_getTable($parts);
-        $column = (array)$table->getSchema()->column(array_pop($parts));
+        $column = (array)$table->schema()->column(array_pop($parts));
         $whitelist = ['length' => null, 'precision' => null];
-
         return array_intersect_key($column, $whitelist);
     }
 
@@ -571,7 +508,6 @@ class EntityContext implements ContextInterface
         if ($entity instanceof EntityInterface) {
             return $entity->errors(array_pop($parts));
         }
-
         return [];
     }
 }

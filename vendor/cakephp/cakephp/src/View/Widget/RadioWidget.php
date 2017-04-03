@@ -114,7 +114,6 @@ class RadioWidget implements WidgetInterface
         foreach ($options as $val => $text) {
             $opts[] = $this->_renderInput($val, $text, $data, $context);
         }
-
         return implode('', $opts);
     }
 
@@ -134,7 +133,6 @@ class RadioWidget implements WidgetInterface
             return true;
         }
         $isNumeric = is_numeric($radio['value']);
-
         return (!is_array($disabled) || in_array((string)$radio['value'], $disabled, !$isNumeric));
     }
 
@@ -170,15 +168,12 @@ class RadioWidget implements WidgetInterface
         if (isset($data['val']) && is_bool($data['val'])) {
             $data['val'] = $data['val'] ? 1 : 0;
         }
-        if (isset($data['val']) && (string)$data['val'] === (string)$radio['value']) {
+        if (isset($data['val']) && strval($data['val']) === strval($radio['value'])) {
             $radio['checked'] = true;
         }
-
-        if (!is_bool($data['label']) && isset($radio['checked']) && $radio['checked']) {
-            $data['label'] = $this->_templates->addClass($data['label'], 'selected');
+        if ($this->_isDisabled($radio, $data['disabled'])) {
+            $radio['disabled'] = true;
         }
-
-        $radio['disabled'] = $this->_isDisabled($radio, $data['disabled']);
         if (!empty($data['required'])) {
             $radio['required'] = true;
         }
@@ -190,7 +185,7 @@ class RadioWidget implements WidgetInterface
             'name' => $radio['name'],
             'value' => $escape ? h($radio['value']) : $radio['value'],
             'templateVars' => $radio['templateVars'],
-            'attrs' => $this->_templates->formatAttributes($radio + $data, ['name', 'value', 'text', 'options', 'label', 'val', 'type']),
+            'attrs' => $this->_templates->formatAttributes($radio, ['name', 'value', 'text']),
         ]);
 
         $label = $this->_renderLabel(
@@ -225,7 +220,7 @@ class RadioWidget implements WidgetInterface
      * @param string $input The input widget.
      * @param \Cake\View\Form\ContextInterface $context The form context.
      * @param bool $escape Whether or not to HTML escape the label.
-     * @return string|bool Generated label.
+     * @return string Generated label.
      */
     protected function _renderLabel($radio, $label, $input, $context, $escape)
     {
@@ -240,7 +235,6 @@ class RadioWidget implements WidgetInterface
             'templateVars' => $radio['templateVars'],
             'input' => $input,
         ];
-
         return $this->_label->render($labelAttrs, $context);
     }
 

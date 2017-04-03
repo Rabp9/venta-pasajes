@@ -38,7 +38,6 @@ trait TypedResultTrait
     {
         if ($type !== null) {
             $this->_returnType = $type;
-
             return $this;
         }
 

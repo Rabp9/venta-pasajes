@@ -17,7 +17,6 @@ namespace Cake\Database\Expression;
 use Cake\Database\ExpressionInterface;
 use Cake\Database\TypedResultInterface;
 use Cake\Database\TypedResultTrait;
-use Cake\Database\Type\ExpressionTypeCasterTrait;
 use Cake\Database\ValueBinder;
 
 /**
@@ -31,7 +30,6 @@ use Cake\Database\ValueBinder;
 class FunctionExpression extends QueryExpression implements TypedResultInterface
 {
 
-    use ExpressionTypeCasterTrait;
     use TypedResultTrait;
 
     /**
@@ -51,7 +49,7 @@ class FunctionExpression extends QueryExpression implements TypedResultInterface
      *
      * ### Examples:
      *
-     * `$f = new FunctionExpression('CONCAT', ['CakePHP', ' rules']);`
+     *  `$f = new FunctionExpression('CONCAT', ['CakePHP', ' rules']);`
      *
      * Previous line will generate `CONCAT('CakePHP', ' rules')`
      *
@@ -74,43 +72,19 @@ class FunctionExpression extends QueryExpression implements TypedResultInterface
     }
 
     /**
-     * Sets the name of the SQL function to be invoke in this expression.
-     *
-     * @param string $name The name of the function
-     * @return $this
-     */
-    public function setName($name)
-    {
-        $this->_name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Gets the name of the SQL function to be invoke in this expression.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->_name;
-    }
-
-    /**
      * Sets the name of the SQL function to be invoke in this expression,
      * if no value is passed it will return current name
      *
-     * @deprecated 3.4.0 Use setName()/getName() instead.
      * @param string|null $name The name of the function
      * @return string|$this
      */
     public function name($name = null)
     {
-        if ($name !== null) {
-            return $this->setName($name);
+        if ($name === null) {
+            return $this->_name;
         }
-
-        return $this->getName();
+        $this->_name = $name;
+        return $this;
     }
 
     /**
@@ -127,7 +101,7 @@ class FunctionExpression extends QueryExpression implements TypedResultInterface
     public function add($params, $types = [], $prepend = false)
     {
         $put = $prepend ? 'array_unshift' : 'array_push';
-        $typeMap = $this->getTypeMap()->setTypes($types);
+        $typeMap = $this->typeMap()->types($types);
         foreach ($params as $k => $p) {
             if ($p === 'literal') {
                 $put($this->_conditions, $k);
@@ -139,18 +113,11 @@ class FunctionExpression extends QueryExpression implements TypedResultInterface
                 continue;
             }
 
-            $type = $typeMap->type($k);
-
-            if ($type !== null && !$p instanceof ExpressionInterface) {
-                $p = $this->_castToExpression($p, $type);
-            }
-
             if ($p instanceof ExpressionInterface) {
                 $put($this->_conditions, $p);
                 continue;
             }
-
-            $put($this->_conditions, ['value' => $p, 'type' => $type]);
+            $put($this->_conditions, ['value' => $p, 'type' => $typeMap->type($k)]);
         }
 
         return $this;
@@ -178,7 +145,6 @@ class FunctionExpression extends QueryExpression implements TypedResultInterface
             }
             $parts[] = $condition;
         }
-
         return $this->_name . sprintf('(%s)', implode(
             $this->_conjunction . ' ',
             $parts

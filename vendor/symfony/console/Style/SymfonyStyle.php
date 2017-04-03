@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Console\Style;
 
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Helper\Helper;
@@ -23,7 +24,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Console\Terminal;
 
 /**
  * Output decorator helpers for the Symfony Style Guide.
@@ -49,8 +49,7 @@ class SymfonyStyle extends OutputStyle
         $this->input = $input;
         $this->bufferedOutput = new BufferedOutput($output->getVerbosity(), false, clone $output->getFormatter());
         // Windows cmd wraps lines as soon as the terminal width is reached, whether there are following chars or not.
-        $width = (new Terminal())->getWidth() ?: self::MAX_LINE_LENGTH;
-        $this->lineLength = min($width - (int) (DIRECTORY_SEPARATOR === '\\'), self::MAX_LINE_LENGTH);
+        $this->lineLength = min($this->getTerminalWidth() - (int) (DIRECTORY_SEPARATOR === '\\'), self::MAX_LINE_LENGTH);
 
         parent::__construct($output);
     }
@@ -80,7 +79,7 @@ class SymfonyStyle extends OutputStyle
     {
         $this->autoPrependBlock();
         $this->writeln(array(
-            sprintf('<comment>%s</>', OutputFormatter::escapeTrailingBackslash($message)),
+            sprintf('<comment>%s</>', $message),
             sprintf('<comment>%s</>', str_repeat('=', Helper::strlenWithoutDecoration($this->getFormatter(), $message))),
         ));
         $this->newLine();
@@ -93,7 +92,7 @@ class SymfonyStyle extends OutputStyle
     {
         $this->autoPrependBlock();
         $this->writeln(array(
-            sprintf('<comment>%s</>', OutputFormatter::escapeTrailingBackslash($message)),
+            sprintf('<comment>%s</>', $message),
             sprintf('<comment>%s</>', str_repeat('-', Helper::strlenWithoutDecoration($this->getFormatter(), $message))),
         ));
         $this->newLine();
@@ -349,6 +348,14 @@ class SymfonyStyle extends OutputStyle
         return $this->progressBar;
     }
 
+    private function getTerminalWidth()
+    {
+        $application = new Application();
+        $dimensions = $application->getTerminalDimensions();
+
+        return $dimensions[0] ?: self::MAX_LINE_LENGTH;
+    }
+
     private function autoPrependBlock()
     {
         $chars = substr(str_replace(PHP_EOL, "\n", $this->bufferedOutput->fetch()), -2);
@@ -403,16 +410,9 @@ class SymfonyStyle extends OutputStyle
             }
         }
 
-        $firstLineIndex = 0;
-        if ($padding && $this->isDecorated()) {
-            $firstLineIndex = 1;
-            array_unshift($lines, '');
-            $lines[] = '';
-        }
-
         foreach ($lines as $i => &$line) {
             if (null !== $type) {
-                $line = $firstLineIndex === $i ? $type.$line : $lineIndentation.$line;
+                $line = 0 === $i ? $type.$line : $lineIndentation.$line;
             }
 
             $line = $prefix.$line;
@@ -421,6 +421,11 @@ class SymfonyStyle extends OutputStyle
             if ($style) {
                 $line = sprintf('<%s>%s</>', $style, $line);
             }
+        }
+
+        if ($padding && $this->isDecorated()) {
+            array_unshift($lines, '');
+            $lines[] = '';
         }
 
         return $lines;

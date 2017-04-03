@@ -17,6 +17,7 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * AuthorsTags fixture
+ *
  */
 class AuthorsTagsFixture extends TestFixture
 {

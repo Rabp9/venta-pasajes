@@ -47,7 +47,6 @@ class WincacheEngine extends CacheEngine
         }
 
         parent::init($config);
-
         return true;
     }
 
@@ -70,7 +69,6 @@ class WincacheEngine extends CacheEngine
             $key => $value
         ];
         $result = wincache_ucache_set($data, null, $duration);
-
         return empty($result);
     }
 
@@ -90,7 +88,6 @@ class WincacheEngine extends CacheEngine
         if ($cachetime < $time || ($time + $this->_config['duration']) < $cachetime) {
             return false;
         }
-
         return wincache_ucache_get($key);
     }
 
@@ -156,7 +153,6 @@ class WincacheEngine extends CacheEngine
                 wincache_ucache_delete($key['key_name']);
             }
         }
-
         return true;
     }
 
@@ -191,7 +187,6 @@ class WincacheEngine extends CacheEngine
         foreach ($this->_config['groups'] as $i => $group) {
             $result[] = $group . $groups[$i];
         }
-
         return $result;
     }
 
@@ -204,9 +199,8 @@ class WincacheEngine extends CacheEngine
      */
     public function clearGroup($group)
     {
-        $success = false;
+        $success = null;
         wincache_ucache_inc($this->_config['prefix'] . $group, 1, $success);
-
         return $success;
     }
 }

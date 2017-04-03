@@ -144,7 +144,7 @@ class CakeManager extends Manager
     /**
      * {@inheritdoc}
      */
-    public function rollbackToDateTime($environment, \DateTime $dateTime, $force = false)
+    public function rollbackToDateTime($environment, \DateTime $dateTime)
     {
         $env = $this->getEnvironment($environment);
         $versions = $env->getVersions();
@@ -172,7 +172,7 @@ class CakeManager extends Manager
         $versionToRollback = $versions[$index];
 
         $this->getOutput()->writeln('Rolling back to version ' . $versionToRollback);
-        $this->rollback($environment, $versionToRollback, $force);
+        $this->rollback($environment, $versionToRollback);
     }
 
     /**

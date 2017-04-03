@@ -18,6 +18,7 @@ use Cake\Core\Exception\Exception;
 
 /**
  * Used when a view class file cannot be found.
+ *
  */
 class MissingViewException extends Exception
 {

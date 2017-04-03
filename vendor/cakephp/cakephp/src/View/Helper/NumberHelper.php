@@ -89,7 +89,7 @@ class NumberHelper extends Helper
      *
      * @param float $number A floating point number.
      * @param int $precision The precision of the returned number.
-     * @return string Formatted float.
+     * @return float Formatted float.
      * @see \Cake\I18n\Number::precision()
      * @link http://book.cakephp.org/3.0/en/views/helpers/number.html#formatting-floating-point-numbers
      */
@@ -151,7 +151,6 @@ class NumberHelper extends Helper
     {
         $formatted = $this->_engine->format($number, $options);
         $options += ['escape' => true];
-
         return $options['escape'] ? h($formatted) : $formatted;
     }
 
@@ -183,7 +182,6 @@ class NumberHelper extends Helper
     {
         $formatted = $this->_engine->currency($number, $currency, $options);
         $options += ['escape' => true];
-
         return $options['escape'] ? h($formatted) : $formatted;
     }
 
@@ -207,7 +205,6 @@ class NumberHelper extends Helper
     {
         $formatted = $this->_engine->formatDelta($value, $options);
         $options += ['escape' => true];
-
         return $options['escape'] ? h($formatted) : $formatted;
     }
 

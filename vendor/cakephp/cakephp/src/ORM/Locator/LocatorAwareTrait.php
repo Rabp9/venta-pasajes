@@ -44,7 +44,6 @@ trait LocatorAwareTrait
         if (!$this->_tableLocator) {
             $this->_tableLocator = TableRegistry::locator();
         }
-
         return $this->_tableLocator;
     }
 }

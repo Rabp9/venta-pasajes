@@ -64,7 +64,6 @@ class ReplaceIterator extends Collection
     public function current()
     {
         $callback = $this->_callback;
-
         return $callback(parent::current(), $this->key(), $this->_innerIterator);
     }
 }

@@ -33,14 +33,14 @@ class LoggedQuery
     /**
      * Number of milliseconds this query took to complete
      *
-     * @var int
+     * @var float
      */
     public $took = 0;
 
     /**
      * Associative array with the params bound to the query string
      *
-     * @var array
+     * @var string
      */
     public $params = [];
 
@@ -54,7 +54,7 @@ class LoggedQuery
     /**
      * The exception that was thrown by the execution of this query
      *
-     * @var \Exception|null
+     * @var \Exception
      */
     public $error;
 

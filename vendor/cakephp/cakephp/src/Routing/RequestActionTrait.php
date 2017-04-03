@@ -14,16 +14,13 @@
 namespace Cake\Routing;
 
 use Cake\Core\Configure;
-use Cake\Http\ServerRequest;
+use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\Network\Session;
-use Cake\Routing\Filter\ControllerFactoryFilter;
-use Cake\Routing\Filter\RoutingFilter;
 
 /**
  * Provides the requestAction() method for doing sub-requests
  *
- * @deprecated 3.3.0 Use view cells instead.
  */
 trait RequestActionTrait
 {
@@ -97,7 +94,6 @@ trait RequestActionTrait
      *    also be used to submit GET/POST data, and passed arguments.
      * @return mixed Boolean true or false on success/failure, or contents
      *    of rendered action if 'return' is set in $extra.
-     * @deprecated 3.3.0 You should refactor your code to use View Cells instead of this method.
      */
     public function requestAction($url, array $extra = [])
     {
@@ -153,30 +149,11 @@ trait RequestActionTrait
 
         $params['session'] = isset($extra['session']) ? $extra['session'] : new Session();
 
-        $request = new ServerRequest($params);
+        $request = new Request($params);
         $request->addParams($extra);
         $dispatcher = DispatcherFactory::create();
-
-        // If an application is using PSR7 middleware,
-        // we need to 'fix' their missing dispatcher filters.
-        $needed = [
-            'routing' => RoutingFilter::class,
-            'controller' => ControllerFactoryFilter::class
-        ];
-        foreach ($dispatcher->filters() as $filter) {
-            if ($filter instanceof RoutingFilter) {
-                unset($needed['routing']);
-            }
-            if ($filter instanceof ControllerFactoryFilter) {
-                unset($needed['controller']);
-            }
-        }
-        foreach ($needed as $class) {
-            $dispatcher->addFilter(new $class);
-        }
         $result = $dispatcher->dispatch($request, new Response());
         Router::popRequest();
-
         return $result;
     }
 }

@@ -30,7 +30,6 @@ namespace Phinx\Migration;
 
 use Phinx\Db\Table;
 use Phinx\Db\Adapter\AdapterInterface;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -61,27 +60,13 @@ abstract class AbstractMigration implements MigrationInterface
     protected $output;
 
     /**
-     * @var InputInterface
-     */
-    protected $input;
-
-    /**
      * Class Constructor.
      *
      * @param int $version Migration Version
-     * @param InputInterface|null $input
-     * @param OutputInterface|null $output
      */
-    final public function __construct($version, InputInterface $input = null, OutputInterface $output = null)
+    final public function __construct($version)
     {
         $this->version = $version;
-        if (!is_null($input)){
-            $this->setInput($input);
-        }
-        if (!is_null($output)){
-            $this->setOutput($output);
-        }
-
         $this->init();
     }
 
@@ -123,23 +108,6 @@ abstract class AbstractMigration implements MigrationInterface
     public function getAdapter()
     {
         return $this->adapter;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setInput(InputInterface $input)
-    {
-        $this->input = $input;
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getInput()
-    {
-        return $this->input;
     }
 
     /**

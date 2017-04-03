@@ -16,12 +16,13 @@ namespace Cake\Auth;
 use Cake\Controller\ComponentRegistry;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Event\EventListenerInterface;
-use Cake\Http\ServerRequest;
+use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\ORM\TableRegistry;
 
 /**
  * Base Authentication class with common methods and properties.
+ *
  */
 abstract class BaseAuthenticate implements EventListenerInterface
 {
@@ -88,7 +89,7 @@ abstract class BaseAuthenticate implements EventListenerInterface
     public function __construct(ComponentRegistry $registry, array $config = [])
     {
         $this->_registry = $registry;
-        $this->setConfig($config);
+        $this->config($config);
     }
 
     /**
@@ -175,7 +176,6 @@ abstract class BaseAuthenticate implements EventListenerInterface
         }
 
         $passwordHasher = $this->_config['passwordHasher'];
-
         return $this->_passwordHasher = PasswordHasherFactory::build($passwordHasher);
     }
 
@@ -193,20 +193,20 @@ abstract class BaseAuthenticate implements EventListenerInterface
     /**
      * Authenticate a user based on the request information.
      *
-     * @param \Cake\Http\ServerRequest $request Request to get authentication information from.
+     * @param \Cake\Network\Request $request Request to get authentication information from.
      * @param \Cake\Network\Response $response A response object that can have headers added.
      * @return mixed Either false on failure, or an array of user data on success.
      */
-    abstract public function authenticate(ServerRequest $request, Response $response);
+    abstract public function authenticate(Request $request, Response $response);
 
     /**
      * Get a user based on information in the request. Primarily used by stateless authentication
      * systems like basic and digest auth.
      *
-     * @param \Cake\Http\ServerRequest $request Request object.
+     * @param \Cake\Network\Request $request Request object.
      * @return mixed Either false or an array of user information
      */
-    public function getUser(ServerRequest $request)
+    public function getUser(Request $request)
     {
         return false;
     }
@@ -219,11 +219,11 @@ abstract class BaseAuthenticate implements EventListenerInterface
      * - Cake\Network\Response - A response object, which will cause AuthComponent to
      *   simply return that response.
      *
-     * @param \Cake\Http\ServerRequest $request A request object.
+     * @param \Cake\Network\Request $request A request object.
      * @param \Cake\Network\Response $response A response object.
      * @return void
      */
-    public function unauthenticated(ServerRequest $request, Response $response)
+    public function unauthenticated(Request $request, Response $response)
     {
     }
 

@@ -14,16 +14,19 @@
  */
 namespace Cake\Routing;
 
+use Cake\Controller\Controller;
 use Cake\Event\EventDispatcherTrait;
 use Cake\Event\EventListenerInterface;
-use Cake\Http\ActionDispatcher;
-use Cake\Http\ServerRequest;
+use Cake\Network\Request;
 use Cake\Network\Response;
+use Cake\Routing\Exception\MissingControllerException;
+use LogicException;
 
 /**
  * Dispatcher converts Requests into controller actions. It uses the dispatched Request
  * to locate and load the correct controller. If found, the requested action is called on
  * the controller
+ *
  */
 class Dispatcher
 {
@@ -33,7 +36,7 @@ class Dispatcher
     /**
      * Connected filter objects
      *
-     * @var \Cake\Event\EventListenerInterface[]
+     * @var array
      */
     protected $_filters = [];
 
@@ -49,20 +52,82 @@ class Dispatcher
      * If no controller of given name can be found, invoke() will throw an exception.
      * If the controller is found, and the action is not found an exception will be thrown.
      *
-     * @param \Cake\Http\ServerRequest $request Request object to dispatch.
-     * @param \Cake\Http\Response $response Response object to put the results of the dispatch into.
+     * @param \Cake\Network\Request $request Request object to dispatch.
+     * @param \Cake\Network\Response $response Response object to put the results of the dispatch into.
      * @return string|null if `$request['return']` is set then it returns response body, null otherwise
-     * @throws \LogicException When the controller did not get created in the Dispatcher.beforeDispatch event.
+     * @throws \Cake\Routing\Exception\MissingControllerException When the controller is missing.
      */
-    public function dispatch(ServerRequest $request, Response $response)
+    public function dispatch(Request $request, Response $response)
     {
-        $actionDispatcher = new ActionDispatcher(null, $this->eventManager(), $this->_filters);
-        $response = $actionDispatcher->dispatch($request, $response);
+        $beforeEvent = $this->dispatchEvent('Dispatcher.beforeDispatch', compact('request', 'response'));
+
+        $request = $beforeEvent->data['request'];
+        if ($beforeEvent->result instanceof Response) {
+            if (isset($request->params['return'])) {
+                return $beforeEvent->result->body();
+            }
+            $beforeEvent->result->send();
+            return null;
+        }
+
+        $controller = false;
+        if (isset($beforeEvent->data['controller'])) {
+            $controller = $beforeEvent->data['controller'];
+        }
+
+        if (!($controller instanceof Controller)) {
+            throw new MissingControllerException([
+                'class' => $request->params['controller'],
+                'plugin' => empty($request->params['plugin']) ? null : $request->params['plugin'],
+                'prefix' => empty($request->params['prefix']) ? null : $request->params['prefix'],
+                '_ext' => empty($request->params['_ext']) ? null : $request->params['_ext']
+            ]);
+        }
+
+        $response = $this->_invoke($controller);
         if (isset($request->params['return'])) {
             return $response->body();
         }
 
-        return $response->send();
+        $afterEvent = $this->dispatchEvent('Dispatcher.afterDispatch', compact('request', 'response'));
+        $afterEvent->data['response']->send();
+    }
+
+    /**
+     * Initializes the components and models a controller will be using.
+     * Triggers the controller action and invokes the rendering if Controller::$autoRender
+     * is true. If a response object is returned by controller action that is returned
+     * else controller's $response property is returned.
+     *
+     * @param \Cake\Controller\Controller $controller Controller to invoke
+     * @return \Cake\Network\Response The resulting response object
+     * @throws \LogicException If data returned by controller action is not an
+     *   instance of Response
+     */
+    protected function _invoke(Controller $controller)
+    {
+        $result = $controller->startupProcess();
+        if ($result instanceof Response) {
+            return $result;
+        }
+
+        $response = $controller->invokeAction();
+        if ($response !== null && !($response instanceof Response)) {
+            throw new LogicException('Controller action can only return an instance of Response');
+        }
+
+        if (!$response && $controller->autoRender) {
+            $response = $controller->render();
+        } elseif (!$response) {
+            $response = $controller->response;
+        }
+
+        $result = $controller->shutdownProcess();
+        if ($result instanceof Response) {
+            return $result;
+        }
+
+        return $response;
     }
 
     /**
@@ -78,12 +143,13 @@ class Dispatcher
     public function addFilter(EventListenerInterface $filter)
     {
         $this->_filters[] = $filter;
+        $this->eventManager()->on($filter);
     }
 
     /**
      * Get the list of connected filters.
      *
-     * @return \Cake\Event\EventListenerInterface[]
+     * @return array
      */
     public function filters()
     {

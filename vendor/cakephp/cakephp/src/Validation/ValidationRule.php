@@ -135,7 +135,7 @@ class ValidationRule
 
         if ($this->_pass) {
             $args = array_merge([$value], $this->_pass, [$context]);
-            $result = $callable(...$args);
+            $result = call_user_func_array($callable, $args);
         } else {
             $result = $callable($value, $context);
         }
@@ -143,7 +143,6 @@ class ValidationRule
         if ($result === false) {
             return $this->_message ?: false;
         }
-
         return $result;
     }
 
@@ -163,7 +162,6 @@ class ValidationRule
     {
         if (!is_string($this->_on) && is_callable($this->_on)) {
             $function = $this->_on;
-
             return !$function($context);
         }
 
@@ -173,7 +171,6 @@ class ValidationRule
                 return true;
             }
         }
-
         return false;
     }
 

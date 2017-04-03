@@ -52,7 +52,7 @@ class MapReduce implements IteratorAggregate
     /**
      * Holds the original data that needs to be processed
      *
-     * @var \Traversable|null
+     * @var \Traversable
      */
     protected $_data;
 
@@ -74,7 +74,7 @@ class MapReduce implements IteratorAggregate
     /**
      * Count of elements emitted during the Reduce phase
      *
-     * @var int
+     * @var string
      */
     protected $_counter = 0;
 
@@ -131,7 +131,6 @@ class MapReduce implements IteratorAggregate
         if (!$this->_executed) {
             $this->_execute();
         }
-
         return new ArrayIterator($this->_result);
     }
 

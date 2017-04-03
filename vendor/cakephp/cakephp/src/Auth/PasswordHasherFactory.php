@@ -19,6 +19,7 @@ use RuntimeException;
 
 /**
  * Builds password hashing objects
+ *
  */
 class PasswordHasherFactory
 {

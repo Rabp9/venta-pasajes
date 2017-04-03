@@ -100,36 +100,29 @@ class CacheSession implements SessionHandlerInterface
      */
     public function write($id, $data)
     {
-        if (!$id) {
-            return false;
-        }
-
-        return (bool)Cache::write($id, $data, $this->_options['config']);
+        return Cache::write($id, $data, $this->_options['config']);
     }
 
     /**
      * Method called on the destruction of a cache session.
      *
      * @param int $id ID that uniquely identifies session in cache
-     * @return bool Always true.
+     * @return bool True for successful delete, false otherwise.
      */
     public function destroy($id)
     {
-        Cache::delete($id, $this->_options['config']);
-
-        return true;
+        return Cache::delete($id, $this->_options['config']);
     }
 
     /**
      * Helper function called on gc for cache sessions.
      *
      * @param string $maxlifetime Sessions that have not updated for the last maxlifetime seconds will be removed.
-     * @return bool Always true.
+     * @return bool True (irrespective of whether or not the garbage is being successfully collected)
      */
     public function gc($maxlifetime)
     {
         Cache::gc($this->_options['config'], time() - $maxlifetime);
-
         return true;
     }
 }

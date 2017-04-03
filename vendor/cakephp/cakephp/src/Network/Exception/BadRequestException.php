@@ -14,6 +14,7 @@ namespace Cake\Network\Exception;
 
 /**
  * Represents an HTTP 400 error.
+ *
  */
 class BadRequestException extends HttpException
 {

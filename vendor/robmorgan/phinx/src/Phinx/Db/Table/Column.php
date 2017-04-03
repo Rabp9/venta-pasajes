@@ -538,13 +538,12 @@ class Column
                 $option = $aliasOptions[$option];
             }
 
-            if (!in_array($option, $validOptions, true)) {
+            if (!in_array($option, $validOptions)) {
                 throw new \RuntimeException(sprintf('"%s" is not a valid column option.', $option));
             }
 
             $method = 'set' . ucfirst($option);
             $this->$method($value);
         }
-        return $this;
     }
 }

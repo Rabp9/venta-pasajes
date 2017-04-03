@@ -16,6 +16,7 @@ use Cake\Core\Exception\Exception;
 
 /**
  * Exception raised when a Dispatcher filter could not be found
+ *
  */
 class MissingDispatcherFilterException extends Exception
 {

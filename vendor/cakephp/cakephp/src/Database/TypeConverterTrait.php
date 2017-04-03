@@ -33,11 +33,10 @@ trait TypeConverterTrait
         if (is_string($type)) {
             $type = Type::build($type);
         }
-        if ($type instanceof TypeInterface) {
+        if ($type instanceof Type) {
             $value = $type->toDatabase($value, $this->_driver);
             $type = $type->toStatement($value, $this->_driver);
         }
-
         return [$value, $type];
     }
 
@@ -58,7 +57,6 @@ trait TypeConverterTrait
             $types = array_intersect_key($types, $positions);
             $types = array_combine($positions, $types);
         }
-
         return $types;
     }
 }

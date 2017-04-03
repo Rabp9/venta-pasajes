@@ -12,13 +12,6 @@
  * @since         0.1.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-%>
-<?php
-/**
-  * @var \<%= $namespace %>\View\AppView $this
-  */
-?>
-<%
 use Cake\Utility\Inflector;
 
 $fields = collection($fields)
@@ -63,9 +56,9 @@ if (!empty($indexColumns)) {
         <thead>
             <tr>
 <% foreach ($fields as $field): %>
-                <th scope="col"><?= $this->Paginator->sort('<%= $field %>') ?></th>
+                <th><?= $this->Paginator->sort('<%= $field %>') ?></th>
 <% endforeach; %>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
@@ -110,12 +103,10 @@ if (!empty($indexColumns)) {
     </table>
     <div class="paginator">
         <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
             <?= $this->Paginator->prev('< ' . __('previous')) ?>
             <?= $this->Paginator->numbers() ?>
             <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
         </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+        <p><?= $this->Paginator->counter() ?></p>
     </div>
 </div>

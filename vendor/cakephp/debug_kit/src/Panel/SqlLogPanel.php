@@ -12,8 +12,9 @@
  */
 namespace DebugKit\Panel;
 
+use Cake\Controller\Controller;
 use Cake\Datasource\ConnectionManager;
-use Cake\ORM\Table;
+use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use DebugKit\Database\Log\DebugLog;
 use DebugKit\DebugPanel;
@@ -38,7 +39,7 @@ class SqlLogPanel extends DebugPanel
      * This will unfortunately build all the connections, but they
      * won't connect until used.
      *
-     * @return void
+     * @return array
      */
     public function initialize()
     {
@@ -72,7 +73,7 @@ class SqlLogPanel extends DebugPanel
     public function data()
     {
         return [
-            'tables' => array_map(function (Table $table) {
+            'tables' => array_map(function ($table) {
                 return $table->alias();
             }, TableRegistry::genericInstances()),
             'loggers' => $this->_loggers,
@@ -94,7 +95,6 @@ class SqlLogPanel extends DebugPanel
         if (!$count) {
             return '0';
         }
-
         return "$count / $time ms";
     }
 }

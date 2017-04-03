@@ -2,7 +2,6 @@
 
 namespace Test\Phinx\Db\Adapter;
 
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 use Phinx\Db\Adapter\SqlServerAdapter;
 
@@ -26,7 +25,7 @@ class SqlServerAdapterTest extends \PHPUnit_Framework_TestCase
             'pass' => TESTS_PHINX_DB_ADAPTER_SQLSRV_PASSWORD,
             'port' => TESTS_PHINX_DB_ADAPTER_SQLSRV_PORT
         );
-        $this->adapter = new SqlServerAdapter($options, new ArrayInput([]), new NullOutput());
+        $this->adapter = new SqlServerAdapter($options, new NullOutput());
 
         // ensure the database is empty for each test
         $this->adapter->dropDatabase($options['name']);
@@ -65,7 +64,7 @@ class SqlServerAdapterTest extends \PHPUnit_Framework_TestCase
         );
 
         try {
-            $adapter = new SqlServerAdapter($options, new ArrayInput([]), new NullOutput());
+            $adapter = new SqlServerAdapter($options, new NullOutput());
             $adapter->connect();
             $this->fail('Expected the adapter to throw an exception');
         } catch (\InvalidArgumentException $e) {

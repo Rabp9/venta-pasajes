@@ -17,7 +17,8 @@ namespace Cake\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * OrdersFixture
+ * Class OrdersFixture
+ *
  */
 class OrdersFixture extends TestFixture
 {

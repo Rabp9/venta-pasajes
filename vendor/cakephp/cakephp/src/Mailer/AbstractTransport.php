@@ -18,6 +18,7 @@ use Cake\Core\InstanceConfigTrait;
 
 /**
  * Abstract transport for sending email
+ *
  */
 abstract class AbstractTransport
 {
@@ -46,7 +47,7 @@ abstract class AbstractTransport
      */
     public function __construct($config = [])
     {
-        $this->setConfig($config);
+        $this->config($config);
     }
 
     /**
@@ -68,7 +69,6 @@ abstract class AbstractTransport
         if (!empty($out)) {
             $out = substr($out, 0, -1 * strlen($eol));
         }
-
         return $out;
     }
 }

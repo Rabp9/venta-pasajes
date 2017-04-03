@@ -14,6 +14,7 @@ namespace Cake\Network\Exception;
 
 /**
  * Represents an HTTP 410 error.
+ *
  */
 class GoneException extends HttpException
 {

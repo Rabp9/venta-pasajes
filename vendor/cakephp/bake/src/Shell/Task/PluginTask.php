@@ -88,7 +88,7 @@ class PluginTask extends BakeTask
      * Also update the autoloader and the root composer.json file if it can be found
      *
      * @param string $plugin Name of the plugin in CamelCased format
-     * @return bool|null
+     * @return bool|void
      */
     public function bake($plugin)
     {
@@ -103,7 +103,7 @@ class PluginTask extends BakeTask
         $looksGood = $this->in('Look okay?', ['y', 'n', 'q'], 'y');
 
         if (strtolower($looksGood) !== 'y') {
-            return null;
+            return;
         }
 
         $this->_generateFiles($plugin, $this->path);
@@ -159,7 +159,6 @@ class PluginTask extends BakeTask
     protected function _generateFiles($pluginName, $path)
     {
         $namespace = str_replace('/', '\\', $pluginName);
-        $baseNamespace = Configure::read('App.namespace');
 
         $name = $pluginName;
         $vendor = 'your-name-here';
@@ -171,7 +170,6 @@ class PluginTask extends BakeTask
         $this->BakeTemplate->set([
             'package' => $package,
             'namespace' => $namespace,
-            'baseNamespace' => $baseNamespace,
             'plugin' => $pluginName,
             'routePath' => Inflector::dasherize($pluginName),
             'path' => $path,

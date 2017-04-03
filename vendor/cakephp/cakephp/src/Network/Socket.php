@@ -24,6 +24,7 @@ use InvalidArgumentException;
  * CakePHP network socket connection class.
  *
  * Core base class for network communication.
+ *
  */
 class Socket
 {
@@ -53,7 +54,7 @@ class Socket
     /**
      * Reference to socket connection resource
      *
-     * @var resource|null
+     * @var resource
      */
     public $connection = null;
 
@@ -112,7 +113,7 @@ class Socket
      */
     public function __construct(array $config = [])
     {
-        $this->setConfig($config);
+        $this->config($config);
     }
 
     /**
@@ -173,7 +174,6 @@ class Socket
         if ($this->connected) {
             stream_set_timeout($this->connection, $this->_config['timeout']);
         }
-
         return $this->connected;
     }
 
@@ -198,8 +198,14 @@ class Socket
         if (!isset($this->_config['context']['ssl']['SNI_enabled'])) {
             $this->_config['context']['ssl']['SNI_enabled'] = true;
         }
-        if (empty($this->_config['context']['ssl']['peer_name'])) {
-            $this->_config['context']['ssl']['peer_name'] = $host;
+        if (version_compare(PHP_VERSION, '5.6.0', '>=')) {
+            if (empty($this->_config['context']['ssl']['peer_name'])) {
+                $this->_config['context']['ssl']['peer_name'] = $host;
+            }
+        } else {
+            if (empty($this->_config['context']['ssl']['SNI_server_name'])) {
+                $this->_config['context']['ssl']['SNI_server_name'] = $host;
+            }
         }
         if (empty($this->_config['context']['ssl']['cafile'])) {
             $dir = dirname(dirname(__DIR__));
@@ -237,7 +243,6 @@ class Socket
         if (!$this->connection) {
             return null;
         }
-
         return stream_context_get_options($this->connection);
     }
 
@@ -251,7 +256,6 @@ class Socket
         if (Validation::ip($this->_config['host'])) {
             return gethostbyaddr($this->_config['host']);
         }
-
         return gethostbyaddr($this->address());
     }
 
@@ -265,7 +269,6 @@ class Socket
         if (Validation::ip($this->_config['host'])) {
             return $this->_config['host'];
         }
-
         return gethostbyname($this->_config['host']);
     }
 
@@ -279,7 +282,6 @@ class Socket
         if (Validation::ip($this->_config['host'])) {
             return [$this->_config['host']];
         }
-
         return gethostbynamel($this->_config['host']);
     }
 
@@ -293,7 +295,6 @@ class Socket
         if (!empty($this->lastError)) {
             return $this->lastError['num'] . ': ' . $this->lastError['str'];
         }
-
         return null;
     }
 
@@ -312,8 +313,8 @@ class Socket
     /**
      * Write data to the socket.
      *
-     * @param string $data The data to write to the socket.
-     * @return int Bytes written.
+     * @param string $data The data to write to the socket
+     * @return bool Success
      */
     public function write($data)
     {
@@ -329,7 +330,6 @@ class Socket
                 return $written;
             }
         }
-
         return $written;
     }
 
@@ -353,13 +353,10 @@ class Socket
             $info = stream_get_meta_data($this->connection);
             if ($info['timed_out']) {
                 $this->setLastError(E_WARNING, 'Connection timed out');
-
                 return false;
             }
-
             return $buffer;
         }
-
         return false;
     }
 
@@ -372,7 +369,6 @@ class Socket
     {
         if (!is_resource($this->connection)) {
             $this->connected = false;
-
             return true;
         }
         $this->connected = !fclose($this->connection);
@@ -380,7 +376,6 @@ class Socket
         if (!$this->connected) {
             $this->connection = null;
         }
-
         return !$this->connected;
     }
 
@@ -411,7 +406,6 @@ class Socket
         foreach ($state as $property => $value) {
             $this->{$property} = $value;
         }
-
         return true;
     }
 
@@ -439,7 +433,6 @@ class Socket
         }
         if ($enableCryptoResult === true) {
             $this->encrypted = $enable;
-
             return true;
         }
         $errorMessage = 'Unable to perform enableCrypto operation on the current socket';

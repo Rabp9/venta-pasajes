@@ -113,10 +113,9 @@ class ConsoleInputArgument
         if (!$this->isRequired()) {
             $optional = ' <comment>(optional)</comment>';
         }
-        if ($this->_choices) {
+        if (!empty($this->_choices)) {
             $optional .= sprintf(' <comment>(choices: %s)</comment>', implode('|', $this->_choices));
         }
-
         return sprintf('%s%s%s', $name, $this->_help, $optional);
     }
 
@@ -128,14 +127,13 @@ class ConsoleInputArgument
     public function usage()
     {
         $name = $this->_name;
-        if ($this->_choices) {
+        if (!empty($this->_choices)) {
             $name = implode('|', $this->_choices);
         }
         $name = '<' . $name . '>';
         if (!$this->isRequired()) {
             $name = '[' . $name . ']';
         }
-
         return $name;
     }
 
@@ -171,7 +169,6 @@ class ConsoleInputArgument
                 )
             );
         }
-
         return true;
     }
 
@@ -191,7 +188,6 @@ class ConsoleInputArgument
         foreach ($this->_choices as $valid) {
             $choices->addChild('choice', $valid);
         }
-
         return $parent;
     }
 }

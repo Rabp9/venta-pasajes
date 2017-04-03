@@ -15,14 +15,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 use Cake\Error\Debugger;
-
-/**
- * @type \DebugKit\View\AjaxView $this
- * @type array $app
- * @type array $cake
- * @type array $php
- * @type array $hidef
- */
+use Cake\Utility\Inflector;
 ?>
 
 <h2><?= __d('debug_kit', 'Application Constants') ?></h2>
@@ -89,7 +82,7 @@ use Cake\Error\Debugger;
         <?php foreach ($php as $key => $val): ?>
         <tr>
             <td><?= h($key) ?></td>
-            <td><?= $this->Credentials->filter($val) ?></td>
+            <td><?= h($val) ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>

@@ -21,6 +21,7 @@ use Cake\Datasource\Exception\RecordNotFoundException;
 /**
  * Contains the characteristics for an object that is attached to a repository and
  * can retrieve results based on any criteria.
+ *
  */
 trait QueryTrait
 {
@@ -37,7 +38,7 @@ trait QueryTrait
      *
      * When set, query execution will be bypassed.
      *
-     * @var \Cake\Datasource\ResultSetInterface|null
+     * @var \Cake\Datasource\ResultSetInterface
      * @see \Cake\Datasource\QueryTrait::setResult()
      */
     protected $_results;
@@ -54,7 +55,7 @@ trait QueryTrait
      * List of formatter classes or callbacks that will post-process the
      * results when fetched
      *
-     * @var callable[]
+     * @var array
      */
     protected $_formatters = [];
 
@@ -96,7 +97,6 @@ trait QueryTrait
             return $this->_repository;
         }
         $this->_repository = $table;
-
         return $this;
     }
 
@@ -110,12 +110,11 @@ trait QueryTrait
      * This method is most useful when combined with results stored in a persistent cache.
      *
      * @param \Cake\Datasource\ResultSetInterface $results The results this query should return.
-     * @return $this
+     * @return $this The query instance.
      */
     public function setResult($results)
     {
         $this->_results = $results;
-
         return $this;
     }
 
@@ -166,17 +165,15 @@ trait QueryTrait
      *   When using a function, this query instance will be supplied as an argument.
      * @param string|\Cake\Cache\CacheEngine $config Either the name of the cache config to use, or
      *   a cache config instance.
-     * @return $this
+     * @return $this This instance
      */
     public function cache($key, $config = 'default')
     {
         if ($key === false) {
             $this->_cache = null;
-
             return $this;
         }
         $this->_cache = new QueryCacher($key, $config);
-
         return $this;
     }
 
@@ -193,7 +190,6 @@ trait QueryTrait
             return $this->_eagerLoaded;
         }
         $this->_eagerLoaded = $value;
-
         return $this;
     }
 
@@ -265,7 +261,7 @@ trait QueryTrait
      */
     public function all()
     {
-        if ($this->_results !== null) {
+        if (isset($this->_results)) {
             return $this->_results;
         }
 
@@ -279,7 +275,6 @@ trait QueryTrait
             }
         }
         $this->_results = $results;
-
         return $this->_results;
     }
 
@@ -321,7 +316,6 @@ trait QueryTrait
             return $this->_mapReduce;
         }
         $this->_mapReduce[] = compact('mapper', 'reducer');
-
         return $this;
     }
 
@@ -374,12 +368,10 @@ trait QueryTrait
 
         if ($mode === self::PREPEND) {
             array_unshift($this->_formatters, $formatter);
-
             return $this;
         }
 
         $this->_formatters[] = $formatter;
-
         return $this;
     }
 
@@ -400,7 +392,6 @@ trait QueryTrait
         if ($this->_dirty) {
             $this->limit(1);
         }
-
         return $this->all()->first();
     }
 
@@ -455,8 +446,7 @@ trait QueryTrait
         $resultSetClass = $this->_decoratorClass();
         if (in_array($method, get_class_methods($resultSetClass))) {
             $results = $this->all();
-
-            return $results->$method(...$arguments);
+            return call_user_func_array([$results, $method], $arguments);
         }
         throw new BadMethodCallException(
             sprintf('Unknown method "%s"', $method)
@@ -468,7 +458,7 @@ trait QueryTrait
      * This is handy for passing all query clauses at once.
      *
      * @param array $options the options to be applied
-     * @return $this
+     * @return $this This object
      */
     abstract public function applyOptions(array $options);
 

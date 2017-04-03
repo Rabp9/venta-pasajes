@@ -17,7 +17,8 @@ namespace Cake\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * GroupsMembersFixture
+ * Class GroupsMembersFixture
+ *
  */
 class GroupsMembersFixture extends TestFixture
 {

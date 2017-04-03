@@ -17,7 +17,8 @@ namespace Cake\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * SessionFixture
+ * Class SessionFixture
+ *
  */
 class CakeSessionsFixture extends TestFixture
 {
