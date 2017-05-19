@@ -45,5 +45,7 @@
     $pdf->SetFont("Arial", 'B', 17);
     $pdf->Text($margen_x + 178, $margen_y + 103, utf8_decode(number_format($giro->valor_total, 2, '.', ',')));
     
+    $pdf->Text(170, 10, utf8_decode(strtoupper($giro->condicion)));
+    
     $pdf->Output("Boleta_de_Venta.pdf", "I");
 ?>

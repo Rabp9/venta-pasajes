@@ -8,7 +8,7 @@ var VentaPasajesApp = angular.module("VentaPasajesApp", [
     "LocalStorageModule"
 ]);
 
-VentaPasajesApp.path_location = "http://localhost:8000/venta-pasajes/";
+VentaPasajesApp.path_location = "http://172.20.11.60:8000/venta-pasajes/";
 
 VentaPasajesApp.config(function($routeProvider) {
     $routeProvider

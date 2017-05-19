@@ -65,5 +65,7 @@
     $pdf->SetFont("Arial", '', 10);
     $pdf->Text($margen_x + 73, $margen_y + 125, utf8_decode($encomienda->fechahora->year));
     
+    $pdf->Text(170, 10, utf8_decode(strtoupper($encomienda->condicion)));
+    
     $pdf->Output("Factura.pdf", "I");
 ?>

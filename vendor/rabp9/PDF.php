@@ -1,8 +1,6 @@
 <?php
 namespace rabp9;
-
 use fpdf\FPDF;
-
 class PDF extends FPDF
 {
     function RoundedRect($x, $y, $w, $h, $r, $corners = '1234', $style = '')
@@ -17,7 +15,6 @@ class PDF extends FPDF
             $op='S';
         $MyArc = 4/3 * (sqrt(2) - 1);
         $this->_out(sprintf('%.2F %.2F m',($x+$r)*$k,($hp-$y)*$k ));
-
         $xc = $x+$w-$r;
         $yc = $y+$r;
         $this->_out(sprintf('%.2F %.2F l', $xc*$k,($hp-$y)*$k ));
@@ -25,7 +22,6 @@ class PDF extends FPDF
             $this->_out(sprintf('%.2F %.2F l', ($x+$w)*$k,($hp-$y)*$k ));
         else
             $this->_Arc($xc + $r*$MyArc, $yc - $r, $xc + $r, $yc - $r*$MyArc, $xc + $r, $yc);
-
         $xc = $x+$w-$r;
         $yc = $y+$h-$r;
         $this->_out(sprintf('%.2F %.2F l',($x+$w)*$k,($hp-$yc)*$k));
@@ -33,7 +29,6 @@ class PDF extends FPDF
             $this->_out(sprintf('%.2F %.2F l',($x+$w)*$k,($hp-($y+$h))*$k));
         else
             $this->_Arc($xc + $r, $yc + $r*$MyArc, $xc + $r*$MyArc, $yc + $r, $xc, $yc + $r);
-
         $xc = $x+$r;
         $yc = $y+$h-$r;
         $this->_out(sprintf('%.2F %.2F l',$xc*$k,($hp-($y+$h))*$k));
@@ -41,7 +36,6 @@ class PDF extends FPDF
             $this->_out(sprintf('%.2F %.2F l',($x)*$k,($hp-($y+$h))*$k));
         else
             $this->_Arc($xc - $r*$MyArc, $yc + $r, $xc - $r, $yc + $r*$MyArc, $xc - $r, $yc);
-
         $xc = $x+$r ;
         $yc = $y+$r;
         $this->_out(sprintf('%.2F %.2F l',($x)*$k,($hp-$yc)*$k ));
@@ -54,7 +48,6 @@ class PDF extends FPDF
             $this->_Arc($xc - $r, $yc - $r*$MyArc, $xc - $r*$MyArc, $yc - $r, $xc, $yc - $r);
         $this->_out($op);
     }
-
     function _Arc($x1, $y1, $x2, $y2, $x3, $y3)
     {
         $h = $this->h;
