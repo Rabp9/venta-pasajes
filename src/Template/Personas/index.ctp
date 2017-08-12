@@ -14,9 +14,9 @@ $this->assign("title", "Lista de Personas");
 </div>
 
 <a id="btnAddPersona" class="btn btn-primary" ng-click="addPersona()"><span class="glyphicon glyphicon-plus"></span> Nueva Persona</a>
-<input id="txtDni" class="form-control" ng-model="search_dni" type="search" maxlength="8" placeholder="Buscar por DNI" style="display: inline; width: 15%;">
+<input id="txtDni" ng-keypress="buscarpersonadnibypress(search_dni, $event)" class="form-control" ng-model="search_dni" type="search" maxlength="8" placeholder="Buscar por DNI" style="display: inline; width: 15%;">
 <button type="button" class="btn btn-primary" ng-click="buscarpersonadni(search_dni)"><span class="glyphicon glyphicon-search"></span></button>
-<input id="txtNombre" class="form-control" ng-model="search_full_name" type="search" placeholder="Buscar por Nombre" style="display: inline; width: 15%;">
+<input id="txtNombre" ng-keypress="buscarpersonanombrebypress(search_full_name, $event)" class="form-control" ng-model="search_full_name" type="search" placeholder="Buscar por Nombre" style="display: inline; width: 15%;">
 <button type="button" class="btn btn-primary" ng-click="buscarpersonanombre(search_full_name)"><span class="glyphicon glyphicon-search"></span></button>
 
 <div id="marco_include">

@@ -64,7 +64,9 @@ class PersonasController extends AppController
         
         $persona = $this->Personas->newEntity();
         if ($this->request->is('post')) {
-            $this->request->data["fecha_nac"] = Time::createFromFormat("Y-m-d", $this->request->data["fecha_nac"]);
+            if (isset($this->request->data['fecha_nac'])) {
+                $this->request->data["fecha_nac"] = Time::createFromFormat("Y-m-d", $this->request->data["fecha_nac"]);
+            }
             $persona = $this->Personas->patchEntity($persona, $this->request->data);
             if ($this->Personas->save($persona)) {
                 $message = array(

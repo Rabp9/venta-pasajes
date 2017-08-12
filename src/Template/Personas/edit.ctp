@@ -10,7 +10,7 @@
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <?php
-                            echo $this->Form->input('dni', ["ng-model" => "editPersona.dni", 'required' => true, 'minlength' => 8]);
+                            echo $this->Form->input('dni', ["ng-model" => "editPersona.dni", "label" => "DNI", 'readonly' => true, 'required' => true, 'minlength' => 8]);
                             echo $this->Form->input('nombres', ["ng-model" => "editPersona.nombres", 'required' => true]);
                             echo $this->Form->input('apellidos', ["ng-model" => "editPersona.apellidos", 'required' => true]);
                             echo $this->Form->input('domicilio', ['ng-model' => "editPersona.domicilio", 'required' => true]);

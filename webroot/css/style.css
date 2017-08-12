@@ -215,3 +215,11 @@ td.programado {
     width: 50%;
     margin: 0 auto;
 }
+
+.spn-success {
+    color: black;
+}
+
+.spn-error {    
+    color: red;
+}

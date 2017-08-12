@@ -76,16 +76,19 @@ VentaPasajesApp.controller("ListPersonasController", function($rootScope, $scope
         });
     }
     
-    $scope.buscarpersonadni = function(dni) {
-        $scope.loading = true;
-        PersonasService.findByDni({dni: dni}, function(data) {
-            $scope.personas = [];
-            if(data.persona !== null) {
-                $scope.personas.push(data.persona);
-            }
-            $scope.loading = false;
-        });
+    $scope.buscarpersonadnibypress = function(dni, event) {
+        if (event.keyCode === 13) {
+            $scope.loading = true;
+            PersonasService.findByDni({dni: dni}, function(data) {
+                $scope.personas = [];
+                if(data.persona !== null) {
+                    $scope.personas.push(data.persona);
+                }
+                $scope.loading = false;
+            });
+        }
     }
+    
     
     $scope.buscarpersonanombre = function(nombre) {
         $scope.loading = true;
@@ -96,6 +99,19 @@ VentaPasajesApp.controller("ListPersonasController", function($rootScope, $scope
             $scope.loading = false;
         });
     }
+    
+    $scope.buscarpersonanombrebypress = function(nombre, event) {
+        if (event.keyCode === 13) {
+            $scope.loading = true;
+            PersonasService.findByNombre({nombre: nombre}, function(data) {
+                if(data.personas !== null) {
+                    $scope.personas = data.personas;
+                }
+                $scope.loading = false;
+            });
+        }
+    }
+    
     
     $scope.list();
 });
