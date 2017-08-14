@@ -132,7 +132,7 @@ $this->assign("title", "Pasajes");
                                         class="draggable {{showEstado(bus_asiento.estado, bus_asiento.pasaje)}}" ng-class="" ng-repeat="bus_asiento in bus_piso.bus_asientos"
                                         style="position: absolute; left: {{bus_asiento.x}}; top: {{bus_asiento.y}}"
                                         ng-click="showBusAsiento(bus_asiento.id, bus_asiento.estado)"
-                                        ng-right-click="contextMenu(bus_asiento.id, bus_asiento.estado, $event)"
+                                        ng-right-click="contextMenu(bus_asiento.id, bus_asiento.estado, $event, bus_asiento)"
                                         title="{{showData(bus_asiento.pasaje)}}">
                                         <span>{{bus_asiento.nro_asiento}}</span>
                                     </div>
@@ -180,7 +180,8 @@ $this->assign("title", "Pasajes");
                     <div class="form-group">
                         <label for="txtPersonaDni" style="display: block;">Persona (DNI)</label>
                         <input id="txtPersonaDni" type="text" ng-model="dnis[$index]" 
-                            class="form-control" maxlength="8"
+                            class="form-control" maxlength="8" required
+                            ng-blur="blurDni(dnis[$index])"
                             style="width: 68%; display: inline;" />
                         <button type="button" style="width: 14%; display: inline;" class="btn btn-primary" ng-click="searchPersona($index)" title="Buscar"><span class="glyphicon glyphicon-search"></span></button>
                         <button id="btnAddPersona" type="button" style="width: 14%; display: inline;" class="btn btn-primary" ng-click="addPersona()" title="Agregar"><span class="glyphicon glyphicon-plus"></span></button>

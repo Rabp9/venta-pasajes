@@ -223,3 +223,7 @@ td.programado {
 .spn-error {    
     color: red;
 }
+
+#cmnPasajes li {
+    cursor: default;
+}

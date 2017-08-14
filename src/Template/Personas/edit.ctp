@@ -13,11 +13,11 @@
                             echo $this->Form->input('dni', ["ng-model" => "editPersona.dni", "label" => "DNI", 'readonly' => true, 'required' => true, 'minlength' => 8]);
                             echo $this->Form->input('nombres', ["ng-model" => "editPersona.nombres", 'required' => true]);
                             echo $this->Form->input('apellidos', ["ng-model" => "editPersona.apellidos", 'required' => true]);
-                            echo $this->Form->input('domicilio', ['ng-model' => "editPersona.domicilio", 'required' => true]);
+                            echo $this->Form->input('domicilio', ['ng-model' => "editPersona.domicilio"]);
                         ?>
                         <div class="form-group">
                             <label for="fecha_nac">Fecha de Nacimiento</label>
-                            <input id="fecha_nac" type="text" ng-model="editPersona.fecha_nac" class="form-control" required>
+                            <input id="fecha_nac" type="text" ng-model="editPersona.fecha_nac" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="sexo">Sexo</label>

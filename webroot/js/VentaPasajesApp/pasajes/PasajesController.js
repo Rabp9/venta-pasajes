@@ -42,7 +42,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
         });
     });
     
-    $scope.contextMenu = function(bus_asiento_id, bus_asiento_estado, $event) {
+    $scope.contextMenu = function(bus_asiento_id, bus_asiento_estado, $event, bus_asiento) {
         if (bus_asiento_estado == 'restringido') {
             var alter = 0;
             if ($event.pageY > document.body.clientHeight) {
@@ -60,6 +60,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                 top: $event.pageY + alter
             });
             $scope.busPrintSelected = bus_asiento_id;
+            $scope.busRealSelected = bus_asiento;
             
             PasajesService.getData({
                 bus_asiento_id: bus_asiento_id,
@@ -297,6 +298,7 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                 bus_asiento_id: bus_asiento_id
             }, function(data) {
                 $scope.message = data.message;
+                // $scope.busRealSelected.estado_id = 1;
                 $scope.onProgramacionSelect(programacion_id);
             });
         }
@@ -387,5 +389,21 @@ VentaPasajesApp.controller("PasajesController", function($scope, AgenciasService
                 $scope.onProgramacionSelect(programacion_id);
             });
         }
+    }
+    
+    $scope.blurDni = function(dni) {
+        PersonasService.findByDni({dni: dni}, function(data) {
+            if (data.persona === null) {
+                $scope.response = {
+                    type: 'success',
+                    message: 'DNI disponible'
+                };
+            } else {
+                $scope.response = {
+                    type: 'error',
+                    message: 'El DNI no está disponible'
+                };
+            }
+        });
     }
 });
