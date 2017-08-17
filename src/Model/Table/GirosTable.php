@@ -57,7 +57,7 @@ class GirosTable extends Table
         $this->belongsTo('PersonaDestinatario', [
             "className" => "Personas",
             'foreignKey' => 'destinatario',
-            'joinType' => 'INNER',
+            'joinType' => 'LEFT',
             'propertyName' => 'personaDestinatario'
         ]);
     }

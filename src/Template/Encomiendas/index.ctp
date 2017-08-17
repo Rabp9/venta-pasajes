@@ -45,13 +45,22 @@ $this->assign("title", "Encomiendas");
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="txtDestinatarioDni">Destinatario (DNi)</label>
+                                        <div class="form-group">                             
+                                            <label for="txtDestinatarioDni">Destinatario:</label>
+                                            <label>
+                                                <input type="radio" ng-model="dni_inserted" value="dni"> Ingresar DNI
+                                            </label>
+                                            <label>
+                                                <input type="radio" ng-model="dni_inserted" value="nombres" > Ingresar Nombres
+                                            </label>
                                             <div class="row">
-                                                <div class="col-sm-12">
-                                                    <input class="form-control" ng-model="destinatario_dni" type="search" maxlength="8" required style="width: 75%; display: inline;">
+                                                <div class="col-sm-12" ng-show="dni_inserted === 'dni'">
+                                                    <input class="form-control" ng-model="destinatario_dni" type="search" maxlength="8" style="width: 75%; display: inline;">
                                                     <button id="btnBuscarDestinatario" style="width: 10%; display: inline;" class="btn btn-primary" type="button" ng-click="buscarDestinatario()"><samp class="glyphicon glyphicon-search"></samp></button>
                                                     <button id="btnNuevoDestinatario" style="width: 10%; display: inline;" class="btn btn-primary" type="button" ng-click="addPersonaD()"><samp class="glyphicon glyphicon-plus"></samp></button>
+                                                </div>
+                                                <div class="col-sm-12" ng-show="dni_inserted === 'nombres'">
+                                                    <input class="form-control" ng-model="newEncomienda.nombres_aux" type="search" style="width: 100%; display: inline;">
                                                 </div>
                                             </div>
                                             <span ng-show="searching">Buscando</span>

@@ -12,7 +12,7 @@
                         <?php
                             echo $this->Form->input('ruc', ['label' => 'RUC', "ng-model" => "newCliente.ruc", 'required' => true, 'minlength' => 11]);
                             echo $this->Form->input('razonsocial', ['label' => 'Razón Social', "ng-model" => "newCliente.razonsocial", 'required' => true]);
-                            echo $this->Form->input('direccion', ['label' => 'Dirección', "ng-model" => "newCliente.direccion", 'required' => true]);
+                            echo $this->Form->input('direccion', ['label' => 'Dirección', "ng-model" => "newCliente.direccion"]);
                             echo $this->Form->input('telefono', ['label' => 'Teléfono', "ng-model" => "newCliente.telefono"]);
                         ?>
                         <div class="form-group">

@@ -8,6 +8,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
     $scope.reverse = false;
     $scope.predicate = "id";
     var date = new Date();
+    $scope.dni_inserted = 'dni';
     
     $scope.construct = function() {
         $scope.newGiro = {};
@@ -119,21 +120,32 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
             return;
         }
         
-        if ($scope.destinatario == null) {
-            alert('Seleecione un destinatario');
-            return;
+        if ($scope.dni_inserted === 'dni') {
+            if ($scope.destinatario === null) {
+                alert('Seleecione un destinatario');
+                return;
+            }
+        } else {
+            if ($scope.newGiro.nombres_aux === null) {
+                alert('Ingrese un nombre');
+                return;
+            }
         }
                 
-        if ($scope.remitente.id === $scope.destinatario.id) {
-            alert('El remitente y el destinatario no pueden ser los mismos');
-            return;
+        if ($scope.dni_inserted === 'dni') {
+            if ($scope.remitente.id === $scope.destinatario.id) {
+                alert('El remitente y el destinatario no pueden ser los mismos');
+                return;
+            }
         }
         
         if (confirm('¿Está seguro de registrar el giro?')) {
             $("#btnRegistrarGiro").addClass("disabled");
             $("#btnRegistrarGiro").attr("disabled", true);
             $scope.newGiro.remitente = $scope.remitente.id;
-            $scope.newGiro.destinatario = $scope.destinatario.id;
+            if ($scope.dni_inserted === 'dni') {
+                $scope.newGiro.destinatario = $scope.destinatario.id;
+            }
             $scope.newGiro.estado_id = 1;
             $scope.newGiro.fecha = $filter("date")($scope.newGiro.preFecha, "yyyy-MM-dd HH:mm:ss");
 
@@ -141,7 +153,7 @@ VentaPasajesApp.controller("GirosController", function($scope, AgenciasService, 
                 origen: $scope.origen_selected,
                 destino: $scope.destino_selected
             }, function(data) {
-                if (data.desplazamiento == null) {
+                if (data.desplazamiento === null) {
                     alert("No existe un desplazamiento definido entre el origen y el destino");
                     alert("No fue posible registrar el giro");
                     

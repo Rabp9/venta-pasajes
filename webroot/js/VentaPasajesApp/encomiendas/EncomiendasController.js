@@ -8,6 +8,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
     $scope.reverse = false;
     $scope.predicate = "id";
     var date = new Date();
+    $scope.dni_inserted = 'dni';
     
     $scope.construct = function() {
         $scope.newEncomienda = {};
@@ -200,14 +201,23 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             return;
         }
         
-        if ($scope.destinatario == null) {
-            alert('Seleecione un destinatario');
-            return;
+        if ($scope.dni_inserted === 'dni') {
+            if ($scope.destinatario === null) {
+                alert('Seleecione un destinatario');
+                return;
+            }
+        } else {
+            if ($scope.newEncomienda.nombres_aux === null) {
+                alert('Ingrese un nombre');
+                return;
+            }
         }
-                
-        if ($scope.remitente.id === $scope.destinatario.id) {
-            alert('El remitente y el destinatario no pueden ser los mismos');
-            return;
+        
+        if ($scope.dni_inserted === 'dni') {
+            if ($scope.remitente.id === $scope.destinatario.id) {
+                alert('El remitente y el destinatario no pueden ser los mismos');
+                return;
+            }
         }
         
         if($scope.newEncomienda.encomiendas_tipos.length === 0) {
@@ -219,7 +229,9 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
             $("#btnRegistrarEncomienda").addClass("disabled");
             $("#btnRegistrarEncomienda").attr("disabled", true);
             $scope.newEncomienda.remitente = $scope.remitente.id;
-            $scope.newEncomienda.destinatario = $scope.destinatario.id;
+            if ($scope.dni_inserted === 'dni') {
+                $scope.newEncomienda.destinatario = $scope.destinatario.id;
+            }
             $scope.newEncomienda.estado_id = 1;
             $scope.newEncomienda.fechahora = $filter("date")($scope.newEncomienda.preFechahora, "yyyy-MM-dd HH:mm:ss");
             if ($scope.newEncomienda.tipodoc === 'boleta') {
@@ -231,7 +243,7 @@ VentaPasajesApp.controller("EncomiendasController", function($scope, AgenciasSer
                 origen: $scope.origen_selected,
                 destino: $scope.destino_selected
             }, function(data) {
-                if (data.desplazamiento == null) {
+                if (data.desplazamiento === null) {
                     alert("No existe un desplazamiento definido entre el origen y el destino");
                     alert("No fue posible registrar la encomienda");
                     
